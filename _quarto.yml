@@ -2,13 +2,28 @@ project:
   type: book
 
 book:
-  title: "advanced_statistics_materials"
-  author: "Norah Jones"
+  title: "Advanced Statistics 25/26"
+  author: "Martina Sladekova"
   date: "12/30/2025"
   chapters:
     - index.qmd
-    - intro.qmd
-    - summary.qmd
+    - part: 01_gzlms.qmd
+      chapters: 
+       - 01a_gzlms_skewed.qmd
+       - 01b_gzlms_counts.qmd
+       - 01c_gzlms_ordinal.qmd
+    - part: 02_ma.qmd
+      chapters: 
+       - 02a_ma_intro.qmd 
+       - 02b_ma_advanced.qmd
+       - 02c_ma_assessment_support.qmd  
+    - part: 03_measurement.qmd
+      chapters: 
+       - 03a_measurement_1.qmd 
+       - 03b_measurement_2.qmd  
+       - 03c_measurement_3.qmd
+    - 04_cex.qmd  
+    - 05_open_topic.qmd   
     - references.qmd
 
 bibliography: references.bib
@@ -16,8 +31,5 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
-  pdf:
-    documentclass: scrreprt
-
-editor: visual
-
+  # pdf:
+  #   documentclass: scrreprt

@@ -1,9 +1,7 @@
-# Preface {.unnumbered}
+# Welcome to Advanced Statistics {.unnumbered}
 
-This is a Quarto book.
+<!-- -   Brief blurb about the module but don't duplicate Canvas -->
 
-To learn more about Quarto books visit <https://quarto.org/docs/books>.
+<!-- -   How to use these tutorials -->
 
-```{r}
-1 + 1
-```
+<!-- -    -->
