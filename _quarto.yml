@@ -31,5 +31,7 @@ bibliography: references.bib
 format:
   html:
     theme: cosmo
+    highlight-style: tango
+    toc-depth: 4
   # pdf:
   #   documentclass: scrreprt

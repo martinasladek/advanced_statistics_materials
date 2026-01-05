@@ -1,0 +1,10 @@
+---
+title: "notes"
+format: html
+---
+
+In the Welcome to Advanced Statistics - show them how to download files and upload to Posit Cloud.
+
+Gamma - heart rate
+
+Beta - proportion of maximal heart rate
