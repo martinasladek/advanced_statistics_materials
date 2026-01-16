@@ -1,0 +1,9 @@
+## Summary {#sec-gzlms-summary .unnumbered}
+
+### Canonical link functions
+
+| Distribution | Useful for... | Canonical link function | Inverse function |
+|----|----|----|----|
+| Gamma | Right skewed distributions | log | exp |
+|  |  |  |  |
+|  |  |  |  |

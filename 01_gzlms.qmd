@@ -4,17 +4,17 @@
 
 We'll use the abbreviation GzLM for "Generalised Linear Model" and GLM for "General Linear Model", however note that it's common for people out in the wild to refer to either with GLM. Statisticians and data scientists are cool like that.
 
-Before jumping into the GzLM, let's run through a quick recap of the GLM, how it works and are its limitations. Most of this should be familiar from *An Adventure in Statistics* - if you're feeling confident about the ins and outs of the Ordinary Least Squares (OLS) estimation and robust estimation, you can read the [Scenario](#scenario-gzlms) below and then jump straight the section [Making predictions](#making-predictions).
+Before jumping into the GzLM, let's run through a quick recap of the GLM, how it works and its limitations. Most of this should be familiar from *An Adventure in Statistics* - if you're feeling confident about the ins and outs of the Ordinary Least Squares (OLS) estimation and robust estimation, you can read the **Scenario** below, skim through the code, and then move straight to the section [Making predictions](#making-predictions).
 
 ## Scenario {#scenario-gzlms}
 
-> A researcher in sports psychology is interested in understanding the factors related to the reaction times of belayers[^01_gzlms-1] when breaking a fall of their climbing partners. She set up ultra-high resolution cameras at the local gym, then reviewing the footage and recording: the time it took for the belayer to effectively stop the fall after the climber lost control in milliseconds (`reaction_time`); whether the belayer used an assisted-breaking device (`assisted_break` - no/yes); and whether the belayer was talking to others or was otherwise distracted (`distracted` - no/yes). The researcher also collected information about the participants' climbing experience in years (`climbing_exp`), and the length of the climbers' fall in metres (`fall_m`).
+> A researcher in sports psychology is interested in understanding the factors related to the reaction times of belayers[^01_gzlms-1] when breaking a fall of their climbing partners. She set up ultra-high resolution cameras at the local gym, then reviews the footage and records: the time it took for the belayer to effectively stop the fall after the climber lost control in milliseconds (`reaction_time`); whether the belayer used an assisted-breaking device (`assisted_break` - no/yes); and whether the belayer was talking to others or was otherwise distracted (`distracted` - no/yes). The researcher also collected information about the participants' climbing experience in years (`climbing_exp`), and the length of the climbers' fall in metres (`fall_m`).
 >
 > The researcher hypothesises the following:
 >
-> H~1~: Belayers using an assisted breaking device will be faster to catch falls.
+> H~1~: More experienced belayers will be faster to catch falls.
 >
-> H~2~: More experienced belayers will be faster to catch falls.
+> H~2~: Belayers using an assisted breaking device will be faster to catch falls.
 
 [^01_gzlms-1]: A "belayer" is the person on the ground, managing the rope and ensuring the climber on the wall is safe.
 
@@ -64,9 +64,11 @@ write.csv(belay_tib, "data/climbing_data.csv", row.names = FALSE)
 
 ```
 
+### The data
+
 The (fictional) dataset is stored in the file [`climbing_data.csv`](data/climbing_data.csv) . First, let's load up the necessary packages. Then, assuming you have [imported the dataset](#importing-datasets) into the `data` folder on Posit Cloud, you can read it into your R session as:
 
-```{r message=FALSE}
+```{r message=FALSE, comment="cex"}
 library(easystats) #<1>
 library(tidyverse) #<2>
 
@@ -109,7 +111,7 @@ Situations where we absolutely *have to* convert into factors or out right dummy
 
 The next few steps should be familiar. We start by generating some descriptive summaries:
 
-```{r}
+```{r comment="cex"}
 #| label: tbl-gzlms-describe
 #| tbl-cap: ""
 
@@ -134,7 +136,7 @@ If we spent more than a second thinking about our variables when designing the s
 ::: {.callout-caution collapse="true"}
 #### Normal distribution of the outcome
 
-Remember that when we're fitting an OLS-based linear model, the normal distribution of the outcome variable is *not* one of the assumptions. The actual assumption refers to the errors in the population model, which are best checked by inspecting the model residuals. However, the outcome variable will often (but not always) have a similar distribution to the residuals. It is therefore useful to inspect it in the initial stage, but we'll still need to run the residual diagnostics after we've fitted the model.
+Remember that when we're fitting an OLS-based linear model, the normal distribution of the outcome variable is ***not*** one of the assumptions. The actual assumption refers to the errors in the population model, which are best checked by inspecting the model residuals. However, the outcome variable will often (but not always) have a similar distribution to the residuals. It is therefore useful to inspect it in the initial stage, but we'll still need to run the residual diagnostics after we've fitted the model.
 :::
 
 ### Visualisation
@@ -144,38 +146,10 @@ For data visualisation, we'll want:
 1.  A plot showing the hypothesised relationships between each predictor and the outcome.
 2.  A plot showing the distribution of the outcome, just so we have a better sense of what the variable looks like
 
-```{r fig.align='center'}
+Let's start with H~1~:
+
+```{r fig.align='center', message=FALSE, comment="cex"}
 #| label: fig-gzlms-h1
-#| fig-cap: ""
-
-belay_tib |> 
-  ggplot2::ggplot(data = _, aes(x = factor(assisted_break), y = reaction_time)) + # <1>
-  geom_point(alpha = 0.7, colour = "yellowgreen", position = position_jitter(width = 0.1)) + #<2>
-  stat_summary(fun.data = "mean_cl_normal") + #<3>
-  coord_cartesian(ylim = c(0, 1030.5)) + #<4>
-  labs(x = "Did the belayer used an assisted breaking device", y = "Reaction time (ms) to break the fall") + #<5>
-  theme_light() #<6>
-```
-
-1.  Specify the dataset and which variable to put on each of the axes. Note that we're wrapping `assisted_break` in the `factor()` function, so the plot treats it as such. This is optional. Again, it would have been better to convert the variable to the factor at the very beginning, but we're keeping it as numeric for now because it makes some of the later calculations easier.
-2.  Add raw data points - this is good for inspecting potentially unusual cases
-3.  Add the mean and confidence intervals
-4.  Scale the y axis to reflect the realistic scale of our outcome variable (the maximum value 1030.5 is based on values from @tbl-gzlms-describe
-5.  Add meaningful labels
-6.  Add a theme (optional but generally a good idea)
-
-::: {.callout-tip collapse="true"}
-#### Learning about ggplots
-
-`ggplot` is a fantastic tool but the code is objectively difficult to remember - it's chonky, and each line has far too many options for customisation. When working with ggplot code, don't just copy and paste the whole code chunk and call it a day - instead, write the first line, run it, see what it does. Then write the second line, add it to the plot, and see what changes. And so on. This goes for any code that's longer than just a couple of lines. By writing it line by line, you'll get a better understanding of what the code does, which bits are crucial and which ones are just "nice to have". For example, I didn't need to change the colour of the points in line 3, nor did I need to add the jitter, or the labels for the x and y axis. Without these, the plot would still be understandable. But adding these elements the plot more readable and accessible.
-:::
-
-<br>
-
-Now let's repeat the same for the predictor for H~2~:
-
-```{r fig.align='center', message=FALSE}
-#| label: fig-gzlms-h2
 #| fig-cap: ""
 
 belay_tib |> 
@@ -189,14 +163,44 @@ belay_tib |>
 
 1.  Specify the dataset and the aesthetics
 2.  Add raw data points
-3.  Add the line of best fit - this time, the predictor is continuous so we use `stat_smooth` instead of `stat_summary`
-4.  Scale the y axis and the x axis
+3.  Add the line of best fit
+4.  Scale the y axis and the x axis to reflect the realistic scale of our outcome variable (the maximum value 1030.5 is based on values from @tbl-gzlms-describe)
+5.  Add meaningful labels
+6.  Add a theme (optional but generally a good idea)
+
+::: {.callout-tip collapse="true"}
+#### Learning about ggplots
+
+`ggplot` is a fantastic tool but the code is objectively difficult to remember - it's chonky, and each line has far too many options for customisation. When working with ggplot code, don't just copy and paste the whole code chunk and call it a day - instead, write the first line, run it, see what it does. Then write the second line, add it to the plot, and see what changes. And so on. This goes for any code that's longer than just a couple of lines. By writing it line by line, you'll get a better understanding of what the code does, which bits are crucial and which ones are just "nice to have". For example, I didn't need to change the colour of the points in line 3, nor did I need to add the jitter, or the labels for the x and y axis. Without these, the plot would still be understandable. But adding these elements the plot more readable and accessible.
+:::
+
+<br>
+
+Now let's do the same for H~2~
+
+```{r fig.align='center', comment="cex"}
+#| label: fig-gzlms-h2
+#| fig-cap: ""
+
+belay_tib |> 
+  ggplot2::ggplot(data = _, aes(x = factor(assisted_break), y = reaction_time)) + # <1>
+  geom_point(alpha = 0.7, colour = "yellowgreen", position = position_jitter(width = 0.1)) + #<2>
+  stat_summary(fun.data = "mean_cl_normal") + #<3>
+  coord_cartesian(ylim = c(0, 1030.5)) + #<4>
+  labs(x = "Did the belayer used an assisted breaking device", y = "Reaction time (ms) to break the fall") + #<5>
+  theme_light() #<6>
+```
+
+1.  Specify the dataset and which variable to put on each of the axes. Note that we're wrapping `assisted_break` in the `factor()` function, so the plot treats it as such. This is optional. Again, it would have been better to convert the variable to the factor at the very beginning, but we're keeping it as numeric for now because it makes some of the later calculations easier.
+2.  Add raw data points - this is good for inspecting potentially unusual cases
+3.  Add the mean and confidence intervals - this time, the predictor is categorical so we use `stat_summary` instead of `stat_smooth`
+4.  Scale the y axis
 5.  Add meaningful labels
 6.  Add a theme
 
 Finally, let's have a look at the distribution of the outcome:
 
-```{r fig.align="center"}
+```{r fig.align="center", comment="cex"}
 #| label: fig-gzlms-outcome
 #| fig-cap: ""
 
@@ -211,7 +215,7 @@ No code description for this one - see if you can work it out!
 
 <br>
 
-At a glance, it seems like the belayers who used an assisted-breaking device were slightly faster to react compared to those who didn't (@fig-gzlms-h1), suggesting support for Hypothesis 1. From @fig-gzlms-h2, we see that there is quite a steep negative relationship between climbing experience of the belayer and reaction time - the more experience the belayer is, the shorter they take to respond.
+From @fig-gzlms-h1, we see that there is quite a steep negative relationship between climbing experience of the belayer and reaction time - the more experience the belayer is, the shorter they take to respond. At a glance, it also seems like the belayers who used an assisted-breaking device were slightly faster to react compared to those who didn't (@fig-gzlms-h2).
 
 Finally, @fig-gzlms-outcome confirms what @tbl-gzlms-describe told us - that the outcome variable is right-skewed, with most values clustered towards the lower end an asymmetrical right tail. Without further ado, let's confidently ignore this fact and hope for the best when fit an OLS linear model.
 
@@ -229,7 +233,7 @@ Before diving straight into the result, we'll need to check the model assumption
 
 ### Check model assumptions
 
-```{r fig.height=7, fig.width=8}
+```{r fig.height=7, fig.width=8, comment="cex"}
 #| label: fig-gzlms-assumptions
 #| fig-cap: ""
 
@@ -242,7 +246,7 @@ Right of the bat, we have problems. The posterior predictive check (row 1 left) 
 
 We can get the overall fit statistics:
 
-```{r}
+```{r, comment="cex"}
 belay_lm |> 
   performance() |> 
   display()
@@ -252,7 +256,7 @@ belay_lm |>
 
 And test the overall fit:
 
-```{r message=FALSE}
+```{r message=FALSE, comment="cex"}
 belay_lm |> 
   test_wald() |> 
   display()
@@ -336,7 +340,7 @@ report_betas <- function(lm, pred){
 
 ```
 
-```{r}
+```{r comment="cex"}
 #| label: tbl-gzlms-params
 #| tbl-cap: ""
 
@@ -451,15 +455,15 @@ belay_rob$fitted.values[1]
 This is exactly the value we calculated manually, so it's good to know our maths works!
 :::
 
-### Going beyond the data
+### Going beyond the data {#sec-going-beyond-the-data}
 
-The nice thing about modelling relationships as straight lines is that once we know the intercept and the slope, we can pretty much extend the line in either direction and make predictions for values that are not represented in your dataset. Consider @fig-gzlms-h2 . Although the line only spans the range of the data, we could extend each end to make predictions.
+The nice thing about modelling relationships as straight lines is that once we know the intercept and the slope, we can pretty much extend the line in either direction and make predictions for values that are not represented in your dataset. Consider @fig-gzlms-h1 . Although the line only spans the range of the data, we could extend each end to make predictions.
 
 Say that we're interested in what the model predicts for individuals with no climbing experience, or, on the other hand, with extensive climbing experience. We're going to create a new tibble with the values of `climbing_exp` for which we want to predict, that is, for belayers with anywhere between 0 and 20 years of experience.
 
 Then we'll hold the other predictors constant. For factors, we'll hold the values at the baseline, so 0 or "No" for both `assisted_break` and `distracted` . The continuous predictor - fall length - will be held constant at the average value of `fall_m` from @tbl-gzlms-describe . We'll use the `tibble` function and store the result into an object called `prediction_tib` .
 
-```{r}
+```{r comment="cex"}
 prediction_tib <- tibble::tibble(
   climbing_exp = 0:20,
   assisted_break = 0,
@@ -485,7 +489,7 @@ As requested, values in all rows are identical except for `climbing_exp`, which 
 
 On its own, it can be used like this:
 
-```{r eval=FALSE}
+```{r eval=FALSE, comment="cex"}
 predict(belay_rob, prediction_tib)
 ```
 
@@ -550,7 +554,7 @@ Instead, we should think about the data generating process when we are planning 
 
 ### How is GzLM different to GLM?
 
-GLM uses Ordinary Least Squares (OLS) estimation to fit models. The goal of OLS is to find the values of $\beta_0$, $\beta_1$, $\beta_2$ ... so that the sum of squared errors (SSE) is as small is it can be given the data provided. Consider @fig-gzlms-h2 : if we were to measure the distance of each point from the line (i.e. the residual), square each distance and then sum all of them together, we'd get an SSE. For the model depicted in @fig-gzlms-h2, the line is the most optimal line that gives the smallest possible SSE.
+GLM uses Ordinary Least Squares (OLS) estimation to fit models. The goal of OLS is to find the values of $\beta_0$, $\beta_1$, $\beta_2$ ... so that the sum of squared errors (SSE) is as small is it can be given the data provided. Consider @fig-gzlms-h1 : if we were to measure the distance of each point from the line (i.e. the residual), square each distance and then sum all of them together, we'd get an SSE. For the model depicted in @fig-gzlms-h1, the line is the most optimal line that gives the smallest possible SSE.
 
 #### Maximum Likelihood estimation
 
@@ -560,7 +564,7 @@ GzLM use *Maximum Likelihood Estimation* (ML)[^01_gzlms-2]. ML tries to find the
 
 [^01_gzlms-2]: Unhelpfully, the ML abbreviation is also reserved for "Machine Learning", so just be aware of this if you're using any external resources.
 
-#### Conditional distributions
+#### Conditional distributions {#sec-conditional-distributions}
 
 What are we assuming the distribution *of*?
 
@@ -632,7 +636,7 @@ ggplot2::ggplot(data = all_vals, aes(values)) +
 
 Therefore checking the distribution of the outcome itself might be a good starting point, but it can lead us astray, especially if the conditional distribution substantially varies in parameters.
 
-#### Mean-variance relationship
+#### Mean-variance relationship {#sec-mean-variance-relationship}
 
 In GLM, we assume a constant variance of errors. That is, regardless of the predicted value, the spread of errors remains the same - this is homoscedasticity. Its violation, as we saw in @fig-gzlms-assumptions is called heteroscedasticity.
 
@@ -644,15 +648,17 @@ $$
 V(Y) = E(Y)^2
 $$
 
-i.e. in a given conditional distribution, the variance of scores will be equal to the squared predicted value. Alternatively, the Poisson distribution can model a situation where the predicted value is equal to the variance.
+i.e. in a given conditional distribution, the variance of scores will be equal to the squared expected[^01_gzlms-3] value. Alternatively, the Poisson distribution can model a situation where the expected value is equal to the variance.
+
+[^01_gzlms-3]: You could substitute the term "expected" with "predicted". The only difference is that we tend to use "predicted" when talking about a single value, and "expected" when talking about a whole distribution, but for all intents and purposes, they are the same.
 
 $$
 V(Y) = E(Y)
 $$
 
-We'll cover these situations in a lot more detail in the upcoming weeks. The bottom line is that GzLM offers a lot more flexibility than GLM, which can be useful in a variety of applied scenarios. So before we get too bogged down in terminology, let's fit one more *bad* model to get the hang of the coding, and then we'll finally move on to modelling tackling out hypotheses properly by choosing a more appropriate modelling approach.
+We'll cover these situations in more detail in the upcoming weeks. The bottom line is that GzLM offers a lot more flexibility than GLM, which can be useful in a variety of applied scenarios. So before we get too bogged down in terminology, let's fit one more *bad* model to get the hang of the coding, and then we'll finally move on to modelling tackling out hypotheses properly by choosing a more appropriate modelling approach.
 
-### Fitting GzLM in R
+### Fitting GzLM in R {#sec-fitting-gzlm-in-r}
 
 So let's fit our model. We're still going to (wrongly) assume the normal conditional distribution for our outcome, but this time we'll fit the model using maximum likelihood estimation instead of OLS.
 
@@ -673,7 +679,7 @@ The main difference from the OLS model or the robust model is this line: `family
 
 We can run the model checks as normal - the output is the same as before and can be interpreted as such, so there's no need to repeat it here.
 
-```{r eval=FALSE}
+```{r eval=FALSE, comment="cex"}
 belay_glm |> 
   check_model()  #<1>
 
@@ -704,16 +710,16 @@ belay_lm |>
 
 #### ML (GzLM) estimates
 
-```{r}
+```{r, comment="cex"}
 belay_glm |> 
   parameters() |> 
   display()
 ```
 :::
 
-Although the estimates themselves are the same, the confidence intervals and the *p*-values are not. This is deliberate. When we fit OLS models, we use the critical *t* statistic[^01_gzlms-3] based on the residual degrees of freedom to construct the CIs. The test statistic is then calculated by dividing the parameter estimate by its standard error, and this is compared against a theoretical *t* distribution to calculate the *p*-value.
+Although the estimates themselves are the same, the confidence intervals and the *p*-values are not. This is deliberate. When we fit OLS models, we use the critical *t* statistic[^01_gzlms-4] based on the residual degrees of freedom to construct the CIs. The test statistic is then calculated by dividing the parameter estimate by its standard error, and this is compared against a theoretical *t* distribution to calculate the *p*-value.
 
-[^01_gzlms-3]: This is not the same as the t statistic that we see in the tables.
+[^01_gzlms-4]: This is not the same as the t statistic that we see in the tables.
 
 When we fitted the GzLM, we explicitly told R to assume a normal/Gaussian distribution. So the model takes us for our word, and instead of using the *t* distribution, it compares the test statistic against a normal distribution. Likewise, the CIs are constructed using the critical *Z* value, not the critical *t* value. The `parameters` function is quite clever in that it automatically detects what kind of model we fitted and gives us the result based on that.
 
@@ -721,47 +727,37 @@ When we fitted the GzLM, we explicitly told R to assume a normal/Gaussian distri
 
 Of course, if we were to actually run any of the model checks, we'd still find that the model is fundamentally flawed. Regardless of the approach, a normal distribution is not the appropriate distribution to be assuming here. If we fit a robust model, the predictions we're generating are only useful for the middle of the distribution, while the predictions at the tails breach the realm of science-fiction with reality-bending reaction times. If we want to create a useful model of the reality, we need to change the assumptions we're making about the data-generating process.
 
-## Exercises 
+### Welcome to the family
 
-### What does this code do? 
+The General Linear Model encompasses many types of models that use OLS estimation (like the t-test, ANOVA, regression and others). The *Generalised* Linear Model takes this even further and can model various forms of the **Exponential Family** . This may seem counter-intuitive because when we say "Exponential" we often imagine a line that grows or descends steeply (or "exponentially"), but this distribution family in an overarching group of distributions that come in many shapes and sizes, including:
 
+-   Bernoulli distribution (often assumed in logistic regression)
+
+-   Chi-squared distribution
+
+-   Dirichlet distribution
+
+-   Exponential distribution
+
+-   Gamma distribution
+
+-   Normal distribution (yes, even normal distribution)
+
+-   Poisson distribution
+
+and others. We're going to learn about some of these in the coming weeks.
+
+## Exercises
+
+### What does this code do?
+
+::: {.callout-tip appearance="simple"}
 Here's all the code we have written in this section. Can you remember what each line of each codechunk does? Are there any codechunks that you struggle to make sense of? Make sure to revisit the section in which it is used and take notes.
+:::
 
-```{r eval=FALSE, include=FALSE}
-# save the document: 
-rstudioapi::documentSave()
-
-# get all the codechunks 
-
-lines <- readLines("01_gzlms.qmd")
-
-code_lines <- tibble::tibble(
-  lines = lines,
-  fence = stringr::str_detect(lines, "```"),
-  fence_start = stringr::str_detect(lines, "```\\{r"), 
-  fence_end = fence & !fence_start, 
-  code_start = ifelse(fence_start, cumsum(fence_start), NA), 
-  code_end = ifelse(fence_end, cumsum(fence_end), NA)
-) |> 
-  tidyr::fill(code_start, .direction = "down") |> 
-  tidyr::fill(code_end, .direction = "up") |> 
-  dplyr::mutate(
-    chunk_index = ifelse(code_start == code_end, code_start, 0),
-    lines = stringr::str_replace_all(lines, "```$", "```\\\n\\\n"),
-    lines = stringr::str_replace_all(lines, "```\\{r", "```\\{r eval=FALSE,"), 
-    lines = stringr::str_replace_all(lines, "#<[0-9]+>", "")
-  ) |> 
-  dplyr::filter(chunk_index != 0)|> 
-  dplyr::group_by(chunk_index) |> 
-  dplyr::filter(
-    !any(stringr::str_detect(lines, "echo=FALSE")), 
-    !any(stringr::str_detect(lines, "include=FALSE")),
-    !stringr::str_detect(lines, "label:"), 
-    !stringr::str_detect(lines, "fig-cap:")
-  ) |> 
-  dplyr::pull(lines) 
-
-writeLines(code_lines, "code/01_gzlms_code.qmd")
+```{r eval=TRUE, echo=FALSE}
+source("functions/yoink_code.R")
+yoink_code("01_gzlms")
 ```
 
 ```{r child="code/01_gzlms_code.qmd"}

@@ -212,6 +212,12 @@ window.Quarto = {
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelling ordinal responses</span></span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01d_gzlms_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Summary</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -296,12 +302,13 @@ window.Quarto = {
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="4">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
   <li><a href="#scenario-gzlms" id="toc-scenario-gzlms" class="nav-link active" data-scroll-target="#scenario-gzlms">Scenario</a>
   <ul>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The data</a></li>
   <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics">Descriptive statistics</a></li>
   <li><a href="#visualisation" id="toc-visualisation" class="nav-link" data-scroll-target="#visualisation">Visualisation</a></li>
   </ul></li>
@@ -315,19 +322,22 @@ window.Quarto = {
   <li><a href="#making-predictions" id="toc-making-predictions" class="nav-link" data-scroll-target="#making-predictions">Making predictions</a>
   <ul>
   <li><a href="#predictions-within-the-observed-data" id="toc-predictions-within-the-observed-data" class="nav-link" data-scroll-target="#predictions-within-the-observed-data">Predictions within the observed data</a></li>
-  <li><a href="#going-beyond-the-data" id="toc-going-beyond-the-data" class="nav-link" data-scroll-target="#going-beyond-the-data">Going beyond the data</a></li>
+  <li><a href="#sec-going-beyond-the-data" id="toc-sec-going-beyond-the-data" class="nav-link" data-scroll-target="#sec-going-beyond-the-data">Going beyond the data</a></li>
   </ul></li>
   <li><a href="#introduction-to-gzlm" id="toc-introduction-to-gzlm" class="nav-link" data-scroll-target="#introduction-to-gzlm">Introduction to GzLM</a>
   <ul>
   <li><a href="#how-is-gzlm-different-to-glm" id="toc-how-is-gzlm-different-to-glm" class="nav-link" data-scroll-target="#how-is-gzlm-different-to-glm">How is GzLM different to GLM?</a>
   <ul class="collapse">
   <li><a href="#maximum-likelihood-estimation" id="toc-maximum-likelihood-estimation" class="nav-link" data-scroll-target="#maximum-likelihood-estimation">Maximum Likelihood estimation</a></li>
-  <li><a href="#conditional-distributions" id="toc-conditional-distributions" class="nav-link" data-scroll-target="#conditional-distributions">Conditional distributions</a></li>
-  <li><a href="#mean-variance-relationship" id="toc-mean-variance-relationship" class="nav-link" data-scroll-target="#mean-variance-relationship">Mean-variance relationship</a></li>
+  <li><a href="#sec-conditional-distributions" id="toc-sec-conditional-distributions" class="nav-link" data-scroll-target="#sec-conditional-distributions">Conditional distributions</a></li>
+  <li><a href="#sec-mean-variance-relationship" id="toc-sec-mean-variance-relationship" class="nav-link" data-scroll-target="#sec-mean-variance-relationship">Mean-variance relationship</a></li>
   </ul></li>
-  <li><a href="#fitting-gzlm-in-r" id="toc-fitting-gzlm-in-r" class="nav-link" data-scroll-target="#fitting-gzlm-in-r">Fitting GzLM in R</a></li>
+  <li><a href="#sec-fitting-gzlm-in-r" id="toc-sec-fitting-gzlm-in-r" class="nav-link" data-scroll-target="#sec-fitting-gzlm-in-r">Fitting GzLM in R</a></li>
   </ul></li>
-  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a>
+  <ul>
+  <li><a href="#welcome-to-the-family" id="toc-welcome-to-the-family" class="nav-link" data-scroll-target="#welcome-to-the-family">Welcome to the family</a></li>
+  </ul></li>
   <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises">Exercises</a>
   <ul>
   <li><a href="#what-does-this-code-do" id="toc-what-does-this-code-do" class="nav-link" data-scroll-target="#what-does-this-code-do">What does this code do?</a></li>
@@ -359,16 +369,18 @@ window.Quarto = {
 
 <p>“Generalised Linear Model” is an umbrella term describing a flexible statistical modelling framework. Unlike the “<em>General</em> Linear Model”, which is often inadequate in real-life situations, Generalised Linear Models allow us to model a range of realistic scenarios without assuming an unrealistic data structure.</p>
 <p>We’ll use the abbreviation GzLM for “Generalised Linear Model” and GLM for “General Linear Model”, however note that it’s common for people out in the wild to refer to either with GLM. Statisticians and data scientists are cool like that.</p>
-<p>Before jumping into the GzLM, let’s run through a quick recap of the GLM, how it works and are its limitations. Most of this should be familiar from <em>An Adventure in Statistics</em> - if you’re feeling confident about the ins and outs of the Ordinary Least Squares (OLS) estimation and robust estimation, you can read the <a href="#scenario-gzlms">Scenario</a> below and then jump straight the section <a href="#making-predictions">Making predictions</a>.</p>
+<p>Before jumping into the GzLM, let’s run through a quick recap of the GLM, how it works and its limitations. Most of this should be familiar from <em>An Adventure in Statistics</em> - if you’re feeling confident about the ins and outs of the Ordinary Least Squares (OLS) estimation and robust estimation, you can read the <strong>Scenario</strong> below, skim through the code, and then move straight to the section <a href="#making-predictions">Making predictions</a>.</p>
 <section id="scenario-gzlms" class="level2">
 <h2 class="anchored" data-anchor-id="scenario-gzlms">Scenario</h2>
 <blockquote class="blockquote">
-<p>A researcher in sports psychology is interested in understanding the factors related to the reaction times of belayers<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> when breaking a fall of their climbing partners. She set up ultra-high resolution cameras at the local gym, then reviewing the footage and recording: the time it took for the belayer to effectively stop the fall after the climber lost control in milliseconds (<code>reaction_time</code>); whether the belayer used an assisted-breaking device (<code>assisted_break</code> - no/yes); and whether the belayer was talking to others or was otherwise distracted (<code>distracted</code> - no/yes). The researcher also collected information about the participants’ climbing experience in years (<code>climbing_exp</code>), and the length of the climbers’ fall in metres (<code>fall_m</code>).</p>
+<p>A researcher in sports psychology is interested in understanding the factors related to the reaction times of belayers<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> when breaking a fall of their climbing partners. She set up ultra-high resolution cameras at the local gym, then reviews the footage and records: the time it took for the belayer to effectively stop the fall after the climber lost control in milliseconds (<code>reaction_time</code>); whether the belayer used an assisted-breaking device (<code>assisted_break</code> - no/yes); and whether the belayer was talking to others or was otherwise distracted (<code>distracted</code> - no/yes). The researcher also collected information about the participants’ climbing experience in years (<code>climbing_exp</code>), and the length of the climbers’ fall in metres (<code>fall_m</code>).</p>
 <p>The researcher hypothesises the following:</p>
-<p>H<sub>1</sub>: Belayers using an assisted breaking device will be faster to catch falls.</p>
-<p>H<sub>2</sub>: More experienced belayers will be faster to catch falls.</p>
+<p>H<sub>1</sub>: More experienced belayers will be faster to catch falls.</p>
+<p>H<sub>2</sub>: Belayers using an assisted breaking device will be faster to catch falls.</p>
 </blockquote>
-<p>The (fictional) dataset is stored in the file <a href="data/climbing_data.csv"><code>climbing_data.csv</code></a> . First, let’s load up the necessary packages. Then, assuming you have <a href="#importing-datasets">imported the dataset</a> into the <code>data</code> folder on Posit Cloud, you can read it into your R session as:</p>
+<section id="the-data" class="level3">
+<h3 class="anchored" data-anchor-id="the-data">The data</h3>
+<p>The (fictional) dataset is stored in the file <a href="data/climbing_data.csv"><code>climbing_data.csv</code></a> . First, let’s load up the necessary packages. Then, assuming you have <a href="index.html#importing-datasets">imported the dataset</a> into the <code>data</code> folder on Posit Cloud, you can read it into your R session as:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-1"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-1-1" class="code-annotation-target"><a href="#annotated-cell-1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-1" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-1-2" class="code-annotation-target"><a href="#annotated-cell-1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -434,6 +446,7 @@ Factors and binary categorical predictors
 </div>
 </div>
 </div>
+</section>
 <section id="descriptive-statistics" class="level3">
 <h3 class="anchored" data-anchor-id="descriptive-statistics">Descriptive statistics</h3>
 <p>The next few steps should be familiar. We start by generating some descriptive summaries:</p>
@@ -568,7 +581,7 @@ Normal distribution of the outcome
 </div>
 <div id="callout-2" class="callout-2-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>Remember that when we’re fitting an OLS-based linear model, the normal distribution of the outcome variable is <em>not</em> one of the assumptions. The actual assumption refers to the errors in the population model, which are best checked by inspecting the model residuals. However, the outcome variable will often (but not always) have a similar distribution to the residuals. It is therefore useful to inspect it in the initial stage, but we’ll still need to run the residual diagnostics after we’ve fitted the model.</p>
+<p>Remember that when we’re fitting an OLS-based linear model, the normal distribution of the outcome variable is <strong><em>not</em></strong> one of the assumptions. The actual assumption refers to the errors in the population model, which are best checked by inspecting the model residuals. However, the outcome variable will often (but not always) have a similar distribution to the residuals. It is therefore useful to inspect it in the initial stage, but we’ll still need to run the residual diagnostics after we’ve fitted the model.</p>
 </div>
 </div>
 </div>
@@ -580,31 +593,32 @@ Normal distribution of the outcome
 <li>A plot showing the hypothesised relationships between each predictor and the outcome.</li>
 <li>A plot showing the distribution of the outcome, just so we have a better sense of what the variable looks like</li>
 </ol>
+<p>Let’s start with H<sub>1</sub>:</p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="sc">|&gt;</span> </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(assisted_break), <span class="at">y =</span> reaction_time)) <span class="sc">+</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">"yellowgreen"</span>, <span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>)) <span class="sc">+</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">"mean_cl_normal"</span>) <span class="sc">+</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1030.5</span>)) <span class="sc">+</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-4-6" class="code-annotation-target"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Did the belayer used an assisted breaking device"</span>, <span class="at">y =</span> <span class="st">"Reaction time (ms) to break the fall"</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> climbing_exp, <span class="at">y =</span> reaction_time)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">"yellowgreen"</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">colour =</span> <span class="st">"steelblue"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1030.5</span>)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-4-6" class="code-annotation-target"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Belayer's climbing experience (in years)"</span>, <span class="at">y =</span> <span class="st">"Reaction time (ms) to break the fall"</span>) <span class="sc">+</span></span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-4-7" class="code-annotation-target"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="1">Specify the dataset and which variable to put on each of the axes. Note that we’re wrapping <code>assisted_break</code> in the <code>factor()</code> function, so the plot treats it as such. This is optional. Again, it would have been better to convert the variable to the factor at the very beginning, but we’re keeping it as numeric for now because it makes some of the later calculations easier.</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="1">Specify the dataset and the aesthetics</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="2">Add raw data points - this is good for inspecting potentially unusual cases</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="2">Add raw data points</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="3">Add the mean and confidence intervals</span>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="3">Add the line of best fit</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="4">Scale the y axis to reflect the realistic scale of our outcome variable (the maximum value 1030.5 is based on values from <a href="#tbl-gzlms-describe" class="quarto-xref">Table&nbsp;<span>2</span></a></span>
+<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="4">Scale the y axis and the x axis to reflect the realistic scale of our outcome variable (the maximum value 1030.5 is based on values from <a href="#tbl-gzlms-describe" class="quarto-xref">Table&nbsp;<span>2</span></a>)</span>
 </dd>
 <dt data-target-cell="annotated-cell-4" data-target-annotation="5">5</dt>
 <dd>
@@ -617,7 +631,7 @@ Normal distribution of the outcome
 </dl>
 </div>
 <div class="cell-output-display">
-<div id="fig-gzlms-h1" class="quarto-float quarto-figure quarto-figure-center anchored" width="672" data-fig-align="center">
+<div id="fig-gzlms-h1" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="672">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gzlms-h1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="01_gzlms_files/figure-html/fig-gzlms-h1-1.png" id="fig-gzlms-h1" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="672">
@@ -646,32 +660,32 @@ Learning about ggplots
 </div>
 </div>
 <p><br></p>
-<p>Now let’s repeat the same for the predictor for H<sub>2</sub>:</p>
+<p>Now let’s do the same for H<sub>2</sub></p>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="annotated-cell-5"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-5-1"><a href="#annotated-cell-5-1" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="sc">|&gt;</span> </span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> climbing_exp, <span class="at">y =</span> reaction_time)) <span class="sc">+</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">"yellowgreen"</span>) <span class="sc">+</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">colour =</span> <span class="st">"steelblue"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1030.5</span>)) <span class="sc">+</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-5-6" class="code-annotation-target"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Belayer's climbing experience (in years)"</span>, <span class="at">y =</span> <span class="st">"Reaction time (ms) to break the fall"</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-5-2" class="code-annotation-target"><a href="#annotated-cell-5-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">factor</span>(assisted_break), <span class="at">y =</span> reaction_time)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-5-3" class="code-annotation-target"><a href="#annotated-cell-5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">"yellowgreen"</span>, <span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-5-4" class="code-annotation-target"><a href="#annotated-cell-5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">fun.data =</span> <span class="st">"mean_cl_normal"</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-5-5" class="code-annotation-target"><a href="#annotated-cell-5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1030.5</span>)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-5-6" class="code-annotation-target"><a href="#annotated-cell-5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Did the belayer used an assisted breaking device"</span>, <span class="at">y =</span> <span class="st">"Reaction time (ms) to break the fall"</span>) <span class="sc">+</span></span>
 <a class="code-annotation-anchor" data-target-cell="annotated-cell-5" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-5-7" class="code-annotation-target"><a href="#annotated-cell-5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-5" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="1">Specify the dataset and the aesthetics</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="2" data-code-annotation="1">Specify the dataset and which variable to put on each of the axes. Note that we’re wrapping <code>assisted_break</code> in the <code>factor()</code> function, so the plot treats it as such. This is optional. Again, it would have been better to convert the variable to the factor at the very beginning, but we’re keeping it as numeric for now because it makes some of the later calculations easier.</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="2">Add raw data points</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="3" data-code-annotation="2">Add raw data points - this is good for inspecting potentially unusual cases</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="3">Add the line of best fit - this time, the predictor is continuous so we use <code>stat_smooth</code> instead of <code>stat_summary</code></span>
+<span data-code-cell="annotated-cell-5" data-code-lines="4" data-code-annotation="3">Add the mean and confidence intervals - this time, the predictor is categorical so we use <code>stat_summary</code> instead of <code>stat_smooth</code></span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="4">Scale the y axis and the x axis</span>
+<span data-code-cell="annotated-cell-5" data-code-lines="5" data-code-annotation="4">Scale the y axis</span>
 </dd>
 <dt data-target-cell="annotated-cell-5" data-target-annotation="5">5</dt>
 <dd>
@@ -684,7 +698,7 @@ Learning about ggplots
 </dl>
 </div>
 <div class="cell-output-display">
-<div id="fig-gzlms-h2" class="quarto-float quarto-figure quarto-figure-center anchored" width="672" data-fig-align="center">
+<div id="fig-gzlms-h2" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="672">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gzlms-h2-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="01_gzlms_files/figure-html/fig-gzlms-h2-1.png" id="fig-gzlms-h2" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="672">
@@ -704,7 +718,7 @@ Figure&nbsp;2
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Reaction time (ms) to break the fall"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span> </span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-gzlms-outcome" class="quarto-float quarto-figure quarto-figure-center anchored" width="672" data-fig-align="center">
+<div id="fig-gzlms-outcome" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="672">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-gzlms-outcome-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="01_gzlms_files/figure-html/fig-gzlms-outcome-1.png" id="fig-gzlms-outcome" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="672">
@@ -718,7 +732,7 @@ Figure&nbsp;3
 </div>
 <p>No code description for this one - see if you can work it out!</p>
 <p><br></p>
-<p>At a glance, it seems like the belayers who used an assisted-breaking device were slightly faster to react compared to those who didn’t (<a href="#fig-gzlms-h1" class="quarto-xref">Figure&nbsp;<span>1</span></a>), suggesting support for Hypothesis 1. From <a href="#fig-gzlms-h2" class="quarto-xref">Figure&nbsp;<span>2</span></a>, we see that there is quite a steep negative relationship between climbing experience of the belayer and reaction time - the more experience the belayer is, the shorter they take to respond.</p>
+<p>From <a href="#fig-gzlms-h1" class="quarto-xref">Figure&nbsp;<span>1</span></a>, we see that there is quite a steep negative relationship between climbing experience of the belayer and reaction time - the more experience the belayer is, the shorter they take to respond. At a glance, it also seems like the belayers who used an assisted-breaking device were slightly faster to react compared to those who didn’t (<a href="#fig-gzlms-h2" class="quarto-xref">Figure&nbsp;<span>2</span></a>).</p>
 <p>Finally, <a href="#fig-gzlms-outcome" class="quarto-xref">Figure&nbsp;<span>3</span></a> confirms what <a href="#tbl-gzlms-describe" class="quarto-xref">Table&nbsp;<span>2</span></a> told us - that the outcome variable is right-skewed, with most values clustered towards the lower end an asymmetrical right tail. Without further ado, let’s confidently ignore this fact and hope for the best when fit an OLS linear model.</p>
 </section>
 </section>
@@ -1068,9 +1082,9 @@ Is there an easier way…?
 </div>
 </div>
 </section>
-<section id="going-beyond-the-data" class="level3">
-<h3 class="anchored" data-anchor-id="going-beyond-the-data">Going beyond the data</h3>
-<p>The nice thing about modelling relationships as straight lines is that once we know the intercept and the slope, we can pretty much extend the line in either direction and make predictions for values that are not represented in your dataset. Consider <a href="#fig-gzlms-h2" class="quarto-xref">Figure&nbsp;<span>2</span></a> . Although the line only spans the range of the data, we could extend each end to make predictions.</p>
+<section id="sec-going-beyond-the-data" class="level3">
+<h3 class="anchored" data-anchor-id="sec-going-beyond-the-data">Going beyond the data</h3>
+<p>The nice thing about modelling relationships as straight lines is that once we know the intercept and the slope, we can pretty much extend the line in either direction and make predictions for values that are not represented in your dataset. Consider <a href="#fig-gzlms-h1" class="quarto-xref">Figure&nbsp;<span>1</span></a> . Although the line only spans the range of the data, we could extend each end to make predictions.</p>
 <p>Say that we’re interested in what the model predicts for individuals with no climbing experience, or, on the other hand, with extensive climbing experience. We’re going to create a new tibble with the values of <code>climbing_exp</code> for which we want to predict, that is, for belayers with anywhere between 0 and 20 years of experience.</p>
 <p>Then we’ll hold the other predictors constant. For factors, we’ll hold the values at the baseline, so 0 or “No” for both <code>assisted_break</code> and <code>distracted</code> . The continuous predictor - fall length - will be held constant at the average value of <code>fall_m</code> from <a href="#tbl-gzlms-describe" class="quarto-xref">Table&nbsp;<span>2</span></a> . We’ll use the <code>tibble</code> function and store the result into an object called <code>prediction_tib</code> .</p>
 <div class="cell">
@@ -1141,7 +1155,7 @@ Is there an easier way…?
 <span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Belayer's climbing experience (in years)"</span>, <span class="at">y =</span> <span class="st">"Reaction time (ms) to break the fall"</span>) <span class="sc">+</span> </span>
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="fig-glzms-rob-pred" class="quarto-float quarto-figure quarto-figure-center anchored" width="672" data-fig-align="center">
+<div id="fig-glzms-rob-pred" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="672">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-glzms-rob-pred-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="01_gzlms_files/figure-html/fig-glzms-rob-pred-1.png" id="fig-glzms-rob-pred" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="672">
@@ -1167,14 +1181,14 @@ Figure&nbsp;5
 <p>Instead, we should think about the data generating process when we are planning the analyses, or, better yet, before we even start data collection. Considering the variables we’re aiming to collect, what might the distributions look like? Is normal distribution a reasonable expectation? Is variance that doesn’t change at different values of the predictors a reasonable expectation? More often than not, the answer to the latter two questions is no.</p>
 <section id="how-is-gzlm-different-to-glm" class="level3">
 <h3 class="anchored" data-anchor-id="how-is-gzlm-different-to-glm">How is GzLM different to GLM?</h3>
-<p>GLM uses Ordinary Least Squares (OLS) estimation to fit models. The goal of OLS is to find the values of <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\beta_2\)</span> … so that the sum of squared errors (SSE) is as small is it can be given the data provided. Consider <a href="#fig-gzlms-h2" class="quarto-xref">Figure&nbsp;<span>2</span></a> : if we were to measure the distance of each point from the line (i.e.&nbsp;the residual), square each distance and then sum all of them together, we’d get an SSE. For the model depicted in <a href="#fig-gzlms-h2" class="quarto-xref">Figure&nbsp;<span>2</span></a>, the line is the most optimal line that gives the smallest possible SSE.</p>
+<p>GLM uses Ordinary Least Squares (OLS) estimation to fit models. The goal of OLS is to find the values of <span class="math inline">\(\beta_0\)</span>, <span class="math inline">\(\beta_1\)</span>, <span class="math inline">\(\beta_2\)</span> … so that the sum of squared errors (SSE) is as small is it can be given the data provided. Consider <a href="#fig-gzlms-h1" class="quarto-xref">Figure&nbsp;<span>1</span></a> : if we were to measure the distance of each point from the line (i.e.&nbsp;the residual), square each distance and then sum all of them together, we’d get an SSE. For the model depicted in <a href="#fig-gzlms-h1" class="quarto-xref">Figure&nbsp;<span>1</span></a>, the line is the most optimal line that gives the smallest possible SSE.</p>
 <section id="maximum-likelihood-estimation" class="level4">
 <h4 class="anchored" data-anchor-id="maximum-likelihood-estimation">Maximum Likelihood estimation</h4>
 <p>The process is a little different for robust models using <em>M</em>-type estimation wherein the cases with the largest residuals get itteratively down-weighted until an optimal line is found, but the starting point is the result of OLS estimation.</p>
 <p>GzLM use <em>Maximum Likelihood Estimation</em> (ML)<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>. ML tries to find the values of the the parameter estimates where a given <em>assumed distribution</em> is the most likely. In other words, where the <em>likelihood</em> of that distribution is at its <em>maximum</em>.</p>
 </section>
-<section id="conditional-distributions" class="level4">
-<h4 class="anchored" data-anchor-id="conditional-distributions">Conditional distributions</h4>
+<section id="sec-conditional-distributions" class="level4">
+<h4 class="anchored" data-anchor-id="sec-conditional-distributions">Conditional distributions</h4>
 <p>What are we assuming the distribution <em>of</em>?</p>
 <p>We know that OLS makes assumptions about the shape of errors in the population model - that is, it assumes they are normally distributed. Various guides will sometimes claim that we need to be checking a so called “response distribution”, which is just another word for the outcome. This is not quite right.</p>
 <p>ML estimation makes assumptions about the <em>conditional distribution</em> of the outcome. Say that we’re trying to model the relationship between X and Y where</p>
@@ -1228,23 +1242,23 @@ Figure&nbsp;7
 </div>
 <p>Therefore checking the distribution of the outcome itself might be a good starting point, but it can lead us astray, especially if the conditional distribution substantially varies in parameters.</p>
 </section>
-<section id="mean-variance-relationship" class="level4">
-<h4 class="anchored" data-anchor-id="mean-variance-relationship">Mean-variance relationship</h4>
+<section id="sec-mean-variance-relationship" class="level4">
+<h4 class="anchored" data-anchor-id="sec-mean-variance-relationship">Mean-variance relationship</h4>
 <p>In GLM, we assume a constant variance of errors. That is, regardless of the predicted value, the spread of errors remains the same - this is homoscedasticity. Its violation, as we saw in <a href="#fig-gzlms-assumptions" class="quarto-xref">Figure&nbsp;<span>4</span></a> is called heteroscedasticity.</p>
 <p><em>M</em>-type robust estimators attempt to fix the impact of heteroscedasticity by (1) down-weighting cases with extreme residuals and (2) using an alternative estimator for the standard errors. Either way, heteroscedasticity is seen as some nuisance to be fixed.</p>
 <p>On the other hand, GzLM can model various forms of heteroscedasticty explicitly and build these changes in variance into predictions. Different conditional distributions make different assumptions about the mean-variance relationship. For example, Gamma models assume a quadratic relationship:</p>
 <p><span class="math display">\[
 V(Y) = E(Y)^2
 \]</span></p>
-<p>i.e.&nbsp;in a given conditional distribution, the variance of scores will be equal to the squared predicted value. Alternatively, the Poisson distribution can model a situation where the predicted value is equal to the variance.</p>
+<p>i.e.&nbsp;in a given conditional distribution, the variance of scores will be equal to the squared expected<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> value. Alternatively, the Poisson distribution can model a situation where the expected value is equal to the variance.</p>
 <p><span class="math display">\[
 V(Y) = E(Y)
 \]</span></p>
-<p>We’ll cover these situations in a lot more detail in the upcoming weeks. The bottom line is that GzLM offers a lot more flexibility than GLM, which can be useful in a variety of applied scenarios. So before we get too bogged down in terminology, let’s fit one more <em>bad</em> model to get the hang of the coding, and then we’ll finally move on to modelling tackling out hypotheses properly by choosing a more appropriate modelling approach.</p>
+<p>We’ll cover these situations in more detail in the upcoming weeks. The bottom line is that GzLM offers a lot more flexibility than GLM, which can be useful in a variety of applied scenarios. So before we get too bogged down in terminology, let’s fit one more <em>bad</em> model to get the hang of the coding, and then we’ll finally move on to modelling tackling out hypotheses properly by choosing a more appropriate modelling approach.</p>
 </section>
 </section>
-<section id="fitting-gzlm-in-r" class="level3">
-<h3 class="anchored" data-anchor-id="fitting-gzlm-in-r">Fitting GzLM in R</h3>
+<section id="sec-fitting-gzlm-in-r" class="level3">
+<h3 class="anchored" data-anchor-id="sec-fitting-gzlm-in-r">Fitting GzLM in R</h3>
 <p>So let’s fit our model. We’re still going to (wrongly) assume the normal conditional distribution for our outcome, but this time we’ll fit the model using maximum likelihood estimation instead of OLS.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="annotated-cell-22"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-22" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-22-1" class="code-annotation-target"><a href="#annotated-cell-22-1" aria-hidden="true" tabindex="-1"></a>belay_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
@@ -1450,19 +1464,42 @@ V(Y) = E(Y)
 </div>
 </div>
 </div>
-<p>Although the estimates themselves are the same, the confidence intervals and the <em>p</em>-values are not. This is deliberate. When we fit OLS models, we use the critical <em>t</em> statistic<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> based on the residual degrees of freedom to construct the CIs. The test statistic is then calculated by dividing the parameter estimate by its standard error, and this is compared against a theoretical <em>t</em> distribution to calculate the <em>p</em>-value.</p>
+<p>Although the estimates themselves are the same, the confidence intervals and the <em>p</em>-values are not. This is deliberate. When we fit OLS models, we use the critical <em>t</em> statistic<a href="#fn4" class="footnote-ref" id="fnref4" role="doc-noteref"><sup>4</sup></a> based on the residual degrees of freedom to construct the CIs. The test statistic is then calculated by dividing the parameter estimate by its standard error, and this is compared against a theoretical <em>t</em> distribution to calculate the <em>p</em>-value.</p>
 <p>When we fitted the GzLM, we explicitly told R to assume a normal/Gaussian distribution. So the model takes us for our word, and instead of using the <em>t</em> distribution, it compares the test statistic against a normal distribution. Likewise, the CIs are constructed using the critical <em>Z</em> value, not the critical <em>t</em> value. The <code>parameters</code> function is quite clever in that it automatically detects what kind of model we fitted and gives us the result based on that.</p>
 </section>
 </section>
 <section id="conclusion" class="level2">
 <h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
 <p>Of course, if we were to actually run any of the model checks, we’d still find that the model is fundamentally flawed. Regardless of the approach, a normal distribution is not the appropriate distribution to be assuming here. If we fit a robust model, the predictions we’re generating are only useful for the middle of the distribution, while the predictions at the tails breach the realm of science-fiction with reality-bending reaction times. If we want to create a useful model of the reality, we need to change the assumptions we’re making about the data-generating process.</p>
+<section id="welcome-to-the-family" class="level3">
+<h3 class="anchored" data-anchor-id="welcome-to-the-family">Welcome to the family</h3>
+<p>The General Linear Model encompasses many types of models that use OLS estimation (like the t-test, ANOVA, regression and others). The <em>Generalised</em> Linear Model takes this even further and can model various forms of the <strong>Exponential Family</strong> . This may seem counter-intuitive because when we say “Exponential” we often imagine a line that grows or descends steeply (or “exponentially”), but this distribution family in an overarching group of distributions that come in many shapes and sizes, including:</p>
+<ul>
+<li><p>Bernoulli distribution (often assumed in logistic regression)</p></li>
+<li><p>Chi-squared distribution</p></li>
+<li><p>Dirichlet distribution</p></li>
+<li><p>Exponential distribution</p></li>
+<li><p>Gamma distribution</p></li>
+<li><p>Normal distribution (yes, even normal distribution)</p></li>
+<li><p>Poisson distribution</p></li>
+</ul>
+<p>and others. We’re going to learn about some of these in the coming weeks.</p>
+</section>
 </section>
 <section id="exercises" class="level2">
 <h2 class="anchored" data-anchor-id="exercises">Exercises</h2>
 <section id="what-does-this-code-do" class="level3">
 <h3 class="anchored" data-anchor-id="what-does-this-code-do">What does this code do?</h3>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
 <p>Here’s all the code we have written in this section. Can you remember what each line of each codechunk does? Are there any codechunks that you struggle to make sense of? Make sure to revisit the section in which it is used and take notes.</p>
+</div>
+</div>
+</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats) </span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span>
@@ -1470,134 +1507,70 @@ V(Y) = E(Y)
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/climbing_data.csv"</span>) <span class="sc">|&gt;</span> </span>
 <span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>belay_tib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
 <div class="cell" data-tbl-cap="">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">describe_distribution</span>(<span class="at">select =</span> <span class="sc">-</span>subj_id) <span class="sc">|&gt;</span> </span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="sc">|&gt;</span> </span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">describe_distribution</span>(<span class="at">select =</span> <span class="sc">-</span>subj_id) <span class="sc">|&gt;</span> </span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> climbing_exp, <span class="at">y =</span> reaction_time)) <span class="sc">+</span> </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">"yellowgreen"</span>) <span class="sc">+</span> </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">colour =</span> <span class="st">"steelblue"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span> </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1030.5</span>)) <span class="sc">+</span> </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Belayer's climbing experience (in years)"</span>, <span class="at">y =</span> <span class="st">"Reaction time (ms) to break the fall"</span>) <span class="sc">+</span> </span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="sc">|&gt;</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> climbing_exp, <span class="at">y =</span> reaction_time)) <span class="sc">+</span> </span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">"yellowgreen"</span>) <span class="sc">+</span> </span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">colour =</span> <span class="st">"steelblue"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span> </span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1030.5</span>)) <span class="sc">+</span> </span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Belayer's climbing experience (in years)"</span>, <span class="at">y =</span> <span class="st">"Reaction time (ms) to break the fall"</span>) <span class="sc">+</span> </span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="sc">|&gt;</span> </span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> reaction_time)) <span class="sc">+</span> </span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">colour =</span> <span class="st">"steelblue"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span> </span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Reaction time (ms) to break the fall"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span> </span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> reaction_time)) <span class="sc">+</span> </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">colour =</span> <span class="st">"steelblue"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">alpha =</span> <span class="fl">0.1</span>) <span class="sc">+</span> </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Reaction time (ms) to break the fall"</span>, <span class="at">y =</span> <span class="st">"Density"</span>) <span class="sc">+</span> </span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>belay_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(reaction_time <span class="sc">~</span> assisted_break <span class="sc">+</span> climbing_exp <span class="sc">+</span> distracted <span class="sc">+</span> fall_m, <span class="at">data =</span> belay_tib)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>belay_lm <span class="sc">|&gt;</span> <span class="fu">check_model</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>belay_lm <span class="sc">|&gt;</span> <span class="fu">check_model</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>belay_lm <span class="sc">|&gt;</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">performance</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>belay_lm <span class="sc">|&gt;</span> </span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">performance</span>() <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>belay_lm <span class="sc">|&gt;</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">test_wald</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tbl-cap="">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>belay_rob <span class="sc">|&gt;</span> </span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">parameters</span>() <span class="sc">|&gt;</span> </span>
 <span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>belay_lm <span class="sc">|&gt;</span> </span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">test_wald</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>prediction_tib <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">climbing_exp =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">assisted_break =</span> <span class="dv">0</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">distracted =</span> <span class="dv">0</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fall_m =</span> <span class="fl">1.82</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>belay_rob <span class="ot">&lt;-</span> robustbase<span class="sc">::</span><span class="fu">lmrob</span>(reaction_time <span class="sc">~</span> assisted_break <span class="sc">+</span> climbing_exp <span class="sc">+</span> distracted <span class="sc">+</span> fall_m, <span class="at">data =</span> belay_tib)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-tbl-cap="">
-<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>belay_rob <span class="sc">|&gt;</span> </span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">parameters</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(belay_rob, prediction_tib)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>belay_tib[<span class="dv">1</span>, ] <span class="sc">|&gt;</span> </span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>belay_glm <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">check_model</span>()  </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a>belay_glm <span class="sc">|&gt;</span> </span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">performance</span>()  </span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a>belay_glm <span class="sc">|&gt;</span> </span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">test_wald</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>assisted_break_i <span class="ot">&lt;-</span> <span class="dv">0</span> </span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>climbing_exp_i <span class="ot">&lt;-</span> <span class="fl">3.1</span></span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>distracted_i <span class="ot">&lt;-</span> <span class="dv">1</span></span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>fall_m_i <span class="ot">&lt;-</span> <span class="fl">2.1</span> </span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a><span class="fl">689.29</span> <span class="sc">-</span> <span class="fl">26.77</span> <span class="sc">*</span> assisted_break_i <span class="sc">-</span> <span class="fl">53.49</span> <span class="sc">*</span> climbing_exp_i <span class="sc">+</span> <span class="fl">50.84</span> <span class="sc">*</span> distracted_i <span class="sc">+</span> <span class="fl">76.16</span> <span class="sc">*</span> fall_m_i</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>residual_i <span class="ot">&lt;-</span> belay_rob<span class="sc">$</span>residuals[<span class="dv">1</span>] <span class="co"># extract the residual for the first participant</span></span>
-<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="fl">689.29</span> <span class="sc">-</span> <span class="fl">26.77</span> <span class="sc">*</span> assisted_break_i <span class="sc">-</span> <span class="fl">53.49</span> <span class="sc">*</span> climbing_exp_i <span class="sc">+</span> <span class="fl">50.84</span> <span class="sc">*</span> distracted_i <span class="sc">+</span> <span class="fl">76.16</span> <span class="sc">*</span> fall_m_i <span class="sc">+</span> residual_i</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>belay_rob<span class="sc">$</span>fitted.values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>belay_rob<span class="sc">$</span>fitted.values[<span class="dv">1</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>prediction_tib <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">climbing_exp =</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">20</span>,</span>
-<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">assisted_break =</span> <span class="dv">0</span>,</span>
-<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">distracted =</span> <span class="dv">0</span>,</span>
-<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fall_m =</span> <span class="fl">1.82</span></span>
-<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>prediction_tib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(belay_rob, prediction_tib)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>prediction_tib <span class="ot">&lt;-</span> prediction_tib <span class="sc">|&gt;</span>  </span>
-<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>( </span>
-<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">predicted_rt =</span> <span class="fu">predict</span>(belay_rob, prediction_tib) </span>
-<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>prediction_tib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="sc">|&gt;</span> </span>
-<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> climbing_exp, <span class="at">y =</span> reaction_time)) <span class="sc">+</span> </span>
-<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">"yellowgreen"</span>) <span class="sc">+</span> </span>
-<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">colour =</span> <span class="st">"darkred"</span>, <span class="at">data =</span> prediction_tib, <span class="fu">aes</span>(<span class="at">x =</span> climbing_exp, <span class="at">y =</span> predicted_rt)) <span class="sc">+</span></span>
-<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Belayer's climbing experience (in years)"</span>, <span class="at">y =</span> <span class="st">"Reaction time (ms) to break the fall"</span>) <span class="sc">+</span> </span>
-<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>belay_glm <span class="ot">&lt;-</span> <span class="fu">glm</span>( </span>
-<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  reaction_time <span class="sc">~</span> assisted_break <span class="sc">+</span> climbing_exp <span class="sc">+</span> distracted <span class="sc">+</span> fall_m, </span>
-<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">gaussian</span>(<span class="at">link =</span> <span class="st">"identity"</span>), </span>
-<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> belay_tib </span>
-<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>belay_glm <span class="sc">|&gt;</span> </span>
-<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">check_model</span>()  </span>
-<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>belay_glm <span class="sc">|&gt;</span> </span>
-<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">performance</span>()  </span>
-<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>belay_glm <span class="sc">|&gt;</span> </span>
-<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">test_wald</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a>belay_lm <span class="sc">|&gt;</span> </span>
-<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">parameters</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>belay_glm <span class="sc">|&gt;</span> </span>
-<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">parameters</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>belay_glm <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">parameters</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="annotated-cell-27"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-27-1"><a href="#annotated-cell-27-1" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="sc">|&gt;</span> </span>
@@ -1617,7 +1590,8 @@ V(Y) = E(Y)
 <ol>
 <li id="fn1"><p>A “belayer” is the person on the ground, managing the rope and ensuring the climber on the wall is safe.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 <li id="fn2"><p>Unhelpfully, the ML abbreviation is also reserved for “Machine Learning”, so just be aware of this if you’re using any external resources.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn3"><p>This is not the same as the t statistic that we see in the tables.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>You could substitute the term “expected” with “predicted”. The only difference is that we tend to use “predicted” when talking about a single value, and “expected” when talking about a whole distribution, but for all intents and purposes, they are the same.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>This is not the same as the t statistic that we see in the tables.<a href="#fnref4" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section>
 

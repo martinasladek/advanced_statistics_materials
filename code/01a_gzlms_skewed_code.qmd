@@ -1,0 +1,131 @@
+```{r eval=FALSE, message=FALSE, comment="cex"}
+library(easystats)
+library(tidyverse)
+
+belay_tib <- here::here("data/climbing_data.csv") |>
+  readr::read_csv()
+```
+
+
+```{r eval=FALSE, fig.align='center', comment="cex"}
+gamma_dist <- rgamma(n = 10000, shape = 1, scale = 2)
+
+ggplot2::ggplot(data = NULL, aes(x = gamma_dist)) +
+  geom_density()
+```
+
+
+```{r eval=FALSE, eval=FALSE, comment="cex"}
+... + 
+stat_smooth(method = "glm", colour = "darkorange", fill = "darkorange", 
+            method.args = list(family = "Gamma")) + 
+...
+```
+
+
+```{r eval=FALSE, message=FALSE, comment="cex"}
+
+belay_tib |> 
+  ggplot2::ggplot(data = _, aes(x = climbing_exp, y = reaction_time)) + 
+  geom_point(alpha = 0.7, colour = "yellowgreen") + 
+  stat_smooth(method = "lm", colour = "steelblue", fill = "steelblue") + 
+  stat_smooth(method = "glm", 
+              colour = "darkorange", fill = "darkorange", 
+              linetype = "dashed",
+              method.args = list(family = "Gamma")) + 
+  coord_cartesian(xlim = c(0, 10), ylim = c(0, 1030.5)) + 
+  labs(x = "Belayer's climbing experience (in years)", y = "Reaction time (ms) to break the fall") + 
+  theme_light() 
+```
+
+
+```{r eval=FALSE, comment="cex"}
+belay_gamma <- glm(
+  reaction_time ~ assisted_break + climbing_exp + distracted + fall_m,
+  family = Gamma(link = "log"), 
+  data = belay_tib 
+)
+```
+
+
+```{r eval=FALSE, fig.height=7, fig.width=8, comment="cex"}
+
+belay_gamma |> check_model()
+```
+
+
+```{r eval=FALSE, comment="cex"}
+#| tbl-cap: ""
+
+belay_gamma |> 
+  performance() |> 
+  display()
+```
+
+
+```{r eval=FALSE, comment="cex"}
+belay_gamma |> 
+  test_wald() |> 
+  display()
+```
+
+
+```{r eval=FALSE, comment="cex"}
+belay_gamma |> 
+  parameters() |> 
+  display()
+```
+
+
+```{r eval=FALSE, comment="cex"}
+belay_gamma_exp <- belay_gamma |> 
+  parameters(exponentiate = TRUE) 
+ 
+belay_gamma_exp |>  
+  display()
+```
+
+
+```{r eval=FALSE, comment="cex"}
+#| tbl-cap: ""
+
+
+belay_gamma_exp |> 
+  tibble::as_tibble() |> 
+  dplyr::mutate( 
+    perc_change = (Coefficient-1) * 100, 
+    perc_ci_lower = (CI_low-1) * 100, 
+    perc_ci_upper = (CI_high-1) * 100 
+  ) |> 
+  dplyr::select(-c(CI, df_error)) |> 
+  display() 
+
+```
+
+
+```{r eval=FALSE, comment="cex"}
+predict(
+  object = belay_gamma, 
+  newdata = tibble::tibble(
+    climbing_exp = 2,
+    assisted_break = 0,
+    distracted = 0,
+    fall_m = 1.82
+  )
+) |> exp()
+```
+
+
+```{r eval=FALSE, comment="cex"}
+predict(
+  object = belay_gamma, 
+  newdata = tibble::tibble(
+    climbing_exp = 8,
+    assisted_break = 0,
+    distracted = 0,
+    fall_m = 1.82
+  )
+) |> exp()
+```
+
+

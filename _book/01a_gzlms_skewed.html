@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -68,7 +102,46 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="site_libs/datatables-binding-0.33/datatables.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -137,6 +210,12 @@ ul.task-list li input[type="checkbox"] {
   <div class="sidebar-item-container"> 
   <a href="./01c_gzlms_ordinal.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelling ordinal responses</span></span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./01d_gzlms_summary.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Summary</span></a>
   </div>
 </li>
       </ul>
@@ -222,8 +301,31 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="4">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#gamma-models" id="toc-gamma-models" class="nav-link active" data-scroll-target="#gamma-models"><span class="header-section-number">1.1</span> Gamma models</a>
+  <ul>
+  <li><a href="#data-visualisation" id="toc-data-visualisation" class="nav-link" data-scroll-target="#data-visualisation">Data visualisation</a></li>
+  <li><a href="#link-functions" id="toc-link-functions" class="nav-link" data-scroll-target="#link-functions">Link functions</a>
+  <ul class="collapse">
+  <li><a href="#canonical-link-functions" id="toc-canonical-link-functions" class="nav-link" data-scroll-target="#canonical-link-functions">Canonical link functions</a></li>
+  </ul></li>
+  <li><a href="#fit-the-model" id="toc-fit-the-model" class="nav-link" data-scroll-target="#fit-the-model">Fit the model</a></li>
+  <li><a href="#check-model-assumptions" id="toc-check-model-assumptions" class="nav-link" data-scroll-target="#check-model-assumptions">Check model assumptions</a></li>
+  <li><a href="#check-model-fit" id="toc-check-model-fit" class="nav-link" data-scroll-target="#check-model-fit">Check model fit</a></li>
+  <li><a href="#parameter-estimates" id="toc-parameter-estimates" class="nav-link" data-scroll-target="#parameter-estimates">Parameter estimates</a></li>
+  <li><a href="#report" id="toc-report" class="nav-link" data-scroll-target="#report">Report</a></li>
+  </ul></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">1.2</span> Exercises</a>
+  <ul>
+  <li><a href="#what-does-this-code-do" id="toc-what-does-this-code-do" class="nav-link" data-scroll-target="#what-does-this-code-do">What does this code do?</a></li>
+  <li><a href="#worksheet" id="toc-worksheet" class="nav-link" data-scroll-target="#worksheet">Worksheet</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -247,11 +349,1088 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<!-- ## Key GzLM concepts -->
-<!-- ### Conditional distributions -->
-<!-- ### Link functions -->
+<p>In the previous section, we’ve learned about the limitations of fitting (robust or non robust) straight lines through data. If we make incorrect assumptions about the data-generating process, the predictions that our model generates are also going to be incorrect. Although robust methods have their uses, they don’t fix this issue and can sometimes make it worse by limiting predictions to the central portion of the distribution.</p>
+<p>By assuming an alternative data generating process, we can model skewed distributions and make more accurate predictions for <em>all</em> the individuals from the distribution. In this section we’re going to introduce two distributional families for modelling skewed distributions: the <strong>Gamma</strong> family and the <strong>Beta</strong> family.</p>
+<p>We’ll be using the same <a href="01_gzlms.html#scenario-gzlms">scenario</a>, so go back and remind yourself if you need to. If you started a new document for this section, you will also need to re-read the data and the packages:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/climbing_data.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="gamma-models" class="level2" data-number="1.1">
+<h2 data-number="1.1" class="anchored" data-anchor-id="gamma-models"><span class="header-section-number">1.1</span> Gamma models</h2>
+<p>Gamma models are used for modelling right skewed distributions. That is, skewed distributions with the tail on the right side. Unlike Gaussian distributions, which are defined by the mean and the standard deviation, Gamma distributions are defined by <em>shape</em> and <em>scale</em> parameters. These parameters define the extent of skewness and the length of tails, but how shape and scale work together to create a distribution is a little less intuitive than mean and SD in a normal distribution. So let’s have a look:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>gamma_dist <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">scale =</span> <span class="dv">1</span>)</span>
+<span id="annotated-cell-2-2"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-2-3" class="code-annotation-target"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> gamma_dist)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-2-4" class="code-annotation-target"><a href="#annotated-cell-2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1">Generate a gamma distribution. We’re generating 1000 data points <code>n = 1000</code>. We’re also setting both the <code>shape</code> and <code>scale</code> to be equal to 1. Save the result to the object called <code>gamma_dist</code></span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="2">Initialise a ggplot. <code>gamma_dist</code> is just a vector of numbers, not a dataset. So we set the <code>data</code> argument to <code>NULL</code>, and we use <code>gamma_dist</code> on the x axis.</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="4" data-code-annotation="3">Add a density plot to show the distribution.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01a_gzlms_skewed_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Shape and scale of 1 generate a very skewed distribution with a long right tail. How about changing the scale to 2?</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>gamma_dist <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">scale =</span> <span class="dv">2</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> gamma_dist)) <span class="sc">+</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01a_gzlms_skewed_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>If we change the scale, the tail becomes even longer and the distribution is more pointy. What if we change scale back to 1 and this time set shape to 2?</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>gamma_dist <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">shape =</span> <span class="dv">2</span>, <span class="at">scale =</span> <span class="dv">1</span>)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> gamma_dist)) <span class="sc">+</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01a_gzlms_skewed_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The mass of the distribution has slightly shifted to the right. There is a lot of flexibility in the kinds of distributions that can be modelled under the Gamma family, which makes it incredibly useful and broadly applicable.</p>
+<section id="data-visualisation" class="level3">
+<h3 class="anchored" data-anchor-id="data-visualisation">Data visualisation</h3>
+<p>We’re going to recreate <a href="01_gzlms.html#fig-gzlms-h1" class="quarto-xref">Figure&nbsp;<span>1</span></a>, but this time, we’re also adding the prediction line for a would-be Gamma model. We do so by including the following line in the ggplot”</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>... <span class="sc">+</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"glm"</span>, <span class="at">colour =</span> <span class="st">"darkorange"</span>, <span class="at">fill =</span> <span class="st">"darkorange"</span>, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">family =</span> <span class="st">"Gamma"</span>)) <span class="sc">+</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li><p><code>method = "glm"</code>: we change this from “lm” to indicate that we’re fitting a generalised linear model, not a general linear model.</p></li>
+<li><p><code>colour = "darkorange", fill = "darkorange"</code>: these are the same as before, we’re just changing the colour code</p></li>
+<li><p><code>linetype = "dashed":</code> optional argument to differentiate the type of the line. This is only needed if we’re showing multiple lines on the plot.</p></li>
+<li><p><code>method.args = list(family = "Gamma")</code> - these are the arguments that we want to specify for the method. We can use multiple arguments here, so we wrap everything in the <code>list</code> function. Inside the <code>list</code> function, we specify that the <code>family</code> we’re using to construct the line is <code>"Gamma"</code>.</p></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> climbing_exp, <span class="at">y =</span> reaction_time)) <span class="sc">+</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">"yellowgreen"</span>) <span class="sc">+</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">colour =</span> <span class="st">"steelblue"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span> </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"glm"</span>, </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">colour =</span> <span class="st">"darkorange"</span>, <span class="at">fill =</span> <span class="st">"darkorange"</span>, </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">family =</span> <span class="st">"Gamma"</span>)) <span class="sc">+</span> </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1030.5</span>)) <span class="sc">+</span> </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Belayer's climbing experience (in years)"</span>, <span class="at">y =</span> <span class="st">"Reaction time (ms) to break the fall"</span>) <span class="sc">+</span> </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-gamma-h1" class="quarto-float quarto-figure quarto-figure-center anchored" width="672">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gamma-h1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01a_gzlms_skewed_files/figure-html/fig-gamma-h1-1.png" id="fig-gamma-h1" class="img-fluid figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-gamma-h1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.1
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We’re keeping the original straight line on the plot just for comparison but though we wouldn’t usually do this if we’re just fitting a Gamma model.</p>
+<p>Two things to note here:</p>
+<ul>
+<li><p><strong>Prediction</strong>: The dashed line (the Gamma model) is better able to predict the cases on the left end of the distribution by tilting upwards. Likewise, the line becomes less steep towards the right end, suggesting it won’t go on downwards forever.</p></li>
+<li><p><strong>Non-linear relationship</strong>: The line is not straight - the rate of change (the slope) is different in different sections of the plot. This could be a problem for a General Linear Model, but Generalised Linear Models have an in-built way way of modelling this.</p></li>
+</ul>
+</section>
+<section id="link-functions" class="level3">
+<h3 class="anchored" data-anchor-id="link-functions">Link functions</h3>
+<p>Gaussian models assume that the conditional distribution of the outcome is normal. Normal distribution is unbound - it ranges from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(+\infty\)</span> , which makes it possible and convenient to fit straight lines that also go from <span class="math inline">\(-\infty\)</span> to <span class="math inline">\(+\infty\)</span> (see section <a href="01_gzlms.html#sec-going-beyond-the-data">Going Beyond the data</a>). The slope of this line is fixed, which means that we’re able to describe the relationship between two variables with just one parameter estimate. The problem is that many distributions we encounter in real life are bound on one end or both and might not be symetrical. For example the Gamma distribution can only ever contain positive values (i.e.&nbsp;values greater than 0), so fitting a line that extends to infinity just won’t do. But we still want a single parameter with which to test our hypothesis.</p>
+<p>Enter <strong>link functions</strong>. They are functions that we apply to the <a href="01_gzlms.html#sec-conditional-distributions">conditional outcome distribution</a> so that we can express the relationship between the outcome and the predictor as a linear term, such that:</p>
+<p><span class="math display">\[
+g\{E(Y_i)\} = \beta_0 + \beta_1X_i
+\]</span></p>
+<p>Here, the expected<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> conditional value of the outcome <span class="math inline">\(E(Y_i)\)</span> at given value of the predictor X is transformed by some (for now unspecified) function <span class="math inline">\(g\)</span> . Because of this transformation, a linear combination of the intercept <span class="math inline">\(\beta_0\)</span> , the slope <span class="math inline">\(\beta_1\)</span> and the value of the predictor <span class="math inline">\(X\)</span> can be used to make predictions.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Watch out! We are <em>not</em> transforming the outcome.
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Sometimes researchers will attempt to transform the raw outcome variable in an attempt to “fix” skewness and then fit a regular GLM (using OLS estimation). In effect, they move the transformation to an earlier step:</p>
+<p><span class="math display">\[
+E(g(Y_i)) = \beta_0 + \beta_1X_i
+\]</span></p>
+<p>so that the expected value of the transformed outcome <span class="math inline">\(Y_i\)</span> can be predicted from the linear term. This is a bad idea an <em>not</em> what we’re doing when we’re applying a link function. The link function is applied to the expected values, not to the raw variable. An OLS model fitted to a transformed variable will not only give inaccurate parameter estimates, but the estimates themselves will be uninterpretable with reference to the variable we originally collected.</p>
+<p>The stats behind GzLM are complicated. Conditional distributions are unintuitive to think about and link functions can be confusing. It’s normal to find this stuff difficult. If you only remember one thing from this whole section, then please let it be this:</p>
+<p><em>Generalised Linear Models need to apply a transformation somewhere in the process under the hood to make non-linear prediction possible. This is not the same as transforming the raw variables and then fitting a simple linear model.</em></p>
+</div>
+</div>
+</div>
+<section id="canonical-link-functions" class="level4">
+<h4 class="anchored" data-anchor-id="canonical-link-functions">Canonical link functions</h4>
+<p>Different distributions are associated with different link functions that will achieve the linearising transformation described above. We call them “canonical link functions”. We’ll introduce relevant link functions as we learn about different models. For Gamma models, the link function that we need to apply is the <strong>logarithm</strong>, or the “log” function.</p>
+</section>
+</section>
+<section id="fit-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="fit-the-model">Fit the model</h3>
+<p>Let’s fit our model using the <code>glm</code> function, which we introduced in the section <a href="01_gzlms.html#sec-fitting-gzlm-in-r">Fitting GzLM in R</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>belay_gamma <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  reaction_time <span class="sc">~</span> assisted_break <span class="sc">+</span> climbing_exp <span class="sc">+</span> distracted <span class="sc">+</span> fall_m,</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>), </span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> belay_tib </span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The part of the code that does all the heavy lifting is this: <code>family = Gamma(link = "log")</code> in which we’re asking the function to use the Gamma family and apply the log link function.</p>
+</section>
+<section id="check-model-assumptions" class="level3">
+<h3 class="anchored" data-anchor-id="check-model-assumptions">Check model assumptions</h3>
+<p>We can use the same function as before to check for model assumptions. For Gamma models, the output is going to be very similar, but the underlying calculations differ in some instances.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>belay_gamma <span class="sc">|&gt;</span> <span class="fu">check_model</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="fig-gamma-assumptions" class="quarto-float quarto-figure quarto-figure-center anchored" width="768">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-gamma-assumptions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01a_gzlms_skewed_files/figure-html/fig-gamma-assumptions-1.png" id="fig-gamma-assumptions" class="img-fluid figure-img" width="768">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-gamma-assumptions-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1.2
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><strong>Posterior predictive checks</strong> - this is an obvious indicator that the Gamma distribution was a good choice. The simulated predicted values match the observed data much better than they did for an OLS model (<a href="01_gzlms.html#fig-gzlms-h1" class="quarto-xref">Figure&nbsp;<span>1</span></a>).</p></li>
+<li><p><strong>Homogeneity of variance</strong> - this plot can be interpreted in the same way as the plot for OLS models. That is, we’re hoping to not see any patterns or curvature, which appears to be the case. The residuals we see plotted, however, are so called “Pearson residuals”, which can be thought of as the differences between the predicted and the observed values adjusted for the variance - the function for variance will differ depending on the distribution we’re working with.</p></li>
+<li><p><strong>Influential observations</strong> - there don’t appear to be any influential observations based on the Cook’s distances or Leverage values. Like the previous plot, this plot also shows the Pearson residuals.</p></li>
+<li><p><strong>Collinearity</strong> - All VIF values are below 10, suggesting no issues with multi-collinearity.</p></li>
+<li><p><strong>Uniformity of residuals</strong> - obviously, we’re not expecting the residuals to be normally distributed, so that’s not what we’re checking here. What we are checking is whether the residuals follow a <em>uniform</em> distribution - if the the dots are following the diagonal line closely, the residuals are uniformly distributed. The residuals on this plot are, again, not the differences between the predicted and the observed values, nor they are Pearson residuals. They are simulated residuals based on making repeated predictions from our model (similar to bootstrapping)</p></li>
+</ul>
+<p>These assumptions are not assumptions in the same sense as they are for OLS models. In OLS models, if normality or heteroscedasticy are violated, we cannot trust the <em>p</em>-values and confidence intervals because of the maths underlying the standard errors. For GzLM, the underlying logic is a little different. Gamma models do not assume homoscedasticity - quite the opposite. They also don’t assume a uniform distribution for the residuals. But if the specific type of residuals we extracted is uniform, it’s a signal that the model is well specified. All of the model checks above are just that - they check whether the model we have assumed (i.e.&nbsp;the Gamma model) makes sense given the data. For all intents and purposes we do need to check them and take them as seriously as “classic” assumptions, but the reasons for checking are different.</p>
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The depths of residual hell (optional section that will make you sad)
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>If the section above reads a bit like “trust me bro”, blame the <code>check_model</code> function (that’s what I do anyway) which hides all of the complicated explanations in exchange for convenience and a fraction of your soul every time you use it. This section explains some of the weirdness with the different types of residuals. You can skip it if you have better things to do. If you don’t have better things to do, I suggest picking up embroidery or climbing.</p>
+<p>Still persisting? Very well. Let’s start with the more complicated ones, which is the uniformity of residuals. Like we said above, GzLM doesn’t assume a uniform distribution of the residuals, and it doesn’t assume normal distribution of the residuals. How about Gamma-distributed residuals for Gamma models? Also no - recall that Gamma distribution can only take on positive values. Residuals represent the error in the model prediction, and this error can be positive or negative so a Gamma distribution is impossible for residuals, unless we’ve <em>really</em> misspecified the model.</p>
+<p>In a well specified model, roughly about a half of the residuals will be positive a half will be negative (or a half of the points will be above the line and half will be below the line, as in <a href="#fig-gamma-h1" class="quarto-xref">Figure&nbsp;<span>1.1</span></a>). This of course doesn’t allow us to place any expectations on the shape of the distribution other than that it will be symmetrical and centred around zero.</p>
+<p>The check for uniform residuals turbo-charges this idea by running simulations based on our model. R has an in-built <code>simulate</code> function that can be applied to any compatible model to generate predictions. For example:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>simulated_predictions <span class="ot">&lt;-</span> <span class="fu">simulate</span>(belay_gamma, <span class="at">nsim =</span> <span class="dv">10</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>simulated_predictions</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-49502915701954d61f40" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-49502915701954d61f40">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67","68","69","70","71","72","73","74","75","76","77","78","79","80","81","82","83","84","85","86","87","88","89","90","91","92","93","94","95","96","97","98","99","100","101","102","103","104","105","106","107","108","109","110","111","112","113","114","115","116","117","118","119","120","121","122","123","124","125","126","127","128","129","130","131","132","133","134","135","136","137","138","139","140","141","142","143","144","145","146","147","148","149","150","151","152"],[711.5371918273905,396.7188290220988,351.043122694888,302.2400122496968,398.1771705046513,493.7972831120817,503.2025672779133,513.6007919775317,370.1353723714325,343.5737989404058,778.2216717116602,633.3092659027072,595.4353557754325,485.2350061933783,495.2666658047152,589.6283327598743,353.662404699669,302.0825039108495,559.4933989173289,551.7976511341602,549.8060143725957,372.3785331265898,484.7223401070449,571.5037021398655,501.4665323538904,470.9094600633055,494.5695546063563,885.9311388414984,500.4169695529097,439.555286547083,436.8879667918009,515.8080462274388,681.5929360895427,439.4015237768118,449.5269292136974,392.9031015490982,375.0389802134287,487.8774371668417,753.996832222787,694.2918526094012,490.4183867705451,363.4625531604059,796.8045634265246,395.0257570413618,476.6845379901637,268.3940758382524,413.8206035127473,412.8437040932816,474.6009228826607,531.2661201689181,532.7438014577602,706.82220682603,703.2973724334174,572.1348996496249,515.4974650923677,398.8331917134951,529.5253815458913,280.6080948558152,555.5213405029319,572.4913813259826,475.2421976026811,552.8232429051992,545.9163483891813,464.4860217316374,561.3548552929904,441.572376887846,731.4398259847989,595.4119943610606,966.7272981368085,670.1089273286746,309.7854561417974,334.3416164370132,584.0767812146406,372.2745806053298,462.3524052409923,491.4160728789254,815.1644287865298,445.6845487689966,380.4765411920965,439.610571839259,507.6446000337169,427.8555699709112,385.2583619559476,709.7339808785488,367.4982535211248,431.4583533153804,620.5025729873289,355.9650459906885,286.2648822254971,545.2845313977502,514.8413431671509,660.2955022672966,684.8054388031043,505.400505873665,396.0076514931725,259.3548348279264,802.6627973483288,535.0857040138449,708.7970998271461,827.3951194923801,563.0513083699007,597.9265271160128,788.0755548605458,381.0176248347373,420.3210148180827,610.2887390089749,512.0246177792045,495.0786610026535,518.8487946850354,663.2818527814787,398.5464046362432,434.4155332765947,457.8848238573397,422.5762201821844,433.3160818560671,411.507978172187,461.0388669821313,418.9596097762404,443.1753073718314,551.5822942613074,478.8327258347455,539.5121509368043,384.2905213863012,431.7369051983125,435.4967452750022,582.3929418134849,530.2283294058943,707.1935832912301,433.6325961938036,691.0359875498883,498.0516665699319,616.7061203519158,451.9919591857469,519.4405024907787,358.1873777170854,620.9649876585515,599.1075180006424,407.9546691506094,372.2374028011488,984.6466135345364,524.7014988989936,594.3901176005214,565.9018785205984,688.0817309080001,484.4220743221627,488.5770230663741,644.6428289640978,465.4128074369427,344.1819013206888,394.4560558921738,335.7710850567429,454.5102284202081],[1168.453375980692,420.8467694775255,328.1105187380492,337.7854738567352,400.0022969504913,552.168745445396,684.5884889309068,486.2611232122269,460.7004138009883,320.9445253723342,423.1719539611614,624.4414736273462,344.8820476352014,595.3601103587104,655.1703218146816,594.9200683721575,356.4472615670336,436.6789801428228,1076.972965618715,537.2332489710378,457.8989595332386,394.881905638915,595.8157972047835,639.0673566133913,648.0549087679992,474.5370143122415,386.9590758567212,809.8895346441043,663.0283682463524,394.5275231706755,630.8698592598705,611.2608474824908,570.6223795092733,467.287852019219,529.2682120284821,425.9178837457208,316.0077532445824,636.2475854279493,666.8558289980817,824.6581072981905,583.296425401302,289.4206045312338,679.516452066633,459.0854152302186,496.2508296630931,355.7401850507437,408.1803454166084,365.8654628190365,970.5415555969263,507.9987453999725,662.255487563934,582.1147277504384,707.9719116714181,619.2608172900481,461.4080837402602,526.133289743303,504.3937756061956,516.5766049510825,749.0532352846856,552.3405354438066,519.4223936062289,777.0693135486963,438.9667651855553,408.292457282014,818.2130554565268,722.6813191884903,810.6148121611234,554.5584907571395,627.6654112839802,830.7950895105101,394.0931961267287,420.5807148644822,439.2986968611395,396.5946509607483,606.1104894123721,462.2996722923625,621.4358298278471,399.8588707374996,403.5599205130785,535.2637615547289,580.4665638306698,439.346456041305,504.6933892140454,814.9071859996743,415.665580793979,403.9141126937509,562.696890879185,418.5537894943311,470.7982077511177,459.6325560992222,757.1958190815227,560.2740691118838,489.5859528995759,660.5739456771008,411.8386805621399,568.3749373031095,579.0674380888453,579.0815781523557,709.7956437231642,747.4880571207757,499.4417315037565,536.9080424680798,831.3000583530685,451.9847484189595,645.6642271204356,495.3084653564397,451.1152044395781,383.7123012770148,837.9587005844868,557.0212890552797,310.7234845427433,755.4130912310171,421.3084256431115,462.4435771411148,502.9976455177788,441.8309462900592,472.9530642861532,568.7371177144139,398.1627767108074,505.3079869724834,506.0339377459824,224.3175258836884,380.5072526560504,481.6561922637852,779.0121589709462,600.233496241277,386.4932541175452,711.452017847949,391.9497195600578,626.6618398991045,280.784414206444,828.808354942649,597.5497814679707,507.9635186173117,478.9862518069878,405.1428527825777,357.1361977100252,500.2051020256987,479.2161369549754,617.1301076258368,543.8632023163251,450.1853032844824,711.7827154999859,551.6455636081861,385.7305093263694,416.3412403788057,664.7920941485849,571.3430051438512,307.9955320893179,491.0401590245581,373.9345087005584,407.4530551303802],[704.0570442031219,357.3043101129133,391.8589914909251,327.6271205142476,354.2023846606025,416.1078235411125,533.4749662064116,401.3536840747126,617.1804328603884,514.1791154544831,530.9715185451583,679.3699801015676,437.6883292404188,694.4449538963243,454.1494924661588,599.3587157950054,325.321665519621,468.2774871834096,971.8448138466936,658.2404158395163,370.2572998736697,587.398157589972,533.6149966314988,670.1189662051778,543.0481095738015,496.1422912050012,779.7310787635541,788.4820316659777,567.1810055973008,514.0073753365452,523.3381991155616,606.8143369660855,759.6942039762879,407.1880344710948,439.3956248752441,417.3280116603725,455.125844241996,533.3833101867982,674.1698645501809,898.2347549904119,420.9729536939051,341.9226945611265,673.2373480518354,404.5629606127907,453.5984982289938,295.285183033916,591.9775565781601,549.7244860940971,778.5803527657271,512.2310132843055,618.3215575659282,421.6633920615259,727.539328746219,505.6557436066024,339.8111688397635,670.2712516670952,647.3456057408831,422.1728060687206,572.3152023991107,559.9762178698408,402.230725508597,539.4613444914341,639.6373246493523,344.4810611767945,757.3029728821725,1042.044863607196,649.8965364454176,514.8530406125503,775.7829789468093,917.4226149898582,277.0464447527819,530.567368252191,714.1097539724722,366.3015751580343,515.5732336390885,513.1845157926666,464.5914009808568,355.4755868526645,448.9325488822322,647.9915815440695,489.8888519914178,477.2355202643454,409.9604977314662,701.0246812569526,334.7374194735502,457.5869414979889,598.9206131975351,466.9478833288669,436.189179738184,545.8955479056949,767.9172183769416,457.4314159175132,524.542824228958,722.4903280368103,524.5046490640237,260.4500595053943,523.5832746626982,523.0718383171936,491.7052421377397,523.4403306460067,703.3167374688016,493.8323920458307,862.832310401366,359.9905882365791,631.6661136044385,321.919754095655,451.4138525605958,435.643600871126,555.8163441675683,854.3831034004825,493.6708845444346,700.2158320593157,600.0887326656568,498.2111642656583,372.1344787142634,399.4056328734719,535.0083014928022,492.1621810196136,528.5920912851534,304.1086171612281,444.0160717544092,492.7075317522447,479.0961601245604,330.3902026043173,509.8500311937502,570.5728534028343,418.6762552162979,584.8053991604351,429.0145527257939,597.7904877388579,353.4151371396147,576.7468576337013,613.8823523686947,399.2266935721162,378.902941036478,496.2688579677781,363.3560440194095,441.5176781725249,361.2684394844286,639.6796911209901,600.1248249541372,426.7990103243084,683.6449789776447,662.536873683818,428.861607372533,450.1850199539171,526.3847435104027,500.3088560555861,424.1067044533697,481.9537805844612,287.345562495,409.3304412695182],[919.6648373672143,266.6472091892326,325.0042803767049,283.3995383543091,368.6499115321217,360.2934910229454,470.5407841507516,344.3144238540569,384.7805194788566,580.3607617112195,534.3260081862694,804.9599733152874,511.8916473521864,526.9547549291487,664.9081226973087,456.620297051468,333.5627428741995,569.5911921493669,747.8830603361185,468.3592404779971,365.6743612592064,454.999686846095,474.643149634093,562.13358315146,597.9148481170062,530.0915310198952,402.9282178518514,626.9554179544194,709.619461489993,536.2663192434544,366.5206593259205,436.1892464205739,665.9709269841021,342.6520182996063,603.3740196766523,450.168647163269,334.9599446300469,718.9846945881014,817.051665330798,806.6027155510711,536.8189994851699,365.4739378250102,649.2047950174127,447.6809288585448,515.9326327832093,352.2146720648441,278.7947459204709,423.6192429839838,438.7959289080763,522.1266531602404,385.0955190856844,485.9825320576296,487.8708103133893,579.1960592470842,371.408986900705,369.0450503929435,485.7546782250034,337.2200009871775,593.1945407693958,417.6679967148627,577.5709331235437,586.6705548592219,622.6839114958449,439.2226416727709,840.736329967746,608.1272007977633,696.4342640178138,446.9568632884803,768.2574365214271,639.1337745577775,524.3901551557401,322.286607613618,690.7757949098471,367.5883132688616,673.5094646513476,571.0314419045445,493.6736078034524,422.7560003895432,446.6593010143236,593.1818526290432,545.2957216370671,567.6767835663222,548.3951224271456,590.9699385732259,458.7464337840172,513.8742667436043,595.519439699101,411.0224993531079,315.3250876235203,646.171077572051,481.0228299894656,571.9564054999347,724.8387562162416,523.8869855115092,492.0017462209143,408.1740253691018,484.0709890046662,588.0269731731765,561.0607373387174,817.6180412180132,768.7213401795183,522.5470116221624,663.0096666163743,444.1574510386197,523.8779679463289,501.6916442326106,407.2369065225759,405.6059877172479,727.5764798362064,530.4340560178416,348.8572881133835,403.6942992978501,392.4213964232713,295.9753655481377,445.80452932144,479.7980709402498,591.6295705758031,546.2663376555176,433.4811730710079,441.8300015678724,660.7478914091287,483.5944043763628,507.9094180213559,487.4827034696332,733.584889242377,523.7903701685151,434.5191135219602,575.794705889617,472.2866405795546,533.2784137872493,260.7319450751356,690.0141100317396,510.0257564789255,487.1575892522829,543.8158796481417,573.0151551620384,273.7174064811446,376.5155953832127,397.0079802765604,554.8406839219535,549.6031671510602,589.1195374633944,517.9466808387092,667.5593803560213,633.979757469737,505.1542813466659,464.203195331763,415.6536247558662,441.6606786024151,637.3644862356394,372.15603769315,536.8222869426039],[656.9674891639262,420.2449588812446,363.1284322614221,251.8020413730923,530.3565678892688,535.9151068165365,827.6886081336572,377.4679285360778,460.4441091778944,272.256987876954,496.4930116685773,644.1887776213812,430.9177797734208,586.3537753128635,618.2215448523991,527.3624265794392,362.4189238071624,545.8639949463995,952.5965022574429,593.5437215796221,626.4361069064079,304.7171855281168,480.6294568421972,566.6775268475078,590.3810198564601,507.0592550204121,504.6019054177955,795.7755313076752,612.6050362212426,491.6367737790076,511.1239372835636,506.7328169837255,564.8076033529788,322.8021252402915,421.1225818990729,465.9581754284523,460.9055435925204,639.6204064403876,736.5356430120526,869.459617566584,433.3678478918249,417.5580045713895,724.3447572497759,408.1465846199318,367.1916184968652,306.6620492602904,577.8809494951922,563.082752098798,556.094671125706,377.8458803028756,620.1814350252115,580.3453792558357,562.7183677091567,558.0951239489297,530.8405148799962,519.7990978399623,587.2446859944168,536.9690673708473,513.2060608848534,490.6571292451499,616.3316712383315,492.9853531931355,473.1456616144542,328.3235225649819,537.6258227539955,706.3652363078281,573.0704727238935,446.3734581369542,758.7874360794015,676.802434746209,342.1922353508319,440.8317892172478,498.6672356388387,409.9649277669986,845.8167884080369,662.7534511816558,535.7138227660766,353.1896273222787,420.4242102783779,501.0853534306588,426.4629226593626,524.6439260154774,634.7926578125705,712.7201480235334,411.1273421484682,409.9619817323281,722.1162967987506,448.6282191539128,418.3372394974595,485.2858549988198,510.3657995033763,586.1548652726907,663.0688172029256,528.7959660978715,725.1129375367351,311.7248240631566,339.5180753409956,511.540770958749,537.245685154482,562.5979405722844,513.5991019138429,554.0948829289251,887.5856797937017,417.3218854091082,540.4877725380198,501.9515353064506,465.8226551293289,509.9206708356286,630.8309834312209,808.5025649271606,353.1020728160706,620.881897835898,561.8059918501185,281.7719884320882,430.640244262833,484.1948254987093,475.6590741446302,401.7023407524471,618.9556734583113,331.6522367257143,357.5602355730632,493.335548699837,457.8076672325262,365.025495323027,628.8039200378553,535.3166354624782,368.2666765984663,626.643496512179,446.0969191962353,549.2209172426211,337.3327227971036,757.127589368366,448.8139256154916,394.3004875428804,489.3292806566366,438.3124567279343,497.6592428837646,441.3478741005946,426.439326740778,930.8046209243554,406.2202758414742,488.2238154559772,475.1736209693167,563.9585326135477,462.4254520792522,606.1554093739129,632.4723241313505,539.6337860976819,400.52883275186,477.9769647283313,451.0426791599023,393.0129894512526],[752.623387154333,550.777111298373,419.9823788282799,367.8012319179238,445.7130254710733,385.2153205320043,506.658958909253,376.761355621591,623.0470061780835,552.2078711009057,651.8494131683231,677.3330334385111,470.2013753442459,604.1846455335919,402.757226778966,594.7677118915442,375.252080373179,395.8639941262805,453.1136519294113,527.8554131261085,354.5508629015941,412.7125864626921,596.8695264437198,550.5109157793787,560.5415956153747,635.6842020437706,628.185755983654,653.6178766882456,463.0899824184551,413.5253862543024,653.43083015555,552.9088766843455,547.2139456598321,390.1478344107761,467.276022045967,409.8299414826977,342.7730411199964,650.3035854956619,709.3254821026541,674.1195698935639,687.3487472628701,346.3277529777998,488.4102455315937,313.1150926849577,368.4674096255389,393.3559853540914,473.8743978443914,413.6156934622093,409.4211732255503,552.9466246940178,512.039861250796,687.6462047727968,694.2660152919117,362.4276734412255,544.4388800772083,362.0530064081069,512.2206549008928,406.2994719155603,702.1062242574386,518.4029022387458,534.705952910908,411.4916644415136,472.0531206644022,279.9795298717604,966.4143037364654,524.525121229716,623.2046981695967,356.2580830883281,732.2467426136928,605.8881354281915,298.3240232324156,513.4564353146213,617.520068589736,371.8071987840586,731.5246376598085,604.1166818973704,801.6317004221569,329.9733902286746,526.84580712202,526.9044272591137,424.5102443290974,472.4759974373465,590.0112846956993,749.5228823475634,467.9966858162519,423.7367315810903,555.3472529157406,408.500473577741,446.4678034733691,441.3608698268026,577.1985958007149,601.8288546161758,646.885439264232,454.1297191964947,499.1829437787604,425.1703871319827,459.1221178204987,664.4411767453317,654.0555331746688,648.1918549291266,491.518286667661,599.8645201983421,662.5522556174628,409.3375635072626,610.9057464468318,502.4973783493846,351.6263270218331,551.4062642962432,630.8993216081989,767.9446917296196,351.3713503475018,653.1520582116467,374.4490107730979,270.6453347574016,605.7074642740356,524.2934469246956,497.8201185044684,651.4190456933644,570.0436463914284,501.7977831954896,571.9819691129517,600.6255956529224,501.0329217285794,378.4994378729365,595.0142242684329,434.0152136900738,459.3626644234397,678.3336464724049,447.5276650223687,681.4778260517444,370.8742469229974,400.1001572146529,527.9617029953553,471.7303591597052,469.4038727014587,577.507809026017,363.2492789748921,673.5425364351023,373.7607516036254,543.6367285375387,607.8931462810582,457.9127830202775,647.8467062257073,623.7905483469308,515.8444973330736,490.4827212597676,574.7654083359832,587.6505805863501,669.5607912417651,444.2770731623135,473.4302726959766,438.392217305826],[999.6381656721117,543.8509784645383,374.4401091696358,346.5970694663224,312.6758687712253,456.8121757931488,527.412372281066,544.6055490605032,534.0279545563525,324.354975793999,611.9501021634533,546.9197622047589,425.8457556263693,654.3715946318026,491.8671361639707,498.477050557489,407.7045661389344,549.8109936084012,919.5986380025614,370.6663187239436,446.3389404352744,605.2245530827115,601.6829503884499,713.8631488865608,406.9453618597173,495.9701641941101,496.5881347259131,912.9325843305595,540.1735897333742,478.7654019275165,609.8651735336865,605.5384431341639,567.1256618420852,421.3682801194527,496.7021029630727,550.4679334146997,423.7417225202142,716.4875510053364,714.0745354657428,757.9060831368953,553.1324449565961,431.3444713221865,668.0056047092894,366.5146043448163,519.9194728314525,306.1791401877157,481.8615341214623,443.4032654802658,652.9269308815094,442.524482524506,552.6305620179012,479.3148780832163,720.473728234647,481.9699900425186,459.4071455260281,494.1187781864107,716.8995197475319,364.70732547499,424.9743636775558,434.7354594261345,345.9052001273597,486.615090689123,449.9762079487291,436.9253163061858,973.7025922518686,495.8036625435151,584.677050129324,529.7272535137841,672.3585666037054,573.496892402535,426.541948460677,376.521627855161,639.6044179307008,517.8097558548188,489.277728305619,541.212062903611,409.8272006403848,377.6077124914341,388.197115899989,634.5142104918481,503.1563842588531,396.4710038513967,395.8770493440226,607.7900936191033,441.2932547905645,481.5122123875335,728.183689918166,459.220661243256,476.7709348286036,398.9703882826239,498.7537253643223,504.1783055805702,723.1640423257043,379.3626799858915,398.1456678371459,566.8410952925576,469.006281381521,545.1052585644809,729.1369068695959,710.3838887435885,516.2577981541452,486.4095844798192,853.4322542709293,429.3283311147031,633.2477507787603,479.7394469344645,334.5206905922579,533.5313763567066,641.6869843907573,621.579043065275,363.0684386247842,561.5975832886006,608.3529947311108,362.293106999628,424.9013566381619,669.4433377482261,513.2464274244974,608.9985437631104,388.0235739896205,538.6970239777141,502.1496302993769,474.532154179539,496.4082427056813,417.4737240390957,477.6465555435876,588.9652455484912,555.8349968055188,608.129696956348,561.1056649902617,489.6458778650637,404.1733858386967,606.9539005460281,534.1638211750353,453.6449588436793,365.461487842084,656.228288624013,375.4781762147947,574.6154556405577,340.5348507290567,570.2699765859793,416.0932744473419,715.0857327185316,600.8450930648127,587.0959164941484,684.2730736297626,323.0923090806017,652.1526441441093,397.56115460465,458.371374708076,419.9856501723461,396.7653516303446,418.665326738037],[818.6968879355002,449.3816478822953,388.7655571479473,320.6068152253023,389.4485261521514,482.9731344995177,640.1027506240705,547.5210460929975,517.7897948600024,518.3635670475837,652.6177544683856,567.0102158637029,647.8246600548232,558.0421339856845,564.020591516924,640.2170239518763,376.7421494247411,347.1008196915098,978.7938364211855,551.3070648634687,433.5068351747531,409.4604686750167,539.7805879743885,625.3628081127267,348.5496407433846,690.4227644869787,452.6112035317773,687.2116780811132,540.7084148817889,399.4285865347894,696.8400064887583,532.1165173544583,472.690704096574,490.2003571564433,418.7550379631141,464.7776627569602,449.849086986345,540.5995120739212,735.3989461816142,1172.095753231706,572.1449107006416,414.0082261599005,574.1743619264428,260.6455415788449,512.0031672275898,393.3382027105465,408.5490736385533,533.9434222064453,538.5325372978707,409.7122781674862,402.335224571576,454.4257770032036,689.6619980803144,597.3274689856133,321.9033979568608,495.797961376886,570.4241351911724,347.2208398998345,864.0266927244332,536.1348211097902,301.5890986961709,564.5830715851249,538.0536823816071,389.8967227541006,555.644207918188,810.7595976066322,578.291131606229,604.4286075338531,620.5226033874957,832.0328091674828,473.4039945361022,390.9224260110709,454.8383731999318,361.3513883560323,654.9436799623966,460.7309892377912,569.6424210817014,391.7677944091773,421.2226106502411,488.1836859385251,469.4477021075537,582.0170182951748,597.8625308635465,645.2813748628699,371.5630402286588,366.5049495939036,710.5739644359244,392.8846296634353,401.768394123136,545.8944874100819,590.8956455493494,546.5168409032682,683.3525926670005,367.5512495117228,637.7534198450866,446.4222462960828,558.5266968257851,511.3133405604593,554.879626020465,544.8240702525087,500.6386182300552,455.1535689728466,865.6873635759451,342.746788737667,748.5162489093498,388.9259366425204,337.3521775243163,415.3889761793436,849.6500761120925,629.4267633460952,325.3575823655494,527.176701825235,361.8735373727379,494.0579897237728,452.8737979702404,482.5535302209777,550.521323082796,535.1586724254803,551.4547754038382,424.0786136142243,669.7716643778042,439.3419422675535,591.2739771463124,365.4460592930918,658.3039203154415,484.3372662338135,376.7766563073346,712.4631856642213,539.0415035495168,646.7957961389194,535.6538209478658,661.3089391204985,778.2718585983054,516.4642298652534,424.2399375258868,446.8385523734484,422.6379003085387,537.7358336261344,338.5555683218187,586.4325303374334,414.5570708473879,683.5876913109772,375.9334505259587,813.8060220765159,408.279719229883,496.9337197779757,686.6270241388223,591.1283483927408,503.340735452665,452.6951854700135,412.1404307641982,310.7958132420067],[832.7573233692676,404.9499499438242,330.7358393519531,342.7357818958185,363.6718151194615,552.3937449603918,593.5303752706834,453.9016459332597,517.1233394801155,479.7468987755259,516.1622680124619,882.423261633738,469.3202334332798,649.7869954318509,741.9116783460179,682.174359330957,271.3578339151674,476.7232310790766,769.7141268307305,382.0292529234703,340.9559726734796,371.8370284629023,494.2760882252227,551.3380918898674,742.9795081165588,454.151326548532,640.3205025647715,1083.462294198955,530.4203260534905,545.5275891143585,423.6404883196896,674.7148677581748,756.4472823945197,359.5799494736721,362.4775094175561,444.9769752694424,423.2331607920906,400.9129150823197,635.0134054331647,790.7607232734981,453.9325887644974,413.7710296722401,589.9588835957261,380.1824928655882,413.8253144385193,364.8532171778515,577.1044236711593,453.5670990046286,431.5659676788829,620.727507483903,634.443469689478,527.2629916053962,483.1181386917651,504.2601525839443,331.4584188748712,461.8172252603972,532.761927312559,488.8979833443518,652.1481582881034,605.3951209722744,425.8542012620406,648.3527858895001,468.2353147123042,430.1400327414975,881.6367422547426,742.6570606738218,459.4499772478763,467.616608805768,727.6985873341337,859.7768995324077,412.9759416224759,325.9213117036979,885.4478418425261,324.5692656176902,495.9095372750975,683.8715466221682,856.6589122050408,379.6598340064296,413.999817087932,558.7479305813118,605.4123192506088,516.1394068940099,548.8056375567957,805.2096212878035,379.1193635716212,533.5614792890772,381.6352146551952,530.0645684605,282.9908290271826,345.4998687987285,632.2220230930443,633.0808555273931,727.2706241293098,451.1219074881769,544.0017979037704,360.951950211106,506.5221652224516,410.09750222931,542.7861817080143,750.5443781776748,592.531212686313,398.2384238151252,907.7877931961095,716.8006666416519,562.8405138448371,558.7767347065898,503.0955578129376,306.2174219910155,474.7524109507194,796.9500478818544,549.8120924584289,526.1279192694525,452.9893830341456,500.3864587981942,513.5645582038215,418.2006145156349,499.7673680025069,511.7596084271622,508.2311132868379,405.6040495538552,622.079531352894,513.0512016086735,501.6608286350024,406.6349227783107,590.2738830277644,464.4276386132576,452.3207577819652,482.8538726845775,407.5166757998588,625.6521116169073,391.8228801301615,518.2674233160084,640.2385763873865,552.4790417650676,513.2070190848488,615.5760051580336,496.5451073195141,588.5309594747987,279.5289206091311,737.0595529835916,502.0204371150568,527.309115237771,626.9716286254375,520.3455601811867,597.8842881220028,512.0612608703821,625.3467243007454,445.0436360582025,444.40596451255,505.3013288181803,402.1423845009832,408.0703724283962],[989.6037351447407,317.4537488676991,344.7737505549738,214.8841180674735,418.577984698817,526.9523704707286,610.4211817381475,361.976129948769,549.4788000995061,558.958928231114,594.9231307482218,733.881013968357,436.4518791710921,847.2171153679271,545.631863799556,759.3334925097126,298.7682970532624,652.2603075821772,760.3047033327302,517.2678521520502,441.1701987693611,409.4571945224895,502.3764000177596,738.3464785538534,447.577547625582,446.7873702232367,435.9194745070093,1055.65651632757,419.9741700621594,508.455139944901,669.4999876153387,645.3251650324942,448.6891094961726,479.3729317260696,492.7078553676765,487.4345425944763,416.9803336622286,509.687855313651,737.248266772935,776.6048112167958,572.847253128292,483.998840699068,424.4478107077327,252.6696867767675,424.8881754265503,314.1556469030656,546.4630077971843,489.5334759626242,550.1319901818476,534.0213117922945,671.1901322555924,602.3837670464463,636.3459910003249,614.5117098370667,504.9620271010421,448.4293320935899,632.1474317162717,360.9144012571879,582.2310154761616,455.5562949186018,557.9674766631254,402.1250116027464,510.1502645716047,348.4829761254353,751.0944184890492,762.4545949959353,777.8213047999526,396.7843211316695,822.5276033322434,729.9729324754159,340.1133526517118,420.0661820246559,644.842469000475,423.9373702343287,570.7760409980608,450.2147940819433,401.86150448084,458.2091458533078,448.2394500414633,661.8448626870279,395.7188006568202,483.4574292751207,585.4632017029074,765.6312282886353,462.3147089900727,320.6724856051541,771.4060694194135,312.1196072003008,397.0685787079101,664.1845345516552,401.5625720685131,568.220286225566,430.1554490138423,572.8814014799007,470.2627414672938,364.0170515051567,641.8620914905661,501.2725130279891,559.5596675514494,517.4534553223925,519.1251130350284,638.0589407579079,632.6254475202588,386.2875797402878,640.4680918446919,556.7766128585272,466.9626650347618,505.8412484096465,607.8465207095426,511.2770076193424,345.2348212198,448.0355027032583,511.5570068866074,368.297870215597,571.1099368674248,411.6955843368935,597.5498318786532,599.4970744894073,450.2638811184507,552.824860999774,434.6944333182184,426.5967243539934,465.1960193312118,478.6930252415892,512.2391727787273,581.8422114611495,525.6823677598438,638.6305675628587,412.4588760535922,774.6182536263624,493.664969775142,640.3105443285142,404.5105496227533,642.5206417297976,409.7258807590037,395.9962899907698,365.9490505111804,551.9150902962397,423.6795434012943,596.8109407634844,571.7968298081389,419.4588245774697,678.5836306652214,833.4113932973083,389.1291116072714,605.5244206523745,621.4432954582545,438.8233666285191,488.8615791122074,423.3112820719224,461.4867565068963,347.8073727071663]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>sim_1<\/th>\n      <th>sim_2<\/th>\n      <th>sim_3<\/th>\n      <th>sim_4<\/th>\n      <th>sim_5<\/th>\n      <th>sim_6<\/th>\n      <th>sim_7<\/th>\n      <th>sim_8<\/th>\n      <th>sim_9<\/th>\n      <th>sim_10<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-right","targets":[1,2,3,4,5,6,7,8,9,10]},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"sim_1","targets":1},{"name":"sim_2","targets":2},{"name":"sim_3","targets":3},{"name":"sim_4","targets":4},{"name":"sim_5","targets":5},{"name":"sim_6","targets":6},{"name":"sim_7","targets":7},{"name":"sim_8","targets":8},{"name":"sim_9","targets":9},{"name":"sim_10","targets":10}],"order":[],"autoWidth":false,"orderClasses":false},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>This will take our model 10 times and create 10 sets of new predictions for the value of the outcome (reaction time) based on the model we fitted. Were are the values being draw from? We we request a standard non-easystats-y summary of our model we get this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>belay_gamma <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summary</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+glm(formula = reaction_time ~ assisted_break + climbing_exp + 
+    distracted + fall_m, family = Gamma(link = "log"), data = belay_tib)
+
+Coefficients:
+               Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)     6.62505    0.09243  71.674  &lt; 2e-16 ***
+assisted_break -0.06913    0.03094  -2.234 0.026965 *  
+climbing_exp   -0.11136    0.01052 -10.591  &lt; 2e-16 ***
+distracted      0.13151    0.03063   4.294 3.18e-05 ***
+fall_m          0.14996    0.03781   3.966 0.000114 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+(Dispersion parameter for Gamma family taken to be 0.03501732)
+
+    Null deviance: 9.9564  on 151  degrees of freedom
+Residual deviance: 4.7078  on 147  degrees of freedom
+AIC: 1809
+
+Number of Fisher Scoring iterations: 4</code></pre>
+</div>
+</div>
+<p>Specifically of interest here is this:</p>
+<p><code>Dispersion parameter for Gamma family taken to be 0.03501732</code></p>
+<p>So the simulation takes the first row of our dataset, considers the values of the predictors and builds a Gamma distribution conditional on the predictors using the “dispersion parameter”. The dispersion parameter is directly related to the scale parameter <span class="math inline">\(\theta\)</span>. Now that we have this distribution, it randomly selects as many predicted values as we requested. In the example above, we set <code>nsim = 10</code> so it selects 10 of them.</p>
+<p>Once we have these 10 values, it compares each of them to the <em>actual</em> value of the outcome - again, this will come form our original dataset. The outcome will either be smaller or larger than each predicted value. Let’s stick with the first row:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>belay_tib[<span class="dv">1</span>, ] <span class="sc">|&gt;</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 20%">
+<col style="width: 22%">
+<col style="width: 16%">
+<col style="width: 19%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">subj_id</th>
+<th style="text-align: right;">reaction_time</th>
+<th style="text-align: right;">assisted_break</th>
+<th style="text-align: right;">distracted</th>
+<th style="text-align: right;">climbing_exp</th>
+<th style="text-align: right;">fall_m</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1017</td>
+<td style="text-align: right;">847.40</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">3.10</td>
+<td style="text-align: right;">2.10</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The reaction time for the first row is 847.4. Now let’s look at the values simulated for this first row:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>simulated_predictions[<span class="dv">1</span>, ] <span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 9%">
+<col style="width: 11%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">sim_1</th>
+<th style="text-align: left;">sim_2</th>
+<th style="text-align: left;">sim_3</th>
+<th style="text-align: left;">sim_4</th>
+<th style="text-align: left;">sim_5</th>
+<th style="text-align: left;">sim_6</th>
+<th style="text-align: left;">sim_7</th>
+<th style="text-align: left;">sim_8</th>
+<th style="text-align: left;">sim_9</th>
+<th style="text-align: left;">sim_10</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">711.54</td>
+<td style="text-align: left;">1168.45</td>
+<td style="text-align: left;">704.06</td>
+<td style="text-align: left;">919.66</td>
+<td style="text-align: left;">656.97</td>
+<td style="text-align: left;">752.62</td>
+<td style="text-align: left;">999.64</td>
+<td style="text-align: left;">818.70</td>
+<td style="text-align: left;">832.76</td>
+<td style="text-align: left;">989.60</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The outcome value is smaller than 4 of these predictions. If we want this as a proportion, we divide this by the number of simulations, which is 10 and get 0.4 .</p>
+<p>We repeat this process for all of the rows. So next we create a distribution conditional on the values of the predictors in the 2nd row of <code>belay_tib</code> and then draw from it, then the 3rd row, 4th row, and so on until we’ve done this for all the rows. The function also draws more than 10 values - the default is 250. At the end of this process, we’ll have a proportion of cases in which the outcome is smaller and larger than the simulated values for each row. So in our case, we’ll have a distribution of 152 proportions. <em>This</em> distribution is then checked against a uniform distribution. If it’s a good enough match, we conclude the model is well specified. I’ve included some code below that demonstrates the whole process to the point of obtaining the final distribution. It’s not annotated, but if you’ve come this far you can have a go at unpicking what each line does.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>nsim <span class="ot">&lt;-</span>  <span class="dv">250</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>sim_data <span class="ot">&lt;-</span> <span class="fu">simulate</span>(belay_gamma, <span class="at">nsim =</span> nsim)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>sim_data <span class="ot">&lt;-</span> sim_data <span class="sc">|&gt;</span> </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">actual_outcome =</span> belay_tib<span class="sc">$</span>reaction_time</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>sim_data <span class="ot">&lt;-</span> sim_data <span class="sc">|&gt;</span> </span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">.cols =</span> <span class="sc">-</span>actual_outcome,</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">.fns =</span> \(x) actual_outcome <span class="sc">&lt;</span> x</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>counts <span class="ot">&lt;-</span> sim_data <span class="sc">|&gt;</span> </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>actual_outcome) <span class="sc">|&gt;</span> </span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rowSums</span>(<span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>proporions <span class="ot">&lt;-</span> counts <span class="sc">/</span> nsim</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> proporions)) <span class="sc">+</span> </span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"yellowgreen"</span>, <span class="at">colour =</span> <span class="st">"yellowgreen"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01a_gzlms_skewed_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The distribution above is the one compared against a uniform distribution.</p>
+<p>Now onto the issue of heteroscedasticity and Pearson residuals.</p>
+<p>You may recall that we talked about how GzLM can model different types of variance between the predicted values and the variance (in the <a href="01_gzlms.html#sec-mean-variance-relationship">Mean-variance relationship section</a>), including heteroscedastic ones. For Gamma models, this relationship is quadratic:</p>
+<p><span class="math display">\[
+V(Y) = E(Y)^2
+\]</span></p>
+<p>That is, for each predicted value, the variance is expected to be that value squared. This is clearly the opposite of homoscedasticity so why then are we looking for it in <a href="#fig-gamma-assumptions" class="quarto-xref">Figure&nbsp;<span>1.2</span></a>? That’s because we don’t expect to see heteroscedasticity in <em>Pearson</em> residuals.</p>
+<p>Raw residuals - the one we’re used to talking about in OLS models - are calculated as the difference between the actual value and the predicted value of the outcome:</p>
+<p><span class="math display">\[
+\epsilon^{raw}_i = y_i - \hat\mu_i
+\]</span></p>
+<p>in which <span class="math inline">\(\hat\mu_i\)</span> is the predicted value. We get extract the raw residuals out of our model if we so wish:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>fitted_values <span class="ot">&lt;-</span> belay_gamma<span class="sc">$</span>fitted.values</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>actual_values <span class="ot">&lt;-</span> belay_tib<span class="sc">$</span>reaction_time</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>raw_residuals <span class="ot">&lt;-</span> fitted_values <span class="sc">-</span> actual_values</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now let’s plot them against the fitted values to get the “classic” diagnostic plot:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> fitted_values, <span class="at">y =</span> raw_residuals)) <span class="sc">+</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01a_gzlms_skewed_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Would you look at that! The shape is funneling out, the heteroscedasticity is still there. But checking this plot as a way of diagnosing the Gamma model would tell us nothing of use because the model doesn’t assume the absence of heteroscedasticity.</p>
+<p>So we look at the Pearson residuals instead, which are calculated as:</p>
+<p><span class="math display">\[
+\epsilon^{pearson}_i = \frac{y_i - \hat\mu_i}{\sqrt{V(\hat\mu_i)}}
+\]</span></p>
+<p>The top of the fraction is the same. The bottom part, specifically the <span class="math inline">\(V\)</span> is the function for calculating variance in a given model, which changes depending on the distribution. This will “model away” the heteroscedsticity, which is why we’re still looking for a random non-funnelling shape when checking the diagnostics.</p>
+<p>If you made it this far, well done. This is about the maximum amount of information I’m willing to know about the topic at this stage of my life. There is no more to be learned by asking me clarifying questions, but you can certainly try.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="check-model-fit" class="level3">
+<h3 class="anchored" data-anchor-id="check-model-fit">Check model fit</h3>
+<p>As usual, we want:</p>
+<ol type="1">
+<li>The overall fit statistics</li>
+<li>The test of model fit</li>
+</ol>
+<p>As previously, <code>easystats</code> has our back and we can just use the familiar functions.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>belay_gamma <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">performance</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-gamma-performance" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-gamma-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.1
+</figcaption>
+<div aria-describedby="tbl-gamma-performance-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">AIC</th>
+<th style="text-align: center;">AICc</th>
+<th style="text-align: center;">BIC</th>
+<th style="text-align: center;">Nagelkerke’s R2</th>
+<th style="text-align: center;">RMSE</th>
+<th style="text-align: center;">Sigma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1809.0</td>
+<td style="text-align: center;">1809.6</td>
+<td style="text-align: center;">1827.2</td>
+<td style="text-align: center;">0.54</td>
+<td style="text-align: center;">100.17</td>
+<td style="text-align: center;">0.19</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The main difference here is that instead of typical R<sup>2</sup> we get so called, <strong>Nagelkerke’s R<sup>2</sup></strong> . The R<sup>2</sup> in OLS linear model is based on least squares calculations. In GzLM, we’re using Maximum Likelihood estimation, so calculating R<sup>2</sup> is not as straightforward. Nagelkerke’s R<sup>2</sup> is therefore what we call “Pseudo R<sup>2</sup>” . It can be interpreted as regular R<sup>2</sup> , that is, as the proportion of variance in the outcome explained by the model, although statisticians like to debate whether attempting to calculate R<sup>2</sup> for ML based models even makes sense in the first place. We’ll leave it at that and use it.</p>
+<p>Based on the pseudo R<sup>2</sup> , our model explains 53.53% of total variance in outcome.</p>
+<p>Finally, let’s test the model fit:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>belay_gamma <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">test_wald</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>cex Only one model was provided, however, at least two are required for
+cex   comparison.
+cex   Fitting a null-model as reference now.</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: right;">Model</th>
+<th style="text-align: left;">df</th>
+<th style="text-align: right;">df_diff</th>
+<th style="text-align: right;">F</th>
+<th style="text-align: right;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Null model</td>
+<td style="text-align: right;">glm</td>
+<td style="text-align: left;">151</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Full model</td>
+<td style="text-align: right;">glm</td>
+<td style="text-align: left;">147</td>
+<td style="text-align: right;">4</td>
+<td style="text-align: right;">40.97</td>
+<td style="text-align: right;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+<p>Models were detected as nested (in terms of fixed parameters) and are compared in sequential order.</p>
+</div>
+</div>
+<p><br></p>
+<p>Overall the Wald test indicates the model is good fit, <em>F</em>(4,147) = 40.97, <em>p</em> &lt; .001.</p>
+</section>
+<section id="parameter-estimates" class="level3">
+<h3 class="anchored" data-anchor-id="parameter-estimates">Parameter estimates</h3>
+<p>Finally, let’s extract the parameter estimates:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>belay_gamma <span class="sc">|&gt;</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">parameters</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 21%">
+<col style="width: 8%">
+<col style="width: 27%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Log-Prevalence</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">t(147)</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">6.63</td>
+<td style="text-align: center;">0.09</td>
+<td style="text-align: center;">(6.45, 6.81)</td>
+<td style="text-align: center;">71.67</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assisted break</td>
+<td style="text-align: center;">-0.07</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">(-0.13, -8.61e-03)</td>
+<td style="text-align: center;">-2.23</td>
+<td style="text-align: center;">0.025</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">climbing exp</td>
+<td style="text-align: center;">-0.11</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: center;">(-0.13, -0.09)</td>
+<td style="text-align: center;">-10.59</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">distracted</td>
+<td style="text-align: center;">0.13</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">(0.07, 0.19)</td>
+<td style="text-align: center;">4.29</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fall m</td>
+<td style="text-align: center;">0.15</td>
+<td style="text-align: center;">0.04</td>
+<td style="text-align: center;">(0.08, 0.22)</td>
+<td style="text-align: center;">3.97</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>These estimates are a little more tricky to interpret than we’re used to, but nothing we can’t handle. Remember how we used the link function which applied the logarithmic transformation to the expected values? Now need to reckon with this fact.</p>
+<p>The parameter estimates as we see above are on the log scale. For example for assisted break, the model predicts -0.07 change in the <em>log</em> of the outcome with the change of one unit of the predictor. The estimate is negative, so we know that as the predictor increases, the log of the outcome decreases (whereas the opposite is true for distraction and fall height). But the values themselves are not particularly illuminating. Luckily, we can transform the betas in a way that will allow us to interpret them in the original units by exponentiating them. This is because exponentiation is the inverse function to the log.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>belay_gamma_exp <span class="ot">&lt;-</span> belay_gamma <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">parameters</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>belay_gamma_exp <span class="sc">|&gt;</span>  </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 19%">
+<col style="width: 23%">
+<col style="width: 12%">
+<col style="width: 23%">
+<col style="width: 10%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Prevalence Ratio</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">t(147)</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">753.74</td>
+<td style="text-align: center;">69.67</td>
+<td style="text-align: center;">(630.16, 902.53)</td>
+<td style="text-align: center;">71.67</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assisted break</td>
+<td style="text-align: center;">0.93</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">(0.88, 0.99)</td>
+<td style="text-align: center;">-2.23</td>
+<td style="text-align: center;">0.025</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">climbing exp</td>
+<td style="text-align: center;">0.89</td>
+<td style="text-align: center;">9.41e-03</td>
+<td style="text-align: center;">(0.88, 0.91)</td>
+<td style="text-align: center;">-10.59</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">distracted</td>
+<td style="text-align: center;">1.14</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">(1.07, 1.21)</td>
+<td style="text-align: center;">4.29</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fall m</td>
+<td style="text-align: center;">1.16</td>
+<td style="text-align: center;">0.04</td>
+<td style="text-align: center;">(1.08, 1.25)</td>
+<td style="text-align: center;">3.97</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Now the predictors that are negatively associated with the outcome have values smaller than 1, while predictors with positive association have values greater than 1. As we’ve seen in <a href="#fig-gamma-h1" class="quarto-xref">Figure&nbsp;<span>1.1</span></a>, the relationship between the predictor and the outcome is not entirely linear so the interpretation of the parameters is not as simple as a change in one unit of the predictor associated with the change in the outcome. Instead, what we have is called the Prevalence Ratio. To make the interpretation of PR easier, we’re going to convert PR into percentage change associated with a change in one unit of the predictor. We do this by subtracting 1 from the estimate and then multiplying it by 100. We’ll do this for both the estimate and the confidence intervals:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-13"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-13-1"><a href="#annotated-cell-13-1" aria-hidden="true" tabindex="-1"></a>belay_gamma_exp <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-13-2" class="code-annotation-target"><a href="#annotated-cell-13-2" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">as_tibble</span>() <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-13-3" class="code-annotation-target"><a href="#annotated-cell-13-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-13-4" class="code-annotation-target"><a href="#annotated-cell-13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">perc_change =</span> (Coefficient<span class="dv">-1</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-13-5" class="code-annotation-target"><a href="#annotated-cell-13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">perc_ci_lower =</span> (CI_low<span class="dv">-1</span>) <span class="sc">*</span> <span class="dv">100</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-13-6" class="code-annotation-target"><a href="#annotated-cell-13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">perc_ci_upper =</span> (CI_high<span class="dv">-1</span>) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="annotated-cell-13-7"><a href="#annotated-cell-13-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-13" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-13-8" class="code-annotation-target"><a href="#annotated-cell-13-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(CI, df_error)) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-13-9"><a href="#annotated-cell-13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() </span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-13" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="2" data-code-annotation="1">Take the exponentiated parameter estimates and pipe them convert them into a tibble so we can make some calculations</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="3" data-code-annotation="2">Pipe the tibble into the <code>mutate</code> function.</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="4" data-code-annotation="3">Calculate percentage change <code>perc_change</code> by subtracting each parameter estimate in the Coefficient column from 1 and then multiplying the result by 100.</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="5" data-code-annotation="4">Perform the same calculation for lower confidence interval.</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="6" data-code-annotation="5">perform the same calculation for upper confidence interval.</span>
+</dd>
+<dt data-target-cell="annotated-cell-13" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-13" data-code-lines="8" data-code-annotation="6">Remove unnecessary columns (optional).</span>
+</dd>
+</dl>
+</div>
+<div id="tbl-gamma-results" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-gamma-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1.2
+</figcaption>
+<div aria-describedby="tbl-gamma-results-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 11%">
+<col style="width: 8%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 13%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: right;">Coefficient</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: left;">CI_low</th>
+<th style="text-align: right;">CI_high</th>
+<th style="text-align: right;">t</th>
+<th style="text-align: right;">p</th>
+<th style="text-align: right;">perc_change</th>
+<th style="text-align: right;">perc_ci_lower</th>
+<th style="text-align: right;">perc_ci_upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">753.74</td>
+<td style="text-align: right;">69.67</td>
+<td style="text-align: left;">630.16</td>
+<td style="text-align: right;">902.53</td>
+<td style="text-align: right;">71.67</td>
+<td style="text-align: right;">0.00</td>
+<td style="text-align: right;">75274.48</td>
+<td style="text-align: right;">62916.45</td>
+<td style="text-align: right;">90152.53</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">assisted_break</td>
+<td style="text-align: right;">0.93</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: left;">0.88</td>
+<td style="text-align: right;">0.99</td>
+<td style="text-align: right;">-2.23</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: right;">-6.68</td>
+<td style="text-align: right;">-12.16</td>
+<td style="text-align: right;">-0.86</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">climbing_exp</td>
+<td style="text-align: right;">0.89</td>
+<td style="text-align: right;">9.41e-03</td>
+<td style="text-align: left;">0.88</td>
+<td style="text-align: right;">0.91</td>
+<td style="text-align: right;">-10.59</td>
+<td style="text-align: right;">3.30e-26</td>
+<td style="text-align: right;">-10.54</td>
+<td style="text-align: right;">-12.35</td>
+<td style="text-align: right;">-8.70</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">distracted</td>
+<td style="text-align: right;">1.14</td>
+<td style="text-align: right;">0.03</td>
+<td style="text-align: left;">1.07</td>
+<td style="text-align: right;">1.21</td>
+<td style="text-align: right;">4.29</td>
+<td style="text-align: right;">1.76e-05</td>
+<td style="text-align: right;">14.05</td>
+<td style="text-align: right;">7.41</td>
+<td style="text-align: right;">21.11</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">fall_m</td>
+<td style="text-align: right;">1.16</td>
+<td style="text-align: right;">0.04</td>
+<td style="text-align: left;">1.08</td>
+<td style="text-align: right;">1.25</td>
+<td style="text-align: right;">3.97</td>
+<td style="text-align: right;">7.30e-05</td>
+<td style="text-align: right;">16.18</td>
+<td style="text-align: right;">7.97</td>
+<td style="text-align: right;">25.04</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>Let’s take this row by row. The intercept is interpreted as usual - it’s the value of the outcome when all the predictors are 0. For this row, we ignore the <code>perc_change</code> columns we’ve just created.</p>
+<p><strong>Assisted breaking device:</strong> We read the <code>perc_change</code> column here. For this predictor, participants who used an assisted breaking device had reaction time lower by -6.68% compared to those who used a regular belay device. Let’s give this a little more context and look at the predictions. Once again, we’re creating a helper prediction tibble with the values for which we want to make predictions. We’re holding all the values constant, apart from <code>assisted_break</code> where we want predicted reaction time for the participants who didn’t use a breaking device (0) as well as those who did (1). If you’re wondering where the other values came from, revisit section <a href="01_gzlms.html#making-predictions">Making predictions</a>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>prediction_assisted_break <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">climbing_exp =</span> <span class="fl">6.14</span>,</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">assisted_break =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">distracted =</span> <span class="dv">0</span>,</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">fall_m =</span> <span class="fl">1.82</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We then use the <code>predict</code> function to make a prediction from our model:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-15"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-15-1" class="code-annotation-target"><a href="#annotated-cell-15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(belay_gamma, <span class="at">newdata =</span> prediction_assisted_break) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-15" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-15-2" class="code-annotation-target"><a href="#annotated-cell-15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-15" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="1" data-code-annotation="1">Generate prediction</span>
+</dd>
+<dt data-target-cell="annotated-cell-15" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-15" data-code-lines="2" data-code-annotation="2">Exponentiate from the log scale</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>       1        2 
+499.8019 466.4167 </code></pre>
+</div>
+</div>
+<p>The first value is the prediction of the reaction time for those without an assisted breaking device (499.8019 ms) the second value predicts the RT for those <em>with</em> an assisted breaking device (466.4167 ms). As expected, the latter time is shorter. Based on our model, the predicted difference 6.68%. What’s 6.68% of 499.8019?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fl">499.8019</span> <span class="sc">/</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fl">6.68</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 33.38677</code></pre>
+</div>
+</div>
+<p>Now if we subtract this difference from the predicted value…</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fl">499.8019</span> <span class="sc">-</span> <span class="fl">33.38677</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 466.4151</code></pre>
+</div>
+</div>
+<p>… we get a predicted value for the second group (ignoring some rounding error on 3rd+ decimal place). This is why we sometimes call this type of parameter estimate a relative change: because we calculate the percentage change relative to a given value.</p>
+<p><strong>Climbing experience:</strong> This is a continuous predictor but if you understood the principle of the previous section, this one is not much different. For each year of climbing experience, the model predicts a -10.54% decrease in reaction time. Based on the confidence intervals, this change could be as large as -12.35% or as small as -8.7%.</p>
+<p>There’s one final thing we need to highlight about the Gamma models. Revisit <a href="#fig-gamma-h1" class="quarto-xref">Figure&nbsp;<span>1.1</span></a> . Recall that the linear prediction goes into infinity, including unrealistic predictions like negative reaction times. However, the “slope” of the Gamma line seems to be less steep the more we move to the right on climbing experience. This is were relative change really shines.</p>
+<p>Say we want to predict the reaction time for someone with two years of climbing experience:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> belay_gamma, </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">climbing_exp =</span> <span class="dv">2</span>,</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">assisted_break =</span> <span class="dv">0</span>,</span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">distracted =</span> <span class="dv">0</span>,</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fall_m =</span> <span class="fl">1.82</span></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">exp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>cex        1 
+cex 792.5492</code></pre>
+</div>
+</div>
+<p>We’ve put the prediction tibble directly into the function to speed things up a bit. While other predictors are held constant, the model predicts a reaction time of 792.5492 for someone who’s been climbing for 2 years. The estimated change for this predictor was 10.54%, which is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fl">792.5492</span> <span class="sc">/</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fl">10.54</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 83.53469</code></pre>
+</div>
+</div>
+<p>So now we can calculate:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fl">792.5492</span> <span class="sc">-</span> <span class="fl">83.53469</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 709.0145</code></pre>
+</div>
+</div>
+<p>and 876.0839 is the reaction time predicted for someone with <em>three</em> years of experience.</p>
+<p>What if we took someone at the upper end of climbing experience, say 8 years?</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> belay_gamma, </span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">climbing_exp =</span> <span class="dv">8</span>,</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">assisted_break =</span> <span class="dv">0</span>,</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">distracted =</span> <span class="dv">0</span>,</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fall_m =</span> <span class="fl">1.82</span></span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">exp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>cex        1 
+cex 406.2939</code></pre>
+</div>
+</div>
+<p>The predicted reaction time is 406.2939, and 10.54% of this value is:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fl">406.2939</span> <span class="sc">/</span> <span class="dv">100</span> <span class="sc">*</span> <span class="fl">10.54</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 42.82338</code></pre>
+</div>
+</div>
+<p>42.82. So the value that we’re subtracting becomes lower and lower the further up we move on climbing experience. This effectively prevents us from falling into absurd predictions. Eventually, the prediction line would plateau and be almost completely flat, which makes sense - there’s a physical limit of how fast someone can react.</p>
+</section>
+<section id="report" class="level3">
+<h3 class="anchored" data-anchor-id="report">Report</h3>
+<p>When reporting any model, we want to strike a balance between reporting all the necessary bits of information and interpreting the parameter estimates in a way that allows us to make conclusions about the hypothesis. Here’s an example of how you could approach but don’t feel beholden to this:</p>
+<blockquote class="blockquote">
+<p>We fitted a Gamma Generalised Linear Model with the log link function predicting belayers reaction time assisted device use and climbing experience. The covariates in the model were the belayers’ climbing experience and whether they were distracted when belaying their climbing partner.</p>
+<p>Based on the posterior predictive checks and residual diagnostics, the model appeared to be well specified. Overall, the model was a good fit, <em>F</em>(4,147) = 40.97, <em>p</em> &lt; .001, and explained 53.53% of variance in the outcome, <em>R<sup>2</sup></em> = 0.54.</p>
+<p>In line with Hypothesis 1, assisted breaking device was a statistically significant predictor of the time it took belayers to stop their climbers’ fall, <em>b</em> = 0.93, 95% CI [0.88, 0.99], <em>SE</em> = 0.03, <em>t</em> = -2.23, <em>p</em> = 0.025, while other predictors were held constant. Belayers who used an assisted breaking device were -6.68% quicker to stop the fall compared to those who didn’t. 95% confidence intervals indicated this difference could be as large as -12.16 or as small as -0.86. This effect was small translated into a difference of 33.38 ms.</p>
+<p>Hypothesis 2 was also supported by a statistically significant effect of climbing experience, <em>b</em> = 0.89, 95% CI [0.88, 0.91], <em>SE</em> = 0.01, <em>t</em> = -10.59, <em>p</em> &lt; .001, while holding other predictors constant. A year of climbing experience was associated with a decrease of -10.54%, 95% CI [-12.35%, -8.7%] in belayers’ reaction time. This effect was especially large for belayers with less climbing experience - for example, the model predicted that a belayer with one year of climbing experience would take 885.91 ms to stop a fall while a belayer with two years of experience would take 792.54 ms - a difference of 93.36 ms, which can make a practical difference to the safety of the climber, especially when falling from a lower height where the likelihood of injury is increased.</p>
+<p>The effects of both covariates (distraction and fall height) - were also statistically significant - full results are reported in <a href="#tbl-gamma-results" class="quarto-xref">Table&nbsp;<span>1.2</span></a>.</p>
+</blockquote>
+</section>
+</section>
+<section id="exercises" class="level2" data-number="1.2">
+<h2 data-number="1.2" class="anchored" data-anchor-id="exercises"><span class="header-section-number">1.2</span> Exercises</h2>
+<section id="what-does-this-code-do" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-this-code-do">What does this code do?</h3>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Here’s all the code we have written in this section. Can you remember what each line of each codechunk does? Are there any codechunks that you struggle to make sense of? Make sure to revisit the section in which it is used and take notes.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/climbing_data.csv"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>gamma_dist <span class="ot">&lt;-</span> <span class="fu">rgamma</span>(<span class="at">n =</span> <span class="dv">10000</span>, <span class="at">shape =</span> <span class="dv">1</span>, <span class="at">scale =</span> <span class="dv">2</span>)</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> gamma_dist)) <span class="sc">+</span></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>... <span class="sc">+</span> </span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"glm"</span>, <span class="at">colour =</span> <span class="st">"darkorange"</span>, <span class="at">fill =</span> <span class="st">"darkorange"</span>, </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">family =</span> <span class="st">"Gamma"</span>)) <span class="sc">+</span> </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>belay_tib <span class="sc">|&gt;</span> </span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> climbing_exp, <span class="at">y =</span> reaction_time)) <span class="sc">+</span> </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.7</span>, <span class="at">colour =</span> <span class="st">"yellowgreen"</span>) <span class="sc">+</span> </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">colour =</span> <span class="st">"steelblue"</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span> </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"glm"</span>, </span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>              <span class="at">colour =</span> <span class="st">"darkorange"</span>, <span class="at">fill =</span> <span class="st">"darkorange"</span>, </span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>              <span class="at">linetype =</span> <span class="st">"dashed"</span>,</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a>              <span class="at">method.args =</span> <span class="fu">list</span>(<span class="at">family =</span> <span class="st">"Gamma"</span>)) <span class="sc">+</span> </span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">xlim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">10</span>), <span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="fl">1030.5</span>)) <span class="sc">+</span> </span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Belayer's climbing experience (in years)"</span>, <span class="at">y =</span> <span class="st">"Reaction time (ms) to break the fall"</span>) <span class="sc">+</span> </span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>belay_gamma <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>  reaction_time <span class="sc">~</span> assisted_break <span class="sc">+</span> climbing_exp <span class="sc">+</span> distracted <span class="sc">+</span> fall_m,</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">Gamma</span>(<span class="at">link =</span> <span class="st">"log"</span>), </span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> belay_tib </span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>belay_gamma <span class="sc">|&gt;</span> <span class="fu">check_model</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tbl-cap="">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>belay_gamma <span class="sc">|&gt;</span> </span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">performance</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>belay_gamma <span class="sc">|&gt;</span> </span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">test_wald</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>belay_gamma <span class="sc">|&gt;</span> </span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">parameters</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>belay_gamma_exp <span class="ot">&lt;-</span> belay_gamma <span class="sc">|&gt;</span> </span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">parameters</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>belay_gamma_exp <span class="sc">|&gt;</span>  </span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-tbl-cap="">
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>belay_gamma_exp <span class="sc">|&gt;</span> </span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>  tibble<span class="sc">::</span><span class="fu">as_tibble</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>( </span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">perc_change =</span> (Coefficient<span class="dv">-1</span>) <span class="sc">*</span> <span class="dv">100</span>, </span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">perc_ci_lower =</span> (CI_low<span class="dv">-1</span>) <span class="sc">*</span> <span class="dv">100</span>, </span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">perc_ci_upper =</span> (CI_high<span class="dv">-1</span>) <span class="sc">*</span> <span class="dv">100</span> </span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span> </span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(CI, df_error)) <span class="sc">|&gt;</span> </span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb48"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(</span>
+<span id="cb48-2"><a href="#cb48-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> belay_gamma, </span>
+<span id="cb48-3"><a href="#cb48-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb48-4"><a href="#cb48-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">climbing_exp =</span> <span class="dv">2</span>,</span>
+<span id="cb48-5"><a href="#cb48-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">assisted_break =</span> <span class="dv">0</span>,</span>
+<span id="cb48-6"><a href="#cb48-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">distracted =</span> <span class="dv">0</span>,</span>
+<span id="cb48-7"><a href="#cb48-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fall_m =</span> <span class="fl">1.82</span></span>
+<span id="cb48-8"><a href="#cb48-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb48-9"><a href="#cb48-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">exp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb49"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(</span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">object =</span> belay_gamma, </span>
+<span id="cb49-3"><a href="#cb49-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb49-4"><a href="#cb49-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">climbing_exp =</span> <span class="dv">8</span>,</span>
+<span id="cb49-5"><a href="#cb49-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">assisted_break =</span> <span class="dv">0</span>,</span>
+<span id="cb49-6"><a href="#cb49-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">distracted =</span> <span class="dv">0</span>,</span>
+<span id="cb49-7"><a href="#cb49-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fall_m =</span> <span class="fl">1.82</span></span>
+<span id="cb49-8"><a href="#cb49-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb49-9"><a href="#cb49-9" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> <span class="fu">exp</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="worksheet" class="level3">
+<h3 class="anchored" data-anchor-id="worksheet">Worksheet</h3>
+<p><strong>Scenario:</strong></p>
+<blockquote class="blockquote">
+<p>The International Civil Aviation Organisation is reviewing the efficiency of the alerts for the Ground Proximity Warning System (GPWS), which warns pilots when the aircraft is too close to the ground or other terrain (like mountains). Currently, the GPWS alerts the pilots by an auditory signal. The aviation authority is deciding whether to replace the auditory signal with a visual one. Because light moves as at a faster speed than sound, they hypothesise that:</p>
+<p><strong>H<sub>1</sub>: Pilots will be able to respond significantly faster to visual stimuli, compared to auditory stimuli.</strong></p>
+<p>They hired you as a cognitive scientist to carry out an experiment and recommend a policy change if appropriate. During the experiment, novice pilots without experience of the existing GPWS were placed in a flight simulator and presented with a warning at a random point during the flight. This warning is either auditory or visual (<code>warning_modality</code>, auditory coded as 0, visual coded as 1) and it is displayed either as a simple signal (a short alarm for the auditory modality or a light indicator for the visual modality), or as a brief message with the instruction “Terrain, pull up!” - either spoken or displayed on a flight monitor (<code>signal_complexity</code>, simple alert coded as 0, message coded as 1). You also measured the pilots’ subjective perception of their own alertness (<code>alertness</code>) ranging from 0 (not alert) to 10 (very alert) and the time from the beginning of the flight to the point when GPWS was triggered in minutes (<code>gpws_time</code>). All of these variables should be included as the predictors in the model. The outcome was measured as the time it took the pilots to respond to the warning with a corrective action in milliseconds (<code>response_time</code>).</p>
+</blockquote>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Use the tutorial to complete the following tasks:</strong></p>
+<ol type="1">
+<li>Generate descriptive statistics and an informative data visualisation for the hypothesis</li>
+<li>Fit two models
+<ul>
+<li>Model 1: Assuming a normal conditional distribution for the outcome. Call the model <code>alert_glm</code> .</li>
+<li>Model 2: Assuming a gamma conditional distribution for the outcome. Call the model <code>alert_gamma</code> .</li>
+</ul></li>
+<li>Evaluate the model assumptions and the overall fit for both models. Decide which modelling approach is more appropriate.</li>
+<li>Generate the parameter estimates for the model you selected in the previous step.</li>
+<li>Write up a short report (up to 300 words), including:
+<ul>
+<li>A summary of your evaluation in Task 3</li>
+<li>Overall fit statistics</li>
+<li>Interpretation of the parameter estimates</li>
+<li>Policy recommendation based on the results</li>
+</ul></li>
+</ol>
+</div>
+</div>
+</div>
+<p>You can use the “worksheet” file in the quarto folder to prepare the worksheet. The data are stored in the file <a href="data/alert_data.csv">alert_data.csv</a>. Download the data and <a href="index.html#importing-datasets">import it to Posit Cloud</a>. Once you’ve done so, you can read the data into R by running:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>alert_tib <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(<span class="st">"data/alert_data.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Remember to load the necessary packages.</p>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Optional extra task:</strong></p>
+<p>Use <code>alert_glm</code> and <code>alert_gamma</code> to make two separate response time predictions for a pilot who was presented with a visual alert in form of a short message, and who’s subjective alertness and flight duration before the alert were at the average levels found in the sample.</p>
+</div>
+</div>
+</div>
 
 
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>You could substitute the term “expected” with “predicted”. The only difference is that we tend to use “predicted” when talking about a single value, and “expected” when talking about a whole distribution, but for all intents and purposes, they are the same.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -8,3 +8,5 @@ In the Welcome to Advanced Statistics - show them how to download files and uplo
 Gamma - heart rate
 
 Beta - proportion of maximal heart rate
+
+clean up the use of predicted vs expected

@@ -1,4 +1,4 @@
-```{r eval=FALSE, message=FALSE}
+```{r eval=FALSE, message=FALSE, comment="cex"}
 library(easystats) 
 library(tidyverse) 
 
@@ -7,12 +7,7 @@ belay_tib <- here::here("data/climbing_data.csv") |>
 ```
 
 
-```{r eval=FALSE, eval=FALSE}
-belay_tib
-```
-
-
-```{r eval=FALSE,}
+```{r eval=FALSE, comment="cex"}
 #| tbl-cap: ""
 
 belay_tib |> 
@@ -21,19 +16,7 @@ belay_tib |>
 ```
 
 
-```{r eval=FALSE, fig.align='center'}
-
-belay_tib |> 
-  ggplot2::ggplot(data = _, aes(x = factor(assisted_break), y = reaction_time)) + # <1>
-  geom_point(alpha = 0.7, colour = "yellowgreen", position = position_jitter(width = 0.1)) + 
-  stat_summary(fun.data = "mean_cl_normal") + 
-  coord_cartesian(ylim = c(0, 1030.5)) + 
-  labs(x = "Did the belayer used an assisted breaking device", y = "Reaction time (ms) to break the fall") + 
-  theme_light() 
-```
-
-
-```{r eval=FALSE, fig.align='center', message=FALSE}
+```{r eval=FALSE, fig.align='center', message=FALSE, comment="cex"}
 
 belay_tib |> 
   ggplot2::ggplot(data = _, aes(x = climbing_exp, y = reaction_time)) + 
@@ -45,7 +28,19 @@ belay_tib |>
 ```
 
 
-```{r eval=FALSE, fig.align="center"}
+```{r eval=FALSE, fig.align='center', comment="cex"}
+
+belay_tib |> 
+  ggplot2::ggplot(data = _, aes(x = factor(assisted_break), y = reaction_time)) + # <1>
+  geom_point(alpha = 0.7, colour = "yellowgreen", position = position_jitter(width = 0.1)) + 
+  stat_summary(fun.data = "mean_cl_normal") + 
+  coord_cartesian(ylim = c(0, 1030.5)) + 
+  labs(x = "Did the belayer used an assisted breaking device", y = "Reaction time (ms) to break the fall") + 
+  theme_light() 
+```
+
+
+```{r eval=FALSE, fig.align="center", comment="cex"}
 
 belay_tib |> 
   ggplot2::ggplot(data = _, aes(x = reaction_time)) + 
@@ -55,37 +50,27 @@ belay_tib |>
 ```
 
 
-```{r eval=FALSE,}
-belay_lm <- lm(reaction_time ~ assisted_break + climbing_exp + distracted + fall_m, data = belay_tib)
-```
-
-
-```{r eval=FALSE, fig.height=7, fig.width=8}
+```{r eval=FALSE, fig.height=7, fig.width=8, comment="cex"}
 
 belay_lm |> check_model()
 ```
 
 
-```{r eval=FALSE,}
+```{r eval=FALSE, comment="cex"}
 belay_lm |> 
   performance() |> 
   display()
 ```
 
 
-```{r eval=FALSE, message=FALSE}
+```{r eval=FALSE, message=FALSE, comment="cex"}
 belay_lm |> 
   test_wald() |> 
   display()
 ```
 
 
-```{r eval=FALSE, message=FALSE}
-belay_rob <- robustbase::lmrob(reaction_time ~ assisted_break + climbing_exp + distracted + fall_m, data = belay_tib)
-```
-
-
-```{r eval=FALSE,}
+```{r eval=FALSE, comment="cex"}
 #| tbl-cap: ""
 
 belay_rob |> 
@@ -94,40 +79,7 @@ belay_rob |>
 ```
 
 
-```{r eval=FALSE,}
-belay_tib[1, ] |> 
-  display()
-```
-
-
-```{r eval=FALSE,}
-assisted_break_i <- 0 
-climbing_exp_i <- 3.1
-distracted_i <- 1
-fall_m_i <- 2.1 
-
-689.29 - 26.77 * assisted_break_i - 53.49 * climbing_exp_i + 50.84 * distracted_i + 76.16 * fall_m_i
-```
-
-
-```{r eval=FALSE,}
-residual_i <- belay_rob$residuals[1] # extract the residual for the first participant
-
-689.29 - 26.77 * assisted_break_i - 53.49 * climbing_exp_i + 50.84 * distracted_i + 76.16 * fall_m_i + residual_i
-```
-
-
-```{r eval=FALSE, eval=FALSE}
-belay_rob$fitted.values
-```
-
-
-```{r eval=FALSE,}
-belay_rob$fitted.values[1]
-```
-
-
-```{r eval=FALSE,}
+```{r eval=FALSE, comment="cex"}
 prediction_tib <- tibble::tibble(
   climbing_exp = 0:20,
   assisted_break = 0,
@@ -138,50 +90,12 @@ prediction_tib <- tibble::tibble(
 ```
 
 
-```{r eval=FALSE, eval=FALSE}
-prediction_tib
-```
-
-
-```{r eval=FALSE, eval=FALSE}
+```{r eval=FALSE, eval=FALSE, comment="cex"}
 predict(belay_rob, prediction_tib)
 ```
 
 
-```{r eval=FALSE,}
-prediction_tib <- prediction_tib |>  
-  dplyr::mutate( 
-    predicted_rt = predict(belay_rob, prediction_tib) 
-  )
-```
-
-
-```{r eval=FALSE, eval=FALSE}
-prediction_tib
-```
-
-
-```{r eval=FALSE, fig.align='center', message=FALSE}
-
-belay_tib |> 
-  ggplot2::ggplot(data = _, aes(x = climbing_exp, y = reaction_time)) + 
-  geom_point(alpha = 0.7, colour = "yellowgreen") + 
-  stat_smooth(colour = "darkred", data = prediction_tib, aes(x = climbing_exp, y = predicted_rt)) +
-  labs(x = "Belayer's climbing experience (in years)", y = "Reaction time (ms) to break the fall") + 
-  theme_light() 
-```
-
-
-```{r eval=FALSE,}
-belay_glm <- glm( 
-  reaction_time ~ assisted_break + climbing_exp + distracted + fall_m, 
-  family = gaussian(link = "identity"), 
-  data = belay_tib 
-)
-```
-
-
-```{r eval=FALSE, eval=FALSE}
+```{r eval=FALSE, eval=FALSE, comment="cex"}
 belay_glm |> 
   check_model()  
 
@@ -194,14 +108,7 @@ belay_glm |>
 ```
 
 
-```{r eval=FALSE,}
-belay_lm |> 
-  parameters() |> 
-  display()
-```
-
-
-```{r eval=FALSE,}
+```{r eval=FALSE, comment="cex"}
 belay_glm |> 
   parameters() |> 
   display()

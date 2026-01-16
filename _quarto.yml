@@ -12,6 +12,7 @@ book:
        - 01a_gzlms_skewed.qmd
        - 01b_gzlms_counts.qmd
        - 01c_gzlms_ordinal.qmd
+       - 01d_gzlms_summary.qmd
     - part: 02_ma.qmd
       chapters: 
        - 02a_ma_intro.qmd 
@@ -33,5 +34,7 @@ format:
     theme: cosmo
     highlight-style: tango
     toc-depth: 4
+    toc-expand: 4
+    number-depth: 2
   # pdf:
   #   documentclass: scrreprt
