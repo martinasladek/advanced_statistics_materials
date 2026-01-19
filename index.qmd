@@ -75,11 +75,3 @@ Or any combination of the three. The point is, you can either use the tutorials 
 **Can I complete the exercises at home?**
 
 Yes, there's nothing stopping you from doing so. The main benefit of working from them in the session is that you'll be able to talk to your peers and get feedback directly from the tutor.
-
-<!-- -   Brief blurb about the module but don't duplicate Canvas -->
-
-<!-- -   How to use these tutorials -->
-
-<!-- -    -->
-
-<!-- ## Importing datasets to Posit Cloud {#importing-datasets} -->

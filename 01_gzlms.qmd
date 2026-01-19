@@ -131,7 +131,7 @@ We have no missing values, for any of the variables (good to know). Reaction tim
 
 Climbing experience and fall distance show low levels of skewness and kurtosis. However, our outcome variable is positively skewed (skewness = 1.21), and has excess kurtosis substantially above 0 (kurtosis = 1.79).
 
-If we spent more than a second thinking about our variables when designing the study, this really shouldn't be surprising. Reaction times are bound at 0 (you cannot have a negative reaction time) and unbound on the opposite tail, so it really doesn't make sense to expect a normal distribution, which is unbound on both ends. Even if we don't have this intuition, reaction time is *the* best documented and most stereotypical variable known to have a skewed distribution. Despite this, researchers often model it with estimators that rely on normal distribution (somewhere in the process), simply because it's convenient. So for now, we're going to assume ignorance to see whether we can pry something meaningful out of the model using a regular linear model.
+This is not that surprising. Reaction times are bound at 0 (you cannot have a negative reaction time) and unbound on the opposite tail, so it really doesn't make sense to expect a normal distribution, which is unbound on both ends. Even if we don't have this intuition, reaction time is *the* best documented and most stereotypical variable known to have a skewed distribution. Despite this, researchers often model it with estimators that rely on normal distribution (somewhere in the process), simply because it's convenient. So for now, we're going to assume ignorance to see whether we can pry something meaningful out of the model using a regular linear model.
 
 ::: {.callout-caution collapse="true"}
 #### Normal distribution of the outcome
@@ -556,11 +556,11 @@ Instead, we should think about the data generating process when we are planning 
 
 GLM uses Ordinary Least Squares (OLS) estimation to fit models. The goal of OLS is to find the values of $\beta_0$, $\beta_1$, $\beta_2$ ... so that the sum of squared errors (SSE) is as small is it can be given the data provided. Consider @fig-gzlms-h1 : if we were to measure the distance of each point from the line (i.e. the residual), square each distance and then sum all of them together, we'd get an SSE. For the model depicted in @fig-gzlms-h1, the line is the most optimal line that gives the smallest possible SSE.
 
-#### Maximum Likelihood estimation
-
 The process is a little different for robust models using *M*-type estimation wherein the cases with the largest residuals get itteratively down-weighted until an optimal line is found, but the starting point is the result of OLS estimation.
 
-GzLM use *Maximum Likelihood Estimation* (ML)[^01_gzlms-2]. ML tries to find the values of the the parameter estimates where a given *assumed distribution* is the most likely. In other words, where the *likelihood* of that distribution is at its *maximum*.
+#### Maximum Likelihood estimation
+
+GzLM use *Maximum Likelihood Estimation* (ML)[^01_gzlms-2]. ML aims to find an optimal way to fit a given distribution to the data. It searches for the values of the the parameter estimates where a given *assumed distribution* is the most likely. In other words, where the *likelihood* of that distribution is at its *maximum*.
 
 [^01_gzlms-2]: Unhelpfully, the ML abbreviation is also reserved for "Machine Learning", so just be aware of this if you're using any external resources.
 
@@ -624,7 +624,7 @@ ggplot2::ggplot(data = all_vals, aes(values)) +
 
 However, if we were do decompose it, we'd find that the distribution in @fig-nonnorm-outcome is actually built out of *many* normal distributions with different means:
 
-```{r echo=FALSE}
+```{r echo=FALSE, message = FALSE}
 #| label: fig-nonnorm-conditional
 #| fig-cap: ""
 

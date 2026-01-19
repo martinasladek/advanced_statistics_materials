@@ -654,12 +654,17 @@ Remember to load the necessary packages.
 Use `alert_glm` and `alert_gamma` to make two separate response time predictions for a pilot who was presented with a visual alert in form of a short message, and who's subjective alertness and flight duration before the alert were at the average levels found in the sample.
 :::
 
-```{r include = FALSE}
-alert_tib |> 
-  describe_distribution() |> 
-  display()
+### Check worksheet values
 
-alert_tib |> 
+Once you've finished the worksheet, you can ask the tutor to look through your work and give you feedback. Remember that you should also practice writing up the results in a brief report, not just running the code. If you're stuck, you can use the quiz below to guide you.
+
+You can also use the quiz below - if you fitted the models the correctly, your answers should match the correct answers in the quiz. **Round all your answers to 2 decimal places.** If making calculations, only round the final result.
+
+```{r eval = TRUE, echo=FALSE, message=FALSE}
+alert_desc <- alert_tib |> 
+  describe_distribution()
+
+alert_plot <- alert_tib |> 
   ggplot2::ggplot(data = _, aes(x = modality, y = response_time)) + 
   geom_point(alpha = 0.7, colour = "yellowgreen", position = position_jitter(width = 0.05)) + 
   stat_smooth(method = "lm", colour = "steelblue", fill = "steelblue") + 
@@ -670,21 +675,33 @@ alert_tib |>
 
 alert_glm <- glm(response_time ~ modality + signal_complexity + alertness + gpws_time, data = alert_tib)
 
-alert_glm |> check_model()
-alert_glm |> performance()
-alert_glm |> test_wald()
-alert_glm |> parameters()
+alert_glm_check_model <- alert_glm |> check_model()
+alert_glm_performance <- alert_glm |> performance()
+alert_glm_wald <- alert_glm |> test_wald()
+alert_glm_paramters <- alert_glm |> parameters()
 
 alert_gamma <- glm(response_time ~ modality + signal_complexity + alertness + gpws_time, 
                    family = Gamma(link = "log"),
                    data = alert_tib)
 
-alert_gamma |> check_model()
-alert_gamma |> performance()
-alert_gamma |> test_wald()
-alert_gamma |> parameters()
+alert_gamma_check_model <- alert_gamma |> check_model()
+alert_gamma_performance <- alert_gamma |> performance()
+alert_gamma_wald <- alert_gamma |> test_wald()
+alert_gamma_parameters_raw <- alert_gamma |> parameters()
+alert_gamma_parameters_exp <- alert_gamma |> parameters(exponentiate = TRUE)
 
-predict(
+
+alert_glm_prediction <- predict(
+  alert_glm, 
+  newdata = tibble::tibble(
+    modality = 1, 
+    signal_complexity = 1,
+    alertness = 5.14, 
+    gpws_time = 45.75,
+  )
+) 
+
+alert_gamma_prediction <- predict(
   alert_gamma, 
   newdata = tibble::tibble(
     modality = 1, 
@@ -694,3 +711,104 @@ predict(
   )
 ) |> exp()
 ```
+
+::: {.callout-tip collapse="true" appearance="simple"}
+## Worksheet check
+
+```{r echo=FALSE}
+library(webexercises)
+webex_desc_alert <- alert_desc[alert_desc$Variable == "alertness", "Mean"] |> 
+  webexercises::round2(2) |> 
+  webexercises::fitb()
+
+webex_desc_gpws_time <- alert_desc[alert_desc$Variable == "gpws_time", "Mean"] |> 
+  webexercises::round2(2) |> 
+  webexercises::fitb()
+
+webex_glm_param <- alert_glm$coefficients["modality"] |> 
+  webexercises::round2(2) |> 
+  webexercises::fitb()
+
+webex_assumptions <- 
+  c("Linearity and influential cases", 
+    "Linearity and heteroscedasticity",
+    "Normal errors and influential cases", 
+    "Heteroscedasticity and collinearity", 
+    answer = "Heteroscedasticity and normal errors", 
+    "Collinearity and influential cases", 
+    "Collinearity and normal errors") |> 
+  webexercises::longmcq()
+
+webex_ppcheck <- 
+  c(answer = "Gamma model", "Gausian model") |> 
+  webexercises::longmcq()
+
+r2_glm <- alert_glm_performance$R2*100
+
+r2_gamma <- alert_gamma_performance$R2_Nagelkerke*100 
+
+webex_r2_gamma <- r2_gamma |> 
+  webexercises::round2(2) |> 
+  webexercises::fitb()
+
+webex_r2_diff <- webexercises::round2(r2_gamma - r2_glm, 2) |> 
+  webexercises::fitb()
+
+webex_gamma_fit_f <- alert_gamma_wald$F[2] |> 
+  webexercises::round2(2) |> 
+  webexercises::fitb()
+
+webex_gamma_fit_df1 <- alert_gamma_wald$df_diff[2] |> 
+  webexercises::round2(2) |> 
+  webexercises::fitb()
+
+webex_gamma_fit_df2 <- alert_gamma_wald$df[2] |> 
+  webexercises::round2(2) |> 
+  webexercises::fitb()
+
+webex_gamma_param <- ((alert_gamma_parameters_exp$Coefficient[2]-1)*100) |> 
+  webexercises::round2(2) |> 
+  webexercises::fitb()
+
+webex_policy <- c(
+  "... should be implemented.",
+  answer = "... should NOT be implemented"
+)|> 
+  webexercises::longmcq()
+
+webex_glm_prediction <- alert_glm_prediction  |> 
+  webexercises::round2(2) |> 
+  webexercises::fitb()
+
+webex_gamma_prediction <- alert_gamma_prediction  |> 
+  webexercises::round2(2) |> 
+  webexercises::fitb()
+  
+```
+
+How alert were the pilots in the study on average? `r webex_desc_alert`
+
+What was the average time from the start of the flight to the point of the alert? `r webex_desc_gpws_time`
+
+The Gaussian model predicts an increase of `r webex_glm_param` milliseconds in response time for the visual modality compared to the auditory modality.
+
+Which two assumptions of OLS estimation are the most obviously violated for Gaussian model?
+
+`r webex_assumptions`
+
+Based on the posterior predictive check, which model is a better fit?
+
+`r webex_ppcheck`
+
+The Gamma model explained `r webex_r2_gamma` percent of total variance in the outcome. Compared to the Gaussian model, this proportion was greater by `r webex_r2_diff` percent.
+
+Overall, the Gamma model was a good fit, *F*(`r  webex_gamma_fit_df1`,`r webex_gamma_fit_df2`) = `r webex_gamma_fit_f`, *p* \< .001.
+
+The time it took the pilots to respond to visual stimuli was `r webex_gamma_param` percent greater compared to response times to auditory signals. Based on this the proposed change from auditory signals to visual signals...
+
+`r webex_policy`
+
+**Optional task:**
+
+For a pilot presented with a visual alert who's subjective alertness and flight duration before the alert were at average levels, the Gaussian models predict the response time of `r webex_glm_prediction` milliseconds, while the Gamma model predicts a response time of `r webex_gamma_prediction` milliseconds.
+:::

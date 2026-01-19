@@ -9,4 +9,20 @@ Gamma - heart rate
 
 Beta - proportion of maximal heart rate
 
-clean up the use of predicted vs expected
+AnD AI Lecture
+
+-   link to J's section - we tell you this stuff because they often say that an AI is a "tool" and you have to make sure you "use it responsibly"
+
+-   it might be tempting to use it for data analysis - you need to have this infomraiton about the background so that you can make an informed decision, and if you want a hint about what we think you should do, look a the actual tools that we're teaching you here
+
+-   others would suggest that we should teach you how to judge wether AI is bullshitting you. - yi build that ability through competence
+
+    -   show example of "is 2027 next year"
+
+    -   then quantum superposition - "I have no idea, I just wanted to study psychology because I thought I'd get to electrocute people like they did in the 60s; turns out not only you can no longer do that but they also made me learn stats" so ...
+
+    -   show example of confidence interval - sounds plausible, is wrong - represents "common understanding" but common understing is bullshit
+
+    -   You cannot judge whether something is correct or nonsense or "hallucination" without certain level of competence - we want to make sure you're actually competent. And once you reach that level of competence, you obviously have no need to ask AI in the first place.
+
+-   when you're given an essay, the topic doesn't matter - you won't remember shit. The process does. the searching, the thinking, the construction of arguments, the problem solving. - same with analysis.

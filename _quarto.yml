@@ -36,5 +36,7 @@ format:
     toc-depth: 4
     toc-expand: 4
     number-depth: 2
+    css: "assets/webex.css"
+    include-after-body: "assets/webex.js"
   # pdf:
   #   documentclass: scrreprt
