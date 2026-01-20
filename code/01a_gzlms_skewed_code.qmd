@@ -60,6 +60,7 @@ belay_gamma |> check_model()
 belay_gamma |> 
   performance() |> 
   display()
+
 ```
 
 

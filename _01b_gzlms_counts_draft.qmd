@@ -1,0 +1,31 @@
+# Modelling counts
+
+In the previous section, we looked at the consequences of pretending a bound asymmetrically distribution is unbound and symmetrical. In this tutorial, we're going to discuss what happens if we assume that a distribution is continuous when, in fact, it is not.
+
+Every model that we fit makes one fundamental assumption that more often than not won't be highlighted on any diagnostic plots. It's the assumption about the level of measurement of our variable. For example, logistic models assume that the outcome variable is a **categorical binary** variable, ordinal models assume the outcome is **ordinal**, Gaussian and Gamma models assume that it is **continuous**. The reason why software often doesn't provide an immediately obvious way to check that this assumption is met is that it is out responsibility as the researcher to ensure the way we're operationalising a variable is suitable for the kind of model we want to later fit.
+
+Another level of measurement is **counts**. For example,
+
+-   How many cups of coffee does an average lecturer drink per day?
+
+-   How many children are there in a typical household?
+
+-   How many goals are typical in a football game?
+
+-   How many short-form videos does an average grad student scroll through per day when procrastinating work?
+
+Even though counts are discrete, they are another victim of the GLM tyranny, more often than not modelled as unbound continuous variables. The consequences of assuming a continuous level of measurement when the variable is measured in counts vary in severity, depending on theb context. For example, if we say that an average lecturer drinks 3.5 cups of coffee per day, it implies that they either make half a cup of coffee (which is silly), or they make four and then pour out half of one (which is unhinged). However, if we say that a typical household consists of two parents, one dog, one cat, and 2.4 children, things suddenly take a dark turn.
+
+In this tutorial, we're going to look into ways of modelling count variables more sensibly. We'll explore three types of models:
+
+-   Poisson models
+
+-   Quasi-poisson models
+
+-   Negative binomial models
+
+## Scenario 
+
+```{r}
+
+```

@@ -6,7 +6,7 @@ source("functions/helpers.R")
 
 In the previous section, we've learned about the limitations of fitting (robust or non robust) straight lines through data. If we make incorrect assumptions about the data-generating process, the predictions that our model generates are also going to be incorrect. Although robust methods have their uses, they don't fix this issue and can sometimes make it worse by limiting predictions to the central portion of the distribution.
 
-By assuming an alternative data generating process, we can model skewed distributions and make more accurate predictions for *all* the individuals from the distribution. In this section we're going to introduce two distributional families for modelling skewed distributions: the **Gamma** family and the **Beta** family.
+By assuming an alternative data generating process, we can model skewed distributions and make more accurate predictions for *all* the individuals from the distribution. In this section we're going to introduce the **Gamma** distributional family for modelling positively skewed distributions.
 
 We'll be using the same [scenario](#scenario-gzlms), so go back and remind yourself if you need to. If you started a new document for this section, you will also need to re-read the data and the packages:
 
@@ -312,9 +312,32 @@ As previously, `easystats` has our back and we can just use the familiar functio
 belay_gamma |> 
   performance() |> 
   display()
+
 ```
 
-The main difference here is that instead of typical R^2^ we get so called, **Nagelkerke’s R^2^** . The R^2^ in OLS linear model is based on least squares calculations. In GzLM, we're using Maximum Likelihood estimation, so calculating R^2^ is not as straightforward. Nagelkerke’s R^2^ is therefore what we call "Pseudo R^2^" . It can be interpreted as regular R^2^ , that is, as the proportion of variance in the outcome explained by the model, although statisticians like to debate whether attempting to calculate R^2^ for ML based models even makes sense in the first place. We'll leave it at that and use it.
+The main difference here is that instead of typical R^2^ we get so called, **Nagelkerke’s R^2^** . The R^2^ in OLS linear model is based on least squares calculations. In GzLM, the R^2^ is based on what we call "deviance", and because of this, we call it "Pseudo-R^2^" - kind of like R^2^ but not quite.
+
+Like R^2^ and the F statistic, deviance is a goodness-of-fit measure. In plain language, it tells us how much our model differs from a model that is perfectly defined. A perfectly-defined model is sometimes called a saturated model - it is a model that can predict the outcome without any error whatsoever. In the perfectly-defined model, the deviance would be zero - therefore the less deviance we have, the better.
+
+The `performance` output doesn't provide deviance for us, but we can request it easily by asking R to show us the default ugly model output without any additional code:
+
+```{r}
+belay_gamma |> summary()
+```
+
+At the very bottom, we can see the following:
+
+-   Null Deviance: `r round(belay_gamma$null.deviance, 3)`
+
+-   Residual Deviance `r round(belay_gamma$deviance, 3)`
+
+Null deviance (D~0~) tells us how much deviance there is in a model that doesn't have any predictors. The residual deviance (D~R~) is the deviance that remains after we've added our predictors. We can then calculate the pseudo R^2^ as:
+
+$$
+R^2_\mbox{pseudo} = 1 - \frac{D_R}{D_0}
+$$
+
+Of course, once a pseudo R^2^ like the one above was defined, statisticians started an arms race about minor modifications to the equation which would estimate the deviance in the model more accurately. Nagelkerke’s R^2^ is one of these modifications and generally a good choice. That's all I will say about it because it is 8pm and I need to deliver this workshop in about a week's time. Unlike regular R^2^ it's not interpreted as the proportion of variance explained, but as proportion of *deviance* explained by the model, although statisticians like to debate whether attempting to calculate R^2^ for ML based models even makes sense in the first place. We'll leave it at that and use it.
 
 ```{r echo=FALSE}
 report_pseudo_r2 <- function(glm){
