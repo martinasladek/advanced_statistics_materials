@@ -337,7 +337,7 @@ $$
 R^2_\mbox{pseudo} = 1 - \frac{D_R}{D_0}
 $$
 
-Of course, once a pseudo R^2^ like the one above was defined, statisticians started an arms race about minor modifications to the equation which would estimate the deviance in the model more accurately. Nagelkerke’s R^2^ is one of these modifications and generally a good choice. That's all I will say about it because it is 8pm and I need to deliver this workshop in about a week's time. Unlike regular R^2^ it's not interpreted as the proportion of variance explained, but as proportion of *deviance* explained by the model, although statisticians like to debate whether attempting to calculate R^2^ for ML based models even makes sense in the first place. We'll leave it at that and use it.
+Of course, once a pseudo R^2^ like the one above was defined, statisticians started an arms race about minor modifications to the equation which would estimate the deviance in the model more accurately. Nagelkerke’s R^2^ is one of these modifications and generally a good choice. That's all I will say about it because it is 8pm and I need to deliver this workshop in about a week's time. Unlike regular R^2^ , pseudo-R^2^ is not interpreted as the proportion of variance explained, but as proportion of *deviance* explained by the model, although statisticians like to debate whether attempting to calculate R^2^ for ML based models even makes sense in the first place. We'll leave it at that and use it.
 
 ```{r echo=FALSE}
 report_pseudo_r2 <- function(glm){
@@ -352,7 +352,7 @@ report_pseudo_r2 <- function(glm){
 }
 ```
 
-Based on the pseudo R^2^ , our model explains `r report_pseudo_r2(belay_gamma)$percent` of total variance in outcome.
+Based on the pseudo R^2^ , our model explains `r report_pseudo_r2(belay_gamma)$percent` of total deviance in outcome.
 
 Finally, let's test the model fit:
 
@@ -576,7 +576,7 @@ When reporting any model, we want to strike a balance between reporting all the 
 
 > We fitted a Gamma Generalised Linear Model with the log link function predicting belayers reaction time assisted device use and climbing experience. The covariates in the model were the belayers' climbing experience and whether they were distracted when belaying their climbing partner.
 >
-> Based on the posterior predictive checks and residual diagnostics, the model appeared to be well specified. Overall, the model was a good fit, `r report_wald(belay_gamma)`, and explained `r report_pseudo_r2(belay_gamma)$percent` of variance in the outcome, `r report_pseudo_r2(belay_gamma)$r2`.
+> Based on the posterior predictive checks and residual diagnostics, the model appeared to be well specified. Overall, the model was a good fit, `r report_wald(belay_gamma)`, and explained `r report_pseudo_r2(belay_gamma)$percent` of deviance in the outcome, `r report_pseudo_r2(belay_gamma)$r2` (Nagelkerke’s R^2^).
 >
 > In line with Hypothesis 1, assisted breaking device was a statistically significant predictor of the time it took belayers to stop their climbers' fall, `r report_betas_exp(belay_gamma, pred = "assisted_break")$full`, while other predictors were held constant. Belayers who used an assisted breaking device were `r report_betas_exp(belay_gamma, pred = "assisted_break")$perc_change`% quicker to stop the fall compared to those who didn't. 95% confidence intervals indicated this difference could be as large as `r report_betas_exp(belay_gamma, pred = "assisted_break")$perc_ci_lower` or as small as `r report_betas_exp(belay_gamma, pred = "assisted_break")$perc_ci_upper`. This effect was small translated into a difference of 33.38 ms.
 >
@@ -823,7 +823,7 @@ Based on the posterior predictive check, which model is a better fit?
 
 `r webex_ppcheck`
 
-The Gamma model explained `r webex_r2_gamma` percent of total variance in the outcome. Compared to the Gaussian model, this proportion was greater by `r webex_r2_diff` percent.
+The Gamma model explained `r webex_r2_gamma` percent of total deviance in the outcome. Compared to the Gaussian model, this proportion was greater by `r webex_r2_diff` percent.
 
 Overall, the Gamma model was a good fit, *F*(`r  webex_gamma_fit_df1`,`r webex_gamma_fit_df2`) = `r webex_gamma_fit_f`, *p* \< .001.
 
