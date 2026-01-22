@@ -24,7 +24,7 @@ In this tutorial, we're going to look into ways of modelling count variables mor
 
 -   Negative binomial models
 
-## Scenario 
+## Scenario
 
 ```{r}
 
