@@ -636,7 +636,7 @@ alert_tib <- tibble::tibble(
   gpws_time = x4 |> round(1)
 )
 
-write.csv(alert_tib, "data/gpws_alert_data.csv", row.names = FALSE)
+write.csv(alert_tib, "data/alert_data.csv", row.names = FALSE)
 ```
 
 **Scenario:**
@@ -645,7 +645,7 @@ write.csv(alert_tib, "data/gpws_alert_data.csv", row.names = FALSE)
 >
 > **H~1~: Pilots will be able to respond significantly faster to visual stimuli, compared to auditory stimuli.**
 >
-> They hired you as a cognitive scientist to carry out an experiment and recommend a policy change if appropriate. During the experiment, novice pilots without experience of the existing GPWS were placed in a flight simulator and presented with a warning at a random point during the flight. This warning is either auditory or visual (`warning_modality`, auditory coded as 0, visual coded as 1) and it is displayed either as a simple signal (a short alarm for the auditory modality or a light indicator for the visual modality), or as a brief message with the instruction "Terrain, pull up!" - either spoken or displayed on a flight monitor (`signal_complexity`, simple alert coded as 0, message coded as 1). You also measured the pilots' subjective perception of their own alertness (`alertness`) ranging from 0 (not alert) to 10 (very alert) and the time from the beginning of the flight to the point when GPWS was triggered in minutes (`gpws_time`). All of these variables should be included as the predictors in the model. The outcome was measured as the time it took the pilots to respond to the warning with a corrective action in milliseconds (`response_time`).
+> They hired you as a cognitive scientist to carry out an experiment and recommend a policy change if appropriate. During the experiment, novice pilots without experience of the existing GPWS were placed in a flight simulator and presented with a warning at a random point during the flight. This warning is either auditory or visual (`modality`, auditory coded as 0, visual coded as 1) and it is displayed either as a simple signal (a short alarm for the auditory modality or a light indicator for the visual modality), or as a brief message with the instruction "Terrain, pull up!" - either spoken or displayed on a flight monitor (`signal_complexity`, simple alert coded as 0, message coded as 1). You also measured the pilots' subjective perception of their own alertness (`alertness`) ranging from 0 (not alert) to 10 (very alert) and the time from the beginning of the flight to the point when GPWS was triggered in minutes (`gpws_time`). All of these variables should be included as the predictors in the model. The outcome was measured as the time it took the pilots to respond to the warning with a corrective action in milliseconds (`response_time`).
 
 ::: {.callout-tip appearance="simple"}
 **Use the tutorial to complete the following tasks:**
