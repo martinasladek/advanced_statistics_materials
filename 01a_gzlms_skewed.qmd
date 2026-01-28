@@ -666,7 +666,7 @@ write.csv(alert_tib, "data/alert_data.csv", row.names = FALSE)
 You can use the "worksheet" file in the quarto folder to prepare the worksheet. The data are stored in the file [alert_data.csv](data/alert_data.csv). Download the data and [import it to Posit Cloud](#importing-datasets). Once you've done so, you can read the data into R by running:
 
 ```{r eval=FALSE}
-alert_tib <- readr::read_csv("data/alert_data.csv")
+alert_tib <- here::here("data/alert_data.csv") |> readr::read_csv()
 ```
 
 Remember to load the necessary packages.

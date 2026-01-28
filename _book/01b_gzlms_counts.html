@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -69,6 +103,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="assets/webex.css">
 </head>
@@ -229,8 +292,37 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="4">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#scenario" id="toc-scenario" class="nav-link active" data-scroll-target="#scenario"><span class="header-section-number">2.1</span> Scenario</a>
+  <ul>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The data</a></li>
+  <li><a href="#descriptive-statistics" id="toc-descriptive-statistics" class="nav-link" data-scroll-target="#descriptive-statistics">Descriptive statistics</a></li>
+  </ul></li>
+  <li><a href="#poisson-models" id="toc-poisson-models" class="nav-link" data-scroll-target="#poisson-models"><span class="header-section-number">2.2</span> Poisson models</a>
+  <ul>
+  <li><a href="#fit-the-model" id="toc-fit-the-model" class="nav-link" data-scroll-target="#fit-the-model">Fit the model</a></li>
+  <li><a href="#evaluate-the-model-fit" id="toc-evaluate-the-model-fit" class="nav-link" data-scroll-target="#evaluate-the-model-fit">Evaluate the model fit</a></li>
+  <li><a href="#over-dispersion" id="toc-over-dispersion" class="nav-link" data-scroll-target="#over-dispersion">Over-dispersion</a></li>
+  </ul></li>
+  <li><a href="#negative-binomial-models" id="toc-negative-binomial-models" class="nav-link" data-scroll-target="#negative-binomial-models"><span class="header-section-number">2.3</span> Negative binomial models</a>
+  <ul>
+  <li><a href="#fit-the-model-1" id="toc-fit-the-model-1" class="nav-link" data-scroll-target="#fit-the-model-1">Fit the model</a></li>
+  <li><a href="#evaluate-the-model-fit-1" id="toc-evaluate-the-model-fit-1" class="nav-link" data-scroll-target="#evaluate-the-model-fit-1">Evaluate the model fit</a></li>
+  </ul></li>
+  <li><a href="#quasi-poisson-models" id="toc-quasi-poisson-models" class="nav-link" data-scroll-target="#quasi-poisson-models"><span class="header-section-number">2.4</span> Quasi-Poisson models</a>
+  <ul>
+  <li><a href="#fit-the-model-2" id="toc-fit-the-model-2" class="nav-link" data-scroll-target="#fit-the-model-2">Fit the model</a></li>
+  <li><a href="#evaluate-the-model-fit-2" id="toc-evaluate-the-model-fit-2" class="nav-link" data-scroll-target="#evaluate-the-model-fit-2">Evaluate the model fit</a></li>
+  <li><a href="#extract-model-parameters" id="toc-extract-model-parameters" class="nav-link" data-scroll-target="#extract-model-parameters">Extract model parameters</a></li>
+  </ul></li>
+  <li><a href="#zero-inflated-models" id="toc-zero-inflated-models" class="nav-link" data-scroll-target="#zero-inflated-models"><span class="header-section-number">2.5</span> Zero-inflated models</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -254,8 +346,984 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<div class="callout callout-style-default callout-caution callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Tutorial under construction!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This tutorial is incomplete - the final version will be published by the end of Friday. Please come back later!</p>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">source</span>(<span class="st">"functions/helpers.R"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>In the previous section, we looked at the consequences of pretending a bound asymmetrically distribution is unbound and symmetrical. In this tutorial, we’re going to discuss what happens if we assume that a distribution is continuous when, in fact, it is not.</p>
+<p>Every model that we fit makes one fundamental assumption that more often than not won’t be highlighted on any diagnostic plots. It’s the assumption about the level of measurement of our variable. For example, logistic models assume that the outcome variable is a <strong>categorical binary</strong> variable, ordinal models assume the outcome is <strong>ordinal</strong>, Gaussian and Gamma models assume that it is <strong>continuous</strong>. The reason why software often doesn’t provide an immediately obvious way to check that this assumption is met is that it is out responsibility as the researcher to ensure the way we’re operationalising a variable is suitable for the kind of model we want to fit later.</p>
+<p>Another level of measurement is <strong>counts</strong>. For example:</p>
+<ul>
+<li><p>How many cups of coffee does an average lecturer drink per day?</p></li>
+<li><p>How many children are there in a typical household?</p></li>
+<li><p>How many goals are typical in a football game?</p></li>
+<li><p>How many short-form videos does an average grad student scroll through per day when procrastinating work?</p></li>
+</ul>
+<p>Counts are characterised as integers - this means that they can only be expressed as a whole number without decimal points. Despite this, they are another victim of the GLM tyranny, more often than not modelled as unbound continuous variables. The consequences of assuming a continuous level of measurement when the variable is measured in counts vary in severity, depending on the context. For example, if we say that an average lecturer drinks 3.5 cups of coffee per day, it implies that they either make half a cup of coffee (which is silly), or they make four and then pour out half of one (which is unhinged). However, if we say that a typical household consists of two parents, one dog, one cat, and 2.4 children, things suddenly take a dark turn.</p>
+<p>In this tutorial, we’re going to look into ways of modelling count variables more sensibly. We’ll explore the following types of models:</p>
+<ul>
+<li><p>Poisson models</p></li>
+<li><p>Negative binomial models</p></li>
+<li><p>Quasi-poisson models</p></li>
+<li><p>Zero-inflated models</p></li>
+</ul>
+<section id="scenario" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="scenario"><span class="header-section-number">2.1</span> Scenario</h2>
+<blockquote class="blockquote">
+<p>A university lecturer wishes to understand the predictors of undergraduate student attendance in lectures. They record the number of lectures the students attended (<code>n_lectures</code>) per 11-week term (with one lecture per week). For predictors, they considers:</p>
+<ul>
+<li><p>Year of study - first, second, or third (<code>year</code>)</p></li>
+<li><p>How many lecture recordings they accessed (<code>n_record</code>)</p></li>
+<li><p>Average grade on the module (<code>overall_grade</code>)</p></li>
+</ul>
+<p>The lecturer wants to include all predictors in the model. They only make one hypothesis based on prior experience:</p>
+<p>H<sub>1</sub>: First year students will be more likely to attend lectures compared to second and third year students.</p>
+<p>The inclusion of the remaining predictors is exploratory.</p>
+</blockquote>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">11</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co"># 7 8 </span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>n <span class="ot">=</span> <span class="dv">3000</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        b0 <span class="ot">=</span> <span class="fl">3.1</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>        b1 <span class="ot">=</span> <span class="sc">-</span><span class="fl">0.7</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>        b2 <span class="ot">=</span> <span class="fl">0.02</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        b3 <span class="ot">=</span> <span class="fl">0.01</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        theta <span class="ot">=</span> <span class="dv">5</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>        x1 <span class="ot">&lt;-</span>    <span class="fu">rnorm</span>(n) <span class="sc">|&gt;</span>   <span class="fu">squish</span>(<span class="dv">1</span>, <span class="dv">3</span>)        <span class="co"># year</span></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        x2 <span class="ot">&lt;-</span>    <span class="fu">rnorm</span>(n) <span class="sc">|&gt;</span> <span class="fu">squish</span>(<span class="dv">0</span>, <span class="dv">11</span>)         <span class="co"># record</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        x3 <span class="ot">&lt;-</span>    <span class="fu">rnorm</span>(n)<span class="sc">|&gt;</span> <span class="fu">squish</span>(<span class="dv">0</span>, <span class="dv">100</span>)         <span class="co"># grade</span></span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        linear_response <span class="ot">=</span> b0 <span class="sc">+</span> b1<span class="sc">*</span>x1 <span class="sc">+</span> b2<span class="sc">*</span>x2 <span class="sc">+</span> b3<span class="sc">*</span>x3 </span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        exp_response <span class="ot">=</span> <span class="fu">exp</span>(linear_response) </span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>        y <span class="ot">&lt;-</span> <span class="fu">rqpois</span>(<span class="at">n =</span> n, </span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>                    <span class="at">mu =</span> exp_response, </span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>                    <span class="at">theta =</span> theta) <span class="sc">|&gt;</span> <span class="fu">squish</span>(<span class="dv">0</span>, <span class="dv">11</span>) <span class="sc">|&gt;</span> <span class="fu">as.integer</span>()</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        df <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>          <span class="at">y =</span> y, </span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>          <span class="at">x1 =</span> <span class="fu">cut_interval</span>(x1, <span class="dv">3</span>) <span class="sc">|&gt;</span> <span class="fu">factor</span>(<span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Year 1"</span>, <span class="st">"Year 2"</span>, <span class="st">"Year 3"</span>)), </span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>          <span class="at">x2 =</span> x2, </span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>          <span class="at">x3 =</span> x3</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>        sample_df <span class="ot">&lt;-</span> df <span class="sc">|&gt;</span> dplyr<span class="sc">::</span><span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">584</span>) <span class="co">#375</span></span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>        sample_df[<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>, ] <span class="ot">&lt;-</span> sample_df[<span class="dv">1</span><span class="sc">:</span><span class="dv">150</span>, ] <span class="sc">|&gt;</span> </span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>            <span class="at">y =</span> <span class="fu">ifelse</span>(x1 <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Year 3"</span>, <span class="st">"Year 2"</span>), <span class="dv">0</span>, x1)</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        sample_df <span class="ot">&lt;-</span> sample_df <span class="sc">|&gt;</span> </span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>            <span class="at">student_id =</span> <span class="fu">sample</span>(<span class="at">x =</span> <span class="dv">20000</span><span class="sc">:</span><span class="dv">30000</span>, <span class="at">size =</span> <span class="dv">584</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>)</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>          ) <span class="sc">|&gt;</span> </span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">slice_sample</span>(<span class="at">n =</span> <span class="dv">584</span>, <span class="at">replace =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>          dplyr<span class="sc">::</span><span class="fu">transmute</span>(</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>            student_id, <span class="at">n_lectures =</span> y, <span class="at">year =</span> x1, <span class="at">n_record =</span> <span class="fu">round</span>(x2, <span class="dv">0</span>), <span class="at">overall_grade =</span> <span class="fu">round</span>(x3, <span class="dv">2</span>)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>          )</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>        </span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>        <span class="fu">write.csv</span>(sample_df, <span class="st">"data/attendance_data.csv"</span>, <span class="at">row.names =</span> <span class="cn">FALSE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<section id="packages" class="level3">
+<h3 class="anchored" data-anchor-id="packages">Packages</h3>
+<p>We’re using the following packages:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS) <span class="co"># for fitting negative binomial models </span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-data" class="level3">
+<h3 class="anchored" data-anchor-id="the-data">The data</h3>
+<p>The data are stored in the <a href="data/attendance_data.csv">attendance_data.csv</a>. Download the data and <a href="index.html#importing-datasets">import it to Posit Cloud</a>. Once you’ve done so, you can read the data into R by running:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>attend_tib <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/attendance_data.csv"</span>) <span class="sc">|&gt;</span> readr<span class="sc">::</span><span class="fu">read_csv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 584 Columns: 5
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (1): year
+dbl (4): student_id, n_lectures, n_record, overall_grade
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<p>The <code>year</code> variable is a categorical variable with more than two levels. We’re going to convert it into a factor:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>attend_tib <span class="ot">&lt;-</span> attend_tib <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="fu">factor</span>(year)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>For the comparison specified in the hypothesis, we want “Year 1” to be coded as the baseline against which to compare the other two years. We can check the order of our levels with the <code>levels()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">levels</span>(attend_tib<span class="sc">$</span>year)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "Year 1" "Year 2" "Year 3"</code></pre>
+</div>
+</div>
+<p>“Year 1” is listed first, which means that R will use it as the baseline group. We don’t need to do anything else here, but if the groups weren’t in the correct order, we’d need to reorder them with the <code>forecats::fct_relevel()</code> function.</p>
+</section>
+<section id="descriptive-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="descriptive-statistics">Descriptive statistics</h3>
+<p>We’re using the same code as usual for the descriptives. We’re also adding an argument <code>include_factors = TRUE</code> so that we get some summaries for the categorical variables.</p>
+<div id="tbl-count-desc" class="cell anchored">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">describe_distribution</span>(attend_tib, <span class="at">include_factors =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 14%">
+<col style="width: 10%">
+<col style="width: 9%">
+<col style="width: 9%">
+<col style="width: 18%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 5%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Variable</th>
+<th style="text-align: center;">Mean</th>
+<th style="text-align: center;">SD</th>
+<th style="text-align: center;">IQR</th>
+<th style="text-align: center;">Range</th>
+<th style="text-align: center;">Skewness</th>
+<th style="text-align: center;">Kurtosis</th>
+<th style="text-align: center;">n</th>
+<th style="text-align: center;">n_Missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">student_id</td>
+<td style="text-align: center;">24937.43</td>
+<td style="text-align: center;">2884.07</td>
+<td style="text-align: center;">5132.00</td>
+<td style="text-align: center;">(20026, 29973)</td>
+<td style="text-align: center;">0.03</td>
+<td style="text-align: center;">-1.21</td>
+<td style="text-align: center;">584</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">n_lectures</td>
+<td style="text-align: center;">1.33</td>
+<td style="text-align: center;">1.64</td>
+<td style="text-align: center;">2.00</td>
+<td style="text-align: center;">(0, 10)</td>
+<td style="text-align: center;">1.64</td>
+<td style="text-align: center;">3.07</td>
+<td style="text-align: center;">584</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">year</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">(Year 1, Year 3)</td>
+<td style="text-align: center;">0.18</td>
+<td style="text-align: center;">2.17</td>
+<td style="text-align: center;">584</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">n_record</td>
+<td style="text-align: center;">5.26</td>
+<td style="text-align: center;">1.63</td>
+<td style="text-align: center;">2.00</td>
+<td style="text-align: center;">(0, 11)</td>
+<td style="text-align: center;">0.08</td>
+<td style="text-align: center;">0.13</td>
+<td style="text-align: center;">584</td>
+<td style="text-align: center;">0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overall_grade</td>
+<td style="text-align: center;">54.58</td>
+<td style="text-align: center;">13.49</td>
+<td style="text-align: center;">17.05</td>
+<td style="text-align: center;">(0, 96.57)</td>
+<td style="text-align: center;">-0.19</td>
+<td style="text-align: center;">0.55</td>
+<td style="text-align: center;">584</td>
+<td style="text-align: center;">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Some things of note - the average number of lectures attended is <em>extremely low</em> - less than two out of 11 lectures. This variable is also quite skewed and has excess kurtosis. Let’s see what it looks like. To spice things up, we’ll create a nice histogram this time, overlayed by a count line. If you’re copying and adjusting code, try copying line by line so you can see the changes gradually:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-1" class="code-annotation-target"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> attend_tib, <span class="fu">aes</span>(<span class="at">x =</span> n_lectures)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-8-2" class="code-annotation-target"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"yellowgreen"</span>, <span class="at">alpha =</span> <span class="fl">0.4</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-8-3" class="code-annotation-target"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-8-4" class="code-annotation-target"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>, <span class="at">stat =</span> <span class="st">"count"</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-8-5" class="code-annotation-target"><a href="#annotated-cell-8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">11</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-8-6" class="code-annotation-target"><a href="#annotated-cell-8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="1" data-code-annotation="1">Create the base layer, placing the number of layers on the x axis</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="2" data-code-annotation="2">Add the histogram. We’re also changing the default colour and we’re making it a little transparent. This is optional (but looks nice)</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="3" data-code-annotation="3">Add a line. Set the statistic used for calculating the values to be a “count”.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="4" data-code-annotation="4">Add points. We can make them a little larger using the <code>size</code> argument. As above, we’re requesting the “count” statistic.</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="5" data-code-annotation="5">Change the scale to make sure the breaks are only at whole numbers and not at places with decimal points. We could just list all the numbers for the <code>breaks</code> argument - e.g.&nbsp;<code>c(1,2,3,4,5,6,7,8,9,10,11)</code> - but it’s more efficient to request a sequence of numbers starting at 0, going up to 11 (because that’s how many lectures there were in total), increasing by 1 at each step: <code>seq(0, 11, 1)</code> .</span>
+</dd>
+<dt data-target-cell="annotated-cell-8" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-8" data-code-lines="6" data-code-annotation="6">Add a nice theme.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Often the histogram itself is enough to give us the necessary info. However with count variables, adding the line and the points can be used to show that the outcome variable is indeed a count variable <em>and that we’re going to treat it as such</em> (as opposed to treating it as a continuous variable.</p>
+<p>We can see that we have a right skewed distribution. Quite a lot of students did not attend any lectures at all or they went to just one lecture. Very few participants attended 10 lectures, and no-one attended all of them (number 11 doesn’t even show up on the plot unless we force the plot to do so).</p>
+<p>For the hypothesis, we can create a dot plot instead of a scatter plot (because we have a categorical predictor):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-9-1" class="code-annotation-target"><a href="#annotated-cell-9-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> attend_tib, <span class="fu">aes</span>(<span class="at">x =</span> year, <span class="at">y =</span> n_lectures)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-9-2" class="code-annotation-target"><a href="#annotated-cell-9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> <span class="fl">0.1</span>), <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">colour =</span> <span class="st">"yellowgreen"</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-9-3" class="code-annotation-target"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_summary</span>(<span class="at">colour =</span> <span class="st">"steelblue"</span>, <span class="at">fun.data =</span> <span class="st">"mean_cl_normal"</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-9-4"><a href="#annotated-cell-9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>() </span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="1" data-code-annotation="1">Set up the base layer. The predictor <code>year</code> goes on the x axis, the outcome goes on the y axis.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="2" data-code-annotation="2">Add the points. We’re tweaking the default settings so the distribution of the points is a little easier to see. For <code>position</code> we’re setting “position_jitter” which ensures the points are not stacked on top of each other. The <code>width</code> argument defines how far out the points spread. We’re also changing the transparency <code>alpha</code> to 0.2 so we can see more of the points. Finally, we change the colour.</span>
+</dd>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-9" data-code-lines="3" data-code-annotation="3"><code>stat_summary</code> adds the means and the confidence intervals - we request this by specifying “mean_cl_normal” in the <code>fun.data</code> argument. When choosing colour, pick something that contrasts well with the scatter points in the background.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on the plot, it seems like Year 1 students have the best attendance (though also have the fewest data points and therefore the widest confidence intervals), followed by Year 2 and Year 3, who attend the fewest sessions.</p>
+</section>
+</section>
+<section id="poisson-models" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="poisson-models"><span class="header-section-number">2.2</span> Poisson models</h2>
+<p>More often than not, a distribution is defined by some version of two parameters - location and dispersion. Location tells us at which point to centre the distribution and dispersion tells us how far the points spread out. In a Gaussian distribution, we have the mean and the standard deviation. In Gamma models, we have shape and scale. They’re not exactly the same, but they serve a similar function.</p>
+<p>Poisson models are simple creatures. They are only defined by one parameter <span class="math inline">\(\lambda\)</span> (lambda) which represents <em>both</em> the location and the variance. This is because of the <a href="01_gzlms.html#sec-mean-variance-relationship">mean-variance relationship</a> the models assume:</p>
+<p><span class="math display">\[
+V(Y) = E(Y)
+\]</span></p>
+<p>In which the variance of Y (the outcome) will always be equal to the expected value of Y. Contrast this with the Gaussian models, which don’t assume a specific value as long as it’s constant (homoscedastic), or the Gamma models in which variance is equal to the square of the expected value.</p>
+<p>They’re nice and simple to simulate too:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-10-1" class="code-annotation-target"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>poisson_dist <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">lambda =</span> <span class="dv">1</span>)</span>
+<span id="annotated-cell-10-2"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-10-3" class="code-annotation-target"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> poisson_dist)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-10-4" class="code-annotation-target"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="1" data-code-annotation="1">Generate 1000 random numbers drawn from a Poisson distribution with the lambda parameter equal to 1. Save the result into an object called <code>poisson_dist</code> .</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="3" data-code-annotation="2">Add <code>poisson_dist</code> into the base layer of a plot</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="4" data-code-annotation="3">Draw a histogram.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>As expected, the distribution only generates integers (or whole numbers). We can confirm this with the <code>head()</code> function, which will print out the first six values from the object we enter into it:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(poisson_dist)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2 1 0 1 1 2</code></pre>
+</div>
+</div>
+<p>The distribution is also left skewed. A Poisson distribution can only be left skewed or symmetrical. The larger the lambda parameter, the more symmetrical the distribution will be:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>poisson_dist <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">lambda =</span> <span class="dv">10</span>) </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> poisson_dist)) <span class="sc">+</span> </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Note that even if the distribution achieves perfect symmetry, we still can’t call it normal, because the values are not on a continuous scale.</p>
+<p>Conversely, lambda can be smaller than 1, in which case the skew becomes more extreme and values will be bunched up around the lower end of the scale:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>poisson_dist <span class="ot">&lt;-</span> <span class="fu">rpois</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">lambda =</span> <span class="fl">0.6</span>) </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> poisson_dist)) <span class="sc">+</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This mean-variance relationship is <em>very</em> restrictive. Realistically, there aren’t many variables that strictly follow a Poisson distribution, but let’s not doom our model before we’ve given it a chance (spoiler alert…).</p>
+<section id="fit-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="fit-the-model">Fit the model</h3>
+<p>Let’s fit our model using the <code>glm</code> function.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-14"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-14-1"><a href="#annotated-cell-14-1" aria-hidden="true" tabindex="-1"></a>attend_poiss <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-14-2" class="code-annotation-target"><a href="#annotated-cell-14-2" aria-hidden="true" tabindex="-1"></a>  n_lectures <span class="sc">~</span> year <span class="sc">+</span> n_record <span class="sc">+</span> overall_grade,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-14-3" class="code-annotation-target"><a href="#annotated-cell-14-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> attend_tib,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-14" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-14-4" class="code-annotation-target"><a href="#annotated-cell-14-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">poisson</span>(<span class="at">link =</span> <span class="st">"log"</span>)</span>
+<span id="annotated-cell-14-5"><a href="#annotated-cell-14-5" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-14" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="2" data-code-annotation="1">Specify the formula</span>
+</dd>
+<dt data-target-cell="annotated-cell-14" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="3" data-code-annotation="2">Specify the dataset</span>
+</dd>
+<dt data-target-cell="annotated-cell-14" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-14" data-code-lines="4" data-code-annotation="3">Set the family to be <code>poisson</code> . The link function is <code>log</code> - same as for the Gamma models.</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="evaluate-the-model-fit" class="level3">
+<h3 class="anchored" data-anchor-id="evaluate-the-model-fit">Evaluate the model fit</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(attend_poiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-14-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>First, let’s go through the plots we already know.</p>
+<ul>
+<li><p><strong>Posterior predictive check</strong> - we no longer see the smooth curves - this is not a problem, because we’re not working with continuous data. The predictions themselves are not great. The model predicts fewer counts for values 0, 1, and 2. The predictions are from 3 onwards, but that left tail is quite inacurate.</p></li>
+<li><p><strong>Homogeneity of variance</strong> - looks a little funky because of the criss-crossy pattern. Again, this is not a problem and caused by the fact that we’re working with counts. The line isn’t entirely straight flat, but overall not too wobbly. I’d say the model passes the vibe check on this criterion.</p></li>
+<li><p><strong>Influential observations</strong> - nothing flagged here.</p></li>
+<li><p><strong>Collinearity</strong> - all VIF values are low and not a cause for concern</p></li>
+<li><p><strong>Uniformity of residuals</strong> - the points wobble around the line.</p></li>
+</ul>
+<p>Based on the posterior predictive check and the residuals, it seems like the model is not a great fit. This is confirmed by the plot that we skipped, which checks for <strong>over-dispersion</strong>.</p>
+</section>
+<section id="over-dispersion" class="level3">
+<h3 class="anchored" data-anchor-id="over-dispersion">Over-dispersion</h3>
+<p>Let’s take a closer look at this plot:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-15-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The straight blue line represents what kind of variance the model expects for different predicted mean. Recall that the mean-variance relationship is:</p>
+<p><span class="math display">\[
+V(Y) = E(Y)
+\]</span></p>
+<p>It’s a little difficult to see on the plot, but the line is plotted in a way where value 1 on the x axis corresponds to the value of 1 on the y axis. Value 2 on x represents to 2 on y, and so on. We need the variance in our model (the green line with the ribbon) to follow this line. We can see that this is not the case. The green line wiggles <em>above</em> the straight line most of the time. This means that there is more dispersion in our model then the Poisson model allows - it is over-dispersed.</p>
+<p>Although this case is pretty cut and dry, we can use the over-dispersion test from <code>easystats</code> to get a second opinion:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_overdispersion</span>(attend_poiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Overdispersion test
+
+       dispersion ratio =    1.927
+  Pearson's Chi-Squared = 1115.938
+                p-value =  &lt; 0.001</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Overdispersion detected.</code></pre>
+</div>
+</div>
+<p>For a Poisson model, we’d expect the dispersion ratio to be 1. If it’s above 1, the model is over-dispersed, if it’s below 1, it’s under-dispersed. A <em>p</em>-value tells us whether this deviation from 1 is statistically significant.</p>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Significance tests of assumptions
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Generally, significance tests of assumptions are not the best idea because they because they encourage black and white thinking (over-dispersed vs under-dispersed) instead of nuanced evaluation. In larger samples, they will be more likely to sound an alarm even if the violation is minor. They might be helpful in an ambiguous situation where the plot isn’t clear, but even then a problem in one diagnistic plot will likely be echoed in at least one other plot. There is a significance test for pretty much every assumption. I will only include this one so that you know they exist, but I won’t cover any others. Because I don’t like them.</p>
+</div>
+</div>
+<p>Under over-dispersion, the parameter estimates are valid, however the standard errors (and therefore confidence intervals and <em>p</em>-values) are not. On the whole, this model is clearly not well specified. We have some alternatives. Again, ideally we want to think about whether a distribution is suitable for our data <em>before</em> we even collected the data, and certainly before we start mucking about in the analysis stage. But let’s say that we’ve miscalculated. What are our options? Well, we still have:</p>
+<ul>
+<li><p>Negative binomial models</p></li>
+<li><p>Quasi-Poisson models</p></li>
+</ul>
+</section>
+</section>
+<section id="negative-binomial-models" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="negative-binomial-models"><span class="header-section-number">2.3</span> Negative binomial models</h2>
+<p>Negative binomial (NB) distribution allows us to model counts in situations where dispersion is is greater than the expected mean. Unlike Poisson, NB distribution has a separate dispersion parameter that allows the model to be a little more flexible. The variance (V) is modelled as:</p>
+<p><span class="math display">\[
+V(Y) = E(Y) + \frac{E(Y)^2}{k}
+\]</span></p>
+<p>Which is the sum of the expected value of Y plus the square of the expected value divided by the dispersion parameter <em>k</em> . The <em>k</em> parameter therefore controls how far the values spread out. The smaller the <em>k</em>, the larger the dispersion and the extent of skewness are going to be (because dividing by a small number results in a larger number).</p>
+<p>In the code below, the <code>theta</code> argument represents the k parameter:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>nb_dist <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">rnegbin</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mu =</span> <span class="dv">1</span>, <span class="at">theta =</span> <span class="fl">0.5</span>) </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> nb_dist)) <span class="sc">+</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Conversely, we can set <code>theta</code> to be very large, in which case the NB distribution will start to resemble the Poisson distribution. This is because we divide by a large number, so the fraction <span class="math inline">\(\frac{E(Y)^2}{k}\)</span> will result in a very small value, and the variance will be very close to the value of the mean.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>nb_dist <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">rnegbin</span>(<span class="at">n =</span> <span class="dv">1000</span>, <span class="at">mu =</span> <span class="dv">1</span>, <span class="at">theta =</span> <span class="dv">100</span>) </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> <span class="cn">NULL</span>, <span class="fu">aes</span>(<span class="at">x =</span> nb_dist)) <span class="sc">+</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<section id="fit-the-model-1" class="level3">
+<h3 class="anchored" data-anchor-id="fit-the-model-1">Fit the model</h3>
+<p>Let’s try this again, shall we? The function is a little different this time - we’re using the <code>glm.nb</code> from the package <code>MASS</code> to fit a negative binomial model. We still need to specify the formula and the data, but we don’t need to specify the family because <code>glm.nb</code> function can only fit negative binomial models:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>attend_nb <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">glm.nb</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  n_lectures <span class="sc">~</span> n_record <span class="sc">+</span> year <span class="sc">+</span> overall_grade, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> attend_tib</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="evaluate-the-model-fit-1" class="level3">
+<h3 class="anchored" data-anchor-id="evaluate-the-model-fit-1">Evaluate the model fit</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(attend_nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-20-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li><p><strong>Posterior predictive check</strong> - this is a <em>much</em> better fit then before.</p></li>
+<li><p><strong>Homogeneity of variance:</strong> looks fine</p></li>
+<li><p><strong>Influential cases:</strong> none</p></li>
+<li><p><strong>Collinearity:</strong> none detected</p></li>
+<li><p><strong>Residuals</strong> - follow the line nicely.</p></li>
+<li><p><strong>Dispersion</strong>… wrong way around! This time, the variance is increasing at the slower rate than the model expects, as the green line with the ribbon departs from the predicted blue line around 1.5 on the x axis and continues below it. This is called <strong>under-dispersion</strong>.</p></li>
+</ul>
+<p>Regarding my previous salty grumble about significance tests of assumptions, if we check dispersion with the test</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_overdispersion</span>(attend_nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Overdispersion test
+
+ dispersion ratio = 0.952
+          p-value = 0.672</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>No overdispersion detected.</code></pre>
+</div>
+</div>
+<p>The ratio is very close to 1 even though the departure is quite substantial. The test really should pick up on the fact that the model suffers from under-dispersion (at least based on the documentation).</p>
+</section>
+</section>
+<section id="quasi-poisson-models" class="level2" data-number="2.4">
+<h2 data-number="2.4" class="anchored" data-anchor-id="quasi-poisson-models"><span class="header-section-number">2.4</span> Quasi-Poisson models</h2>
+<p>A third type of model we’re going to try is the Quasi-Poisson model. Strictly speaking, Quasi-Poisson models don’t belong to the GLM family, but they are very GLM like, in that:</p>
+<ol type="1">
+<li>They apply linearising link function to model the relationships of interest. This function is the natural logarithm, same as for Gamma and Poisson models.</li>
+<li>They assume a mean-variance relationship, specifically that <span class="math inline">\(V(Y) = \phi E(Y)\)</span> . In Poisson models, the <span class="math inline">\(\phi\)</span> parameter is assumed to be 1, and therefore the variance is assumed to be equal to the expected value. In Quasi-Poisson models, <span class="math inline">\(\phi\)</span> is estimated from the data and can be different from 1. The larger the <span class="math inline">\(\phi\)</span> the larger the variance.</li>
+<li>We fit them with the <code>glm</code> function.</li>
+</ol>
+<p>Unfortunately, we can’t really simulate a Quasi-Poisson distribution to show how it changes with a changing <span class="math inline">\(\phi\)</span>, because such a distribution doesn’t exist. In this sense, the models are different from GLM:</p>
+<ul>
+<li><p>Because a Quasi-Poisson distribution doesn’t exist, the estimation cannot be based on Maximum Likelihood. It is based on Quasi-Likelihood.</p></li>
+<li><p>Instead, the parameters are estimated in the same way, but in addition we need to estimate the <span class="math inline">\(\phi\)</span> parameter, which is then used to adjust the standard errors, ensuring the inference (i.e.&nbsp;the <em>p</em>-values) is valid.</p></li>
+</ul>
+<p>Because of the way <span class="math inline">\(\phi\)</span> is estimated, the model can deal with over- or under dispersion. If we were to use robust models as a metaphor for Quasi-likelihood models, they’re a similar level of fix to heteroscedasticity-consistent standard errors (“HC4”, “HC5”, and so on. ). When we apply the HC4 correction, the parameter estimates are not affected, but the standard errors change because they are estimated from the model predictor matrix rather then based on an assumption of constant variance.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+The drawbacks of Quasi-models
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The general guidance is that we should use negative-binomial models when we have over-dispersed data, and only resolve to Quasi-Poisson if the issues with dispersion aren’t fixed under NB distribution.</p>
+<p>Main reason being is that Quasi-likelihood models rob us of some of the benefits of full-likelihood models, such as the ability to compare models and evaluate improvement after adding predictors.</p>
+<p>For example, imagine that we built our NB models bit by bit, by adding the predictors one after another:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>attend_0 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">glm.nb</span>(n_lectures <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> attend_tib)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>attend_1 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">glm.nb</span>(n_lectures <span class="sc">~</span> year, <span class="at">data =</span> attend_tib)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>attend_2 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">glm.nb</span>(n_lectures <span class="sc">~</span> year <span class="sc">+</span> n_record, <span class="at">data =</span> attend_tib)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>attend_3 <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">glm.nb</span>(n_lectures <span class="sc">~</span> year <span class="sc">+</span> n_record <span class="sc">+</span> overall_grade, <span class="at">data =</span> attend_tib)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can then compare these models based on AIC, BIC, and pseudo R<sup>2</sup> :</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_performance</span>(attend_0, attend_1, attend_2, attend_3, <span class="at">metrics =</span> <span class="st">"common"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 24%">
+<col style="width: 24%">
+<col style="width: 21%">
+<col style="width: 7%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: center;">Model</th>
+<th style="text-align: center;">AIC (weights)</th>
+<th style="text-align: center;">BIC (weights)</th>
+<th style="text-align: center;">Nagelkerke’s R2</th>
+<th style="text-align: center;">RMSE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">attend_0</td>
+<td style="text-align: center;">negbin</td>
+<td style="text-align: center;">1861.1 (&lt;.001)</td>
+<td style="text-align: center;">1869.8 (6.00e-03)</td>
+<td style="text-align: center;">2.04e-15</td>
+<td style="text-align: center;">1.64</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">attend_1</td>
+<td style="text-align: center;">negbin</td>
+<td style="text-align: center;">1843.4 (0.01)</td>
+<td style="text-align: center;">1860.9 (0.48)</td>
+<td style="text-align: center;">0.06</td>
+<td style="text-align: center;">1.61</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">attend_2</td>
+<td style="text-align: center;">negbin</td>
+<td style="text-align: center;">1845.3 (5.00e-03)</td>
+<td style="text-align: center;">1867.2 (0.02)</td>
+<td style="text-align: center;">0.06</td>
+<td style="text-align: center;">1.61</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">attend_3</td>
+<td style="text-align: center;">negbin</td>
+<td style="text-align: center;">1834.6 (0.98)</td>
+<td style="text-align: center;">1860.8 (0.49)</td>
+<td style="text-align: center;">0.09</td>
+<td style="text-align: center;">1.60</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We can see that Model 2 (in which we added the <code>n_record</code> predictor) is not really an improvement compared to the previous models. Generally, we’re looking for a model with the lowest AIC and BIC. We can also see that the <span class="math inline">\(R^2\)</span> value doesn’t change from Model 1 to Model 2, but does improve for Model 3.</p>
+<p>We can confirm this with a likelihood ratio test:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anova</span>(attend_0, attend_1, attend_2, attend_3) <span class="sc">|&gt;</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 6%">
+<col style="width: 10%">
+<col style="width: 16%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 9%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Model</th>
+<th style="text-align: left;">theta</th>
+<th style="text-align: right;">Resid. df</th>
+<th style="text-align: right;">2 x log-lik.</th>
+<th style="text-align: right;">Test</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">LR stat.</th>
+<th style="text-align: right;">Pr(Chi)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1.212</td>
+<td style="text-align: right;">583</td>
+<td style="text-align: right;">-1857.067</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">year</td>
+<td style="text-align: left;">1.342</td>
+<td style="text-align: right;">581</td>
+<td style="text-align: right;">-1835.397</td>
+<td style="text-align: right;">1 vs 2</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">21.670</td>
+<td style="text-align: right;">1.970e-05</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">year + n_record</td>
+<td style="text-align: left;">1.342</td>
+<td style="text-align: right;">580</td>
+<td style="text-align: right;">-1835.317</td>
+<td style="text-align: right;">2 vs 3</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">0.081</td>
+<td style="text-align: right;">0.777</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">year + n_record + overall_grade</td>
+<td style="text-align: left;">1.422</td>
+<td style="text-align: right;">579</td>
+<td style="text-align: right;">-1822.621</td>
+<td style="text-align: right;">3 vs 4</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">12.695</td>
+<td style="text-align: right;">3.666e-04</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Here, the last column contains the p-value that tells us whether each model is a significant improvement compared to the previous model. The p-value for Model 2 is not statistically significant.</p>
+<p>If likelihood-based comparisons are something we’re interested in, then we cannot use Quasi-Poisson model for estimation. But if we only want to estimate the parameters and make valid inference, they’re a good solution for dealing with over- or under-dispersion.</p>
+</div>
+</div>
+<section id="fit-the-model-2" class="level3">
+<h3 class="anchored" data-anchor-id="fit-the-model-2">Fit the model</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>attend_qpoiss <span class="ot">&lt;-</span> <span class="fu">glm</span>(</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  n_lectures <span class="sc">~</span> year <span class="sc">+</span> n_record  <span class="sc">+</span> overall_grade, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> attend_tib, </span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">family =</span> <span class="fu">quasipoisson</span>(<span class="at">link =</span> <span class="st">"log"</span>)</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="evaluate-the-model-fit-2" class="level3">
+<h3 class="anchored" data-anchor-id="evaluate-the-model-fit-2">Evaluate the model fit</h3>
+<p>We don’t actually gain any additional insight from the <code>model_check</code> function - it will still tell us that there is over-dispersion based on the Poisson expectations, and the residuals will still indicate a suboptimal fit (because the check also expects a Poisson distribution). The posterior predictive check disappears, because there’s no theoretical distribution based on which to make predictions. The model fit statistics will also be based on Poisson, not on Quasi-Poisson. The only thing that is unique to Quasi-Poisson is the standard errors and <em>p</em>-values.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(attend_qpoiss, <span class="at">residual_type =</span> <span class="st">"normal"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-26-1.png" class="img-fluid figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>This highlights the fact that a Quasi-Poisson is a “fix” to a problem, rather than a model that can be thoughtfully planned in advance. By default, we should aim for Poisson if it’s realistic, Negative-Binomial if we’re expecting over-dispersion, and only resort to Quasi-Poisson if the original plan fails.</p>
+<p>Seeing as we’ve now exhausted our options, let’s extract the rest of the statistics for our model.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">performance</span>(attend_qpoiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Indices of model performance
+
+Nagelkerke's R2 |  RMSE | Sigma | Score_log | Score_spherical
+-------------------------------------------------------------
+0.127           | 1.597 | 1.388 |    -1.674 |           0.037</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_wald</span>(attend_qpoiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Only one model was provided, however, at least two are required for
+  comparison.
+  Fitting a null-model as reference now.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Name       | Model |  df | df_diff |    F |      p
+--------------------------------------------------
+Null model |   glm | 583 |         |      |       
+Full model |   glm | 579 |       4 | 9.09 | &lt; .001
+Models were detected as nested (in terms of fixed parameters) and are compared in sequential order.</code></pre>
+</div>
+</div>
+<p>Overall, the model explains 12.71% of deviance and is significant improvement over the null model <em>F</em>(4,579) = 9.09, <em>p</em> &lt; .001.</p>
+</section>
+<section id="extract-model-parameters" class="level3">
+<h3 class="anchored" data-anchor-id="extract-model-parameters">Extract model parameters</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(attend_qpoiss, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">IRR</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">t(579)</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">0.989</td>
+<td style="text-align: center;">0.308</td>
+<td style="text-align: center;">(0.534, 1.809)</td>
+<td style="text-align: center;">-0.034</td>
+<td style="text-align: center;">0.973</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">year (Year 2)</td>
+<td style="text-align: center;">0.631</td>
+<td style="text-align: center;">0.094</td>
+<td style="text-align: center;">(0.476, 0.854)</td>
+<td style="text-align: center;">-3.087</td>
+<td style="text-align: center;">0.002</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">year (Year 3)</td>
+<td style="text-align: center;">0.346</td>
+<td style="text-align: center;">0.084</td>
+<td style="text-align: center;">(0.212, 0.550)</td>
+<td style="text-align: center;">-4.384</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">n record</td>
+<td style="text-align: center;">1.008</td>
+<td style="text-align: center;">0.030</td>
+<td style="text-align: center;">(0.950, 1.070)</td>
+<td style="text-align: center;">0.267</td>
+<td style="text-align: center;">0.789</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">overall grade</td>
+<td style="text-align: center;">1.013</td>
+<td style="text-align: center;">0.004</td>
+<td style="text-align: center;">(1.006, 1.020)</td>
+<td style="text-align: center;">3.452</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>attend_qpoiss <span class="ot">&lt;-</span> <span class="fu">glm</span>(n_lectures <span class="sc">~</span> n_record <span class="sc">+</span> year <span class="sc">+</span> overall_grade, <span class="at">data =</span> attend_tib, <span class="at">family =</span> <span class="st">"quasipoisson"</span>)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>attend_qpoiss <span class="sc">|&gt;</span> <span class="fu">check_model</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="01b_gzlms_counts_files/figure-html/unnamed-chunk-30-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>attend_qpoiss <span class="sc">|&gt;</span> <span class="fu">performance</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Indices of model performance
+
+Nagelkerke's R2 |  RMSE | Sigma | Score_log | Score_spherical
+-------------------------------------------------------------
+0.127           | 1.597 | 1.388 |    -1.674 |           0.037</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>attend_qpoiss <span class="sc">|&gt;</span> <span class="fu">model_parameters</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Parameter     |  IRR |       SE |       95% CI | t(579) |      p
+----------------------------------------------------------------
+(Intercept)   | 0.99 |     0.31 | [0.53, 1.81] |  -0.03 | 0.973 
+n record      | 1.01 |     0.03 | [0.95, 1.07] |   0.27 | 0.789 
+year [Year 2] | 0.63 |     0.09 | [0.48, 0.85] |  -3.09 | 0.002 
+year [Year 3] | 0.35 |     0.08 | [0.21, 0.55] |  -4.38 | &lt; .001
+overall grade | 1.01 | 3.78e-03 | [1.01, 1.02] |   3.45 | &lt; .001</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Uncertainty intervals (profile-likelihood) and p-values (two-tailed)
+  computed using a Wald t-distribution approximation.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="fu">predict</span>(</span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  attend_qpoiss, </span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">newdata =</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">n_record =</span> <span class="dv">5</span>, </span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">overall_grade =</span> <span class="dv">70</span>, </span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">year =</span> <span class="fu">factor</span>(<span class="st">"Year 1"</span>, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Year 1"</span>, <span class="st">"Year 2"</span>, <span class="st">"Year 3"</span>))</span>
+<span id="cb42-7"><a href="#cb42-7" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb42-8"><a href="#cb42-8" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<span id="cb42-9"><a href="#cb42-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">exp</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb42-10"><a href="#cb42-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.integer</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 2</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="zero-inflated-models" class="level2" data-number="2.5">
+<h2 data-number="2.5" class="anchored" data-anchor-id="zero-inflated-models"><span class="header-section-number">2.5</span> Zero-inflated models</h2>
+<p>this is where our context knowledge becomes important - if there is another process modelling the zeros,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_zeroinflation</span>(attend_nb)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Check for zero-inflation
+
+   Observed zeros: 239
+  Predicted zeros: 237
+            Ratio: 0.99</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Model seems ok, ratio of observed and predicted zeros is within the
+  tolerance range (p = 0.984).</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_zeroinflation</span>(attend_qpoiss)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Check for zero-inflation
+
+   Observed zeros: 239
+  Predicted zeros: 166
+            Ratio: 0.69</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Model is underfitting zeros (probable zero-inflation).</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb50"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a>zero_inf_mod <span class="ot">&lt;-</span> pscl<span class="sc">::</span><span class="fu">zeroinfl</span>(n_lectures <span class="sc">~</span> n_record <span class="sc">+</span> year  <span class="sc">+</span> overall_grade, <span class="at">data =</span> attend_tib, <span class="at">dist =</span> <span class="st">"poisson"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb51"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" aria-hidden="true" tabindex="-1"></a>zero_inf_mod <span class="sc">|&gt;</span> <span class="fu">model_parameters</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Fixed Effects
+
+Parameter     |  IRR |       SE |       95% CI |     z |     p
+--------------------------------------------------------------
+(Intercept)   | 1.51 |     0.39 | [0.91, 2.49] |  1.60 | 0.110
+n record      | 0.99 |     0.03 | [0.94, 1.04] | -0.40 | 0.690
+year [Year 2] | 0.91 |     0.10 | [0.73, 1.13] | -0.86 | 0.392
+year [Year 3] | 0.49 |     0.12 | [0.31, 0.78] | -2.98 | 0.003
+overall grade | 1.01 | 3.32e-03 | [1.00, 1.01] |  2.27 | 0.023
+
+# Zero-Inflation
+
+Parameter     | Odds Ratio |       SE |           95% CI |     z |     p
+------------------------------------------------------------------------
+(Intercept)   |   1.48e-04 | 5.54e-03 | [0.00, 1.36e+28] | -0.23 | 0.814
+n record      |       0.94 |     0.07 | [0.80,     1.09] | -0.85 | 0.393
+year [Year 2] |   13333.94 | 5.01e+05 | [0.00, 1.22e+36] |  0.25 | 0.800
+year [Year 3] |   12757.89 | 4.79e+05 | [0.00, 1.18e+36] |  0.25 | 0.801
+overall grade |       0.98 | 9.36e-03 | [0.96,     1.00] | -2.05 | 0.040</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb53"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" aria-hidden="true" tabindex="-1"></a>zero_inf_mod <span class="sc">|&gt;</span> <span class="fu">model_parameters</span>(<span class="at">exponentiate =</span> <span class="cn">TRUE</span>, <span class="at">bootstrap =</span> <span class="cn">TRUE</span>, <span class="at">component =</span> <span class="st">"zi"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Fixed Effects
+
+Parameter     |      IRR |           95% CI |      p
+----------------------------------------------------
+(Intercept)   |     1.49 | [0.71,     2.78] | 0.264 
+n record      |     0.99 | [0.93,     1.06] | 0.742 
+year [Year 2] |     0.91 | [0.70,     1.23] | 0.522 
+year [Year 3] |     0.48 | [0.25,     0.86] | 0.004 
+overall grade |     1.01 | [1.00,     1.02] | 0.054 
+(Intercept)   | 6.49e-05 | [0.00,     0.23] | &lt; .001
+n record      |     0.94 | [0.78,     1.10] | 0.430 
+year [Year 2] | 24438.84 | [9.26, 3.12e+07] | &lt; .001
+year [Year 3] | 18264.96 | [0.13, 2.56e+07] | 0.074 
+overall grade |     0.98 | [0.96,     1.00] | 0.054 </code></pre>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script>
