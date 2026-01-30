@@ -32,7 +32,7 @@ yoink_code <- function(filename_no_ext){
     dplyr::filter(chunk_index != 0)|> 
     dplyr::group_by(chunk_index) |> 
     dplyr::filter(
-      any(stringr::str_detect(lines, "cex")),
+      any(stringr::str_detect(lines, "code")),
       # !any(stringr::str_detect(lines, "echo=FALSE")), 
       # !any(stringr::str_detect(lines, "echo=FALSE")), 
       # !any(stringr::str_detect(lines, "include=FALSE"))

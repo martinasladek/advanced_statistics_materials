@@ -1,4 +1,4 @@
-```{r eval=FALSE, message=FALSE, comment="cex"}
+```{r eval=FALSE, message=FALSE, comment="code"}
 library(easystats)
 library(tidyverse)
 
@@ -7,7 +7,7 @@ belay_tib <- here::here("data/climbing_data.csv") |>
 ```
 
 
-```{r eval=FALSE, fig.align='center', comment="cex"}
+```{r eval=FALSE, fig.align='center', comment="code"}
 gamma_dist <- rgamma(n = 10000, shape = 1, scale = 2)
 
 ggplot2::ggplot(data = NULL, aes(x = gamma_dist)) +
@@ -15,7 +15,7 @@ ggplot2::ggplot(data = NULL, aes(x = gamma_dist)) +
 ```
 
 
-```{r eval=FALSE, eval=FALSE, comment="cex"}
+```{r eval=FALSE, eval=FALSE, comment="code"}
 ... + 
 stat_smooth(method = "glm", colour = "darkorange", fill = "darkorange", 
             method.args = list(family = "Gamma")) + 
@@ -23,7 +23,7 @@ stat_smooth(method = "glm", colour = "darkorange", fill = "darkorange",
 ```
 
 
-```{r eval=FALSE, message=FALSE, comment="cex"}
+```{r eval=FALSE, message=FALSE, comment="code"}
 
 belay_tib |> 
   ggplot2::ggplot(data = _, aes(x = climbing_exp, y = reaction_time)) + 
@@ -39,7 +39,7 @@ belay_tib |>
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 belay_gamma <- glm(
   reaction_time ~ assisted_break + climbing_exp + distracted + fall_m,
   family = Gamma(link = "log"), 
@@ -48,13 +48,13 @@ belay_gamma <- glm(
 ```
 
 
-```{r eval=FALSE, fig.height=7, fig.width=8, comment="cex"}
+```{r eval=FALSE, fig.height=7, fig.width=8, comment="code"}
 
 belay_gamma |> check_model()
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 #| tbl-cap: ""
 
 belay_gamma |> 
@@ -64,21 +64,21 @@ belay_gamma |>
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 belay_gamma |> 
   test_wald() |> 
   display()
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 belay_gamma |> 
   parameters() |> 
   display()
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 belay_gamma_exp <- belay_gamma |> 
   parameters(exponentiate = TRUE) 
  
@@ -87,7 +87,7 @@ belay_gamma_exp |>
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 #| tbl-cap: ""
 
 
@@ -104,7 +104,7 @@ belay_gamma_exp |>
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 predict(
   object = belay_gamma, 
   newdata = tibble::tibble(
@@ -117,7 +117,7 @@ predict(
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 predict(
   object = belay_gamma, 
   newdata = tibble::tibble(
@@ -127,6 +127,16 @@ predict(
     fall_m = 1.82
   )
 ) |> exp()
+```
+
+
+```{r eval=FALSE, eval=TRUE, echo=FALSE}
+source("functions/yoink_code.R")
+yoink_code("01a_gzlms_skewed")
+```
+
+
+```{r eval=FALSE, child="code/01a_gzlms_skewed_code.qmd"}
 ```
 
 

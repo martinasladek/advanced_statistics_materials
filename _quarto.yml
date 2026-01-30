@@ -38,5 +38,6 @@ format:
     number-depth: 2
     css: "assets/webex.css"
     include-after-body: "assets/webex.js"
+    fig-align: center
   # pdf:
   #   documentclass: scrreprt

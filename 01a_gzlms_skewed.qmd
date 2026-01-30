@@ -10,7 +10,7 @@ By assuming an alternative data generating process, we can model skewed distribu
 
 We'll be using the same [scenario](#scenario-gzlms), so go back and remind yourself if you need to. If you started a new document for this section, you will also need to re-read the data and the packages:
 
-```{r message=FALSE, comment="cex"}
+```{r message=FALSE, comment="code"}
 library(easystats)
 library(tidyverse)
 
@@ -35,7 +35,7 @@ ggplot2::ggplot(data = NULL, aes(x = gamma_dist)) + #<2>
 
 Shape and scale of 1 generate a very skewed distribution with a long right tail. How about changing the scale to 2?
 
-```{r fig.align='center', comment="cex"}
+```{r fig.align='center', comment="code"}
 gamma_dist <- rgamma(n = 10000, shape = 1, scale = 2)
 
 ggplot2::ggplot(data = NULL, aes(x = gamma_dist)) +
@@ -57,7 +57,7 @@ The mass of the distribution has slightly shifted to the right. There is a lot o
 
 We're going to recreate @fig-gzlms-h1, but this time, we're also adding the prediction line for a would-be Gamma model. We do so by including the following line in the ggplot"
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 ... + 
 stat_smooth(method = "glm", colour = "darkorange", fill = "darkorange", 
             method.args = list(family = "Gamma")) + 
@@ -72,7 +72,7 @@ stat_smooth(method = "glm", colour = "darkorange", fill = "darkorange",
 
 -   `method.args = list(family = "Gamma")` - these are the arguments that we want to specify for the method. We can use multiple arguments here, so we wrap everything in the `list` function. Inside the `list` function, we specify that the `family` we're using to construct the line is `"Gamma"`.
 
-```{r message=FALSE, comment="cex"}
+```{r message=FALSE, comment="code"}
 #| label: "fig-gamma-h1"
 #| fig-cap: ""
 
@@ -99,7 +99,7 @@ Two things to note here:
 
 ### Link functions
 
-Gaussian models assume that the conditional distribution of the outcome is normal. Normal distribution is unbound - it ranges from $-\infty$ to $+\infty$ , which makes it possible and convenient to fit straight lines that also go from $-\infty$ to $+\infty$ (see section [Going Beyond the data](#sec-going-beyond-the-data)). The slope of this line is fixed, which means that we're able to describe the relationship between two variables with just one parameter estimate. The problem is that many distributions we encounter in real life are bound on one end or both and might not be symetrical. For example the Gamma distribution can only ever contain positive values (i.e. values greater than 0), so fitting a line that extends to infinity just won't do. But we still want a single parameter with which to test our hypothesis.
+Gaussian models assume that the conditional distribution of the outcome is normal. Normal distribution is unbound - it ranges from $-\infty$ to $+\infty$ , which makes it possible and convenient to fit straight lines that also go from $-\infty$ to $+\infty$ (see section [Going Beyond the data](#sec-going-beyond-the-data)). The slope of this line is fixed, which means that we're able to describe the relationship between two variables with just one parameter estimate. The problem is that many distributions we encounter in real life are bound on one end or both and might not be symmetrical. For example the Gamma distribution can only ever contain positive values (i.e. values greater than 0), so fitting a line that extends to infinity just won't do. But we still want a single parameter with which to test our hypothesis.
 
 Enter **link functions**. They are functions that we apply to the [conditional outcome distribution](#sec-conditional-distributions) so that we can express the relationship between the outcome and the predictor as a linear term, such that:
 
@@ -135,7 +135,7 @@ Different distributions are associated with different link functions that will a
 
 Let's fit our model using the `glm` function, which we introduced in the section [Fitting GzLM in R](#sec-fitting-gzlm-in-r).
 
-```{r, comment="cex"}
+```{r, comment="code"}
 belay_gamma <- glm(
   reaction_time ~ assisted_break + climbing_exp + distracted + fall_m,
   family = Gamma(link = "log"), 
@@ -149,7 +149,7 @@ The part of the code that does all the heavy lifting is this: `family = Gamma(li
 
 We can use the same function as before to check for model assumptions. For Gamma models, the output is going to be very similar, but the underlying calculations differ in some instances.
 
-```{r fig.height=7, fig.width=8, comment="cex"}
+```{r fig.height=7, fig.width=8, comment="code"}
 #| label: fig-gamma-assumptions
 #| fig-cap: ""
 
@@ -305,7 +305,7 @@ As usual, we want:
 
 As previously, `easystats` has our back and we can just use the familiar functions.
 
-```{r, comment="cex"}
+```{r, comment="code"}
 #| label: tbl-gamma-performance
 #| tbl-cap: ""
 
@@ -356,7 +356,7 @@ Based on the pseudo R^2^ , our model explains `r report_pseudo_r2(belay_gamma)$p
 
 Finally, let's test the model fit:
 
-```{r, comment="cex"}
+```{r, comment="code"}
 belay_gamma |> 
   test_wald() |> 
   display()
@@ -384,11 +384,11 @@ report_wald <- function(lm){
 
 Overall the Wald test indicates the model is good fit, `r report_wald(belay_gamma)`.
 
-### Parameter estimates
+### Parameter estimates {#sec-gamma-params}
 
 Finally, let's extract the parameter estimates:
 
-```{r, comment="cex"}
+```{r, comment="code"}
 belay_gamma |> 
   parameters() |> 
   display()
@@ -420,7 +420,7 @@ report_betas <- function(lm, pred){
 
 The parameter estimates as we see above are on the log scale. For example for assisted break, the model predicts `r report_betas(belay_gamma, "assisted_break")$b` change in the *log* of the outcome with the change of one unit of the predictor. The estimate is negative, so we know that as the predictor increases, the log of the outcome decreases (whereas the opposite is true for distraction and fall height). But the values themselves are not particularly illuminating. Luckily, we can transform the betas in a way that will allow us to interpret them in the original units by exponentiating them. This is because exponentiation is the inverse function to the log.
 
-```{r, comment="cex"}
+```{r, comment="code"}
 belay_gamma_exp <- belay_gamma |> 
   parameters(exponentiate = TRUE) 
  
@@ -430,7 +430,7 @@ belay_gamma_exp |>
 
 Now the predictors that are negatively associated with the outcome have values smaller than 1, while predictors with positive association have values greater than 1. As we've seen in @fig-gamma-h1, the relationship between the predictor and the outcome is not entirely linear so the interpretation of the parameters is not as simple as a change in one unit of the predictor associated with the change in the outcome. Instead, what we have is called the Prevalence Ratio. To make the interpretation of PR easier, we're going to convert PR into percentage change associated with a change in one unit of the predictor. We do this by subtracting 1 from the estimate and then multiplying it by 100. We'll do this for both the estimate and the confidence intervals:
 
-```{r, comment="cex"}
+```{r, comment="code"}
 #| label: tbl-gamma-results
 #| tbl-cap: ""
 
@@ -522,7 +522,7 @@ There's one final thing we need to highlight about the Gamma models. Revisit @fi
 
 Say we want to predict the reaction time for someone with two years of climbing experience:
 
-```{r, comment="cex"}
+```{r, comment="code"}
 predict(
   object = belay_gamma, 
   newdata = tibble::tibble(
@@ -550,7 +550,7 @@ and 876.0839 is the reaction time predicted for someone with *three* years of ex
 
 What if we took someone at the upper end of climbing experience, say 8 years?
 
-```{r, comment="cex"}
+```{r, comment="code"}
 predict(
   object = belay_gamma, 
   newdata = tibble::tibble(
@@ -570,7 +570,7 @@ The predicted reaction time is 406.2939, and 10.54% of this value is:
 
 42.82. So the value that we're subtracting becomes lower and lower the further up we move on climbing experience. This effectively prevents us from falling into absurd predictions. Eventually, the prediction line would plateau and be almost completely flat, which makes sense - there's a physical limit of how fast someone can react.
 
-### Report
+### Report {#sec-report-gamma}
 
 When reporting any model, we want to strike a balance between reporting all the necessary bits of information and interpreting the parameter estimates in a way that allows us to make conclusions about the hypothesis. Here's an example of how you could approach but don't feel beholden to this:
 
@@ -679,7 +679,7 @@ Use `alert_glm` and `alert_gamma` to make two separate response time predictions
 
 ### Check worksheet values
 
-Once you've finished the worksheet, you can ask the tutor to look through your work and give you feedback. Remember that you should also practice writing up the results in a brief report, not just running the code. If you're stuck, you can use the quiz below to guide you.
+Once you've finished the worksheet, you can ask me to look through your work and give you feedback. Remember that you should also practice writing up the results in a brief report, not just running the code. If you're stuck, you can use the quiz below to guide you.
 
 You can also use the quiz below - if you fitted the models the correctly, your answers should match the correct answers in the quiz. **Round all your answers to 2 decimal places.** If making calculations, only round the final result.
 
@@ -735,8 +735,19 @@ alert_gamma_prediction <- predict(
 ) |> exp()
 ```
 
+
+
+
 ::: {.callout-tip collapse="true" appearance="simple"}
-## Worksheet check
+### Worksheet check
+
+```{r echo=FALSE}
+round_wrap <- function(x, layer_1 = 3, layer_2 = 2){
+  x1 <- webexercises::round2(x, layer_1) 
+    webexercises::round2(x1, layer_2)
+}
+```
+
 
 ```{r echo=FALSE}
 library(webexercises)
@@ -745,11 +756,12 @@ webex_desc_alert <- alert_desc[alert_desc$Variable == "alertness", "Mean"] |>
   webexercises::fitb()
 
 webex_desc_gpws_time <- alert_desc[alert_desc$Variable == "gpws_time", "Mean"] |> 
-  webexercises::round2(2) |> 
+  webexercises::round2(3) |> 
   webexercises::fitb()
 
 webex_glm_param <- alert_glm$coefficients["modality"] |> 
-  webexercises::round2(2) |> 
+  webexercises::round2(3) |> 
+   webexercises::round2(2) |> 
   webexercises::fitb()
 
 webex_assumptions <- 
@@ -766,9 +778,9 @@ webex_ppcheck <-
   c(answer = "Gamma model", "Gausian model") |> 
   webexercises::longmcq()
 
-r2_glm <- alert_glm_performance$R2*100
+r2_glm <- webexercises::round2(alert_glm_performance$R2, 3)*100
 
-r2_gamma <- alert_gamma_performance$R2_Nagelkerke*100 
+r2_gamma <- webexercises::round2(alert_gamma_performance$R2_Nagelkerke, 3)*100 
 
 webex_r2_gamma <- r2_gamma |> 
   webexercises::round2(2) |> 
@@ -778,11 +790,11 @@ webex_r2_diff <- webexercises::round2(r2_gamma - r2_glm, 2) |>
   webexercises::fitb()
 
 webex_gamma_fit_f <- alert_gamma_wald$F[2] |> 
-  webexercises::round2(2) |> 
+   round_wrap() |> 
   webexercises::fitb()
 
 webex_gamma_fit_df1 <- alert_gamma_wald$df_diff[2] |> 
-  webexercises::round2(2) |> 
+  round_wrap() |> 
   webexercises::fitb()
 
 webex_gamma_fit_df2 <- alert_gamma_wald$df[2] |> 
@@ -790,7 +802,7 @@ webex_gamma_fit_df2 <- alert_gamma_wald$df[2] |>
   webexercises::fitb()
 
 webex_gamma_param <- ((alert_gamma_parameters_exp$Coefficient[2]-1)*100) |> 
-  webexercises::round2(2) |> 
+  webexercises::round2(1) |> 
   webexercises::fitb()
 
 webex_policy <- c(
@@ -807,6 +819,7 @@ webex_gamma_prediction <- alert_gamma_prediction  |>
   webexercises::round2(2) |> 
   webexercises::fitb()
   
+
 ```
 
 How alert were the pilots in the study on average? `r webex_desc_alert`

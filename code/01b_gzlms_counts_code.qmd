@@ -1,0 +1,173 @@
+```{r eval=FALSE, comment="code"}
+attend_tib <- attend_tib |> 
+  dplyr::mutate(
+    year = factor(year)
+  )
+```
+
+
+```{r eval=FALSE, comment="code"}
+levels(attend_tib$year)
+```
+
+
+```{r eval=FALSE, comment="code"}
+describe_distribution(attend_tib, include_factors = TRUE) |> 
+  display()
+```
+
+
+```{r eval=FALSE, message=FALSE, comment="code"}
+ggplot2::ggplot(data = attend_tib, aes(x = n_lectures)) + 
+  geom_histogram(fill = "yellowgreen", alpha = 0.4) + 
+  geom_line(stat = "count") + 
+  geom_point(size = 2, stat = "count") + 
+  scale_x_continuous(breaks = seq(0, 11, 1)) +  
+  theme_light() 
+```
+
+
+```{r eval=FALSE, comment="code"}
+ggplot2::ggplot(data = attend_tib, aes(x = year, y = n_lectures)) + 
+  geom_point(position = position_jitter(width = 0.1), alpha = 0.2, colour = "yellowgreen") + 
+  stat_summary(colour = "steelblue", fun.data = "mean_cl_normal") + 
+  scale_y_continuous(breaks = seq(0, 11, 1)) +  
+  theme_light() 
+```
+
+
+```{r eval=FALSE, comment="code"}
+ggplot2::ggplot(data = attend_tib, aes(x = overall_grade, y = n_lectures)) + 
+  geom_point(position = position_jitter(width = 0.1), alpha = 0.2, colour = "yellowgreen") + 
+  stat_smooth(method = "glm", colour = "steelblue", method.args = list(family = "poisson")) + 
+  theme_light() 
+
+```
+
+
+```{r eval=FALSE, message = FALSE, comment="code"}
+poisson_dist <- rpois(n = 1000, lambda = 1) 
+
+ggplot2::ggplot(data = NULL, aes(x = poisson_dist)) + 
+  geom_histogram() 
+```
+
+
+```{r eval=FALSE, comment="code"}
+attend_poiss <- glm(
+  n_lectures ~ year + n_record + overall_grade, 
+  data = attend_tib, 
+  family = poisson(link = "log") 
+)
+```
+
+
+```{r eval=FALSE, fig.height= 8, fig.width=8, comment="code"}
+check_model(attend_poiss)
+```
+
+
+```{r eval=FALSE, comment="code"}
+check_overdispersion(attend_poiss)
+
+```
+
+
+```{r eval=FALSE, message=FALSE, comment="code"}
+nb_dist <- MASS::rnegbin(n = 1000, mu = 1, theta = 0.5) 
+
+ggplot2::ggplot(data = NULL, aes(x = nb_dist)) + 
+  geom_histogram() 
+```
+
+
+```{r eval=FALSE, comment="code"}
+attend_nb <- MASS::glm.nb(
+  n_lectures ~ n_record + year + overall_grade, 
+  data = attend_tib
+)
+```
+
+
+```{r eval=FALSE, comment="code"}
+attend_qpoiss <- glm(
+  n_lectures ~ year + n_record  + overall_grade, 
+  data = attend_tib, 
+  family = quasipoisson(link = "log")
+)
+```
+
+
+```{r eval=FALSE, comment="code"}
+performance(attend_qpoiss) |> 
+  display()
+```
+
+
+```{r eval=FALSE, comment="code", message=FALSE}
+test_wald(attend_qpoiss) |> 
+  display(digits = 3)
+```
+
+
+```{r eval=FALSE, comment="code"}
+attend_qpoiss |> 
+  model_parameters(exponentiate = TRUE) |> 
+  display(digits = 3)
+```
+
+
+```{r eval=FALSE, comment="code"}
+prediction_tib <- tibble::tibble( 
+  year = "Year 1" |> factor(levels = c("Year 1", "Year 2", "Year 3")), 
+  n_record = 5.26, 
+  overall_grade = 30, 
+)
+
+predict( 
+  attend_qpoiss, 
+  newdata = prediction_tib 
+) |> 
+  exp()
+```
+
+
+```{r eval=FALSE, comment="code"}
+prediction_tib <- tibble::tibble( 
+  year = "Year 1" |> factor(levels = c("Year 1", "Year 2", "Year 3")), 
+  n_record = 5.26, 
+  overall_grade = 85, 
+)
+
+predict( 
+  attend_qpoiss, 
+  newdata = prediction_tib 
+) |> 
+  exp()
+```
+
+
+```{r eval=FALSE, comment="code"}
+check_zeroinflation(attend_poiss)
+```
+
+
+```{r eval=FALSE, comment="code"}
+attend_zi <- pscl::zeroinfl(
+  n_lectures ~ year + n_record  + overall_grade |  overall_grade,
+  data = attend_tib, 
+  dist = "poisson"
+)
+```
+
+
+```{r eval=FALSE, eval=TRUE, echo=FALSE}
+source("functions/yoink_code.R")
+yoink_code("01b_gzlms_counts")
+```
+
+
+```{r eval=FALSE, child="code/01b_gzlms_counts_code.qmd"}
+```
+
+

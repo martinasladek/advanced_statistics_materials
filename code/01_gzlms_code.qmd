@@ -1,4 +1,4 @@
-```{r eval=FALSE, message=FALSE, comment="cex"}
+```{r eval=FALSE, message=FALSE, comment="code"}
 library(easystats) 
 library(tidyverse) 
 
@@ -7,7 +7,7 @@ belay_tib <- here::here("data/climbing_data.csv") |>
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 #| tbl-cap: ""
 
 belay_tib |> 
@@ -16,7 +16,7 @@ belay_tib |>
 ```
 
 
-```{r eval=FALSE, fig.align='center', message=FALSE, comment="cex"}
+```{r eval=FALSE, fig.align='center', message=FALSE, comment="code"}
 
 belay_tib |> 
   ggplot2::ggplot(data = _, aes(x = climbing_exp, y = reaction_time)) + 
@@ -28,7 +28,7 @@ belay_tib |>
 ```
 
 
-```{r eval=FALSE, fig.align='center', comment="cex"}
+```{r eval=FALSE, fig.align='center', comment="code"}
 
 belay_tib |> 
   ggplot2::ggplot(data = _, aes(x = factor(assisted_break), y = reaction_time)) + # <1>
@@ -40,7 +40,7 @@ belay_tib |>
 ```
 
 
-```{r eval=FALSE, fig.align="center", comment="cex"}
+```{r eval=FALSE, fig.align="center", comment="code"}
 
 belay_tib |> 
   ggplot2::ggplot(data = _, aes(x = reaction_time)) + 
@@ -50,27 +50,27 @@ belay_tib |>
 ```
 
 
-```{r eval=FALSE, fig.height=7, fig.width=8, comment="cex"}
+```{r eval=FALSE, fig.height=7, fig.width=8, comment="code"}
 
 belay_lm |> check_model()
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 belay_lm |> 
   performance() |> 
   display()
 ```
 
 
-```{r eval=FALSE, message=FALSE, comment="cex"}
+```{r eval=FALSE, message=FALSE, comment="code"}
 belay_lm |> 
   test_wald() |> 
   display()
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 #| tbl-cap: ""
 
 belay_rob |> 
@@ -79,7 +79,7 @@ belay_rob |>
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 prediction_tib <- tibble::tibble(
   climbing_exp = 0:20,
   assisted_break = 0,
@@ -90,12 +90,12 @@ prediction_tib <- tibble::tibble(
 ```
 
 
-```{r eval=FALSE, eval=FALSE, comment="cex"}
+```{r eval=FALSE, eval=FALSE, comment="code"}
 predict(belay_rob, prediction_tib)
 ```
 
 
-```{r eval=FALSE, eval=FALSE, comment="cex"}
+```{r eval=FALSE, eval=FALSE, comment="code"}
 belay_glm |> 
   check_model()  
 
@@ -108,10 +108,20 @@ belay_glm |>
 ```
 
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 belay_glm |> 
   parameters() |> 
   display()
+```
+
+
+```{r eval=FALSE, eval=TRUE, echo=FALSE}
+source("functions/yoink_code.R")
+yoink_code("01_gzlms")
+```
+
+
+```{r eval=FALSE, child="code/01_gzlms_code.qmd"}
 ```
 
 

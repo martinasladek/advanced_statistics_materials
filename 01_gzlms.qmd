@@ -68,7 +68,7 @@ write.csv(belay_tib, "data/climbing_data.csv", row.names = FALSE)
 
 The (fictional) dataset is stored in the file [`climbing_data.csv`](data/climbing_data.csv) . First, let's load up the necessary packages. Then, assuming you have [imported the dataset](#importing-datasets) into the `data` folder on Posit Cloud, you can read it into your R session as:
 
-```{r message=FALSE, comment="cex"}
+```{r message=FALSE, comment="code"}
 library(easystats) #<1>
 library(tidyverse) #<2>
 
@@ -111,7 +111,7 @@ Situations where we absolutely *have to* convert into factors or out right dummy
 
 The next few steps should be familiar. We start by generating some descriptive summaries:
 
-```{r comment="cex"}
+```{r comment="code"}
 #| label: tbl-gzlms-describe
 #| tbl-cap: ""
 
@@ -148,7 +148,7 @@ For data visualisation, we'll want:
 
 Let's start with H~1~:
 
-```{r fig.align='center', message=FALSE, comment="cex"}
+```{r fig.align='center', message=FALSE, comment="code"}
 #| label: fig-gzlms-h1
 #| fig-cap: ""
 
@@ -178,7 +178,7 @@ belay_tib |>
 
 Now let's do the same for H~2~
 
-```{r fig.align='center', comment="cex"}
+```{r fig.align='center', comment="code"}
 #| label: fig-gzlms-h2
 #| fig-cap: ""
 
@@ -200,7 +200,7 @@ belay_tib |>
 
 Finally, let's have a look at the distribution of the outcome:
 
-```{r fig.align="center", comment="cex"}
+```{r fig.align="center", comment="code"}
 #| label: fig-gzlms-outcome
 #| fig-cap: ""
 
@@ -233,7 +233,7 @@ Before diving straight into the result, we'll need to check the model assumption
 
 ### Check model assumptions
 
-```{r fig.height=7, fig.width=8, comment="cex"}
+```{r fig.height=7, fig.width=8, comment="code"}
 #| label: fig-gzlms-assumptions
 #| fig-cap: ""
 
@@ -246,7 +246,7 @@ Right of the bat, we have problems. The posterior predictive check (row 1 left) 
 
 We can get the overall fit statistics:
 
-```{r, comment="cex"}
+```{r, comment="code"}
 belay_lm |> 
   performance() |> 
   display()
@@ -256,7 +256,7 @@ belay_lm |>
 
 And test the overall fit:
 
-```{r message=FALSE, comment="cex"}
+```{r message=FALSE, comment="code"}
 belay_lm |> 
   test_wald() |> 
   display()
@@ -340,7 +340,7 @@ report_betas <- function(lm, pred){
 
 ```
 
-```{r comment="cex"}
+```{r comment="code"}
 #| label: tbl-gzlms-params
 #| tbl-cap: ""
 
@@ -463,7 +463,7 @@ Say that we're interested in what the model predicts for individuals with no cli
 
 Then we'll hold the other predictors constant. For factors, we'll hold the values at the baseline, so 0 or "No" for both `assisted_break` and `distracted` . The continuous predictor - fall length - will be held constant at the average value of `fall_m` from @tbl-gzlms-describe . We'll use the `tibble` function and store the result into an object called `prediction_tib` .
 
-```{r comment="cex"}
+```{r comment="code"}
 prediction_tib <- tibble::tibble(
   climbing_exp = 0:20,
   assisted_break = 0,
@@ -489,7 +489,7 @@ As requested, values in all rows are identical except for `climbing_exp`, which 
 
 On its own, it can be used like this:
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 predict(belay_rob, prediction_tib)
 ```
 
@@ -679,7 +679,7 @@ The main difference from the OLS model or the robust model is this line: `family
 
 We can run the model checks as normal - the output is the same as before and can be interpreted as such, so there's no need to repeat it here.
 
-```{r eval=FALSE, comment="cex"}
+```{r eval=FALSE, comment="code"}
 belay_glm |> 
   check_model()  #<1>
 
@@ -710,7 +710,7 @@ belay_lm |>
 
 #### ML (GzLM) estimates
 
-```{r, comment="cex"}
+```{r, comment="code"}
 belay_glm |> 
   parameters() |> 
   display()
