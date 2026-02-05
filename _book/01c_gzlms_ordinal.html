@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>3&nbsp; Modelling ordinal responses – Advanced Statistics 25/26</title>
+<title>3&nbsp; Modelling ordinal outcomes – Advanced Statistics 25/26</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,7 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -69,6 +123,35 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="assets/webex.css">
 </head>
@@ -82,7 +165,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_gzlms.html">Generalised Linear Models</a></li><li class="breadcrumb-item"><a href="./01c_gzlms_ordinal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelling ordinal responses</span></a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_gzlms.html">Generalised Linear Models</a></li><li class="breadcrumb-item"><a href="./01c_gzlms_ordinal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelling ordinal outcomes</span></a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -137,7 +220,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./01c_gzlms_ordinal.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelling ordinal responses</span></span></a>
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelling ordinal outcomes</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -229,15 +312,57 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="4">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#types-of-ordinal-models" id="toc-types-of-ordinal-models" class="nav-link active" data-scroll-target="#types-of-ordinal-models"><span class="header-section-number">3.1</span> Types of Ordinal Models</a></li>
+  <li><a href="#scenario" id="toc-scenario" class="nav-link" data-scroll-target="#scenario"><span class="header-section-number">3.2</span> Scenario</a></li>
+  <li><a href="#cumulative-ordinal-models" id="toc-cumulative-ordinal-models" class="nav-link" data-scroll-target="#cumulative-ordinal-models"><span class="header-section-number">3.3</span> Cumulative ordinal models</a>
+  <ul>
+  <li><a href="#the-thresholds" id="toc-the-thresholds" class="nav-link" data-scroll-target="#the-thresholds">The thresholds</a></li>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The data</a></li>
+  </ul></li>
+  <li><a href="#descriptives" id="toc-descriptives" class="nav-link" data-scroll-target="#descriptives"><span class="header-section-number">3.4</span> Descriptives</a></li>
+  <li><a href="#visualise-the-data" id="toc-visualise-the-data" class="nav-link" data-scroll-target="#visualise-the-data"><span class="header-section-number">3.5</span> Visualise the data</a></li>
+  <li><a href="#fit-the-model" id="toc-fit-the-model" class="nav-link" data-scroll-target="#fit-the-model"><span class="header-section-number">3.6</span> Fit the model</a></li>
+  <li><a href="#check-model-fit" id="toc-check-model-fit" class="nav-link" data-scroll-target="#check-model-fit"><span class="header-section-number">3.7</span> Check model fit</a>
+  <ul>
+  <li><a href="#proportional-odds-assumption" id="toc-proportional-odds-assumption" class="nav-link" data-scroll-target="#proportional-odds-assumption">Proportional Odds Assumption</a>
+  <ul class="collapse">
+  <li><a href="#recoding-the-outcome" id="toc-recoding-the-outcome" class="nav-link" data-scroll-target="#recoding-the-outcome"><strong>Recoding the outcome</strong></a></li>
+  <li><a href="#fitting-the-logistic-models" id="toc-fitting-the-logistic-models" class="nav-link" data-scroll-target="#fitting-the-logistic-models"><strong>Fitting the logistic models</strong></a></li>
+  </ul></li>
+  <li><a href="#fit-statistics" id="toc-fit-statistics" class="nav-link" data-scroll-target="#fit-statistics">Fit statistics</a></li>
+  </ul></li>
+  <li><a href="#extract-model-parameters" id="toc-extract-model-parameters" class="nav-link" data-scroll-target="#extract-model-parameters"><span class="header-section-number">3.8</span> Extract model parameters</a>
+  <ul>
+  <li><a href="#thresholds-intercepts" id="toc-thresholds-intercepts" class="nav-link" data-scroll-target="#thresholds-intercepts">Thresholds (intercepts)</a></li>
+  <li><a href="#parameter-estimates" id="toc-parameter-estimates" class="nav-link" data-scroll-target="#parameter-estimates">Parameter estimates</a></li>
+  </ul></li>
+  <li><a href="#unpicking-the-odds" id="toc-unpicking-the-odds" class="nav-link" data-scroll-target="#unpicking-the-odds"><span class="header-section-number">3.9</span> Unpicking the odds</a>
+  <ul>
+  <li><a href="#calculating-the-thresholds" id="toc-calculating-the-thresholds" class="nav-link" data-scroll-target="#calculating-the-thresholds"><strong>Calculating the thresholds</strong></a></li>
+  <li><a href="#calculating-the-parameter-estimates" id="toc-calculating-the-parameter-estimates" class="nav-link" data-scroll-target="#calculating-the-parameter-estimates"><strong>Calculating the parameter estimates</strong></a></li>
+  </ul></li>
+  <li><a href="#report" id="toc-report" class="nav-link" data-scroll-target="#report"><span class="header-section-number">3.10</span> Report</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">3.11</span> Exercises</a>
+  <ul>
+  <li><a href="#what-does-this-code-do" id="toc-what-does-this-code-do" class="nav-link" data-scroll-target="#what-does-this-code-do">What does this code do?</a></li>
+  <li><a href="#worksheet" id="toc-worksheet" class="nav-link" data-scroll-target="#worksheet">Worksheet</a></li>
+  <li><a href="#check-worksheet-values" id="toc-check-worksheet-values" class="nav-link" data-scroll-target="#check-worksheet-values">Check worksheet values</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_gzlms.html">Generalised Linear Models</a></li><li class="breadcrumb-item"><a href="./01c_gzlms_ordinal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelling ordinal responses</span></a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./01_gzlms.html">Generalised Linear Models</a></li><li class="breadcrumb-item"><a href="./01c_gzlms_ordinal.html"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelling ordinal outcomes</span></a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelling ordinal responses</span></h1>
+<h1 class="title"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Modelling ordinal outcomes</span></h1>
 </div>
 
 
@@ -254,8 +379,1416 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<blockquote class="blockquote">
+<p>Please use the scale below to indicate your agreement/disagreement with the following statement:</p>
+<p>“9 am classes during the winter months are always the highlight of my week.”</p>
+<ol type="1">
+<li>Strongly agree</li>
+<li>Agree</li>
+<li>Neither agree nor disagree</li>
+<li>Disagree</li>
+<li>Strongly disagree</li>
+</ol>
+</blockquote>
+<p>Likert scales, like the one above, are extremely common in psychology. Majority of scales measuring psychological constructs - such as depression, anxiety, well-being or life satisfaction - comprise multiple of Likert scale items. Items within a scale are usually summed or averaged to get a final score - this way we usually end up with a continuous variable which we can model with a GLM or with a Gamma GzLM.<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>However, there are situations when we’re measuring a response with a single question, like the one in the example above. Although it might be tempting to treat it as continuous, doing so could be misleading. Unit change in the outcome needs to represent the same magnitude of change regardless of where on the scale we are positioned. A temperature change from 12°C to 13°C is mathematically the same as the change from 35°C to 36°C, and the interpretation of the parameter estimates relies on it. Can we say the same thing about Likert scales? Is the change from <em>Strongly agree</em> to <em>Agree</em> the same magnitude as the change from <em>Agree</em> to <em>Neither agree not disagree</em>? Does the value 3.4 make sense? What does would it even represent?</p>
+<p>Although we often associate Likert scales with numeric values (e.g.&nbsp;1-5), they are closer to categorical outcomes than to continuous outcomes - this will become obvious when we start interpreting the output. A more general name for these outcomes is <strong>Ordinal Outcomes</strong> or <strong>Ordered Factors</strong> - categorical variables with levels that have some meaningful order.</p>
+<section id="types-of-ordinal-models" class="level2" data-number="3.1">
+<h2 data-number="3.1" class="anchored" data-anchor-id="types-of-ordinal-models"><span class="header-section-number">3.1</span> Types of Ordinal Models</h2>
+<p>We have three classes of ordinal models which are useful in different situations depending what kind of probability we’re trying to model and what sort of question we want to answer.</p>
+<ul>
+<li><p><strong>Cumulative models</strong> (or Proportional Odds Models) allow us to estimate the odds of the outcome being at a given level or lower against the odds of being at any remaining higher level.</p></li>
+<li><p><strong>Sequential models</strong> estimate the odds of the outcome being at the given level against the odds of being at any remaining higher level.</p></li>
+<li><p><strong>Adjacent-category models</strong> estimate the odds of the outcome being at a given level against the odds of being at the next higher level.</p></li>
+</ul>
+<p>If it helps, you can think of them as different types of contrasts that allow us to make various comparison across levels. We often use simple dummy coding in these tutorials, but if we have a specific hypothesis about how levels might differ, we could apply custom contrasts.</p>
+<p>In this tutorial, we’re going to focus on the <strong>Cumulative Models</strong> because (a) they are the most commonly used and (b) their interpretation is the closest to what we’d expect from the previous models we’ve covered.<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a> If you fancy a technical read, <span class="citation" data-cites="burkner2019">Bürkner and Vuorre (<a href="references.html#ref-burkner2019" role="doc-biblioref">2019</a>)</span> explains the alternative models in more detail.</p>
+<p>All in all, ordinal models are a bit of a doozy. Let’s jump straight into a scenario so we can introduce the necessary concepts with some practical context.</p>
+</section>
+<section id="scenario" class="level2" data-number="3.2">
+<h2 data-number="3.2" class="anchored" data-anchor-id="scenario"><span class="header-section-number">3.2</span> Scenario</h2>
+<p>This scenario is loosely based on research we carried out a couple if years ago <span class="citation" data-cites="sladekovaGLMexercise2023">(<a href="references.html#ref-sladekovaGLMexercise2023" role="doc-biblioref">Sladekova, Poupa, and Field 2024</a>)</span>. The data are simulated.</p>
+<blockquote class="blockquote">
+<p>A team of meta-researchers wants know whether psychology researchers attend to the assumptions of the General Linear Model. They send out a survey asking researchers to complete a brief analysis exercise and upload their finished analytic scripts. The meta-researchers then go over the submitted surveys and code participants’ practice (<code>assum_check</code>) into the following categories</p>
+<ol type="1">
+<li>No assumption checks performed</li>
+<li>Superficial or insufficient checks performed</li>
+<li>Correct checks performed but no corrective follow-up action</li>
+<li>Correct checks performed as well as a corrective follow-up action.</li>
+</ol>
+<p>As predictors, they record the researchers’ seniority (<code>seniority</code>) and whether or not they teach statistics and research methods as part of their job (<code>teach</code>), hypothesising the following:</p>
+<ul>
+<li><p>H<sub>1</sub>: Senior researchers will attend to the GLM assumptions to a greater extent compared to junior researchers.</p></li>
+<li><p>H<sub>2</sub>: Researchers who teach research methods and statistics will attend to GLM assumptions to a greater extent compared to those who do not teach.</p></li>
+</ul>
+</blockquote>
+</section>
+<section id="cumulative-ordinal-models" class="level2" data-number="3.3">
+<h2 data-number="3.3" class="anchored" data-anchor-id="cumulative-ordinal-models"><span class="header-section-number">3.3</span> Cumulative ordinal models</h2>
+<p>One of the core principles of ordinal models is the assumption that there is underlying latent continuous variable. Each of our levels will cover a certain range within this variable, and the levels are differentiated by thresholds.</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-ordinal-latent" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="960">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-ordinal-latent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01c_gzlms_ordinal_files/figure-html/fig-ordinal-latent-1.png" id="fig-ordinal-latent" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-ordinal-latent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.1
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In our example, we’re assuming there is some latent variable that represents the attendance to assumptions. This is illustrated in <a href="#fig-ordinal-latent" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> . We have low attendance to assumptions on the left end, and high attendance on the right end. The vertical lines represent the thresholds between the levels (T1, T2, T3). We will always have one fewer thresholds than we have levels. In our case, we have four levels, therefore we need three thresholds in order to split the latent variable into four categories.</p>
+<section id="the-thresholds" class="level3">
+<h3 class="anchored" data-anchor-id="the-thresholds">The thresholds</h3>
+<p>The way this latent variable is created under the hood is by applying a link function. The most commonly used link function with cumulative models is <strong>logit</strong>.</p>
+<p>In a model with no predictors, we’re only estimating the position of the thresholds - if we were to move them left or right, the area under the curve for each level would change, and so would the probability of the outcome being from given level. The thresholds therefore represent the intercepts of the model. That’s right - cumulative models have multiple intercepts! Very exciting.</p>
+<p>Specifically, we’re estimating:</p>
+<ol type="1">
+<li>Odds of doing no checks VS odds of doing any checks (including a corrective action).</li>
+<li>Odds of doing no checks or insufficient checks VS odds of doing correct checks (including corrective action).</li>
+<li>Odds of doing no checks or any checks without action VS odds of doing correct checks with corrective action.</li>
+</ol>
+<p>When we add predictors, we’re estimating how these thresholds <em>change</em> in association with each predictor. A very neat thing is that even though we have all of these thresholds that need estimating, we’re only going to estimate one parameter for each predictor and assume that the way the odds outlined change is the same. We call this the <strong>proportional odds assumption</strong> - we’ll return to it in due course.</p>
+</section>
+<section id="packages" class="level3">
+<h3 class="anchored" data-anchor-id="packages">Packages</h3>
+<p>Only familiar faces today - <code>tidyverse</code>, <code>easystats</code> and once again we’re summoning the <code>MASS</code> package which will help us fit ordinal models.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(MASS)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-data" class="level3">
+<h3 class="anchored" data-anchor-id="the-data">The data</h3>
+<p>The data are stored in the file <a href="data/assumption_data.csv">assumption_data.csv</a>. Download the data and <a href="index.html#importing-datasets">import it to Posit Cloud</a>. Once you’ve done so, you can read the data into R by running:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>assum_tib <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/assumption_data.csv"</span>) <span class="sc">|&gt;</span> readr<span class="sc">::</span><span class="fu">read_csv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We’re going to be very deliberate with our levels this time - we need to tell R that our outcome is an ordered factor.</p>
+<p>We also want to ensure the levels of our predictors are in the right order - our hypotheses make predictions about more senior researchers (H<sub>1</sub>) and researchers who teach stats (H<sub>2</sub>) so these are the levels we’ll set as the baseline.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>assum_tib <span class="ot">&lt;-</span> assum_tib <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-3" class="code-annotation-target"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">assum_check =</span> <span class="fu">factor</span>(</span>
+<span id="annotated-cell-3-4"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>      assum_check, </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No checks"</span>, <span class="st">"Insufficient"</span>, <span class="st">"No follow-up"</span>, <span class="st">"Full checks"</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-3-6" class="code-annotation-target"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span></span>
+<span id="annotated-cell-3-7"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-3-8" class="code-annotation-target"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">seniority =</span> <span class="fu">factor</span>(seniority, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Faculty"</span>, <span class="st">"PostDoc"</span>, <span class="st">"PhD"</span>)),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-3-9" class="code-annotation-target"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">teach =</span> <span class="fu">factor</span>(teach, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>))</span>
+<span id="annotated-cell-3-10"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>  )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="2" data-code-annotation="1">Use the <code>mutate()</code> function to modify variables.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="3" data-code-annotation="2">Use the <code>factor()</code> function to convert <code>assum_check</code> into a factor.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="3">List the levels in the right order.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="6" data-code-annotation="4">Specify that the levels of this factor have a meaningful order.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="8" data-code-annotation="5">Convert <code>seniority</code> into a factor, with “Faculty” as the baseline.</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="9" data-code-annotation="6">Convert <code>teach</code> into a factor, with “Yes” as the baseline.</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+</section>
+<section id="descriptives" class="level2" data-number="3.4">
+<h2 data-number="3.4" class="anchored" data-anchor-id="descriptives"><span class="header-section-number">3.4</span> Descriptives</h2>
+<p>We’re going to do something different here. All of our variables are categorical, so it makes little sense to calculate means, SDs and skewness (we could still run <code>describe_distribution()</code> if we had any continuous predictors though). Instead, we’re going to look at counts and relative percentages.</p>
+<p>We’ll start with the teaching predictor. We want to know:</p>
+<p>(1) How many researchers completed different levels of assumption checking within each teaching category.</p>
+<p>(2) What percentage this represent within each teaching category.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>assum_desc_teach <span class="ot">&lt;-</span> assum_tib <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(teach, assum_check) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-4-4" class="code-annotation-target"><a href="#annotated-cell-4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent =</span> n<span class="sc">/</span><span class="fu">sum</span>(n)<span class="sc">*</span><span class="dv">100</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-4-5" class="code-annotation-target"><a href="#annotated-cell-4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> teach</span>
+<span id="annotated-cell-4-6"><a href="#annotated-cell-4-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="annotated-cell-4-7"><a href="#annotated-cell-4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-4-8"><a href="#annotated-cell-4-8" aria-hidden="true" tabindex="-1"></a>assum_desc_teach <span class="sc">|&gt;</span> </span>
+<span id="annotated-cell-4-9"><a href="#annotated-cell-4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="1">Use the <code>count()</code> function to count cases within combinations of teaching levels and assumption checking levels.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="2">Use the <code>mutate()</code> function to calculate a new variable</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="4" data-code-annotation="3">Calculate the percentage by dividing the count by the number of cases and multiplying by 100.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="5" data-code-annotation="4">Split the calculation above by the <code>teach</code> variable. This way the percentage calculation will be completed for teachers and non-teachers separately.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">teach</th>
+<th style="text-align: right;">assum_check</th>
+<th style="text-align: left;">n</th>
+<th style="text-align: right;">percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">No checks</td>
+<td style="text-align: left;">30</td>
+<td style="text-align: right;">17.75</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">Insufficient</td>
+<td style="text-align: left;">34</td>
+<td style="text-align: right;">20.12</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">No follow-up</td>
+<td style="text-align: left;">49</td>
+<td style="text-align: right;">28.99</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">Full checks</td>
+<td style="text-align: left;">56</td>
+<td style="text-align: right;">33.14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">No checks</td>
+<td style="text-align: left;">59</td>
+<td style="text-align: right;">33.52</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">Insufficient</td>
+<td style="text-align: left;">50</td>
+<td style="text-align: right;">28.41</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">No follow-up</td>
+<td style="text-align: left;">43</td>
+<td style="text-align: right;">24.43</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">Full checks</td>
+<td style="text-align: left;">24</td>
+<td style="text-align: right;">13.64</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>We can do the same for the seniority variable:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>assum_desc_seniority <span class="ot">&lt;-</span> assum_tib <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(seniority, assum_check) <span class="sc">|&gt;</span>  </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>( </span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent =</span> n<span class="sc">/</span><span class="fu">sum</span>(n)<span class="sc">*</span><span class="dv">100</span>,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> seniority</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>assum_desc_seniority <span class="sc">|&gt;</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">seniority</th>
+<th style="text-align: right;">assum_check</th>
+<th style="text-align: left;">n</th>
+<th style="text-align: right;">percent</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Faculty</td>
+<td style="text-align: right;">No checks</td>
+<td style="text-align: left;">24</td>
+<td style="text-align: right;">20.69</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Faculty</td>
+<td style="text-align: right;">Insufficient</td>
+<td style="text-align: left;">28</td>
+<td style="text-align: right;">24.14</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Faculty</td>
+<td style="text-align: right;">No follow-up</td>
+<td style="text-align: left;">37</td>
+<td style="text-align: right;">31.90</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Faculty</td>
+<td style="text-align: right;">Full checks</td>
+<td style="text-align: left;">27</td>
+<td style="text-align: right;">23.28</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PostDoc</td>
+<td style="text-align: right;">No checks</td>
+<td style="text-align: left;">33</td>
+<td style="text-align: right;">27.50</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PostDoc</td>
+<td style="text-align: right;">Insufficient</td>
+<td style="text-align: left;">31</td>
+<td style="text-align: right;">25.83</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PostDoc</td>
+<td style="text-align: right;">No follow-up</td>
+<td style="text-align: left;">30</td>
+<td style="text-align: right;">25.00</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PostDoc</td>
+<td style="text-align: right;">Full checks</td>
+<td style="text-align: left;">26</td>
+<td style="text-align: right;">21.67</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PhD</td>
+<td style="text-align: right;">No checks</td>
+<td style="text-align: left;">32</td>
+<td style="text-align: right;">29.36</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PhD</td>
+<td style="text-align: right;">Insufficient</td>
+<td style="text-align: left;">25</td>
+<td style="text-align: right;">22.94</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">PhD</td>
+<td style="text-align: right;">No follow-up</td>
+<td style="text-align: left;">25</td>
+<td style="text-align: right;">22.94</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PhD</td>
+<td style="text-align: right;">Full checks</td>
+<td style="text-align: left;">27</td>
+<td style="text-align: right;">24.77</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>Calculating the percentage in this way allows us to make relative comparisons, even if the group sizes are not exactly equal. For example, we can see that 20.69% of the Faculty-level researchers completed no checks at all, however this was lower than the proportion of PostDocs in this category (27.50%) or the PhDs (29.36%)<a href="#fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a> . Conversely, 23.28% if faculty ran full checks (including corrective action), compared to 21.67% of PostDocs and 24.77% of PhDs. Admittedly, it can be difficult to see any patterns in a table like this, so we might wish to visualise these percentages instead.</p>
+</section>
+<section id="visualise-the-data" class="level2" data-number="3.5">
+<h2 data-number="3.5" class="anchored" data-anchor-id="visualise-the-data"><span class="header-section-number">3.5</span> Visualise the data</h2>
+<p>Notice that when created the summary tables above, we also saved them into a separate objects, <code>assum_desc_teach</code> and <code>assum_desc_seniority</code> . These will come in handy here.</p>
+<p>For <strong>teaching</strong>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> assum_desc_teach,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(<span class="at">x =</span> assum_check, <span class="at">y =</span> percent,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colour =</span> teach, <span class="at">linetype =</span> teach, <span class="at">group =</span> teach)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-6-6" class="code-annotation-target"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.9</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-6-7" class="code-annotation-target"><a href="#annotated-cell-6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)) <span class="sc">+</span></span>
+<span id="annotated-cell-6-8"><a href="#annotated-cell-6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1">Used the summary that we created in the previous step.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="2"><code>assum_check</code> goes on the x axis, <code>percent</code> goes on the y axis.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="3">We’re going to create separate lines for each level of <code>teach</code> - we want them to be differentiated by colour and linetype. We’re also adding the <code>group</code> argument, which helps ggplot connect the lines correctly.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="4" data-code-annotation="4">Add points. Optionally change their sizes.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="5">Add the lines.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="6" data-code-annotation="6">Change the colours to something more accessible. Here we’re using the viridis colour scheme, which is a delight to look at. Viridis goes from light yellow to dark purple. Yellow can be difficult to see on a light background - we’re setting the <code>end</code> argument to 0.9 (1 would go all the way to yellow), so the colour on the lower end stays slighly darker green.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="7" data-code-annotation="7">We’re working with percentages, so the y axis should go from 0 to 100.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div id="fig-percent-teach" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="672">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-percent-teach-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01c_gzlms_ordinal_files/figure-html/fig-percent-teach-1.png" id="fig-percent-teach" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-percent-teach-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.2
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>For <strong>seniority</strong>:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> assum_desc_seniority, </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(<span class="at">x =</span> assum_check, <span class="at">y =</span> percent, </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colour =</span> seniority, <span class="at">linetype =</span> seniority, <span class="at">group =</span> seniority)) <span class="sc">+</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.9</span>) <span class="sc">+</span> </span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">90</span>)) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01c_gzlms_ordinal_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="fit-the-model" class="level2" data-number="3.6">
+<h2 data-number="3.6" class="anchored" data-anchor-id="fit-the-model"><span class="header-section-number">3.6</span> Fit the model</h2>
+<p>We’ll use the <code>polr</code> function (which stands for Proportional Odds Linear Regression) from the <code>MASS</code> package to fit our model. All we need is the formula and the data:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>assum_ord <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">polr</span>(assum_check <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="check-model-fit" class="level2" data-number="3.7">
+<h2 data-number="3.7" class="anchored" data-anchor-id="check-model-fit"><span class="header-section-number">3.7</span> Check model fit</h2>
+<p>Let’s start with the <code>easystats</code> approach:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">check_model</span>(assum_ord)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01c_gzlms_ordinal_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="768"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>The posterior predictive check looks pretty good - there’s a lot of uncertainty in the prediction but on average it aligns with our data. No problems with collinearity.</p>
+<section id="proportional-odds-assumption" class="level3">
+<h3 class="anchored" data-anchor-id="proportional-odds-assumption">Proportional Odds Assumption</h3>
+<p>Recall that our model estimates the following:</p>
+<ol type="1">
+<li>Odds of doing no checks VS odds of doing any checks (including a corrective action).</li>
+<li>Odds of doing no checks or insufficient checks VS odds of doing correct checks (including corrective action).</li>
+<li>Odds of doing no checks or any checks without action VS odds of doing correct checks with corrective action.</li>
+</ol>
+<p>It will also estimate how these odds change with our predictors. The model assumes that regardless of which threshold (T1, T2 or T3) we’re referring to, the effect of the predictor will be the same.</p>
+<p>Apparently, there are formal tests and no doubt functions that can give us a simple yes/no answer as to whether the assumption is upheld. But formal tests are the huckster’s crutch and we’re no hucksters. We’re going to take the slow road, which will help us understand the assumption better.</p>
+<p>Notice that each item of the list above compares two odds. We can think of them three separate logistic models where the outcome has two categories. So here’s what we’re going to do:</p>
+<ol type="1">
+<li>Recode the outcome into three variables, where each has only two levels.</li>
+<li>Fit a logistic model to each of these outcomes.</li>
+</ol>
+<section id="recoding-the-outcome" class="level4">
+<h4 class="anchored" data-anchor-id="recoding-the-outcome"><strong>Recoding the outcome</strong></h4>
+<p>The first logistic model compares the odds of doing no checks at all (level 1) against all other levels. We can recode outcomes using the <code>case_when()</code> function from <code>dplyr</code>. We’ll start with one variable so you get a sense of how it works, and then we’ll show the full code:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="annotated-cell-10"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-10-1"><a href="#annotated-cell-10-1" aria-hidden="true" tabindex="-1"></a>assum_tib <span class="ot">&lt;-</span> assum_tib <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-10-2" class="code-annotation-target"><a href="#annotated-cell-10-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-10-3" class="code-annotation-target"><a href="#annotated-cell-10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">level_1_vs_levels_234 =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-10-4" class="code-annotation-target"><a href="#annotated-cell-10-4" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"No checks"</span>) <span class="sc">~</span> <span class="dv">0</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-10" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-10-5" class="code-annotation-target"><a href="#annotated-cell-10-5" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Insufficient"</span>, <span class="st">"No follow-up"</span>, <span class="st">"Full checks"</span>) <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="annotated-cell-10-6"><a href="#annotated-cell-10-6" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="annotated-cell-10-7"><a href="#annotated-cell-10-7" aria-hidden="true" tabindex="-1"></a>  )</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-10" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="2" data-code-annotation="1">Use the <code>mutate()</code> function to create a new variable.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="3" data-code-annotation="2">We’re calling this new variable <code>level_1_vs_levels_234</code> to indicate which levels we’re comparing (you can call it anything as long as it makes sense to you). The way to create this new variable is to use the function <code>case_when()</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="4" data-code-annotation="3">For <em>cases when</em> <code>assum_check</code> has the value “No checks”, assign (~)the value 0.</span>
+</dd>
+<dt data-target-cell="annotated-cell-10" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-10" data-code-lines="5" data-code-annotation="4">For <em>cases when</em> <code>assum_check</code> has the value “Insufficient” or “No follow-up” or “Full checks”, assign the value 1.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>If you inspect the tibble, you’ll see that there’s now a new column at the end titled <code>level_1_vs_levels_234</code> . We could have assign any two values here, but 0 and 1 are simple enough - we just need to remember that 0 represents worse checks and 1 represents better checks.</p>
+<p>We can do all the recoding in just one chunk:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>assum_tib <span class="ot">&lt;-</span> assum_tib <span class="sc">|&gt;</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>( </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">level_1_vs_levels_234 =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>( </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"No checks"</span>) <span class="sc">~</span> <span class="dv">0</span>,  </span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Insufficient"</span>, <span class="st">"No follow-up"</span>, <span class="st">"Full checks"</span>) <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels_12_vs_levels_34 =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>( </span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"No checks"</span>, <span class="st">"Insufficient"</span>) <span class="sc">~</span> <span class="dv">0</span>,  </span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"No follow-up"</span>, <span class="st">"Full checks"</span>) <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels_123_vs_level_4 =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>( </span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"No checks"</span>, <span class="st">"Insufficient"</span>, <span class="st">"No follow-up"</span>) <span class="sc">~</span> <span class="dv">0</span>,  </span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Full checks"</span>) <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="fitting-the-logistic-models" class="level4">
+<h4 class="anchored" data-anchor-id="fitting-the-logistic-models"><strong>Fitting the logistic models</strong></h4>
+<p>Now we’re ready to fit our three models. A reminder that when we fit logistic models, we do so with the <code>glm()</code> function. The family we need for binary outcomes is “binomial”. We keep the same formula as before, but we use the new recoded variables as the outcomes.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model_log_1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(level_1_vs_levels_234 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>model_log_2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_12_vs_levels_34 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>model_log_3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_123_vs_level_4 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Nice and easy. Next we summon the <code>compare_models()</code> function from <code>easystats</code>. This function will extract the parameter estimates and confidence from all three models, exponentiate them, and present them next to each other so we compare them. Nice and neat.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_models</span>(model_log_1, model_log_2, model_log_3, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 25%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: left;">model_log_1</th>
+<th style="text-align: left;">model_log_2</th>
+<th style="text-align: left;">model_log_3</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: left;">2.390 (2.182, 2.618)</td>
+<td style="text-align: left;">1.957 (1.766, 2.169)</td>
+<td style="text-align: left;">1.392 (1.275, 1.518)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">seniority (PostDoc)</td>
+<td style="text-align: left;">0.935 (0.838, 1.045)</td>
+<td style="text-align: left;">0.920 (0.812, 1.042)</td>
+<td style="text-align: left;">0.986 (0.887, 1.096)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">seniority (PhD)</td>
+<td style="text-align: left;">0.920 (0.822, 1.031)</td>
+<td style="text-align: left;">0.933 (0.821, 1.060)</td>
+<td style="text-align: left;">1.020 (0.915, 1.136)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">teach (No)</td>
+<td style="text-align: left;">0.855 (0.780, 0.937)</td>
+<td style="text-align: left;">0.787 (0.710, 0.872)</td>
+<td style="text-align: left;">0.823 (0.754, 0.898)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Observations</td>
+<td style="text-align: left;">345</td>
+<td style="text-align: left;">345</td>
+<td style="text-align: left;">345</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>First thing to note - the intercepts are very different from each other. That’s okay and expected - remember, the intercepts represent the thresholds, which naturally have different positions (<a href="#fig-ordinal-latent" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>). The values that we’re interested in are the parameter estimates for the predictors, which tell us how the thresholds change. Let’s go row by row:</p>
+<ul>
+<li><p><strong>seniority (PostDoc)</strong> - all estimates are in the 0.9 range. All confidence intervals also overlap with 1, meaning that that there might be no difference between PostDocs and Faculty (our baseline).</p></li>
+<li><p><strong>seniority (PhD)</strong> - similar as above, all estimates 0.9 and confidence intervals overlap.</p></li>
+<li><p><strong>teach (No)</strong> - For this effect, all estimates are around 0.8, indicating that the odds of “better practice” are lower for individuals who don’t teach stats. Again, confidence intervals overlap with each other, and none of them cross 1 so the estimation is consistent.</p></li>
+</ul>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<strong>Visualising the proportional odds assumption (optional)</strong>
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>This is an optional section showing how we can visualise the parameter estimates to compare them model easily. First, we’re going to scale back to the <code>model_parameters()</code> function and extract each set of estimates separately. We’re store these into a table, and then we’ll use that table with ggplot.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="annotated-cell-31"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-31-1"><a href="#annotated-cell-31-1" aria-hidden="true" tabindex="-1"></a>params_1 <span class="ot">&lt;-</span> <span class="fu">model_parameters</span>(model_log_1, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-31" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-31-2" class="code-annotation-target"><a href="#annotated-cell-31-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Model 1"</span>)</span>
+<span id="annotated-cell-31-3"><a href="#annotated-cell-31-3" aria-hidden="true" tabindex="-1"></a>params_2 <span class="ot">&lt;-</span> <span class="fu">model_parameters</span>(model_log_2, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-31" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-31-4" class="code-annotation-target"><a href="#annotated-cell-31-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Model 2"</span>)</span>
+<span id="annotated-cell-31-5"><a href="#annotated-cell-31-5" aria-hidden="true" tabindex="-1"></a>params_3 <span class="ot">&lt;-</span> <span class="fu">model_parameters</span>(model_log_3, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-31" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-31-6" class="code-annotation-target"><a href="#annotated-cell-31-6" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(<span class="at">model =</span> <span class="st">"Model 3"</span>)</span>
+<span id="annotated-cell-31-7"><a href="#annotated-cell-31-7" aria-hidden="true" tabindex="-1"></a></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-31" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-31-8" class="code-annotation-target"><a href="#annotated-cell-31-8" aria-hidden="true" tabindex="-1"></a>prop_odds_tbl <span class="ot">&lt;-</span> <span class="fu">rbind</span>(params_1, params_2, params_3) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-31" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-31-9" class="code-annotation-target"><a href="#annotated-cell-31-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-31" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-31" data-code-lines="2" data-code-annotation="1">Extract the first set of estimates. Modify this table to have a new column called “model”. This column will indicate which model our estimates come from.</span>
+</dd>
+<dt data-target-cell="annotated-cell-31" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-31" data-code-lines="4" data-code-annotation="2">Extract estimates for the second model and add the <code>model</code> column.</span>
+</dd>
+<dt data-target-cell="annotated-cell-31" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-31" data-code-lines="6" data-code-annotation="3">Extract estimates for the third model and add the <code>model</code> column.</span>
+</dd>
+<dt data-target-cell="annotated-cell-31" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-31" data-code-lines="8" data-code-annotation="4">Use the <code>rbind()</code> function to bind the estimates from all three models into a single table. Store the result into an object called <code>prop_odds_tbl</code> .</span>
+</dd>
+<dt data-target-cell="annotated-cell-31" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-31" data-code-lines="9" data-code-annotation="5">Convert into a data frame so it’s easier to work with in ggplot.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Now let’s create our plot.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="annotated-cell-32"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-32" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-32-1" class="code-annotation-target"><a href="#annotated-cell-32-1" aria-hidden="true" tabindex="-1"></a>prop_odds_tbl <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-32-2"><a href="#annotated-cell-32-2" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> model, <span class="at">y =</span> Coefficient, </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-32" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-32-3" class="code-annotation-target"><a href="#annotated-cell-32-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">ymin =</span> CI_low, <span class="at">ymax =</span> CI_high)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-32" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-32-4" class="code-annotation-target"><a href="#annotated-cell-32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-32" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-32-5" class="code-annotation-target"><a href="#annotated-cell-32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-32" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-32-6" class="code-annotation-target"><a href="#annotated-cell-32-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Parameter, <span class="at">scales =</span> <span class="st">"free_y"</span>) <span class="sc">+</span></span>
+<span id="annotated-cell-32-7"><a href="#annotated-cell-32-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-32" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-32" data-code-lines="1" data-code-annotation="1">Use the table we’ve just created as the dataset.</span>
+</dd>
+<dt data-target-cell="annotated-cell-32" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-32" data-code-lines="3" data-code-annotation="2">The <code>model</code> variable should be in the x axis so that we have estimates from different models next to each other. The y axis should have the Coefficient value, and we’re also specifying <code>ymin</code> and <code>ymax</code> so the error bars represent the confidence intervals.</span>
+</dd>
+<dt data-target-cell="annotated-cell-32" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-32" data-code-lines="4" data-code-annotation="3">Add points.</span>
+</dd>
+<dt data-target-cell="annotated-cell-32" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-32" data-code-lines="5" data-code-annotation="4">Add the error bar. Optionally, set the width to be 0.1 so the plot looks nicer.</span>
+</dd>
+<dt data-target-cell="annotated-cell-32" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-32" data-code-lines="6" data-code-annotation="5">Add facet wrap so that we get a separate plot for each parameter. The <code>scales = "free_y"</code> ensures that the y axis adapts depending on the effect, instead of being fixed at the same values for all effects.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="01c_gzlms_ordinal_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Lovely! This makes it a little easier to judge how similar or different the estimates are. The plots underpin our conclusion from above - even though the point estimates are a little different at times, the intervals overlap substantially.</p>
+</div>
+</div>
+</div>
+<p>Based on this, we can conclude that the effects are equivalent across the thresholds, and therefore the proportional odds assumption has been satisfied. What sort of different would we have to find in order to violate the assumption? There’s no specified cut-off value and it’s an answer that requires our knowledge as a researcher, not as a statistician. Considering the kind of outcome that we’re measuring, what sort of difference would meaningfully change our interpretation and conclusion? It’s not a straightforward answer, especially given that, as a field, we’re generally very obsessed with <em>p</em>-values and binary answers. If you find odds ratios unintuitive to think about, you can always generate some predictions and see whether they change across the models. You can give this a go if you wish, but I feel like we’ve spent enough time on a single assumption. Moving on!</p>
+</section>
+</section>
+<section id="fit-statistics" class="level3">
+<h3 class="anchored" data-anchor-id="fit-statistics">Fit statistics</h3>
+<p>Let’s get back to our model, shall we? We extract the fit statistics as usual:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_performance</span>(assum_ord) <span class="sc">|&gt;</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Can't calculate log-loss.</code></pre>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">AIC</th>
+<th style="text-align: center;">AICc</th>
+<th style="text-align: center;">BIC</th>
+<th style="text-align: center;">Nagelkerke’s R2</th>
+<th style="text-align: center;">RMSE</th>
+<th style="text-align: center;">Sigma</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">940.9</td>
+<td style="text-align: center;">941.1</td>
+<td style="text-align: center;">964.0</td>
+<td style="text-align: center;">0.079</td>
+<td style="text-align: center;">2.485</td>
+<td style="text-align: center;">1.648</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">test_wald</span>(assum_ord)<span class="sc">|&gt;</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<caption>Likelihood-Ratio-Test (LRT) for Model Comparison (ML-estimator)</caption>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Name</th>
+<th style="text-align: right;">Model</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">df_diff</th>
+<th style="text-align: right;">Chi2</th>
+<th style="text-align: right;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Null model</td>
+<td style="text-align: right;">polr</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Full model</td>
+<td style="text-align: right;">polr</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">26.66</td>
+<td style="text-align: right;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>The model explains 7.9% of total deviance. If you run the Wald test in your own R session, you will get a message informing you that this test is inappropriate for models with categorical predictors, so the function provides the Likelihood Ratio Test using the <span class="math inline">\(\chi^2\)</span> statistic instead. This is okay, we just need to remember to report it as such (instead of reporting the <em>F</em> statistic).</p>
+</section>
+</section>
+<section id="extract-model-parameters" class="level2" data-number="3.8">
+<h2 data-number="3.8" class="anchored" data-anchor-id="extract-model-parameters"><span class="header-section-number">3.8</span> Extract model parameters</h2>
+<p>Time to get our parameters and <sup>try&nbsp;to</sup>interpret them:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="annotated-cell-16"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-16-1"><a href="#annotated-cell-16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(assum_ord, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-16-2" class="code-annotation-target"><a href="#annotated-cell-16-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-16" data-code-lines="2" data-code-annotation="1">The <code>display()</code> function seems to struggle to organise the output sensibly, so we’ll just use this <code>kable()</code> (which is less intuitively named but works a treat).</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>code 
+code Re-fitting to get Hessian</code></pre>
+</div>
+<div id="tbl-ord-params" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-ord-params-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.1
+</figcaption>
+<div aria-describedby="tbl-ord-params-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 30%">
+<col style="width: 11%">
+<col style="width: 5%">
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 7%">
+<col style="width: 6%">
+<col style="width: 8%">
+<col style="width: 5%">
+<col style="width: 9%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: right;">Coefficient</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">CI</th>
+<th style="text-align: right;">CI_low</th>
+<th style="text-align: right;">CI_high</th>
+<th style="text-align: right;">t</th>
+<th style="text-align: right;">df_error</th>
+<th style="text-align: right;">p</th>
+<th style="text-align: left;">Component</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">No checks|Insufficient</td>
+<td style="text-align: right;">0.167</td>
+<td style="text-align: right;">0.037</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right;">0.108</td>
+<td style="text-align: right;">0.258</td>
+<td style="text-align: right;">-8.055</td>
+<td style="text-align: right;">339</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">alpha</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Insufficient|No follow-up</td>
+<td style="text-align: right;">0.512</td>
+<td style="text-align: right;">0.104</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right;">0.344</td>
+<td style="text-align: right;">0.763</td>
+<td style="text-align: right;">-3.305</td>
+<td style="text-align: right;">339</td>
+<td style="text-align: right;">0.001</td>
+<td style="text-align: left;">alpha</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">No follow-up|Full checks</td>
+<td style="text-align: right;">1.813</td>
+<td style="text-align: right;">0.368</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right;">1.216</td>
+<td style="text-align: right;">2.703</td>
+<td style="text-align: right;">2.931</td>
+<td style="text-align: right;">339</td>
+<td style="text-align: right;">0.004</td>
+<td style="text-align: left;">alpha</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">seniorityPostDoc</td>
+<td style="text-align: right;">0.777</td>
+<td style="text-align: right;">0.181</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right;">0.492</td>
+<td style="text-align: right;">1.225</td>
+<td style="text-align: right;">-1.085</td>
+<td style="text-align: right;">339</td>
+<td style="text-align: right;">0.279</td>
+<td style="text-align: left;">beta</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">seniorityPhD</td>
+<td style="text-align: right;">0.789</td>
+<td style="text-align: right;">0.192</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right;">0.490</td>
+<td style="text-align: right;">1.270</td>
+<td style="text-align: right;">-0.974</td>
+<td style="text-align: right;">339</td>
+<td style="text-align: right;">0.331</td>
+<td style="text-align: left;">beta</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">teachNo</td>
+<td style="text-align: right;">0.373</td>
+<td style="text-align: right;">0.074</td>
+<td style="text-align: right;">0.95</td>
+<td style="text-align: right;">0.252</td>
+<td style="text-align: right;">0.551</td>
+<td style="text-align: right;">-4.944</td>
+<td style="text-align: right;">339</td>
+<td style="text-align: right;">0.000</td>
+<td style="text-align: left;">beta</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<section id="thresholds-intercepts" class="level3">
+<h3 class="anchored" data-anchor-id="thresholds-intercepts">Thresholds (intercepts)</h3>
+<p>The first three rows refer to the threshold estimates. They’re labelled as “alpha” in the Component column at the end. The coefficients represent the values of the thresholds when all the predictors are the the baseline, which would be the “Faculty” level for seniority and “Yes” for teaching. For these individuals:</p>
+<ul>
+<li><p><strong>No checks|Insufficient</strong>: The odds of doing no checks are lower by a factor of 0.167 compared to the odds of doing any checks at all.</p></li>
+<li><p><strong>Insufficient|No follow-up:</strong> The odds of doing no checks or insufficient checks are lower by a factor of 0.512 compared to the odds of doing correct checks or correct checks with a follow-up action.</p></li>
+<li><p><strong>No follow-up|Full checks:</strong> The odds of doing no checks, insufficient checks, or correct checks are higher by a factor of 1.813 compared to the odds of doing correct checks with a follow-up action.</p></li>
+</ul>
+<p>All of this makes sense - the last comparison might seen a little un-intuitive at first because (at least based on our hypothesis) the baseline categories are meant to be “the best of the best”, but think back to <a href="#fig-ordinal-latent" class="quarto-xref">Figure&nbsp;<span>3.1</span></a> - We’re comparing the mass before T3 against the mass after it, so the odds are almost always going to be higher for this threshold.</p>
+<p>We will unpick these in a painstaking detail in just a moment, but for now, let’s move on to the parameter estimates.</p>
+</section>
+<section id="parameter-estimates" class="level3">
+<h3 class="anchored" data-anchor-id="parameter-estimates">Parameter estimates</h3>
+<p>The parameter estimates are tagged with the “beta” label under the Component column. These estimates tell us how the thresholds change. Because of the proportional odds assumption, we’re assuming an equivalent change for each threshold. As a reminder, values below 1 indicate a negative relationship between variables, values above indicate a positive relationships, and 1 indicates no relationship.</p>
+<ul>
+<li><p><strong>seniorityPostDoc:</strong> Compared to the Faculty, the PostDocs had lower odds of having their assumption checks categorised in the higher levels, by a factor of 0.777. This difference was not statistically significant. If you find positive odds ratios easier to think about, we can reverse the calculation as 1/0.777 = 1.287. This value can be interpreted in two ways (1) the Faculty odds of faculty performing checks in the higher levels were 1.287 times higher compared to the odds of PostDocs or (2) The PostDocs were 1.287 more likely to perform checks in the lower levels (or perform no checks at all). Both are mathematically valid.</p></li>
+<li><p><strong>seniorityPhD</strong>: Compared to the Faculty, PhD researchers had lower odds of performing higher level checks by a factor of 0.789. Alternatively, the Faculty were 1/0.789 = 1.267 times more likely to performed higher level checks compared to PhDs. This difference was not statistically significant. The confidence intervals for this effect as well as the previous one contain the value 1, suggesting that no difference in assumption checking is plausible.</p></li>
+<li><p><strong>teachNo</strong>: Compared to statistics instructors, the odds of performing higher level checks were lower for those who don’t teach by a factor of 0.373. Conversely, the odds of performing higher level checks were 2.681 times higher (1/0.373) for those who <em>do</em> teach statistics. This effect was statistically significant. The confidence intervals indicated that this increase in odds could be as large as 3.968 (1/0.252) or as low as 1.815 (1/0.551), assuming our confidence is one of the 95% containing the true population parameter.</p></li>
+</ul>
+<p>As interpretations go, this is understandable enough. However, the origin of these odds rations is still a little mysterious so we’re going to dig a little deeper. What we’re often interested in with these models is the probability of performing certain level of checks at different levels of the predictors, but it’s difficult to intuit this just from the output above.</p>
+</section>
+</section>
+<section id="unpicking-the-odds" class="level2" data-number="3.9">
+<h2 data-number="3.9" class="anchored" data-anchor-id="unpicking-the-odds"><span class="header-section-number">3.9</span> Unpicking the odds</h2>
+<p>We can use the <code>emmeans</code> package to request the predicted probabilities for each category. The function we’ll use streamlines the <code>predict()</code> function and generates predictions across different levels of a predictor, while holding other predictors constant.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="annotated-cell-17"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-17-1" class="code-annotation-target"><a href="#annotated-cell-17-1" aria-hidden="true" tabindex="-1"></a>assum_emm <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-17-2" class="code-annotation-target"><a href="#annotated-cell-17-2" aria-hidden="true" tabindex="-1"></a>  assum_ord,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-17-3" class="code-annotation-target"><a href="#annotated-cell-17-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">specs =</span> <span class="st">"assum_check"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-17-4" class="code-annotation-target"><a href="#annotated-cell-17-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"teach"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-17-5" class="code-annotation-target"><a href="#annotated-cell-17-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">at =</span> <span class="fu">list</span>(<span class="at">seniority =</span> <span class="st">"Faculty"</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-17-6" class="code-annotation-target"><a href="#annotated-cell-17-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"prob"</span></span>
+<span id="annotated-cell-17-7"><a href="#annotated-cell-17-7" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-17" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-17" data-code-lines="1" data-code-annotation="1">Use the <code>emmeans()</code> function from the <code>emmeans</code> package. We’ll be storing the result of this function into an object called <code>assum_emm</code>.</span>
+</dd>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-17" data-code-lines="2" data-code-annotation="2">Specify the model.</span>
+</dd>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-17" data-code-lines="3" data-code-annotation="3">We want to make predictions for different levels of assumption checks, so we specify <code>assum_check</code> in the <code>specs</code> argument.</span>
+</dd>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-17" data-code-lines="4" data-code-annotation="4">Split the prediction for different teaching and non-teaching participants.</span>
+</dd>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-17" data-code-lines="5" data-code-annotation="5">Specify where to hold the remaining predictors constant. We can add multiple variables here if we need to, so we need to wrap them in the list() function. We’ll hold seniority at the “Faculty” level because that’s our baseline.</span>
+</dd>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-17" data-code-lines="6" data-code-annotation="6">The <code>mode</code> argument ensures that the resulting predictions are converted into probabilities.</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>code 
+code Re-fitting to get Hessian</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>assum_emm <span class="sc">|&gt;</span> </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div id="tbl-ord-emm" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-layout-align="center">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-ord-emm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3.2
+</figcaption>
+<div aria-describedby="tbl-ord-emm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<table class="do-not-create-environment caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">assum_check</th>
+<th style="text-align: left;">teach</th>
+<th style="text-align: right;">prob</th>
+<th style="text-align: right;">SE</th>
+<th style="text-align: right;">df</th>
+<th style="text-align: right;">asymp.LCL</th>
+<th style="text-align: right;">asymp.UCL</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">0.143</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">Inf</td>
+<td style="text-align: right;">0.089</td>
+<td style="text-align: right;">0.196</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">0.196</td>
+<td style="text-align: right;">0.026</td>
+<td style="text-align: right;">Inf</td>
+<td style="text-align: right;">0.145</td>
+<td style="text-align: right;">0.246</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">0.306</td>
+<td style="text-align: right;">0.027</td>
+<td style="text-align: right;">Inf</td>
+<td style="text-align: right;">0.253</td>
+<td style="text-align: right;">0.359</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Yes</td>
+<td style="text-align: right;">0.355</td>
+<td style="text-align: right;">0.047</td>
+<td style="text-align: right;">Inf</td>
+<td style="text-align: right;">0.264</td>
+<td style="text-align: right;">0.447</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">0.309</td>
+<td style="text-align: right;">0.043</td>
+<td style="text-align: right;">Inf</td>
+<td style="text-align: right;">0.223</td>
+<td style="text-align: right;">0.394</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">0.270</td>
+<td style="text-align: right;">0.026</td>
+<td style="text-align: right;">Inf</td>
+<td style="text-align: right;">0.219</td>
+<td style="text-align: right;">0.321</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">3</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">0.251</td>
+<td style="text-align: right;">0.028</td>
+<td style="text-align: right;">Inf</td>
+<td style="text-align: right;">0.196</td>
+<td style="text-align: right;">0.306</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">No</td>
+<td style="text-align: right;">0.171</td>
+<td style="text-align: right;">0.031</td>
+<td style="text-align: right;">Inf</td>
+<td style="text-align: right;">0.111</td>
+<td style="text-align: right;">0.231</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>First, let’s just visualise these so we can spot the patterns better:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="annotated-cell-19"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-19-1"><a href="#annotated-cell-19-1" aria-hidden="true" tabindex="-1"></a>assum_emm <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-19-2" class="code-annotation-target"><a href="#annotated-cell-19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-19-3"><a href="#annotated-cell-19-3" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> assum_check, </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-19-4" class="code-annotation-target"><a href="#annotated-cell-19-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">y =</span> prob, <span class="at">ymin =</span> asymp.LCL, <span class="at">ymax =</span> asymp.UCL,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-19-5" class="code-annotation-target"><a href="#annotated-cell-19-5" aria-hidden="true" tabindex="-1"></a>                                <span class="at">linetype =</span> teach, <span class="at">group =</span> teach)) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-19-6" class="code-annotation-target"><a href="#annotated-cell-19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-19-7" class="code-annotation-target"><a href="#annotated-cell-19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-19-8" class="code-annotation-target"><a href="#annotated-cell-19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-19" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-19-9" class="code-annotation-target"><a href="#annotated-cell-19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span></span>
+<span id="annotated-cell-19-10"><a href="#annotated-cell-19-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-19" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-lines="2" data-code-annotation="1">Convert the emm object into a dataframe otherwise ggplot will request to speak to our manager.</span>
+</dd>
+<dt data-target-cell="annotated-cell-19" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-lines="4" data-code-annotation="2">Place prob on the y axis, and the confidence intervals (asymp.LCL and asymp.UCL) on ymin and ymax. This will be useful for errorbars.</span>
+</dd>
+<dt data-target-cell="annotated-cell-19" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-lines="5" data-code-annotation="3">Differentiate the teach variable by linetype.</span>
+</dd>
+<dt data-target-cell="annotated-cell-19" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-lines="6" data-code-annotation="4">Add the points.</span>
+</dd>
+<dt data-target-cell="annotated-cell-19" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-lines="7" data-code-annotation="5">Add the error bars. Optionally, change width to make the plot nicer.</span>
+</dd>
+<dt data-target-cell="annotated-cell-19" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-lines="8" data-code-annotation="6">Add the lines.</span>
+</dd>
+<dt data-target-cell="annotated-cell-19" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-19" data-code-lines="9" data-code-annotation="7">Change the co-ordinates to be between 0 and 1 (because we’re working with probabilities, not percentages).</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<div id="fig-emm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="672">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-emm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="01c_gzlms_ordinal_files/figure-html/fig-emm-1.png" id="fig-emm" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="672">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-emm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3.3
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>That’s a lovely and clear plot. You might be thinking that it looks very similar to <a href="#fig-percent-teach" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>, and you’d be right. The main difference is that <a href="#fig-percent-teach" class="quarto-xref">Figure&nbsp;<span>3.2</span></a> shows percentages based on raw counts, while this figure is based on the model prediction while also accounting for the other predictors in the model AND it gives us nice error bars. In a report, you wouldn’t include both. I’d probably only include the descriptive tables (because they contain the same info as <a href="#fig-percent-teach" class="quarto-xref">Figure&nbsp;<span>3.2</span></a>), and then include the model-predicted probabilities to help with the interpretation of the results.</p>
+<p>Now that I’ve lulled you into a false sense of security with a plot, let’s do some maths. We want to understand how our probabilities in the figure above and in <a href="#tbl-ord-emm" class="quarto-xref">Table&nbsp;<span>3.2</span></a> relate to the parameter estimates in <a href="#tbl-ord-params" class="quarto-xref">Table&nbsp;<span>3.1</span></a> .</p>
+<p>A reminder that odds are calculated as the ratio of a probability of some value Y occurring vs the inverse of that probability. For example, we could calculate the odds the first level of outcome (“No checks”) as:</p>
+<p><span class="math display">\[
+Odds(Y=1) = \frac{P(Y=1)}{1 - P(Y=1)}
+\]</span></p>
+<p>Odds Ratio is ratio of odds. We calculate the odds of different levels and then calculate their ratio. Let’s say that Y = 2|3|4 represents a situation where the outcome is either the second, third, or fourth level. The odds are calculated as:</p>
+<p><span class="math display">\[
+Odds(Y=2|3|4) = \frac{P(Y=2|3|4)}{1 - P(Y=2|3|4)}
+\]</span></p>
+<p>Then the odds ratio of the the first level against the other three levels is:</p>
+<p><span class="math display">\[
+OR_{(\mbox{1 vs 2|3|4})} = \frac{Odds(Y=1)}{Odds(Y=2|3|4)}
+\]</span></p>
+<section id="calculating-the-thresholds" class="level4">
+<h4 class="anchored" data-anchor-id="calculating-the-thresholds"><strong>Calculating the thresholds</strong></h4>
+<p>Let’s work with the values from <a href="#tbl-ord-emm" class="quarto-xref">Table&nbsp;<span>3.2</span></a> . For now, focusing on the “Yes” category for teaching:</p>
+<ul>
+<li><p>Probability of No checks (<code>assum_check</code> is 1): 0.143</p></li>
+<li><p>Probability of any checks at all (<code>assum_check</code> is 2 or 3 or 4): 0.196 + 0.306 + 0.355 = 0.857</p></li>
+<li><p>Odds (1 vs 2|3|4) = 0.143 / 0.857 = <strong>0.167.</strong> This is the same value as the threshold <strong>No checks|Insufficient</strong> from <a href="#tbl-ord-params" class="quarto-xref">Table&nbsp;<span>3.1</span></a></p></li>
+</ul>
+<p>Let’s try to work out the the second threshold:</p>
+<ul>
+<li><p>Probability that <code>assum_check</code> is 1 or 2: 0.143 + 0.196 = 0.339</p></li>
+<li><p>Probability that <code>assum_check</code> is 3 or 4: 0.306 + 0.355 = 0.661</p></li>
+<li><p>Odds (1|2 vs 3|4) = 0.339 / 0.661 = <strong>0.152.</strong> This is the same value as the threshold <strong>Insufficient|No follow-up</strong> from <a href="#tbl-ord-params" class="quarto-xref">Table&nbsp;<span>3.1</span></a></p></li>
+</ul>
+<p>Finally, the last threshold:</p>
+<ul>
+<li><p>Probability that <code>assum_check</code> is 1 or 2 or 3: 0.143 + 0.196 + 0.306 = 0.645</p></li>
+<li><p>Probability that <code>assum_check</code> is 4: 0.355</p></li>
+<li><p>Odds (1|2 vs 3|4) = 0.645 / 0.355 = <strong>1.816.</strong> This is the same value as the threshold <strong>No follow-up|Full checks</strong> from <a href="#tbl-ord-params" class="quarto-xref">Table&nbsp;<span>3.1</span></a> (allowing for minor rounding variation)</p></li>
+</ul>
+</section>
+<section id="calculating-the-parameter-estimates" class="level4">
+<h4 class="anchored" data-anchor-id="calculating-the-parameter-estimates"><strong>Calculating the parameter estimates</strong></h4>
+<p>We’re just going to stick with the <code>teach</code> variable here to keep things simple.</p>
+<ul>
+<li><p>Threshold 1 - <strong>No checks|Insufficient</strong>:</p>
+<ul>
+<li><p>Odds (1 vs 2|3|4) for those who teach = 0.167(we worked this out above)</p></li>
+<li><p>Odds (1 vs 2|3|4) for those who do <strong>not</strong> teach = 0.309 / (0.270 + 0.251 + 0.171) = 0.446 (we’re taking these probabilities from <a href="#tbl-ord-emm" class="quarto-xref">Table&nbsp;<span>3.2</span></a>)</p></li>
+<li><p>Odds Ratio for <strong>teachNo</strong>: 0.167 <strong>/</strong> 0.446 = <strong>0.374</strong> which is the same as the Coefficient from <a href="#tbl-ord-params" class="quarto-xref">Table&nbsp;<span>3.1</span></a> .</p></li>
+</ul></li>
+</ul>
+<!-- -->
+<ul>
+<li><p>Threshold 2 - <strong>Insufficient|No follow-up:</strong></p>
+<ul>
+<li><p>Odds (1|2 vs 3|4) for those who teach = 0.512</p></li>
+<li><p>Odds (1|2 vs 3|4) for those who do <strong>not</strong> teach = (0.309 + 0.270) / (0.251 + 0.171) = 1.372</p></li>
+<li><p>Odds Ratio for <strong>teachNo</strong>: 0.512 <strong>/</strong> 1.372 = <strong>0.374</strong> which, again, is the same as the Coefficient from <a href="#tbl-ord-params" class="quarto-xref">Table&nbsp;<span>3.1</span></a> .</p></li>
+</ul></li>
+<li><p>Threshold 3 - <strong>No follow-up|Full checks:</strong></p>
+<ul>
+<li><p>Odds (1|2|3 vs 4) for those who teach = 1.813</p></li>
+<li><p>Odds (1|2|4 vs 4) for those who do <strong>not</strong> teach = (0.309 + 0.270 + 0.251) / 0.171 = 4.853</p></li>
+<li><p>Odds Ratio for <strong>teachNo</strong>: 1.813 <strong>/</strong> 4.853 = <strong>0.374</strong> same as above and <a href="#tbl-ord-params" class="quarto-xref">Table&nbsp;<span>3.1</span></a> . These are proportional odds demonstrated in action. No matter which threshold we consider, the change in the odds for this specific predictor remains the same.</p></li>
+</ul></li>
+</ul>
+<p>If you’ve read this far, well done. this Getting to grips with these models is not the easiest task but it’s worth having some understanding of where the values are coming from. Because if we know where values come from, we can (1) interpret them properly and (2) be able to judge when something goes wrong and the model presents us with non-sense results (3) be able to judge when someone is presenting us with non-sense results.</p>
+</section>
+</section>
+<section id="report" class="level2" data-number="3.10">
+<h2 data-number="3.10" class="anchored" data-anchor-id="report"><span class="header-section-number">3.10</span> Report</h2>
+<p>The good news is that we don’t really need to go into an extensive detail as we did in the previous section when reporting and interpreting the results. Generally, a good middle ground is to report and interpret the odds ratios with reference to the hypotheses and then comment on estimated (predicted) probabilities generated by <code>emmeans</code>. Here’s an example of how we could approach this:</p>
+<blockquote class="blockquote">
+<p>Threshold estimates and parameter estimates are summarised in <a href="#tbl-ord-params" class="quarto-xref">Table&nbsp;<span>3.1</span></a> . Compared to researchers at the Faculty level, both PostDocs (OR = 0.777, 95% CI [0.492, 1.225]) and PhD researchers (OR = 0.789, 95% CI [0.490, 1.270]) had lower odds of performing higher level assumption checks. Contrary to Hypothesis 1, these differences were not statistically significant at <span class="math inline">\(\alpha\)</span> = .05).</p>
+<p>Researchers who didn’t teach research methods and statistics had lower odds of performing higher level assumption checks (OR = 0.373, 95% CI [0.252, 0.551]). This reduction in odds was statistically significant, <em>p</em> &lt; .001. Conversely, this means the odds of performing higher level checks were 1/0.373 = 2.681 times higher for researchers who also teach statistics. This aligns with Hypothesis 2.</p>
+<p><a href="#fig-emm" class="quarto-xref">Figure&nbsp;<span>3.3</span></a> shows the model predicted probabilities that confirm this trend - while the probabilities for teaching and non-teaching researchers overlapped for the middle two levels, there was a clear distinction in the lowest and the highest assumption-checking level. Researchers who teach were less likely to forgo assumptions <em>p</em>(“No checks”) = 0.143[0.089, 0.196], compared to those who don’t teach, <em>p</em>(“No checks”) = 0.309[0.223, 0.394]. Opposite trend was noted for the full assumption checks with a corrective action., which were more likely to be completed by researchers who teach statistics, <em>p</em>(“Full checks”) = 0.355[0.264, 0.447], than by non-teaching researchers, <em>p</em>(“Full checks”) = 0.171[0.111, 0.231].</p>
+</blockquote>
+<p>Note: you would of course also briefly comment on the descriptives, model checks, and fit statistics - here we’re just focusing on the novel part of parameter estimates for ordinal models.</p>
+</section>
+<section id="exercises" class="level2" data-number="3.11">
+<h2 data-number="3.11" class="anchored" data-anchor-id="exercises"><span class="header-section-number">3.11</span> Exercises</h2>
+<section id="what-does-this-code-do" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-this-code-do">What does this code do?</h3>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Here’s all the code we have written in this section. Can you remember what each line of each codechunk does? Are there any codechunks that you struggle to make sense of? Make sure to revisit the section in which it is used and take notes.</p>
+</div>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>assum_tib <span class="ot">&lt;-</span> assum_tib <span class="sc">|&gt;</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>( </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">assum_check =</span> <span class="fu">factor</span>( </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>      assum_check, </span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"No checks"</span>, <span class="st">"Insufficient"</span>, <span class="st">"No follow-up"</span>, <span class="st">"Full checks"</span>), </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">ordered =</span> <span class="cn">TRUE</span> </span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">seniority =</span> <span class="fu">factor</span>(seniority, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Faculty"</span>, <span class="st">"PostDoc"</span>, <span class="st">"PhD"</span>)), </span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">teach =</span> <span class="fu">factor</span>(teach, <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">"Yes"</span>, <span class="st">"No"</span>)) </span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>assum_desc_teach <span class="ot">&lt;-</span> assum_tib <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(teach, assum_check) <span class="sc">|&gt;</span>  </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>( </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">percent =</span> n<span class="sc">/</span><span class="fu">sum</span>(n)<span class="sc">*</span><span class="dv">100</span>, </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> teach </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>assum_desc_teach <span class="sc">|&gt;</span> </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> assum_desc_teach, </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                <span class="fu">aes</span>(<span class="at">x =</span> assum_check, <span class="at">y =</span> percent, </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">colour =</span> teach, <span class="at">linetype =</span> teach, <span class="at">group =</span> teach)) <span class="sc">+</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_colour_viridis_d</span>(<span class="at">end =</span> <span class="fl">0.9</span>) <span class="sc">+</span> </span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">100</span>)) <span class="sc">+</span> </span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>assum_ord <span class="ot">&lt;-</span> MASS<span class="sc">::</span><span class="fu">polr</span>(assum_check <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>assum_tib <span class="ot">&lt;-</span> assum_tib <span class="sc">|&gt;</span> </span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>( </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">level_1_vs_levels_234 =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>( </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"No checks"</span>) <span class="sc">~</span> <span class="dv">0</span>,  </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Insufficient"</span>, <span class="st">"No follow-up"</span>, <span class="st">"Full checks"</span>) <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels_12_vs_levels_34 =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>( </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"No checks"</span>, <span class="st">"Insufficient"</span>) <span class="sc">~</span> <span class="dv">0</span>,  </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"No follow-up"</span>, <span class="st">"Full checks"</span>) <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>    ), </span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">levels_123_vs_level_4 =</span> dplyr<span class="sc">::</span><span class="fu">case_when</span>( </span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"No checks"</span>, <span class="st">"Insufficient"</span>, <span class="st">"No follow-up"</span>) <span class="sc">~</span> <span class="dv">0</span>,  </span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>      assum_check <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"Full checks"</span>) <span class="sc">~</span> <span class="dv">1</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model_log_1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(level_1_vs_levels_234 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>model_log_2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_12_vs_levels_34 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>model_log_3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_123_vs_level_4 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_models</span>(model_log_1, model_log_2, model_log_3, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center" data-tbl-cap="">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(assum_ord, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits =</span> <span class="dv">3</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center" data-tbl-cap="">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>assum_emm <span class="ot">&lt;-</span> emmeans<span class="sc">::</span><span class="fu">emmeans</span>( </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  assum_ord,  </span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">specs =</span> <span class="st">"assum_check"</span>,  </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">by =</span> <span class="st">"teach"</span>,  </span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">at =</span> <span class="fu">list</span>(<span class="at">seniority =</span> <span class="st">"Faculty"</span>), </span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">mode =</span> <span class="st">"prob"</span> </span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>assum_emm <span class="sc">|&gt;</span> </span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>(<span class="at">digits=</span><span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>assum_emm <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">as.data.frame</span>() <span class="sc">|&gt;</span>  </span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> _, <span class="fu">aes</span>(<span class="at">x =</span> assum_check, </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>                                <span class="at">y =</span> prob, <span class="at">ymin =</span> asymp.LCL, <span class="at">ymax =</span> asymp.UCL, </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>                                <span class="at">linetype =</span> teach, <span class="at">group =</span> teach)) <span class="sc">+</span> </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span> </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_errorbar</span>(<span class="at">width =</span> <span class="fl">0.1</span>) <span class="sc">+</span>  </span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span> </span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_cartesian</span>(<span class="at">ylim =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>)) <span class="sc">+</span> </span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="worksheet" class="level3">
+<h3 class="anchored" data-anchor-id="worksheet">Worksheet</h3>
+<p><strong>Scenario:</strong></p>
+<blockquote class="blockquote">
+<p>A local GP surgery has rolled out a new patient app and wishes to understand the users’ satisfaction with the service. The app anonymously monitors engagement and records:</p>
+<ul>
+<li>The outcome of the interaction with the app, with the options “Booked an appointment”, “Prescription request” or “Redirected to NHS information website”. [<code>outcome</code>]</li>
+</ul>
+<!-- -->
+<ul>
+<li>Whether the patient interacted with an AI chatbot while they used the app [<code>ai_chatbot</code>].</li>
+</ul>
+<p>When the user closes the app, they are presented with the following question:</p>
+<ul>
+<li><em>On the whole, how would you rate your experience with this app today?</em> where the patients can click on “Dissatisfied”, “Neutral” and “Satisfied” [<code>user_satisfaction</code>].</li>
+</ul>
+</blockquote>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Use the tutorial to complete the following tasks:</strong></p>
+<ol type="1">
+<li><p>Generate descriptive statistics to summarise your data.</p></li>
+<li><p>Fit a model predicting user satisfaction from both predictors (the outcome of the interaction). Use “Redirected” as the baseline for <code>outcome</code> and “Yes” as the baseline for <code>ai_chatbot</code>.</p></li>
+<li><p>Check the model fit, including all the assumptions and fit statistics.</p></li>
+<li><p>Generate parameter estimates and predicted probabilities.</p></li>
+<li><p>Write up a short report (up to 300 words) summarising and interpreting the results of your analysis.</p></li>
+</ol>
+</div>
+</div>
+</div>
+<p>You can use the “worksheet” file in the quarto folder to prepare the worksheet. The data are stored in the file <a href="data/app_data.csv">app_data.csv</a>. Download the data and <a href="index.html#importing-datasets">import it to Posit Cloud</a>. Once you’ve done so, you can read the data into R by running:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>app_tib <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/app_data.csv"</span>) <span class="sc">|&gt;</span> readr<span class="sc">::</span><span class="fu">read_csv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Remember to load the necessary packages.</p>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Optional extra task:</strong></p>
+<p>If you created a plot of predicted probabilities, you may have noticed that the lines and error bars overlap quite a bit, which makes it difficult to see. Can you think of a way to adjust the plot so that you can clearly see the extent to which the error bars overlap (or don’t overlap) with each other?</p>
+</div>
+</div>
+</div>
+</section>
+<section id="check-worksheet-values" class="level3">
+<h3 class="anchored" data-anchor-id="check-worksheet-values">Check worksheet values</h3>
+<p>Once you’ve finished the worksheet, you can ask me to look through your work and give you feedback. Remember that you should also practice writing up the results in a brief report, not just running the code. If you’re stuck, you can use the quiz below to guide you.</p>
+<p>You can also use the quiz below - if you fitted the models the correctly, your answers should match the values below.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Worksheet check
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Proportional odds check:</strong></p>
+<ul>
+<li><p><code>ai_chatbot</code> estimate for Level 1 vs 2&amp;3: 1.118</p></li>
+<li><p><code>ai_chatbot</code> estimate for Level 1&amp;2 vs 3: 1.07</p></li>
+<li><p><code>outcomeBooked an appointment</code> estimate for Level 1 vs 2&amp;3: 1.115</p></li>
+<li><p><code>outcomeBooked an appointment</code> estimate for Level 1&amp;2 vs 3: 1.007</p></li>
+</ul>
+<p>The proportional odds assumption was satisfied:</p>
+<div id="radio_ABFCAFPTRD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_ABFCAFPTRD" value="answer"> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_ABFCAFPTRD" value=""> <span>FALSE</span></label>
+</div>
+<p><strong>Fit statistics:</strong></p>
+<ul>
+<li><p>Deviance explained: 13.4 %</p></li>
+<li><p>Likelihood ratio test statistic: 11.48</p></li>
+</ul>
+<p><strong>Parameter estimates:</strong></p>
+<ul>
+<li><p>Dissatisfied|Neutral : 0.194</p></li>
+<li><p>Neutral|Satisfied : 58.724</p></li>
+<li><p>outcomePrescription request: 0.749</p></li>
+<li><p>outcomeBooked an appointment: 2.613</p></li>
+<li><p>ai_chatbotNo estimate: 4.359</p></li>
+</ul>
+<p>Based on the odds ratio alone (ignoring the p-value), patients who were redirected to an NHS website had higher odds of being more satisfied compared to patients who requested a prescription:</p>
+<div id="radio_YQVQVYFABP" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_YQVQVYFABP" value="answer"> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_YQVQVYFABP" value=""> <span>FALSE</span></label>
+</div>
+<p>Based on the odds ratio alone, patients who were redirected to an NHS website had higher odds of being more satisfied compared to patients who booked an appointment:</p>
+<div id="radio_NJJWZIIRGM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_NJJWZIIRGM" value=""> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_NJJWZIIRGM" value="answer"> <span>FALSE</span></label>
+</div>
+<p>Based on the odds ratio alone, patients who interacted with an AI chatbot had higher odds of being more satisfied compared to patients did not interact with the chatbot.</p>
+<div id="radio_OMQFQYKKYO" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_OMQFQYKKYO" value=""> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_OMQFQYKKYO" value="answer"> <span>FALSE</span></label>
+</div>
+<p><strong>Estimated probabilities</strong></p>
+<ul>
+<li><p>Probability of “Neutral” satisfaction when interacting with the chatbot (holding <code>outcome</code> at the baseline): 0.888</p></li>
+<li><p>Probability of “Neutral” satisfaction when requesting prescription (holding <code>ai_chatbot</code> at the baseline): 0.781</p></li>
+</ul>
+</div>
+</div>
+</div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-burkner2019" class="csl-entry" role="listitem">
+Bürkner, Paul-Christian, and Matti Vuorre. 2019. <span>“Ordinal Regression Models in Psychology: A Tutorial.”</span> <em>Advances in Methods and Practices in Psychological Science</em> 2 (1): 77–101. <a href="https://doi.org/10.1177/2515245918823199">https://doi.org/10.1177/2515245918823199</a>.
+</div>
+<div id="ref-sladekovaGLMexercise2023" class="csl-entry" role="listitem">
+Sladekova, Martina, Veronika L. Poupa, and Andy P. Field. 2024. <span>“Sources of Bias in General Linear Models: Evaluating the Analytic Practice in Psychological Research.”</span> <a href="https://doi.org/doi.org/10.31234/osf.io/wc42b">https://doi.org/doi.org/10.31234/osf.io/wc42b</a>.
+</div>
+</div>
+</section>
+</section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr>
+<ol>
+<li id="fn1"><p>We’ll learn whether summing/averaging Likert scales like this is a good idea in the first place in Weeks 7, 8 and 9. Or we won’t - I’m not the one running the sessions, so it’ll be a surprise.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>It’s not close by <em>any</em> means. But it is the closest.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>No dig intended at PostDocs or PhDs. In the study cited above, we found differences in this general direction, but the overlap of uncertainty intervals was massive. Generally, the only group that tended to perform better where stats instructors.<a href="#fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
 
 </main> <!-- /main -->
 <script>

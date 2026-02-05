@@ -827,6 +827,10 @@ write.csv(follower_tib, "data/follower_data.csv", row.names = FALSE)
 ```{r echo=FALSE, message=FALSE}
 follower_tib <- readr::read_csv("data/follower_data.csv")
 
+follower_tib |> 
+  ggplot2::ggplot(data = _, aes(x = animal_posts, y = n_followers)) + 
+  geom_smooth(method = "glm.nb")
+
 follower_poisson <- follower_tib |> glm(
   n_followers ~ frequency + post_type + animal_posts, 
   data = _, 
@@ -867,44 +871,44 @@ What does the model you consider to be the best fitting predict for a BlueSky us
 
 Once you've finished the worksheet, you can ask me to look through your work and give you feedback. Remember that you should also practice writing up the results in a brief report, not just running the code. If you're stuck, you can use the quiz below to guide you.
 
-You can also use the quiz below - if you fitted the models the correctly, your answers should match the correct answers in the quiz. **Round all your answers to 2 decimal places.** If making calculations, only round the final result.
+You can also use the quiz below - if you fitted the models the correctly, your answers should match the values below.
 
 ::: {.callout-tip collapse="true" appearance="simple"}
 ### Worksheet check
 
 ```{r message=FALSE, echo=FALSE}
 webex_best_model <- 
-  c("Gamma model", 
-    "Poisson model",
-    answer ="A different model") |> 
-  webexercises::longmcq()
+ c("Gamma model",
+   "Poisson model",
+   answer ="A different model") |>
+ webexercises::longmcq()
 
 model_performance_nb <- model_performance(follower_nb) 
 
-webex_deviance <- (webexercises::round2(model_performance_nb$R2_Nagelkerke, 3)*100) |> 
-  webexercises::fitb()
+webex_deviance <- (webexercises::round2(model_performance_nb$R2_Nagelkerke, 3)*100) #|> 
+  #webexercises::fitb()
 
 webex_f <- test_wald(follower_nb)$F[2] |> 
-  webexercises::round2(3) |> 
-  webexercises::fitb()
+  webexercises::round2(3) #|> 
+  #webexercises::fitb()
 
 model_params_nb <- model_parameters(follower_nb, exponentiate = TRUE)
 
 webex_param_1 <- model_params_nb[model_params_nb$Parameter == "frequencyOnce a day", ]$Coefficient |> 
-  webexercises::round2(2) |> 
-  webexercises::fitb()
+  webexercises::round2(2) #|> 
+ # webexercises::fitb()
 
 webex_param_2 <- model_params_nb[model_params_nb$Parameter == "frequencyMore than once a day", ]$Coefficient |> 
-  webexercises::round2(2) |> 
-  webexercises::fitb()
+  webexercises::round2(2)# |> 
+  #webexercises::fitb()
 
 webex_param_3 <- model_params_nb[model_params_nb$Parameter == "post_typeUnique posts", ]$Coefficient |> 
-  webexercises::round2(2) |> 
-  webexercises::fitb()
+  webexercises::round2(2)# |> 
+  #webexercises::fitb()
 
 webex_param_4 <- model_params_nb[model_params_nb$Parameter == "animal_posts", ]$Coefficient |> 
-  webexercises::round2(2) |> 
-  webexercises::fitb()
+  webexercises::round2(2) #|> 
+ # webexercises::fitb()
 
 webex_h1 <- 
   c(answer ="TRUE", 
@@ -929,8 +933,8 @@ webex_predict <- predict(
     animal_posts = 100
   )
 ) |> exp() |> 
-  webexercises::round2(2) |> 
-  webexercises::fitb()
+  webexercises::round2(2) #|> 
+ # webexercises::fitb()
 ```
 
 Based on the diagnostic checks, the model that should be selected is:

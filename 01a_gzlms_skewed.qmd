@@ -681,7 +681,7 @@ Use `alert_glm` and `alert_gamma` to make two separate response time predictions
 
 Once you've finished the worksheet, you can ask me to look through your work and give you feedback. Remember that you should also practice writing up the results in a brief report, not just running the code. If you're stuck, you can use the quiz below to guide you.
 
-You can also use the quiz below - if you fitted the models the correctly, your answers should match the correct answers in the quiz. **Round all your answers to 2 decimal places.** If making calculations, only round the final result.
+You can also use the quiz below - if you fitted the models the correctly, your answers should match the values below. 
 
 ```{r eval = TRUE, echo=FALSE, message=FALSE}
 alert_desc <- alert_tib |> 
@@ -752,17 +752,17 @@ round_wrap <- function(x, layer_1 = 3, layer_2 = 2){
 ```{r echo=FALSE}
 library(webexercises)
 webex_desc_alert <- alert_desc[alert_desc$Variable == "alertness", "Mean"] |> 
-  webexercises::round2(2) |> 
-  webexercises::fitb()
+  webexercises::round2(2) #|> 
+  #webexercises::fitb()
 
 webex_desc_gpws_time <- alert_desc[alert_desc$Variable == "gpws_time", "Mean"] |> 
-  webexercises::round2(3) |> 
-  webexercises::fitb()
+  webexercises::round2(3)# |> 
+ # webexercises::fitb()
 
 webex_glm_param <- alert_glm$coefficients["modality"] |> 
   webexercises::round2(3) |> 
-   webexercises::round2(2) |> 
-  webexercises::fitb()
+   webexercises::round2(2)# |> 
+ # webexercises::fitb()
 
 webex_assumptions <- 
   c("Linearity and influential cases", 
@@ -783,27 +783,27 @@ r2_glm <- webexercises::round2(alert_glm_performance$R2, 3)*100
 r2_gamma <- webexercises::round2(alert_gamma_performance$R2_Nagelkerke, 3)*100 
 
 webex_r2_gamma <- r2_gamma |> 
-  webexercises::round2(2) |> 
-  webexercises::fitb()
+  webexercises::round2(2) #|> 
+  #webexercises::fitb()
 
-webex_r2_diff <- webexercises::round2(r2_gamma - r2_glm, 2) |> 
-  webexercises::fitb()
+webex_r2_diff <- webexercises::round2(r2_gamma - r2_glm, 2)# |> 
+  #webexercises::fitb()
 
 webex_gamma_fit_f <- alert_gamma_wald$F[2] |> 
-   round_wrap() |> 
-  webexercises::fitb()
+   round_wrap() #|> 
+ # webexercises::fitb()
 
 webex_gamma_fit_df1 <- alert_gamma_wald$df_diff[2] |> 
-  round_wrap() |> 
-  webexercises::fitb()
+  round_wrap() #|> 
+ # webexercises::fitb()
 
 webex_gamma_fit_df2 <- alert_gamma_wald$df[2] |> 
-  webexercises::round2(2) |> 
-  webexercises::fitb()
+  webexercises::round2(2) #|> 
+ # webexercises::fitb()
 
 webex_gamma_param <- ((alert_gamma_parameters_exp$Coefficient[2]-1)*100) |> 
-  webexercises::round2(1) |> 
-  webexercises::fitb()
+  webexercises::round2(1) #|> 
+ # webexercises::fitb()
 
 webex_policy <- c(
   "... should be implemented.",
@@ -812,12 +812,12 @@ webex_policy <- c(
   webexercises::longmcq()
 
 webex_glm_prediction <- alert_glm_prediction  |> 
-  webexercises::round2(2) |> 
-  webexercises::fitb()
+  webexercises::round2(2)# |> 
+ # webexercises::fitb()
 
 webex_gamma_prediction <- alert_gamma_prediction  |> 
-  webexercises::round2(2) |> 
-  webexercises::fitb()
+  webexercises::round2(2) #|> 
+ # webexercises::fitb()
   
 
 ```

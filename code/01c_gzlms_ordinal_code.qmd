@@ -1,0 +1,128 @@
+```{r eval=FALSE, comment="code"}
+assum_tib <- assum_tib |> 
+  dplyr::mutate( 
+    assum_check = factor( 
+      assum_check, 
+      levels = c("No checks", "Insufficient", "No follow-up", "Full checks"), 
+      ordered = TRUE 
+    ), 
+    seniority = factor(seniority, levels = c("Faculty", "PostDoc", "PhD")), 
+    teach = factor(teach, levels = c("Yes", "No")) 
+  )
+```
+
+
+```{r eval=FALSE, comment="code"}
+assum_desc_teach <- assum_tib |> 
+  dplyr::count(teach, assum_check) |>  
+  dplyr::mutate( 
+    percent = n/sum(n)*100, 
+    .by = teach 
+  )
+
+assum_desc_teach |> 
+  display()
+```
+
+
+```{r eval=FALSE, comment="code"}
+#| fig.cap: ""
+
+ggplot2::ggplot(data = assum_desc_teach, 
+                aes(x = assum_check, y = percent, 
+                    colour = teach, linetype = teach, group = teach)) + 
+  geom_point(size = 2) + 
+  geom_line() + 
+  scale_colour_viridis_d(end = 0.9) + 
+  coord_cartesian(ylim = c(0, 100)) + 
+  theme_light()
+```
+
+
+```{r eval=FALSE, comment="code"}
+assum_ord <- MASS::polr(assum_check ~ seniority + teach, data = assum_tib) 
+```
+
+
+```{r eval=FALSE, comment="code"}
+assum_tib <- assum_tib |> 
+  dplyr::mutate( 
+    level_1_vs_levels_234 = dplyr::case_when( 
+      assum_check %in% c("No checks") ~ 0,  
+      assum_check %in% c("Insufficient", "No follow-up", "Full checks") ~ 1
+    ), 
+    levels_12_vs_levels_34 = dplyr::case_when( 
+      assum_check %in% c("No checks", "Insufficient") ~ 0,  
+      assum_check %in% c("No follow-up", "Full checks") ~ 1
+    ), 
+    levels_123_vs_level_4 = dplyr::case_when( 
+      assum_check %in% c("No checks", "Insufficient", "No follow-up") ~ 0,  
+      assum_check %in% c("Full checks") ~ 1
+    )
+  )
+```
+
+
+```{r eval=FALSE, comment="code"}
+model_log_1 <- glm(level_1_vs_levels_234 ~ seniority + teach, data = assum_tib)
+model_log_2 <- glm(levels_12_vs_levels_34 ~ seniority + teach, data = assum_tib)
+model_log_3 <- glm(levels_123_vs_level_4 ~ seniority + teach, data = assum_tib)
+```
+
+
+```{r eval=FALSE, comment="code"}
+compare_models(model_log_1, model_log_2, model_log_3, exponentiate = TRUE) |> 
+  display(digits = 3)
+```
+
+
+```{r eval=FALSE, comment="code"}
+#| tbl-cap: ""
+
+model_parameters(assum_ord, exponentiate = TRUE) |> 
+  knitr::kable(digits = 3) 
+```
+
+
+```{r eval=FALSE, comment="code"}
+#| tbl-cap: ""
+
+assum_emm <- emmeans::emmeans( 
+  assum_ord,  
+  specs = "assum_check",  
+  by = "teach",  
+  at = list(seniority = "Faculty"), 
+  mode = "prob" 
+)
+
+assum_emm |> 
+  knitr::kable(digits=3)
+
+```
+
+
+```{r eval=FALSE, comment="code"}
+
+assum_emm |> 
+  as.data.frame() |>  
+  ggplot2::ggplot(data = _, aes(x = assum_check, 
+                                y = prob, ymin = asymp.LCL, ymax = asymp.UCL, 
+                                linetype = teach, group = teach)) + 
+  geom_point(size = 2) + 
+  geom_errorbar(width = 0.1) +  
+  geom_line() + 
+  coord_cartesian(ylim = c(0, 1)) + 
+  theme_light()
+```
+
+
+```{r eval=FALSE, eval=TRUE, echo=FALSE}
+source("functions/yoink_code.R")
+yoink_code("01c_gzlms_ordinal")
+```
+
+
+```{r eval=FALSE, child="code/01c_gzlms_ordinal_code.qmd"}
+```
+
+
