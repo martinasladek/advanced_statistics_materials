@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -160,7 +194,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02a_ma_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to meta-analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -229,8 +263,19 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="4">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#how-is-meta-analysis-like-a-linear-model" id="toc-how-is-meta-analysis-like-a-linear-model" class="nav-link active" data-scroll-target="#how-is-meta-analysis-like-a-linear-model">How is meta-analysis like a linear model?</a></li>
+  <li><a href="#reading-list" id="toc-reading-list" class="nav-link" data-scroll-target="#reading-list">Reading list</a>
+  <ul>
+  <li><a href="#ma-reading" id="toc-ma-reading" class="nav-link" data-scroll-target="#ma-reading">Essential reading</a></li>
+  <li><a href="#further-reading" id="toc-further-reading" class="nav-link" data-scroll-target="#further-reading">Further reading</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -254,8 +299,252 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Scientific studies often disagree with each other - effects measuring the same thing may have different magnitudes or different directions altogether. Meta-analysis is a statistical tool that aims to resolve these discrepancies and, ideally, explain them.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>This section is a read-along, not a code-along - some code is hidden so you won’t be able to run it. The first “proper” tutorial starts in the next section.</p>
+</div>
+</div>
+<section id="how-is-meta-analysis-like-a-linear-model" class="level2">
+<h2 class="anchored" data-anchor-id="how-is-meta-analysis-like-a-linear-model">How is meta-analysis like a linear model?</h2>
+<p>In its most basic form, a meta-analysis gives us “typical value” for an effect, much in the same way a linear model gives us a typical value on some variable measured in a sample. Imagine we collected a sample of participants and measured their doom-scrolling habits. We could end up a sample like this:</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="02_ma_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>To find out how much a typical individual doom-scrolls, we could calculate the mean (or some robust alternative if we’re worried about outliers):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mean</span>(doom, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 101.1701</code></pre>
+</div>
+</div>
+<p>This is the same as fitting a linear with no predictors - a null model that predicts the outcome only from an intercept:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">lm</span>(doom <span class="sc">~</span> <span class="dv">1</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model_parameters</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Coefficient</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">t(89)</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">101.17</td>
+<td style="text-align: center;">1.87</td>
+<td style="text-align: center;">(97.46, 104.88)</td>
+<td style="text-align: center;">54.15</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>In a meta-analysis, our outcome is the effect size that represents a hypothesis. Say that we measured the doom-scrolling habbits of students and compared them to the doom-scrolling of lecturers. We could fit a linear model with the group as the predictor:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>doom_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(doom <span class="sc">~</span> group, <span class="at">data =</span> doom_tib)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>doom_lm <span class="sc">|&gt;</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model_parameters</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 23%">
+<col style="width: 19%">
+<col style="width: 8%">
+<col style="width: 26%">
+<col style="width: 10%">
+<col style="width: 11%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Coefficient</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">t(98)</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">122.35</td>
+<td style="text-align: center;">2.55</td>
+<td style="text-align: center;">(117.28, 127.41)</td>
+<td style="text-align: center;">47.92</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">group (Student)</td>
+<td style="text-align: center;">-21.34</td>
+<td style="text-align: center;">3.61</td>
+<td style="text-align: center;">(-28.50, -14.17)</td>
+<td style="text-align: center;">-5.91</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Which tells us that students doom-scrolling time was on average lower by -21.34 minutes, compared to the lecturers. This value is our effect size. We could convert it into a standardised effect like a standardised beta to make it comparable to other studies who may have used a different way of operationalising the doom-scrolling measure:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>doom_lm <span class="sc">|&gt;</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model_parameters</span>(<span class="at">standardize =</span> <span class="st">"refit"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 24%">
+<col style="width: 19%">
+<col style="width: 9%">
+<col style="width: 24%">
+<col style="width: 10%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Coefficient</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">t(98)</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">0.51</td>
+<td style="text-align: center;">0.12</td>
+<td style="text-align: center;">(0.27, 0.75)</td>
+<td style="text-align: center;">4.18</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">group (Student)</td>
+<td style="text-align: center;">-1.02</td>
+<td style="text-align: center;">0.17</td>
+<td style="text-align: center;">(-1.36, -0.68)</td>
+<td style="text-align: center;">-5.91</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>More often than not, you might see the effect size reported as “Cohen’s <em>d</em>” which is another way of expressing a standardised difference:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>effectsize<span class="sc">::</span><span class="fu">cohens_d</span>(doom <span class="sc">~</span> group, <span class="at">data =</span> doom_tib)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cohen's d |       95% CI
+------------------------
+1.18      | [0.75, 1.60]
+
+- Estimated using pooled SD.</code></pre>
+</div>
+</div>
+<p>We could then try to find <em>all</em> the papers that have ever measured doom-scrolling and compared students and lecturers. Each would report a standardised effect size representing the difference (or we could calculate it based on what’s reported in the paper). When we collate these effect sizes, we could end up with something like this:</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02_ma_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>In the plot above, the dots represent the effect sizes from different studies and the error bars are their confidence intervals. We can see that the majority of the studies indicate a positive difference (lecturers doom-scroll more than students), but several of the confidence intervals include zero as well as negative values.</p>
+<p>In a very crude fashion, we could calculate the average effect size:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cohen_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(Cohens_d <span class="sc">~</span> <span class="dv">1</span>, <span class="at">data =</span> doom_d)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>cohen_lm <span class="sc">|&gt;</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model_parameters</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Coefficient</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">t(8)</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">0.20</td>
+<td style="text-align: center;">0.06</td>
+<td style="text-align: center;">(0.08, 0.33)</td>
+<td style="text-align: center;">3.67</td>
+<td style="text-align: center;">0.006</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>Based on this, we could conclude that on average, lecturers scroll more than students, with an overall small effect size (Cohen’s <em>d</em> = 0.2).</p>
+<p>Of course, there’s more to meta-analysis than that. For example, we need to account for the fact that:</p>
+<ul>
+<li><p>Some studies only have a handful of participants others have loads</p></li>
+<li><p>The intervals around some effect sizes are wider compared to other studies (i.e.&nbsp;there is more uncertainty associated with them)</p></li>
+<li><p>If the effect sizes vary substantially, are there any predictors that can explain this?</p></li>
+<li><p>Some studies may have operationalised outcome as a binary variable (“Doom-scrolls” vs “Doesn’t doom-scroll”), resulting in an odds ratio as an effect size - is there a way to include these studies in the same analysis, and does it make sense to do so?</p></li>
+<li><p>Some studies reported means, standard deviations and sample sizes, allowing us to calculate Cohen’s <em>d</em> directly. Others only reported the <em>t</em> or the <em>F</em> statistics, or just the <em>p</em>-value - how can we calculate the effect size for them?</p></li>
+<li><p>Some studies report multiple effect sizes - do we include them all, even though they are dependent?</p></li>
+<li><p>What about studies that never made it to the publication stage? Could they change our conclusion if we were to include them?</p></li>
+</ul>
+<p>A well-conducted meta-analysis can address these questions and we’re going to learn how in the weeks to come.</p>
+</section>
+<section id="reading-list" class="level2">
+<h2 class="anchored" data-anchor-id="reading-list">Reading list</h2>
+<p>The tutorials will focus on the practical aspect of data wrangling and fitting meta-analytic models, while the book chapter associated with this block explains the theoretical aspects of conducting a meta-analysis in more detail.</p>
+<section id="ma-reading" class="level3">
+<h3 class="anchored" data-anchor-id="ma-reading">Essential reading</h3>
+<p>The book chapter will be linked to the weekly pages under Units on Canvas. You can therefore access it through:</p>
+<ul>
+<li><p>Units &gt; Week 4</p></li>
+<li><p>Units &gt; Week 5</p></li>
+<li><p>Units &gt; Week 6</p></li>
+</ul>
+<p>This book chapter is <strong>essential reading</strong> . You should aim to finish reading the chapter by the session in Week 6, at which point we’ll start working on the Report together.</p>
+</section>
+<section id="further-reading" class="level3">
+<h3 class="anchored" data-anchor-id="further-reading">Further reading</h3>
+<p>The report requires you to engage with methodological literature in order to support the arguments you make as part of Critical Evaluation. I will add several papers to the reading list (accessible through the Reading List tab on Canvas) to get you started, but you are encouraged to search for papers that are directly relevant to your report.</p>
 
 
+</section>
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -856,8 +1145,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./02a_ma_intro.html" class="pagination-link" aria-label="Introduction">
-        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./02a_ma_intro.html" class="pagination-link" aria-label="Introduction to meta-analysis">
+        <span class="nav-page-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to meta-analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,1 +1,256 @@
-# Introduction
+# Introduction to meta-analysis
+
+::: callout-caution
+## Tutorial in progress
+
+This tutorial is incomplete - full version will be released by the end of Friday - please come back later.
+:::
+
+A meta-analysis has several steps before we can finally sit down, grab a cup of hot beverage and run some models. We need to:
+
+-   Identify a clearly defined research question
+
+-   Conduct a literature search
+
+-   Apply inclusion and exclusion criteria
+
+-   Extract the data
+
+These steps are explained in detail in the [essential reading](#ma-reading) for this block. Our starting point in this tutorial is the happy stage in which we've collated the information from different studies into a single dataset which we're now going to analyse.
+
+### Scenario
+
+To guide this tutorial, we're going to use a study by @danielson2024 which investigated how effective refutation text is in confronting scientific misconceptions.
+
+> "Refutation texts typically contain three important components—first, they state the common but inaccurate knowledge that is assumed to be held by the reader; second, they explicitly indicate what is incorrect; and third, they provide the correct information, often with supporting explanations."\
+> \
+> @danielson2024
+
+An experiment studying the effect of refutation on misconceptions might go as follows:
+
+1.  Participants complete a questionnaire measuring their level of misconceptions on a specific topic (for example climate change or vaccinations)
+2.  They are then presented with refutational messages challenging common misconceptions.
+3.  Participant complete the questionnaire again, often after a delay. The difference between their first misconception level and the second (or third) is the effect size of interest.
+
+Alternatively, a refutation study might adopt an independent-measures design, where participants are presented with either a refutation text or an non-refutation text, after which they complete a misconception questionnaire. In this case the effect size is the difference in misconceptions between the two conditions.
+
+Other more complicated designs also exists, and researchers also tend to measure covariates or moderators which might affect the effect of interest.
+
+@danielson2024 collated a sample of 71 articles that report the results of a refutation study (or studies) meta-analysed the effect sizes to get the overall size of the effect. They also also explored an array of moderators that could explain the variability of reported refutation effects across studies.
+
+### Packages
+
+We're going to use the following packages:
+
+```{r message=FALSE}
+library(emmeans) # for wrangling moderation effects
+library(metafor) # for running a meta-analysis
+library(tidyverse)
+library(easystats)
+```
+
+### The data
+
+::: {.callout-important collapse="true"}
+#### About this dataset (public notice)
+
+You only need to read this if you stumbled upon this tutorial randomly and you are *not* an Advanced Statistics student.
+
+@danielson2024 report a thorough, well-conducted meta-analysis that addresses the research question from multiple angles. They share their dataset and full analytic scripts in a transparent and user-accessible way at <https://osf.io/8kfue/>.
+
+The dataset used in this tutorial is from their OSF website, simplified for teaching purposes in the following ways:
+
+-   Two out of several outcomes were filtered to keep the dataset more concise.
+
+-   The dataset here only focuses on independent design studies, whereas the original dataset includes repeated measures designs.
+
+-   Only a select moderators were kept in the datasets.
+
+-   Column names were changed to be more obvious.
+
+-   Some effect sizes were removed so I can demonstrated their how to compute them.
+
+The analysis presented in this section will also be simpler and in some respects incorrect - the point of this week's tutorial is to illustrate the principles of meta-analysis. We'll get into more complex estimation methods that are closer to the ones reported in @danielson2024 next week.
+:::
+
+The data are stored in the [danielson2024.csv](data/danielson2024.csv). Download the data and [import it to Posit Cloud](#importing-datasets). Once you've done so, you can read the data into R by running:
+
+```{r message=FALSE}
+refute_tib <- here::here("data/danielson2024.csv") |> 
+  readr::read_csv()
+```
+
+@danielson2024 collated effect sized pertaining to multiple different outcomes. The ones included in our dataset are
+
+1.  Accurate beliefs - in which the outcome was the accuracy of beliefs about a topic
+2.  Inaccurate beliefs - in which the outcome was the opposite, i.e. inaccuracy of beliefs.
+
+High scores on these two measures would indicate an opposite outcome. Because of this, we cannot include them in a single meta-analysis - the result would make no sense.
+
+We'll focus on the accuracy of beliefs only (you'll get a change to explore the inaccuracy in the worksheet). Information about the outcome is stored in the variable `outcome_types` . We can check the possible values for this variable as:
+
+```{r}
+refute_tib$outcome_types |> unique()
+```
+
+"acc_beliefs" is the value that we want to keep. We do so using the filter command:
+
+```{r}
+acc_tib <- refute_tib |> #<1>
+  dplyr::filter( #<2>
+    outcome_types == "acc_beliefs" #<3>
+  )
+```
+
+1.  Use the `refute_tib` dataset and pipe it into the next command. Store the results into a new object called `acc_tib`.
+2.  Use the `filter()` function to only keep rows that match a specific condition.
+3.  Specify the matching condition so that only rows where `outcome_types` is equal to `acc_beliefs` are kept in the new dataset.
+
+## Calculate effect sizes
+
+```{r eval=FALSE}
+acc_tib
+```
+
+```{r echo=FALSE}
+acc_tib |> 
+  DT::datatable(options = list(scrollX = TRUE))
+```
+
+<br>
+
+We're going to spend some time in this section so get comfy. If you look around the dataset, you'll notice that we have a lot of blank cells. This is because not all studies provide the same information - for some studies, the authors were able to extract sample sizes, means, and standard deviations of the treatment (refutation text) and the control group (non-refutation text). In other studies, this information was not available, so they extracted the *t*-statistic. In a few lucky cases, Cohen's *d* was reported directly.
+
+In order to run a meta-analysis, we need two metrics:
+
+-   The effect size
+
+-   The variance associated with this effect size (standard error will also work)
+
+Meta-analysis is a weighted linear model, meaning that not all cases contribute equally to the final estimate. An example, where we've encountered weighting are [robust models](#gzlms-robust-main) - cases that are too extreme are down-weighted so they have lesser impact on the final estimate.
+
+In a meta-analysis, the problem is a little different. Some effect sizes will have more variability associated with them than others. This is indicative of more uncertainty around this estimate. If an estimate is uncertain, we should give it a lower weight so that it doesn't unduly impact the final estimate. The variance associated with an estimate is therefore used as an inverse weight - the more variance, the lower the weight is assigned to the estimate and vice versa for estimates with small variance.
+
+The reason why the authors extracted group means, standard deviations and sample sizes is that we can use them to calculate Cohen's *d*:
+
+$$
+\hat{d} = \frac{\bar{X_1} - \bar{X_2}}{\sqrt{\frac{(n_1 - 1)s_1^2 + (n_2-1)s_2^2}{n_1 + n_2 - 2}}}
+$$
+
+Here, $\bar{X_1}$ and $\bar{X_1}$ are the group means, $n_1$ and $n_2$ are the sample sizes, and $s_1^2$ and $s_2^2$ are the variances. To calculate the variance associated with Cohen's *d* we need the *d* itself and the sample sizes:
+
+$$
+var(d) = \frac{n_1 + n_2}{n_1n_2} + \frac{d^2}{2(n_1 + n_2)}
+$$
+
+We'll use R functions to calculate the effect sizes for us, but it's important to know how different effect sizes and variances are calculated, so that you know what kind of information to record when you're going through the papers for your own meta-analysis.
+
+We can also approximate Cohen's *d* from test statistics, like *t* and *F*. Direct calculation from means and SDs is always better, but the necessary values are not always reported in the papers. For example, we can calculate Cohen's *d* from the *t*-statistic as:
+
+$$
+\hat{d} = t\sqrt{\frac{1}{n_1} +  \frac{1}{n_2} }
+$$
+
+In reality, the effect size we'll be using in our analysis is **Hedge's *g***, but if we have the metrics for calculating Cohen's d, we can easily covert into Hedge's *g*.
+
+Hedge's *g* is a correction to Cohen's *d* intended to account for **small study effects**, which is a phenomenon in which studies with small sample sizes tend to produce disproportionately large effect sizes and bias the final estimate as a result.
+
+Let's take a first stab at this in R. We'll use the `escalc()` function ("**e**ffect **s**ize **calc**ulation") from the `metafor` package, which will be our powerhouse for the meta-analysis. The code below looks like a big chunk, but really we're just specifying where the necessary information is located in our dataset.
+
+```{r}
+acc_tib <- metafor::escalc( #<1>
+    measure = "SMD", #<2>
+    m1i = treatment_mean, #<3>
+    m2i = control_mean,  #<4>
+    sd1i = treatment_sd,  #<5>
+    sd2i = control_sd,  #<6>
+    n1i = treatment_n,  #<7>
+    n2i = control_n, #<8>
+    ti = t, #<9>
+    vtype = "UB", #<10>
+    data = acc_tib, #<11>
+    var.names = c("g","vg") #<12>
+  ) |> 
+  tibble::as_tibble() #<13>
+```
+
+1.  Initiate the `escalc()` function. We'll be storing the result into the same object `acc_tib`.
+2.  Specify what kind of measure you want to use. The "SMD" setting will calculate Hedge's *g* for us.
+3.  Column that contains group 1 mean.
+4.  Column that contains group 2 mean.
+5.  Column that contains group 1 SD.
+6.  Column that contains group 2 SD.
+7.  Column that contains group 1 sample size.
+8.  Column that contains group 2 sample size.
+9.  Column that contains the *t* statistic (if applicable)
+10. Variance type - "UB" is the setting we want for independent designs.
+11. Specify which dataset to use.
+12. Define the variable names. This function will add two variables to our dataset - the effect size and the variance. We'll call them "g" and "vg", respectively.
+13. Convert back into a tibble. This step is necessary because by default `escalc()` returns an object that is, well, not a tibble.
+
+Inspect the dataset again:
+
+```{r eval=FALSE}
+acc_tib
+```
+
+```{r echo=FALSE}
+acc_tib |> 
+  DT::datatable(options = list(scrollX = TRUE))
+```
+
+<br>
+
+Scroll all the way to the right and you'll see that columns g and vg have now been populated with values. However, if you click through the later rows of the dataset, some cells are still blank. That's because these rows didn't contain the information necessary for calculating Hedge's *g*. Instead, the authors were able to extract Cohen's *d*, which we can convert into Hedge's *g*.
+
+### Writing functions
+
+There's no functions without FUN. Meta-analysis inherently requires all sorts of conversion shenanigans, so you will find yourself in need of a custom function sooner or later. In our case, we need find a way to convert *d* into *g*, including the associated variance.
+
+Function is lazy person's tool, and a good coder is inherently lazy (or efficient - you decide). If there is an operation you need to complete at least twice, you can write a function instead of writing out all the steps multiple times.
+
+To convert d to g, we need to multiply *d* by a modifier, which we'll call *j*:
+
+$$
+j = 1-\frac{3}{4\times df - 1} \\
+df = N-2 \\
+g = d \times j
+$$
+
+in which *df* stands for degrees of freedom and N is total sample size. Looking at this, the values we'll need are *d* and the sample size.
+
+```{r}
+d_to_g <- function(d, n){
+  df = n-2
+  j = 1 - (3/(4*df - 1))
+  g = d*j
+  return(g)
+}
+
+vd_to_vg <- function(vd, n){
+  df = n-2
+  j = 1 - (3/(4*df - 1))
+  vg = vd*j^2
+  return(vg)
+}
+```
+
+Link to chapter for converting among effect sizes.
+
+## Fit the model
+
+-   Fixed vs random effects (briefly, link to chapter)
+
+-   Visualise the model. Including combining effects for situations where there are too many primary effect sizes.
+
+-   Heterogeneity in the model
+
+    -   Explain Q statistic, I^2^ statistic and tau.
+
+    -   The role of moderators
+
+## Moderation analysis
+
+-   Adding moderators to the model
+
+-   Using `emmeans` to get adjusted estimates.

@@ -296,7 +296,7 @@ report_r2 <- function(lm){
 
 The model appears to be a good fit and a statistically significant improvement over a model where the reaction time is predicted from intercept alone, `r report_wald(belay_lm)` , explaining `r report_r2(belay_lm)$percent` of total variance, `r report_r2(belay_lm)$r2` , `r report_r2(belay_lm)$adj_r2` . However, before we congratulate ourselves, let's remember that the model assumptions were violated in almost every respect, so we might want to address this in some way.
 
-## Robust estimation
+## Robust estimation {#gzlms-robust-main}
 
 Robust estimation is one approach that can be used for dealing with violated assumptions - instead of interpreting the parameters from the OLS model, we fit a robust model that is not sensitive (or less sensitive) to violated assumptions. We then use the parameter estimates from this model to draw conclusions about the hypotheses.
 

@@ -1,0 +1,237 @@
+"study_id","es_id","outcome_types","treatment_n","control_n","total_N","pub_status","random_assignment","sample_screening","rel_text_causal","text_length","treatment_mean","control_mean","treatment_sd","control_sd","t","d","vd","g","vg"
+"Trevors2012_1","ES_293","inacc_beliefs",25.5,25.5,51,"unpublished","random","screened",12.55,42,NA,NA,NA,NA,NA,NA,NA,-0.623335663090426,0.082240660283141
+"Geller2021_2","ES_91","inacc_beliefs",47,47,94,"unpublished","random","not_screened",8.24,21,NA,NA,NA,NA,NA,NA,NA,-0.473064057621676,0.0437435617160292
+"Diakidoy2016_1","ES_81","inacc_beliefs",35,33,68,"published","random","not_screened",NA,260,NA,NA,NA,NA,NA,NA,NA,0.105559158553474,0.0589611688200205
+"Prinz 2017_1","ES_253","inacc_beliefs",27,26,53,"unpublished","random","not_screened",NA,123,NA,NA,NA,NA,NA,NA,NA,0.380124879262077,0.0769654151168325
+"Van Loon 2015_1","ES_299","inacc_beliefs",57,57,114,"published","random","not_screened",NA,17.12,NA,NA,NA,NA,NA,NA,NA,-0.574773286988883,0.0365859470725688
+"Braasch2013_2","ES_31","inacc_beliefs",54,51,105,"published","random","screened",11.33,0,NA,NA,NA,NA,NA,NA,NA,-0.265930158979315,0.0384755841395053
+"Broughton 2010_1","ES_38","inacc_beliefs",42.5,42.5,85,"published","random","not_screened",7.84,26,NA,NA,NA,NA,NA,NA,NA,-0.53944677340944,0.0488495591114544
+"Broughton 2010_1","ES_39","inacc_beliefs",42.5,42.5,85,"published","random","not_screened",7.84,26,NA,NA,NA,NA,NA,NA,NA,-0.230411608711369,0.0473855188965881
+"Geller2021_1","ES_90","inacc_beliefs",48.5,48.5,97,"unpublished","random","not_screened",8.24,21,NA,NA,NA,NA,NA,NA,NA,-0.627637798347961,0.0433492886835748
+"Kutza 2000_1","ES_124","inacc_beliefs",44,49,93,"unpublished","random","not_screened",NA,5,NA,NA,NA,NA,NA,NA,NA,-0.886128878578538,0.0475343483561568
+"Kutza 2000_1","ES_125","inacc_beliefs",45,50,95,"unpublished","random","not_screened",NA,5,NA,NA,NA,NA,NA,NA,NA,-0.0790134859830004,0.04225643038669
+"Kutza 2000_1","ES_126","inacc_beliefs",44,49,93,"unpublished","random","not_screened",NA,5,NA,NA,NA,NA,NA,NA,NA,-0.764947243418104,0.0464134778686092
+"Kutza 2000_1","ES_127","inacc_beliefs",45,50,95,"unpublished","random","not_screened",NA,5,NA,NA,NA,NA,NA,NA,NA,-0.0320434445819229,0.0422278482998053
+"Prinz2019_1","ES_251","inacc_beliefs",41,39,80,"published","random","not_screened",NA,123,NA,NA,NA,NA,NA,NA,NA,-0.589810831753123,0.0523123552072144
+"Adesope2017_1","ES_4","acc_beliefs",22,21,43,"published","random","not_screened",7.02000000000001,50,1.55,1.1,1.14,1.22,NA,NA,NA,NA,NA
+"Adesope2017_1","ES_1","acc_beliefs",22,21,43,"published","random","not_screened",7.02000000000001,50,3.95,4.14,2.55,1.53,NA,NA,NA,NA,NA
+"Alvermann1989_1","ES_13","acc_beliefs",10.33,10.33,20.66,"published","random","screened",NA,12,0.9,0.8,0.88,0.63,NA,NA,NA,NA,NA
+"Alvermann1989_1","ES_14","acc_beliefs",10.33,10.33,20.66,"published","random","screened",NA,12,12.7,13.4,3.78,3.1,NA,NA,NA,NA,NA
+"Alvermann1989_1","ES_15","acc_beliefs",10.33,10.33,20.66,"published","random","screened",NA,12,0.2,0.1,0.42,0.32,NA,NA,NA,NA,NA
+"Alvermann1989_1","ES_16","acc_beliefs",10.33,10.33,20.66,"published","random","screened",NA,12,2.73,2.36,1.19,1.29,NA,NA,NA,NA,NA
+"Alvermann1989_1","ES_17","acc_beliefs",10.33,10.33,20.66,"published","random","screened",NA,12,15.82,14.64,1.67,3.41,NA,NA,NA,NA,NA
+"Alvermann1989_1","ES_18","acc_beliefs",10.33,10.33,20.66,"published","random","screened",NA,12,0.27,0.27,0.47,0.47,NA,NA,NA,NA,NA
+"Alvermann1989_1","ES_19","acc_beliefs",10.33,10.33,20.66,"published","random","screened",NA,12,3.4,4.4,0.97,0.7,NA,NA,NA,NA,NA
+"Alvermann1989_1","ES_20","acc_beliefs",10.33,10.33,20.66,"published","random","screened",NA,12,17.9,17,1.85,1.33,NA,NA,NA,NA,NA
+"Alvermann1989_1","ES_21","acc_beliefs",10.33,10.33,20.66,"published","random","screened",NA,12,0.6,0.9,0.52,0.32,NA,NA,NA,NA,NA
+"Ariasi2014_1","ES_22","acc_beliefs",14,16,30,"published","random","not_screened",5.44999999999999,0,6.21,3.94,1.8708,1.88,NA,NA,NA,NA,NA
+"Ariasi2014_1","ES_23","acc_beliefs",14,15,29,"published","random","not_screened",5.44999999999999,0,6.14,5.53,1.8708,1.859032006,NA,NA,NA,NA,NA
+"Ariasi2017_1","ES_24","acc_beliefs",18.5,18.5,37,"published","random","not_screened",NA,18,5.33,4.35,1.204,1.204325537,NA,NA,NA,NA,NA
+"Asterhan2020_1","ES_25","acc_beliefs",22,26,48,"published","random","not_screened",3.56999999999999,72,70.89,45.55,24.44,28.08,NA,NA,NA,NA,NA
+"Asterhan2020_1","ES_26","acc_beliefs",24,26,50,"published","random","not_screened",3.56999999999999,72,73.14,42.13,26.65,35.43,NA,NA,NA,NA,NA
+"Braasch2013_2","ES_28","acc_beliefs",54,51,105,"published","random","screened",11.33,0,4.92,4.1,2.05,1.65,NA,NA,NA,NA,NA
+"Broughton 2010_1","ES_40","acc_beliefs",42.5,42.5,85,"published","random","not_screened",7.84,26,6.2,6.84,3.41,3.54,NA,NA,NA,NA,NA
+"Broughton 2010_1","ES_41","acc_beliefs",42.5,42.5,85,"published","random","not_screened",7.84,26,7.76,7.61,3.13,3.24,NA,NA,NA,NA,NA
+"Butterfuss2020_1","ES_42","acc_beliefs",78.5,78.5,157,"unpublished","random","not_screened",4.75,NA,13.51,12.53,0.35,0.34,NA,NA,NA,NA,NA
+"Cameron 2013_1","ES_43","acc_beliefs",27,23,50,"published","random","screened",NA,NA,10.7,9.86,2.05,1.87,NA,NA,NA,NA,NA
+"Cameron 2013_1","ES_44","acc_beliefs",27,29,56,"published","random","screened",NA,NA,10.7,9.69,2.05,2.49,NA,NA,NA,NA,NA
+"Chambers1997_1","ES_45","acc_beliefs",20,19,39,"published","random","not_screened",NA,NA,21.7,15.4,7.81,8.64,NA,NA,NA,NA,NA
+"Chambers1997_1","ES_46","acc_beliefs",29,33,62,"published","random","not_screened",NA,NA,15.9,10.3,7.97,6.27,NA,NA,NA,NA,NA
+"Chambers1997_1","ES_47","acc_beliefs",22,24,46,"published","random","not_screened",NA,NA,19.8,15.9,8.08,8.96,NA,NA,NA,NA,NA
+"Chambers1997_1","ES_48","acc_beliefs",30,28,58,"published","random","not_screened",NA,NA,15.2,13.6,6.77,7.12,NA,NA,NA,NA,NA
+"Cordova2017_1","ES_55","acc_beliefs",38.5,38.5,77,"unpublished","random","not_screened",-6.11,3,10.67,9.25,4.29,4.1,NA,NA,NA,NA,NA
+"Cordova2017_1","ES_56","acc_beliefs",38.5,38.5,77,"unpublished","random","not_screened",-6.11,3,10.18,10.34,4.3,4.36,NA,NA,NA,NA,NA
+"Cordova2017_1","ES_53","acc_beliefs",38.5,38.5,77,"unpublished","random","not_screened",-6.11,3,6.3,6.25,0.79,0.71,NA,NA,NA,NA,NA
+"Cordova2017_1","ES_54","acc_beliefs",38.5,38.5,77,"unpublished","random","not_screened",-6.11,3,6.32,6.47,0.69,0.67,NA,NA,NA,NA,NA
+"Cordova2017_1","ES_57","acc_beliefs",38.5,38.5,77,"unpublished","random","not_screened",-6.11,3,4.11,4.14,0.37,0.39,NA,NA,NA,NA,NA
+"Cordova2017_1","ES_58","acc_beliefs",38.5,38.5,77,"unpublished","random","not_screened",-6.11,3,4.1,4.04,0.4,0.4,NA,NA,NA,NA,NA
+"Dersch 2020_1","ES_63","acc_beliefs",40,48,88,"published","random","not_screened",NA,NA,2.92,2.23,1.41,1.34,NA,NA,NA,NA,NA
+"Dersch 2020_1","ES_64","acc_beliefs",41,48,89,"published","random","not_screened",NA,NA,2.32,2.23,1.4,1.34,NA,NA,NA,NA,NA
+"Dersch 2020_1","ES_69","acc_beliefs",40,48,88,"published","random","not_screened",NA,NA,2.65,2.5,1.1,0.8,NA,NA,NA,NA,NA
+"Dersch 2020_1","ES_70","acc_beliefs",41,48,89,"published","random","not_screened",NA,NA,2.44,2.5,1.12,0.8,NA,NA,NA,NA,NA
+"Dersch 2020_1","ES_67","acc_beliefs",40,48,88,"published","random","not_screened",NA,NA,1.94,1.59,1.42,1.26,NA,NA,NA,NA,NA
+"Dersch 2020_1","ES_68","acc_beliefs",41,48,89,"published","random","not_screened",NA,NA,1.77,1.59,1.52,1.26,NA,NA,NA,NA,NA
+"Diakidoy2003_1","ES_71","acc_beliefs",76,73,149,"published","random","not_screened",NA,517,0.62,0.5,0.18,0.15,NA,NA,NA,NA,NA
+"Diakidoy2003_1","ES_72","acc_beliefs",76,73,149,"published","random","not_screened",NA,517,0.58,0.45,0.16,0.14,NA,NA,NA,NA,NA
+"Diakidoy2011_1","ES_76","acc_beliefs",31,30,61,"published","random","not_screened",3.33,262,0.16,0.15,0.1,0.1,NA,NA,NA,NA,NA
+"Diakidoy2011_1","ES_77","acc_beliefs",31,30,61,"published","random","not_screened",3.33,262,7.32,4.1,3.98,3.4,NA,NA,NA,NA,NA
+"Diakidoy2011_1","ES_73","acc_beliefs",30,30,60,"published","random","not_screened",3.33,262,17.93,15.57,12.3,12.94,NA,NA,NA,NA,NA
+"Diakidoy2016_1","ES_79","acc_beliefs",35,33,68,"published","random","not_screened",NA,260,0.16,0.15,0.1,0.1,NA,NA,NA,NA,NA
+"Diakidoy2016_1","ES_80","acc_beliefs",35,33,68,"published","random","not_screened",NA,260,7.46,4.52,4.09,3.06,NA,NA,NA,NA,NA
+"Diakidoy2016_1","ES_78","acc_beliefs",35,33,68,"published","random","not_screened",NA,260,15.14,14.09,11.82,11.54,NA,NA,NA,NA,NA
+"Donovan 2018_1","ES_82","acc_beliefs",36,36,72,"published","random","not_screened",NA,0,7.08,3.72,4.88,3.05,NA,NA,NA,NA,NA
+"Donovan 2018_1","ES_83","acc_beliefs",36,36,72,"published","random","not_screened",NA,0,4.61,2.89,2.28,1.51,NA,NA,NA,NA,NA
+"Donovan 2018_2","ES_85","acc_beliefs",30,30,60,"published","random","not_screened",NA,0,5.1,3.53,1.74,1.71,NA,NA,NA,NA,NA
+"Donovan 2018_2","ES_86","acc_beliefs",30,30,60,"published","random","not_screened",NA,0,4.23,2.73,1.57,1.53,NA,NA,NA,NA,NA
+"Frede 2008_1","ES_88","acc_beliefs",20,20,40,"published","non-random","not_screened",28.84,NA,5.8,4.45,1.85,2.33,NA,NA,NA,NA,NA
+"Frede 2008_1","ES_89","acc_beliefs",20,20,40,"published","non-random","not_screened",28.84,NA,6.25,4.9,1.97,1.99,NA,NA,NA,NA,NA
+"Geller2021_1","ES_94","acc_beliefs",48.5,48.5,97,"unpublished","random","not_screened",8.24,21,3.37,2.83,NA,NA,NA,0.268055580263446,0.0422681579834833,NA,NA
+"Geller2021_1","ES_95","acc_beliefs",48.5,48.5,97,"unpublished","random","not_screened",8.24,21,2.53,1.56,NA,NA,NA,0.406797480810719,0.0427507888921615,NA,NA
+"Geller2021_1","ES_92","acc_beliefs",48.5,48.5,97,"unpublished","random","not_screened",8.24,21,2.91,2.42,1.18,1.14,NA,NA,NA,NA,NA
+"Geller2021_2","ES_93","acc_beliefs",47,47,94,"unpublished","random","not_screened",8.24,21,3.72,2.85,NA,NA,NA,0.628921353563461,0.0453614553907849,NA,NA
+"Geller2021_2","ES_96","acc_beliefs",47,47,94,"unpublished","random","not_screened",8.24,21,3.35,1.96,NA,NA,NA,0.701251263280232,0.045873217440168,NA,NA
+"Gill2004_1","ES_108","acc_beliefs",74,79,153,"published","random","not_screened",-15.49,NA,3.8,3.73,0.63,0.65,NA,NA,NA,NA,NA
+"Gill2020_1","ES_102","acc_beliefs",40,43,83,"published","random","not_screened",-18.38,434,2.57,2.58,0.64,0.71,NA,NA,NA,NA,NA
+"Gill2020_1","ES_103","acc_beliefs",40,43,83,"published","random","not_screened",-18.38,434,2.76,2.66,0.64,0.76,NA,NA,NA,NA,NA
+"Gill2020_1","ES_105","acc_beliefs",36,39,75,"published","random","not_screened",-18.38,434,2.41,2.42,0.53,0.69,NA,NA,NA,NA,NA
+"Gill2020_1","ES_106","acc_beliefs",36,39,75,"published","random","not_screened",-18.38,434,2.68,2.63,0.58,0.58,NA,NA,NA,NA,NA
+"Hunsu2016_1","ES_110","acc_beliefs",44,44,88,"unpublished","random","not_screened",-3.14,NA,1.004,0.335,1.127652429,1.26031742,NA,NA,NA,NA,NA
+"Hunsu2016_1","ES_111","acc_beliefs",44,44,88,"unpublished","random","not_screened",-3.14,NA,0.75,0.335,1.26031742,1.26031742,NA,NA,NA,NA,NA
+"Hunsu2016_1","ES_112","acc_beliefs",44,44,88,"unpublished","random","not_screened",-3.14,NA,3.13,3.2,1.326649916,1.459314908,NA,NA,NA,NA,NA
+"Hunsu2016_1","ES_113","acc_beliefs",44,44,88,"unpublished","random","not_screened",-3.14,NA,3.22,3.2,1.525647404,1.459314908,NA,NA,NA,NA,NA
+"Hunsu2016_1","ES_114","acc_beliefs",44,44,88,"unpublished","random","not_screened",-3.14,NA,1.054,1.05,0.7959899497,0.8623224455,NA,NA,NA,NA,NA
+"Hunsu2016_1","ES_115","acc_beliefs",44,44,88,"unpublished","random","not_screened",-3.14,NA,1.29,1.05,0.8623224455,0.8623224455,NA,NA,NA,NA,NA
+"Hynd  1986b_1","ES_120","acc_beliefs",21.5,21.5,43,"published","random","screened",NA,12,2.69,2.54,2.53,1.97,NA,NA,NA,NA,NA
+"Hynd  1986b_1","ES_121","acc_beliefs",21.5,21.5,43,"published","random","screened",NA,12,4.73,3.63,2.1,2.26,NA,NA,NA,NA,NA
+"Hynd1986a_1","ES_116","acc_beliefs",19,19,38,"published","random","screened",NA,12,NA,NA,NA,NA,NA,1.12375093172844,0.508870763873999,NA,NA
+"Hynd1986a_1","ES_117","acc_beliefs",19,19,38,"published","random","screened",NA,12,NA,NA,NA,NA,NA,1.1184935955097,0.45541720406361,NA,NA
+"Hynd1986a_1","ES_118","acc_beliefs",19,19,38,"published","random","screened",NA,12,NA,NA,NA,NA,NA,0.150936849984358,0.414086628795356,NA,NA
+"Hynd1986a_1","ES_119","acc_beliefs",19,19,38,"published","random","screened",NA,12,NA,NA,NA,NA,NA,0.478758348444502,0.419139003117819,NA,NA
+"Kutza 2000_1","ES_128","acc_beliefs",44,49,93,"unpublished","random","not_screened",NA,5,4.23,4.12,0.56,0.55,NA,NA,NA,NA,NA
+"Kutza 2000_1","ES_129","acc_beliefs",45,50,95,"unpublished","random","not_screened",NA,5,4.04,4.09,0.73,0.57,NA,NA,NA,NA,NA
+"Kutza 2000_1","ES_130","acc_beliefs",44,49,93,"unpublished","random","not_screened",NA,5,4.2,4.13,0.59,0.6,NA,NA,NA,NA,NA
+"Kutza 2000_1","ES_131","acc_beliefs",45,50,95,"unpublished","random","not_screened",NA,5,4.04,4.16,0.72,0.56,NA,NA,NA,NA,NA
+"Lally 2014_1","ES_132","acc_beliefs",39,39,78,"published","random","not_screened",NA,NA,3.95,3.88,0.56,0.54,NA,NA,NA,NA,NA
+"Lally 2014_1","ES_133","acc_beliefs",39,39,78,"published","random","not_screened",NA,NA,4.03,3.87,0.77,0.77,NA,NA,NA,NA,NA
+"Lally 2014_1","ES_134","acc_beliefs",39,39,78,"published","random","not_screened",NA,NA,4.05,4.04,0.7,0.75,NA,NA,NA,NA,NA
+"Lally 2014_1","ES_135","acc_beliefs",39,39,78,"published","random","not_screened",NA,NA,4.26,4.13,0.54,0.48,NA,NA,NA,NA,NA
+"Lem2015_1","ES_136","acc_beliefs",41,45,86,"published","random","not_screened",NA,NA,NA,NA,NA,NA,NA,0.496690658674908,0.285483570554466,NA,NA
+"Lem2015_1","ES_138","acc_beliefs",59,45,104,"published","random","not_screened",NA,NA,NA,NA,NA,NA,NA,0.505268315942256,0.258584945739116,NA,NA
+"Lem2016_1","ES_141","acc_beliefs",51,51,102,"published","random","not_screened",NA,NA,NA,NA,NA,NA,NA,0.272831774441848,0.28832776739088,NA,NA
+"Lem2016_1","ES_140","acc_beliefs",51,51,102,"published","random","not_screened",NA,NA,3.53,3.63,NA,NA,-0.649,NA,NA,NA,NA
+"Leon2009_1","ES_142","acc_beliefs",113,110,223,"unpublished","random","not_screened",-18.25,4,92.12,77.94,26.5,22.78,NA,NA,NA,NA,NA
+"Leon2009_1","ES_143","acc_beliefs",113,129,242,"unpublished","random","not_screened",-18.25,1,92.12,102.32,26.5,24.52,NA,NA,NA,NA,NA
+"Lin 2011_1","ES_148","acc_beliefs",32,28,60,"unpublished","random","screened",-1.73,6,30.97,29.05,17.12,14.47,NA,NA,NA,NA,NA
+"Lin 2011_1","ES_149","acc_beliefs",23,19,42,"unpublished","random","not_screened",-1.73,6,41.81,35.49,17.18,16.29,NA,NA,NA,NA,NA
+"Lin 2011_1","ES_144","acc_beliefs",17,14,31,"unpublished","random","screened",-1.73,6,3.53,2.71,2.13,1.59,NA,NA,NA,NA,NA
+"Lin 2011_1","ES_145","acc_beliefs",10,8,18,"unpublished","random","not_screened",-1.73,6,6.7,7.13,1.49,1.81,NA,NA,NA,NA,NA
+"Lin 2011_1","ES_146","acc_beliefs",15,14,29,"unpublished","random","screened",-1.73,0,3.87,2.93,2.07,2.46,NA,NA,NA,NA,NA
+"Lin 2011_1","ES_147","acc_beliefs",13,11,24,"unpublished","random","not_screened",-1.73,0,5,4.91,1.41,0.7,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_151","acc_beliefs",20,25,45,"published","random","screened",1.29000000000001,8,6.23,5.43,3.89,4.1,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_152","acc_beliefs",20,15,35,"published","random","screened",1.29000000000001,8,11.41,10.53,4.92,5.3,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_154","acc_beliefs",20,25,45,"published","random","screened",1.29000000000001,8,11.25,5.43,5.24,4.1,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_155","acc_beliefs",20,15,35,"published","random","screened",1.29000000000001,8,13.41,10.53,4.17,5.3,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_157","acc_beliefs",20,25,45,"published","random","screened",1.29000000000001,8,7.83,7,3.94,4.13,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_158","acc_beliefs",20,15,35,"published","random","screened",1.29000000000001,8,12.25,10.9,2.89,3.09,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_160","acc_beliefs",20,25,45,"published","random","screened",1.29000000000001,8,10.93,7,4.55,4.13,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_161","acc_beliefs",20,15,35,"published","random","screened",1.29000000000001,8,11.23,10.9,3.34,3.09,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_162","acc_beliefs",20,25,45,"published","random","screened",1.29000000000001,8,3.65,2.48,2.13,1.36,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_163","acc_beliefs",20,15,35,"published","random","screened",1.29000000000001,8,3.8,3.67,1.74,2,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_164","acc_beliefs",20,25,45,"published","random","screened",1.29000000000001,8,3.1,2.48,2.65,1.36,NA,NA,NA,NA,NA
+"Liu 2018_1","ES_165","acc_beliefs",20,15,35,"published","random","screened",1.29000000000001,8,3.7,3.67,2.49,2,NA,NA,NA,NA,NA
+"Lombardi 2016_1","ES_166","acc_beliefs",45,50,95,"published","random","not_screened",7.64,188,102,96.9,12.6,11.2,NA,NA,NA,NA,NA
+"Lombardi 2016_1","ES_167","acc_beliefs",45,50,95,"published","random","not_screened",7.64,188,2.27,0.4,3.86,4.09,NA,NA,NA,NA,NA
+"Maria1990_1","ES_176","acc_beliefs",25,25,50,"published","random","screened",NA,325,3.29,1.76,1.98,1.31,NA,NA,NA,NA,NA
+"Maria1990_1","ES_177","acc_beliefs",25,25,50,"published","random","screened",NA,325,3.29,4.15,1.98,1.86,NA,NA,NA,NA,NA
+"Maria1990_1","ES_178","acc_beliefs",15.6,15.6,31.2,"published","random","screened",NA,325,4.18,2.3,2.37,1.44,NA,NA,NA,NA,NA
+"Maria1990_1","ES_179","acc_beliefs",15.6,15.6,31.2,"published","random","screened",NA,325,4.18,5.28,2.37,2.29,NA,NA,NA,NA,NA
+"Maria1990_1","ES_180","acc_beliefs",22,22,44,"published","random","screened",NA,325,1.98,1.81,1.63,1.57,NA,NA,NA,NA,NA
+"Maria1990_1","ES_181","acc_beliefs",22,22,44,"published","random","screened",NA,325,1.98,3.4,1.63,2.09,NA,NA,NA,NA,NA
+"Maria1990_1","ES_182","acc_beliefs",15,15,30,"published","random","screened",NA,325,3.15,2.8,1.99,1.87,NA,NA,NA,NA,NA
+"Maria1990_1","ES_183","acc_beliefs",15,15,30,"published","random","screened",NA,325,3.15,4,1.99,2.63,NA,NA,NA,NA,NA
+"Maria1990_1","ES_168","acc_beliefs",25,25,50,"published","random","screened",NA,325,6.86,5.11,1.98,0.94,NA,NA,NA,NA,NA
+"Maria1990_1","ES_169","acc_beliefs",25,25,50,"published","random","screened",NA,325,6.86,7.7,1.98,1.61,NA,NA,NA,NA,NA
+"Maria1990_1","ES_170","acc_beliefs",15.6,15.6,31.2,"published","random","screened",NA,325,8.29,6.47,1.9,1.73,NA,NA,NA,NA,NA
+"Maria1990_1","ES_171","acc_beliefs",15.6,15.6,31.2,"published","random","screened",NA,325,8.29,8.65,1.9,1,NA,NA,NA,NA,NA
+"Maria1990_1","ES_172","acc_beliefs",22,22,44,"published","random","screened",NA,325,5.58,5.21,1.73,2.01,NA,NA,NA,NA,NA
+"Maria1990_1","ES_173","acc_beliefs",22,22,44,"published","random","screened",NA,325,5.58,7.44,1.73,2.13,NA,NA,NA,NA,NA
+"Maria1990_1","ES_174","acc_beliefs",15,15,30,"published","random","screened",NA,325,5.62,4.56,2.09,2,NA,NA,NA,NA,NA
+"Maria1990_1","ES_175","acc_beliefs",15,15,30,"published","random","screened",NA,325,5.62,5.46,2.09,2.23,NA,NA,NA,NA,NA
+"Mason 2017_1","ES_184","acc_beliefs",20,19,39,"published","random","screened",NA,23,4.3,3.63,1.78,1.7,NA,NA,NA,NA,NA
+"Mason 2017_1","ES_185","acc_beliefs",19,20,39,"published","random","screened",NA,23,4.15,3.5,1.42,1.19,NA,NA,NA,NA,NA
+"Mason 2017_1","ES_186","acc_beliefs",20,19,39,"published","random","screened",NA,23,4.5,3.36,1.57,1.77,NA,NA,NA,NA,NA
+"Mason 2017_1","ES_187","acc_beliefs",19,20,39,"published","random","screened",NA,23,3.94,2.75,1.71,1.61,NA,NA,NA,NA,NA
+"Mason 2017_2","ES_188","acc_beliefs",23,26,49,"published","random","screened",NA,23,3.65,2.96,1.69,1.39,NA,NA,NA,NA,NA
+"Mason 2017_2","ES_189","acc_beliefs",23,26,49,"published","random","screened",NA,23,3.82,2.5,1.64,1.5,NA,NA,NA,NA,NA
+"Mason 2017_2","ES_190","acc_beliefs",23,26,49,"published","random","screened",NA,23,3.91,4.11,1.53,1.45,NA,NA,NA,NA,NA
+"Mason 2017_2","ES_191","acc_beliefs",23,26,49,"published","random","screened",NA,23,3.21,3.61,1.75,1.49,NA,NA,NA,NA,NA
+"Mason2019_1","ES_192","acc_beliefs",43,42,85,"published","random","screened",NA,2,14.04,13.02,1.92,2.76,NA,NA,NA,NA,NA
+"Mason2019_1","ES_193","acc_beliefs",43,42,85,"published","random","screened",NA,2,13.58,12.59,2.49,2.82,NA,NA,NA,NA,NA
+"McCuin2014_1","ES_194","acc_beliefs",114,83,197,"published","non-random","not_screened",0,NA,38.63,37.04,8.33,7.96,NA,NA,NA,NA,NA
+"McCuin2014_1","ES_195","acc_beliefs",114,83,197,"published","non-random","not_screened",0,NA,22.32,21.78,4.88,5.24,NA,NA,NA,NA,NA
+"McCuin2014_1","ES_196","acc_beliefs",114,83,197,"published","non-random","not_screened",0,NA,16.31,15.25,4.53,3.8,NA,NA,NA,NA,NA
+"McCuin2014_1","ES_197","acc_beliefs",114,83,197,"published","non-random","not_screened",0,NA,36.52,34.23,6.97,6.01,NA,NA,NA,NA,NA
+"McCuin2014_1","ES_198","acc_beliefs",114,83,197,"published","non-random","not_screened",0,NA,21.15,20.22,4.55,4.7,NA,NA,NA,NA,NA
+"McCuin2014_1","ES_199","acc_beliefs",114,83,197,"published","non-random","not_screened",0,NA,15.37,14.01,4.1,3.16,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2001_1","ES_216","acc_beliefs",103,98,201,"published","random","not_screened",41.97,156,4.2,4.7,1.4,1.2,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2001_1","ES_217","acc_beliefs",103,98,201,"published","random","not_screened",41.97,156,6.9,6.2,2.4,2.3,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2001_1","ES_218","acc_beliefs",103,98,201,"published","random","not_screened",41.97,156,10.5,8.9,2.4,2.1,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2001_1","ES_219","acc_beliefs",103,98,201,"published","random","not_screened",41.97,156,7.4,6.7,2.2,2,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2002_1","ES_200","acc_beliefs",51.5,49,100.5,"published","random","not_screened",NA,156,4.1,4.6,1.6,1.1,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2002_1","ES_201","acc_beliefs",51.5,49,100.5,"published","random","not_screened",NA,156,4.3,4.9,1.3,1.3,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2002_1","ES_202","acc_beliefs",51.5,49,100.5,"published","random","not_screened",NA,156,6.5,6.1,2.7,2.4,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2002_1","ES_203","acc_beliefs",51.5,49,100.5,"published","random","not_screened",NA,156,7.2,6.4,2.2,2.3,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2002_1","ES_204","acc_beliefs",51.5,49,100.5,"published","random","not_screened",NA,156,10.4,8.8,2.5,1.9,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2002_1","ES_205","acc_beliefs",51.5,49,100.5,"published","random","not_screened",NA,156,10.5,9.1,2.4,2.3,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2002_1","ES_206","acc_beliefs",51.5,49,100.5,"published","random","not_screened",NA,156,6.9,6.6,2.4,2,NA,NA,NA,NA,NA
+"Mikkila-Erdmann2002_1","ES_207","acc_beliefs",51.5,49,100.5,"published","random","not_screened",NA,156,7.7,6.8,2,2.1,NA,NA,NA,NA,NA
+"Muis 2018_1","ES_232","acc_beliefs",60,60,120,"published","random","not_screened",NA,7,0.84,0.69,0.19,0.19,4.56,NA,NA,NA,NA
+"Muis2020_1","ES_220","acc_beliefs",31.25,31.25,62.5,"published","random","not_screened",NA,9,86.56,68.06,15.01,21.28,NA,NA,NA,NA,NA
+"Muis2020_1","ES_221","acc_beliefs",31.25,31.25,62.5,"published","random","not_screened",NA,-109,71.94,69.03,20.88,19.21,NA,NA,NA,NA,NA
+"Nasim 2018_1","ES_238","acc_beliefs",49,49,98,"unpublished","random","not_screened",2.19,109,5,5.35,1.78,1.75,NA,NA,NA,NA,NA
+"Nasim 2018_1","ES_239","acc_beliefs",49,49,98,"unpublished","random","not_screened",2.19,109,4.06,4.02,1.71,1.85,NA,NA,NA,NA,NA
+"Palmer 2003_1","ES_240","acc_beliefs",19,17,36,"published","non-random","screened",14.25,-2,NA,NA,NA,NA,NA,0.953357705430663,0.502259875481391,NA,NA
+"Peltier 2020_1","ES_241","acc_beliefs",49,48,97,"published","random","not_screened",-26.99,9,90.77,81.53,12.09,7.66,NA,NA,NA,NA,NA
+"Peltier 2020_1","ES_242","acc_beliefs",49,48,97,"published","random","not_screened",-26.99,9,100.38,87.18,9.78,9.22,NA,NA,NA,NA,NA
+"Poehnl 2013_1","ES_243","acc_beliefs",103,100,203,"published","non-random","not_screened",NA,NA,5.44,5.3,1.75,1.79,NA,NA,NA,NA,NA
+"Poehnl 2013_1","ES_246","acc_beliefs",77,70,147,"published","non-random","not_screened",NA,NA,5.36,5.51,1.82,1.73,NA,NA,NA,NA,NA
+"Poehnl 2013_1","ES_247","acc_beliefs",103,100,203,"published","non-random","not_screened",NA,NA,4.7,4.91,2.02,1.81,NA,NA,NA,NA,NA
+"Poehnl 2013_1","ES_250","acc_beliefs",77,70,147,"published","non-random","not_screened",NA,NA,4.86,4.9,1.88,2.02,NA,NA,NA,NA,NA
+"Prinz 2017_1","ES_252","acc_beliefs",27,26,53,"unpublished","random","not_screened",NA,123,0.62,0.65,0.19,0.2,NA,NA,NA,NA,NA
+"Prinz 2017_1","ES_254","acc_beliefs",27,26,53,"unpublished","random","not_screened",NA,123,0.59,0.65,0.32,0.34,NA,NA,NA,NA,NA
+"Prinz 2020_1","ES_257","acc_beliefs",32,32,64,"published","random","not_screened",NA,316,3.0938,2.9375,0.9625,1.1,NA,NA,NA,NA,NA
+"Prinz 2020_1","ES_258","acc_beliefs",32,32,64,"published","random","not_screened",NA,142,2.75,2.9375,0.95038,1.1,NA,NA,NA,NA,NA
+"Prinz 2020_1","ES_255","acc_beliefs",32,32,64,"published","random","not_screened",NA,316,2.1659,1.762,1.016,1.56178,NA,NA,NA,NA,NA
+"Prinz 2020_1","ES_256","acc_beliefs",32,32,64,"published","random","not_screened",NA,142,2.3101,1.762,1.36595,1.56178,NA,NA,NA,NA,NA
+"Ramsburg 2018_1","ES_261","acc_beliefs",88,85,173,"unpublished","random","not_screened",-18.65,NA,6.58,5.14,3.65,3.8,NA,NA,NA,NA,NA
+"Rodrigues_1","ES_262","acc_beliefs",57,43,100,"unpublished","random","not_screened",NA,264,NA,NA,NA,NA,NA,0.302309888805922,0.0418899918691181,NA,NA
+"Rodrigues_1","ES_263","acc_beliefs",57,43,100,"unpublished","random","not_screened",NA,264,NA,NA,NA,NA,0,NA,NA,NA,NA
+"Rodrigues_1","ES_264","acc_beliefs",57,43,100,"unpublished","random","not_screened",NA,264,NA,NA,NA,NA,2.45,NA,NA,NA,NA
+"Salisbury-Glennon2000_1","ES_265","acc_beliefs",45,50,95,"published","random","not_screened",36.83,20,16.48,13.3,3.43,4.43,NA,NA,NA,NA,NA
+"Salisbury-Glennon2000_1","ES_268","acc_beliefs",40,41,81,"published","random","not_screened",36.83,20,16.1,13.85,3.46,4.18,NA,NA,NA,NA,NA
+"Seyedmonir 2000_1","ES_273","acc_beliefs",12,14,26,"unpublished","random","not_screened",1.07000000000001,NA,7.25,8.43,2.93,2.5,NA,NA,NA,NA,NA
+"Seyedmonir 2000_1","ES_274","acc_beliefs",14,15,29,"unpublished","random","screened",1.07000000000001,NA,7.07,6.07,1.98,2.91,NA,NA,NA,NA,NA
+"Seyedmonir 2000_1","ES_275","acc_beliefs",12,14,26,"unpublished","random","not_screened",1.07000000000001,NA,6.33,6.07,1.78,1.86,NA,NA,NA,NA,NA
+"Seyedmonir 2000_1","ES_276","acc_beliefs",14,15,29,"unpublished","random","screened",1.07000000000001,NA,5.5,5.47,1.34,2.13,NA,NA,NA,NA,NA
+"Sodervik 2014_1","ES_277","acc_beliefs",45,46,91,"published","random","not_screened",NA,94,16.98,15.43,4.73,5.68,NA,NA,NA,NA,NA
+"Sodervik 2014_1","ES_278","acc_beliefs",42,45,87,"published","random","not_screened",NA,94,15.76,15.33,5.1,5.28,NA,NA,NA,NA,NA
+"Sodervik 2015_1","ES_279","acc_beliefs",87,84,171,"published","random","not_screened",NA,98,21.52,21.73,5.99,6.6,NA,NA,NA,NA,NA
+"Sota2012_1","ES_280","acc_beliefs",51,47,98,"unpublished","random","not_screened",NA,NA,-1.75,-2.32,3.46,3.32,NA,NA,NA,NA,NA
+"Sota2012_1","ES_281","acc_beliefs",51,53,104,"unpublished","random","not_screened",NA,NA,-1.75,-2.21,3.46,3.4,NA,NA,NA,NA,NA
+"Sota2012_1","ES_282","acc_beliefs",51,47,98,"unpublished","random","not_screened",NA,NA,1.47,1.49,2.96,3.2,NA,NA,NA,NA,NA
+"Sota2012_1","ES_283","acc_beliefs",51,53,104,"unpublished","random","not_screened",NA,NA,1.47,1.15,2.96,3.37,NA,NA,NA,NA,NA
+"Sota2012_1","ES_284","acc_beliefs",51,47,98,"unpublished","random","not_screened",NA,NA,9.25,9.38,3.42,3.76,NA,NA,NA,NA,NA
+"Sota2012_1","ES_285","acc_beliefs",51,53,104,"unpublished","random","not_screened",NA,NA,9.25,9.66,3.42,3.92,NA,NA,NA,NA,NA
+"Suma2018_1","ES_286","acc_beliefs",70,72,142,"published","random","not_screened",NA,NA,NA,NA,NA,NA,NA,2.53026239306871,0.0510225214689502,NA,NA
+"Tasdelen2008_1","ES_288","acc_beliefs",20,22,42,"published","random","not_screened",NA,NA,28.6,26.159,6.299,10.37,NA,NA,NA,NA,NA
+"Tasdelen2008_1","ES_289","acc_beliefs",20,22,42,"published","random","not_screened",NA,NA,39.65,44.341,5.14,4.671,NA,NA,NA,NA,NA
+"Trevors 2016_1","ES_296","acc_beliefs",62,58,120,"unpublished","random","not_screened",NA,7,0.84,0.7,0.19,0.2,NA,NA,NA,NA,NA
+"Trevors2012_1","ES_290","acc_beliefs",25.5,25.5,51,"unpublished","random","screened",12.55,42,NA,NA,NA,NA,NA,0.694516336148021,0.0856304516291811,NA,NA
+"Van Loon 2015_1","ES_300","acc_beliefs",57,57,114,"published","random","not_screened",NA,17.12,88.49,78.94,12,14,NA,NA,NA,NA,NA
+"Van Loon 2015_1","ES_301","acc_beliefs",57,57,114,"published","random","not_screened",NA,17.12,61.4,55.37,15,15,NA,NA,NA,NA,NA
+"Van Loon 2015_1","ES_302","acc_beliefs",57,57,114,"published","random","not_screened",NA,17.12,20.78,21.33,39,40,NA,NA,NA,NA,NA
+"Vaughn 2018_1","ES_304","acc_beliefs",34,30,64,"published","random","not_screened",-5.89,NA,20.33,20.18,2.34,2.65,NA,NA,NA,NA,NA
+"Versteeg 2020_1","ES_305","acc_beliefs",80,81,161,"published","non-random","not_screened",NA,49,58.8,57.1,NA,NA,NA,0.048583325392287,0.0250894457926822,NA,NA
+"Vilppu2013_1","ES_306","acc_beliefs",45,46,91,"published","random","not_screened",NA,94,16.98,15.43,4.73,5.68,NA,NA,NA,NA,NA
+"Wang 1991_1","ES_310","acc_beliefs",35,38,73,"published","random","not_screened",NA,NA,32.23,27.55,6.5,7.1,NA,NA,NA,NA,NA
+"Wang 1991_1","ES_311","acc_beliefs",39,34,73,"published","random","not_screened",NA,NA,33.21,34.67,6.3,5.4,NA,NA,NA,NA,NA
+"Watanabe 2020_1","ES_312","acc_beliefs",60,60,120,"unpublished","random","not_screened",2.08,9,0.49,0.47,0.17,0.2,NA,NA,NA,NA,NA
+"Watanabe 2020_1","ES_313","acc_beliefs",60,60,120,"unpublished","random","not_screened",2.08,9,0.45,0.47,0.17,0.17,NA,NA,NA,NA,NA
+"Watanabe 2020_1","ES_314","acc_beliefs",60,60,120,"unpublished","random","not_screened",2.08,9,0.33,0.27,0.21,0.18,NA,NA,NA,NA,NA
+"Watanabe 2020_1","ES_315","acc_beliefs",60,60,120,"unpublished","random","not_screened",2.08,9,0.29,0.32,0.17,0.17,NA,NA,NA,NA,NA
+"Weingartner 2019_1","ES_316","acc_beliefs",26,24,50,"published","random","screened",2.03,10,NA,NA,NA,NA,NA,0.194976163862678,0.404592720806259,NA,NA
+"Weingartner 2019_1","ES_317","acc_beliefs",26,24,50,"published","random","screened",2.03,10,NA,NA,NA,NA,NA,0.990489790108973,0.723852400604974,NA,NA
+"Weingartner 2019_1","ES_318","acc_beliefs",26,24,50,"published","random","screened",2.03,10,NA,NA,NA,NA,NA,0.332077418365494,0.600915444900564,NA,NA
+"Weingartner 2019_1","ES_319","acc_beliefs",26,24,50,"published","random","screened",2.03,10,NA,NA,NA,NA,NA,-0.284648270677104,0.49060245388006,NA,NA
+"Weingartner 2019_1","ES_320","acc_beliefs",23,22,45,"published","random","screened",2.03,10,NA,NA,NA,NA,NA,-0.177219750566179,0.521015257370301,NA,NA
+"Weingartner 2019_1","ES_321","acc_beliefs",23,22,45,"published","random","screened",2.03,10,NA,NA,NA,NA,NA,0.242575135996364,0.52119373711296,NA,NA
+"Weingartner 2019_1","ES_322","acc_beliefs",26,27,53,"published","random","screened",2.03,7,NA,NA,NA,NA,NA,-0.170831809882297,0.42443331087951,NA,NA
+"Weingartner 2019_1","ES_323","acc_beliefs",26,27,53,"published","random","screened",2.03,7,NA,NA,NA,NA,NA,1.84207906798769,0.680832204442251,NA,NA
+"Weingartner 2019_1","ES_324","acc_beliefs",26,27,53,"published","random","screened",2.03,7,NA,NA,NA,NA,NA,1.39141622029718,0.519331038714207,NA,NA
+"Weingartner 2019_1","ES_325","acc_beliefs",26,27,53,"published","random","screened",2.03,7,NA,NA,NA,NA,NA,0.837282883165725,0.392901402369507,NA,NA
+"Weingartner 2019_1","ES_326","acc_beliefs",23,24,47,"published","random","screened",2.03,7,NA,NA,NA,NA,NA,-0.517827956955996,0.577393842863857,NA,NA
+"Weingartner 2019_1","ES_327","acc_beliefs",23,24,47,"published","random","screened",2.03,7,NA,NA,NA,NA,NA,0.962243094993127,0.466963119235809,NA,NA
+"Yuruk 2016_1","ES_328","acc_beliefs",35,35,70,"published","random","not_screened",NA,NA,15.857,14.485,3.671,4.347,NA,NA,NA,NA,NA
+"Yuruk 2016_1","ES_329","acc_beliefs",35,35,70,"published","random","not_screened",NA,NA,19.457,14.485,4.153,4.347,NA,NA,NA,NA,NA
+"Yuruk 2016_1","ES_330","acc_beliefs",35,35,70,"published","random","not_screened",NA,NA,19.828,16.942,3.459,3.788,NA,NA,NA,NA,NA
+"Yuruk 2016_1","ES_331","acc_beliefs",35,35,70,"published","random","not_screened",NA,NA,23.342,16.942,3.446,3.788,NA,NA,NA,NA,NA

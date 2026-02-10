@@ -64,9 +64,9 @@ assum_tib <- assum_tib |>
 
 
 ```{r eval=FALSE, comment="code"}
-model_log_1 <- glm(level_1_vs_levels_234 ~ seniority + teach, data = assum_tib)
-model_log_2 <- glm(levels_12_vs_levels_34 ~ seniority + teach, data = assum_tib)
-model_log_3 <- glm(levels_123_vs_level_4 ~ seniority + teach, data = assum_tib)
+model_log_1 <- glm(level_1_vs_levels_234 ~ seniority + teach, data = assum_tib, family = "binomial")
+model_log_2 <- glm(levels_12_vs_levels_34 ~ seniority + teach, data = assum_tib, family = "binomial")
+model_log_3 <- glm(levels_123_vs_level_4 ~ seniority + teach, data = assum_tib, family = "binomial")
 ```
 
 

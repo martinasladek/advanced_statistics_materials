@@ -243,7 +243,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02a_ma_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to meta-analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -428,7 +428,7 @@ window.Quarto = {
 <p>One of the core principles of ordinal models is the assumption that there is underlying latent continuous variable. Each of our levels will cover a certain range within this variable, and the levels are differentiated by thresholds.</p>
 <div class="cell" data-layout-align="center">
 <div class="cell-output-display">
-<div id="fig-ordinal-latent" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="960">
+<div id="fig-ordinal-latent" class="quarto-float quarto-figure quarto-figure-center anchored" width="960" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-ordinal-latent-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="01c_gzlms_ordinal_files/figure-html/fig-ordinal-latent-1.png" id="fig-ordinal-latent" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="960">
@@ -759,7 +759,7 @@ Figure&nbsp;3.1
 </dl>
 </div>
 <div class="cell-output-display">
-<div id="fig-percent-teach" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="672">
+<div id="fig-percent-teach" class="quarto-float quarto-figure quarto-figure-center anchored" width="672" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-percent-teach-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="01c_gzlms_ordinal_files/figure-html/fig-percent-teach-1.png" id="fig-percent-teach" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="672">
@@ -882,9 +882,9 @@ Figure&nbsp;3.2
 <h4 class="anchored" data-anchor-id="fitting-the-logistic-models"><strong>Fitting the logistic models</strong></h4>
 <p>Now we’re ready to fit our three models. A reminder that when we fit logistic models, we do so with the <code>glm()</code> function. The family we need for binary outcomes is “binomial”. We keep the same formula as before, but we use the new recoded variables as the outcomes.</p>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model_log_1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(level_1_vs_levels_234 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>model_log_2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_12_vs_levels_34 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>model_log_3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_123_vs_level_4 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model_log_1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(level_1_vs_levels_234 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>model_log_2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_12_vs_levels_34 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>model_log_3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_123_vs_level_4 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib, <span class="at">family =</span> <span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Nice and easy. Next we summon the <code>compare_models()</code> function from <code>easystats</code>. This function will extract the parameter estimates and confidence from all three models, exponentiate them, and present them next to each other so we compare them. Nice and neat.</p>
 <div class="cell" data-layout-align="center">
@@ -893,8 +893,8 @@ Figure&nbsp;3.2
 <div class="cell-output-display">
 <table class="caption-top table table-sm table-striped small">
 <colgroup>
-<col style="width: 24%">
-<col style="width: 25%">
+<col style="width: 23%">
+<col style="width: 26%">
 <col style="width: 25%">
 <col style="width: 25%">
 </colgroup>
@@ -909,27 +909,27 @@ Figure&nbsp;3.2
 <tbody>
 <tr class="odd">
 <td style="text-align: left;">(Intercept)</td>
-<td style="text-align: left;">2.390 (2.182, 2.618)</td>
-<td style="text-align: left;">1.957 (1.766, 2.169)</td>
-<td style="text-align: left;">1.392 (1.275, 1.518)</td>
+<td style="text-align: left;">6.175 (3.548, 10.747)</td>
+<td style="text-align: left;">2.039 (1.311, 3.170)</td>
+<td style="text-align: left;">0.493 (0.305, 0.797)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">seniority (PostDoc)</td>
-<td style="text-align: left;">0.935 (0.838, 1.045)</td>
-<td style="text-align: left;">0.920 (0.812, 1.042)</td>
-<td style="text-align: left;">0.986 (0.887, 1.096)</td>
+<td style="text-align: left;">0.684 (0.371, 1.261)</td>
+<td style="text-align: left;">0.702 (0.414, 1.191)</td>
+<td style="text-align: left;">0.916 (0.489, 1.716)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">seniority (PhD)</td>
-<td style="text-align: left;">0.920 (0.822, 1.031)</td>
-<td style="text-align: left;">0.933 (0.821, 1.060)</td>
-<td style="text-align: left;">1.020 (0.915, 1.136)</td>
+<td style="text-align: left;">0.630 (0.339, 1.171)</td>
+<td style="text-align: left;">0.745 (0.434, 1.279)</td>
+<td style="text-align: left;">1.120 (0.597, 2.103)</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;">teach (No)</td>
-<td style="text-align: left;">0.855 (0.780, 0.937)</td>
-<td style="text-align: left;">0.787 (0.710, 0.872)</td>
-<td style="text-align: left;">0.823 (0.754, 0.898)</td>
+<td style="text-align: left;">0.428 (0.258, 0.710)</td>
+<td style="text-align: left;">0.374 (0.242, 0.579)</td>
+<td style="text-align: left;">0.318 (0.186, 0.543)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
@@ -949,9 +949,9 @@ Figure&nbsp;3.2
 </div>
 <p>First thing to note - the intercepts are very different from each other. That’s okay and expected - remember, the intercepts represent the thresholds, which naturally have different positions (<a href="#fig-ordinal-latent" class="quarto-xref">Figure&nbsp;<span>3.1</span></a>). The values that we’re interested in are the parameter estimates for the predictors, which tell us how the thresholds change. Let’s go row by row:</p>
 <ul>
-<li><p><strong>seniority (PostDoc)</strong> - all estimates are in the 0.9 range. All confidence intervals also overlap with 1, meaning that that there might be no difference between PostDocs and Faculty (our baseline).</p></li>
-<li><p><strong>seniority (PhD)</strong> - similar as above, all estimates 0.9 and confidence intervals overlap.</p></li>
-<li><p><strong>teach (No)</strong> - For this effect, all estimates are around 0.8, indicating that the odds of “better practice” are lower for individuals who don’t teach stats. Again, confidence intervals overlap with each other, and none of them cross 1 so the estimation is consistent.</p></li>
+<li><p><strong>seniority (PostDoc)</strong> - all estimates are in the 0.7-0.9 range. All confidence intervals also overlap with 1, meaning that that there might be no difference between PostDocs and Faculty (our baseline).</p></li>
+<li><p><strong>seniority (PhD)</strong> - similar as above. The estimate for the third model is a little higher and in the opposite direction, however, the confidence intervals indicate it plausibly be lower than either of the point estimates from the other two models.</p></li>
+<li><p><strong>teach (No)</strong> - For this effect, all estimates are around 0.3 or 0.4, indicating that the odds of “better practice” are lower for individuals who don’t teach stats. Again, confidence intervals overlap with each other, and none of them cross 1 so the estimation is consistent.</p></li>
 </ul>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
@@ -1467,7 +1467,7 @@ Table&nbsp;3.2
 </dl>
 </div>
 <div class="cell-output-display">
-<div id="fig-emm" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="672">
+<div id="fig-emm" class="quarto-float quarto-figure quarto-figure-center anchored" width="672" data-fig-align="center">
 <figure class="quarto-float quarto-float-fig figure">
 <div aria-describedby="fig-emm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="01c_gzlms_ordinal_files/figure-html/fig-emm-1.png" id="fig-emm" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="672">
@@ -1621,9 +1621,9 @@ OR_{(\mbox{1 vs 2|3|4})} = \frac{Odds(Y=1)}{Odds(Y=2|3|4)}
 <span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model_log_1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(level_1_vs_levels_234 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>model_log_2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_12_vs_levels_34 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>model_log_3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_123_vs_level_4 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>model_log_1 <span class="ot">&lt;-</span> <span class="fu">glm</span>(level_1_vs_levels_234 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>model_log_2 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_12_vs_levels_34 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib, <span class="at">family =</span> <span class="st">"binomial"</span>)</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>model_log_3 <span class="ot">&lt;-</span> <span class="fu">glm</span>(levels_123_vs_level_4 <span class="sc">~</span> seniority <span class="sc">+</span> teach, <span class="at">data =</span> assum_tib, <span class="at">family =</span> <span class="st">"binomial"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell" data-layout-align="center">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_models</span>(model_log_1, model_log_2, model_log_3, <span class="at">exponentiate =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
@@ -1733,8 +1733,8 @@ Worksheet check
 <li><p><code>outcomeBooked an appointment</code> estimate for Level 1&amp;2 vs 3: 1.007</p></li>
 </ul>
 <p>The proportional odds assumption was satisfied:</p>
-<div id="radio_ABFCAFPTRD" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_ABFCAFPTRD" value="answer"> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_ABFCAFPTRD" value=""> <span>FALSE</span></label>
+<div id="radio_UAFENIATDS" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_UAFENIATDS" value="answer"> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_UAFENIATDS" value=""> <span>FALSE</span></label>
 </div>
 <p><strong>Fit statistics:</strong></p>
 <ul>
@@ -1750,16 +1750,16 @@ Worksheet check
 <li><p>ai_chatbotNo estimate: 4.359</p></li>
 </ul>
 <p>Based on the odds ratio alone (ignoring the p-value), patients who were redirected to an NHS website had higher odds of being more satisfied compared to patients who requested a prescription:</p>
-<div id="radio_YQVQVYFABP" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_YQVQVYFABP" value="answer"> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_YQVQVYFABP" value=""> <span>FALSE</span></label>
+<div id="radio_IQDBJAUWHD" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_IQDBJAUWHD" value="answer"> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_IQDBJAUWHD" value=""> <span>FALSE</span></label>
 </div>
 <p>Based on the odds ratio alone, patients who were redirected to an NHS website had higher odds of being more satisfied compared to patients who booked an appointment:</p>
-<div id="radio_NJJWZIIRGM" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_NJJWZIIRGM" value=""> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_NJJWZIIRGM" value="answer"> <span>FALSE</span></label>
+<div id="radio_KXFVDDSXQC" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_KXFVDDSXQC" value=""> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_KXFVDDSXQC" value="answer"> <span>FALSE</span></label>
 </div>
 <p>Based on the odds ratio alone, patients who interacted with an AI chatbot had higher odds of being more satisfied compared to patients did not interact with the chatbot.</p>
-<div id="radio_OMQFQYKKYO" class="webex-radiogroup">
-<label><input type="radio" autocomplete="off" name="radio_OMQFQYKKYO" value=""> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_OMQFQYKKYO" value="answer"> <span>FALSE</span></label>
+<div id="radio_WMWIALMKWL" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_WMWIALMKWL" value=""> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_WMWIALMKWL" value="answer"> <span>FALSE</span></label>
 </div>
 <p><strong>Estimated probabilities</strong></p>
 <ul>

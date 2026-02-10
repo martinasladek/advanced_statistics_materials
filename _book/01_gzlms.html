@@ -233,7 +233,7 @@ window.Quarto = {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./02a_ma_intro.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Introduction to meta-analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -319,7 +319,7 @@ window.Quarto = {
   <li><a href="#check-model-assumptions" id="toc-check-model-assumptions" class="nav-link" data-scroll-target="#check-model-assumptions">Check model assumptions</a></li>
   <li><a href="#check-model-fit" id="toc-check-model-fit" class="nav-link" data-scroll-target="#check-model-fit">Check model fit</a></li>
   </ul></li>
-  <li><a href="#robust-estimation" id="toc-robust-estimation" class="nav-link" data-scroll-target="#robust-estimation">Robust estimation</a></li>
+  <li><a href="#gzlms-robust-main" id="toc-gzlms-robust-main" class="nav-link" data-scroll-target="#gzlms-robust-main">Robust estimation</a></li>
   <li><a href="#making-predictions" id="toc-making-predictions" class="nav-link" data-scroll-target="#making-predictions">Making predictions</a>
   <ul>
   <li><a href="#predictions-within-the-observed-data" id="toc-predictions-within-the-observed-data" class="nav-link" data-scroll-target="#predictions-within-the-observed-data">Predictions within the observed data</a></li>
@@ -844,8 +844,8 @@ Figure&nbsp;4
 <p>The model appears to be a good fit and a statistically significant improvement over a model where the reaction time is predicted from intercept alone, <em>F</em>(4,147) = 34.33, <em>p</em> &lt; .001 , explaining 48.3% of total variance, <em>R<sup>2</sup></em> = 0.48 , <em>R<sup>2</sup><sub>adj</sub></em> = 0.47 . However, before we congratulate ourselves, let’s remember that the model assumptions were violated in almost every respect, so we might want to address this in some way.</p>
 </section>
 </section>
-<section id="robust-estimation" class="level2">
-<h2 class="anchored" data-anchor-id="robust-estimation">Robust estimation</h2>
+<section id="gzlms-robust-main" class="level2">
+<h2 class="anchored" data-anchor-id="gzlms-robust-main">Robust estimation</h2>
 <p>Robust estimation is one approach that can be used for dealing with violated assumptions - instead of interpreting the parameters from the OLS model, we fit a robust model that is not sensitive (or less sensitive) to violated assumptions. We then use the parameter estimates from this model to draw conclusions about the hypotheses.</p>
 <p>There are many robust methods out there. To recap, some include:</p>
 <ul>

@@ -367,9 +367,9 @@ assum_tib <- assum_tib |>
 Now we're ready to fit our three models. A reminder that when we fit logistic models, we do so with the `glm()` function. The family we need for binary outcomes is "binomial". We keep the same formula as before, but we use the new recoded variables as the outcomes.
 
 ```{r, comment="code"}
-model_log_1 <- glm(level_1_vs_levels_234 ~ seniority + teach, data = assum_tib)
-model_log_2 <- glm(levels_12_vs_levels_34 ~ seniority + teach, data = assum_tib)
-model_log_3 <- glm(levels_123_vs_level_4 ~ seniority + teach, data = assum_tib)
+model_log_1 <- glm(level_1_vs_levels_234 ~ seniority + teach, data = assum_tib, family = "binomial")
+model_log_2 <- glm(levels_12_vs_levels_34 ~ seniority + teach, data = assum_tib, family = "binomial")
+model_log_3 <- glm(levels_123_vs_level_4 ~ seniority + teach, data = assum_tib, family = "binomial")
 ```
 
 Nice and easy. Next we summon the `compare_models()` function from `easystats`. This function will extract the parameter estimates and confidence from all three models, exponentiate them, and present them next to each other so we compare them. Nice and neat.
@@ -381,11 +381,11 @@ compare_models(model_log_1, model_log_2, model_log_3, exponentiate = TRUE) |>
 
 First thing to note - the intercepts are very different from each other. That's okay and expected - remember, the intercepts represent the thresholds, which naturally have different positions (@fig-ordinal-latent). The values that we're interested in are the parameter estimates for the predictors, which tell us how the thresholds change. Let's go row by row:
 
--   **seniority (PostDoc)** - all estimates are in the 0.9 range. All confidence intervals also overlap with 1, meaning that that there might be no difference between PostDocs and Faculty (our baseline).
+-   **seniority (PostDoc)** - all estimates are in the 0.7-0.9 range. All confidence intervals also overlap with 1, meaning that that there might be no difference between PostDocs and Faculty (our baseline).
 
--   **seniority (PhD)** - similar as above, all estimates 0.9 and confidence intervals overlap.
+-   **seniority (PhD)** - similar as above. The estimate for the third model is a little higher and in the opposite direction, however, the confidence intervals indicate it plausibly be lower than either of the point estimates from the other two models.
 
--   **teach (No)** - For this effect, all estimates are around 0.8, indicating that the odds of "better practice" are lower for individuals who don't teach stats. Again, confidence intervals overlap with each other, and none of them cross 1 so the estimation is consistent.
+-   **teach (No)** - For this effect, all estimates are around 0.3 or 0.4, indicating that the odds of "better practice" are lower for individuals who don't teach stats. Again, confidence intervals overlap with each other, and none of them cross 1 so the estimation is consistent.
 
 ::: {.callout-tip collapse="true"}
 #### **Visualising the proportional odds assumption (optional)**
@@ -453,7 +453,7 @@ The model explains 7.9% of total deviance. If you run the Wald test in your own 
 
 ## Extract model parameters
 
-Time to get our parameters and ^try\ to^interpret them:
+Time to get our parameters and ^try to^interpret them:
 
 ```{r, comment="code"}
 #| label: tbl-ord-params
