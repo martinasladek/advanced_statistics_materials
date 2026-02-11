@@ -217,25 +217,80 @@ df = N-2 \\
 g = d \times j
 $$
 
-in which *df* stands for degrees of freedom and N is total sample size. Looking at this, the values we'll need are *d* and the sample size.
+in which *df* stands for degrees of freedom and N is total sample size. The values we'll need are *d* and the sample size - everything else can worked out based on that.
+
+Say that we have a d of 0.6 and a sample size of 23. We can save these values as
 
 ```{r}
-d_to_g <- function(d, n){
-  df = n-2
-  j = 1 - (3/(4*df - 1))
-  g = d*j
-  return(g)
-}
+d <- 0.6
+n <- 23
+```
 
+Then based on this, we calculate:
+
+```{r}
+df <- n-2
+j <- 1 - (3/(4*df - 1))
+g <- d*j 
+g
+```
+
+To wrap it all into a function, we write:
+
+```{r}
+d_to_g <- function(d, n){ #<1>
+  df <- n-2 #<2>
+  j <- 1 - (3/(4*df - 1)) #<3>
+  g <- d*j  #<4>
+  return(g) #<5>
+}
+```
+
+1.  Choose the name for the function. `d_to_g` is a good and informative choice. Then use `function()` to create it. Inside of `function()`, specify the values you need to supply to perform the operations inside of the function. In our case, this is d and n.
+2.  Calculate degrees of freedom.
+3.  Calculate the j adjustment
+4.  Calculate Hedge's *g*,
+5.  Return the result of g.
+
+We can now use our function:
+
+```{r}
+d_to_g(d = 0.6, n = 23)
+```
+
+We can do the same for variance, where adjust the variance associated with d with using the square of j:
+
+```{r}
 vd_to_vg <- function(vd, n){
   df = n-2
   j = 1 - (3/(4*df - 1))
-  vg = vd*j^2
+  vg = vd*(j^2)
   return(vg)
 }
 ```
 
-Link to chapter for converting among effect sizes.
+### Conditional calculations
+
+We're now in a situation where we want to apply the functions above, but *only* to the rows that don't yet have a value in the g and vg column - otherwise we would overwrite the values we calculated in the previous step with `escalc()`.
+
+We can use the use the case_when() function introduced in the previous tutorial to modify the *v* and *vg* column conditionally:
+
+```{r}
+acc_tib <- acc_tib |>  
+  dplyr::mutate( #<1>
+    g = dplyr::case_when( #<2>
+      !is.na(d) ~ d_to_g(d, total_N), #<3>
+      .default = g #<4>
+    )
+  )
+```
+
+1.  Use mutate to modify the g column.
+2.  Modify g using the conditions specified within case_when()
+3.  Check whether the d column is a missing value with `is.na(d)` . If it is *not* a missing value (denoted by !), then use `d_to_g()` to calculate g. Use the d column as input for the `d` argument and total_N as input for the `n` argument.
+4.  In all other cases, just keep the values that are already in the g column.
+
+-   Link to chapter for converting among effect sizes.
 
 ## Fit the model
 
@@ -254,3 +309,5 @@ Link to chapter for converting among effect sizes.
 -   Adding moderators to the model
 
 -   Using `emmeans` to get adjusted estimates.
+
+    -   <https://www.metafor-project.org/doku.php/tips:computing_adjusted_effects>

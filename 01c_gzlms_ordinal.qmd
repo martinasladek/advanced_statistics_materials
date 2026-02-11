@@ -788,8 +788,8 @@ app_tib <- app_tib |>
     )
   )
 
-model_log_1 <- glm(level_1_vs_levels_23  ~ outcome + ai_chatbot, data = app_tib)
-model_log_2 <- glm(levels_12_vs_level_3  ~ outcome + ai_chatbot, data = app_tib)
+model_log_1 <- glm(level_1_vs_levels_23  ~ outcome + ai_chatbot, data = app_tib, family = "binomial")
+model_log_2 <- glm(levels_12_vs_level_3  ~ outcome + ai_chatbot, data = app_tib, family = "binomial")
 
 params_1 <- model_parameters(model_log_1, exponentiate = TRUE) |> dplyr::mutate(model = "Model 1")
 params_2 <- model_parameters(model_log_2, exponentiate = TRUE) |> dplyr::mutate(model = "Model 2")
@@ -870,13 +870,13 @@ webex_param_3 <- c(
 
 **Proportional odds check:**
 
--   `ai_chatbot` estimate for Level 1 vs 2&3: 1.118
+-   `ai_chatbot` estimate for Level 1 vs 2&3: 5.48
 
--   `ai_chatbot` estimate for Level 1&2 vs 3: 1.07
+-   `ai_chatbot` estimate for Level 1&2 vs 3: 3.47
 
--   `outcomeBooked an appointment` estimate for Level 1 vs 2&3: 1.115
+-   `outcomeBooked an appointment` estimate for Level 1 vs 2&3: 7.75
 
--   `outcomeBooked an appointment` estimate for Level 1&2 vs 3: 1.007
+-   `outcomeBooked an appointment` estimate for Level 1&2 vs 3: 1.11
 
 The proportional odds assumption was satisfied:
 
