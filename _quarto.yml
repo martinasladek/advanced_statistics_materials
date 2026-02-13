@@ -36,7 +36,7 @@ format:
     toc-depth: 4
     toc-expand: 4
     number-depth: 2
-    css: "assets/webex.css"
+    css: ["assets/webex.css", "assets/custom.css"]
     include-after-body: "assets/webex.js"
     fig-align: center
   # pdf:

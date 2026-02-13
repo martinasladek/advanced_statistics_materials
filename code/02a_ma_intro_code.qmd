@@ -1,0 +1,67 @@
+```{r eval=FALSE, comment="code"}
+acc_tib <- refute_tib |> 
+  dplyr::filter( 
+    outcome_types == "acc_beliefs" 
+  )
+```
+
+
+```{r eval=FALSE, comment="code"}
+acc_tib <- metafor::escalc( 
+    measure = "SMD", 
+    m1i = treatment_mean, 
+    m2i = control_mean,  
+    sd1i = treatment_sd,  
+    sd2i = control_sd,  
+    n1i = treatment_n,  
+    n2i = control_n, 
+    ti = t, 
+    vtype = "UB", 
+    data = acc_tib, 
+    var.names = c("g","vg") 
+  ) |> 
+  tibble::as_tibble() 
+```
+
+
+```{r eval=FALSE, comment="code"}
+d_to_g <- function(d, n){ 
+  df <- n-2 
+  j <- 1 - (3/(4*df - 1)) 
+  g <- d*j  
+  return(g) 
+}
+```
+
+
+```{r eval=FALSE, comment="code"}
+acc_tib <- acc_tib |>  
+  dplyr::mutate( 
+    g = dplyr::case_when( 
+      !is.na(d) ~ d_to_g(d, total_N), 
+      .default = g 
+    )
+  )
+```
+
+
+```{r eval=FALSE, comment="code"}
+acc_rma <- metafor::rma(yi = g, vi = vg, data = acc_tib) 
+```
+
+
+```{r eval=FALSE, comment="code"}
+metafor::forest(acc_rma)
+```
+
+
+```{r eval=FALSE, comment="code"}
+forest_tib <- acc_tib |> 
+  dplyr::summarise( 
+    mean_g = mean(g, na.rm = TRUE), 
+    mean_vg = mean(vg, na.rm = TRUE), 
+    .by = study_id 
+  )
+```
+
+

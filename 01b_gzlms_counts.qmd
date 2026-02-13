@@ -330,11 +330,13 @@ check_overdispersion(attend_poiss)
 
 For a Poisson model, we'd expect the dispersion ratio to be 1. If it's above 1, the model is over-dispersed, if it's below 1, it's under-dispersed. A *p*-value tells us whether this deviation from 1 is statistically significant.
 
-::: callout-important
-#### Significance tests of assumptions
+:::: callout-important
+
+#### Significance tests of assumptions {#sec-assumption-sig-tests}
+
 
 Generally, significance tests of assumptions are not the best idea because they because they encourage black and white thinking (over-dispersed vs under-dispersed) instead of nuanced evaluation. The dispersion ratio itself *is* a useful indicator of the amount of dispersion we have, however the *p*-values can be misleading. In larger samples, they will be more likely to sound an alarm even if the violation is minor. They might be helpful in an ambiguous situation where the plot isn't clear, but even then a problem in one diagnostic plot will likely be echoed in at least one other plot.
-:::
+::::
 
 Under over-dispersion, the parameter estimates are valid, however the standard errors (and therefore confidence intervals and *p*-values) are not. On the whole, this model is clearly not well specified. We have some alternatives. Again, ideally we want to think about whether a distribution is suitable for our data *before* we even collected the data, and certainly before we start mucking about with the data in the analysis stage. But let's say that we've miscalculated. What are our options? Well, we still have:
 
@@ -758,7 +760,7 @@ The data are stored in the file [follower_data.csv](data/follower_data.csv) .
 3.  Compare all the outputs and select the best fitting model. Articulate your decision.
 4.  Extract overall fit statistics and parameter estimates from the model you selected.
 5.  (Optional) Create data visualisation to help you with interpretation.
-6.  Write up the results is a short report.
+6.  Write up the results in a short report.
 :::
 
 ```{r eval=FALSE, echo=FALSE}
