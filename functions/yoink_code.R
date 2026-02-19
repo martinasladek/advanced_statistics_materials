@@ -5,7 +5,7 @@ yoink_code <- function(filename_no_ext){
   
   # get all the codechunks 
   
-  # filename_no_ext = "01a_gzlms_skewed"
+  # filename_no_ext = "02b_ma_advanced"
   
   qmd_file <- paste0(filename_no_ext, ".qmd")
   

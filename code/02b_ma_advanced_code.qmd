@@ -1,0 +1,165 @@
+```{r eval=FALSE, eval=FALSE, comment="code"}
+acc_tib |> 
+  dplyr::count(study_id) |>  
+  dplyr::arrange(desc(n)) 
+```
+
+
+```{r eval=FALSE, comment="code"}
+acc_rmamv <- metafor::rma.mv( 
+  yi = g, 
+  V = vg, 
+  random = ~ 1 | study_id / es_id, 
+  data = acc_tib 
+)
+```
+
+
+```{r eval=FALSE, comment="code"}
+metafor::robust(acc_rmamv, cluster = acc_tib$study_id)
+```
+
+
+```{r eval=FALSE, comment="code"}
+metafor::robust(acc_rmamv, cluster = acc_tib$study_id, clubSandwich = TRUE) 
+```
+
+
+```{r eval=FALSE, fig.align='center', comment="code"}
+metafor::funnel(acc_rmamv, back = "white", hlines = "lightgrey")
+```
+
+
+```{r eval=FALSE, comment="code"}
+avg_tf <- metafor::trimfill(avg_rma)
+```
+
+
+```{r eval=FALSE, comment="code"}
+avg_tib <- avg_tib |> 
+  dplyr::mutate(
+    seg = sqrt(vg)
+  )
+```
+
+
+```{r eval=FALSE, comment="code"}
+avg_pet <- lm(
+  g ~ seg, 
+  weights = 1/vg, 
+  data = avg_tib
+)
+
+avg_peese <- lm(
+  g ~ I(seg^2), 
+  weights = 1/vg, 
+  data = avg_tib
+)
+```
+
+
+```{r eval=FALSE, message=FALSE, comment="code"}
+compare_models(avg_pet, avg_peese, select = "minimal") |> 
+  display()
+```
+
+
+```{r eval=FALSE, comment="code"}
+selmodel_moderate <- metafor::selmodel(
+  avg_rma, 
+  type = "stepfun", 
+  steps = c(.05, 0.1, 0.5), 
+  delta = c(1, 0.7, 0.6, 0.5), 
+) |> broom::tidy(conf.int = TRUE)
+
+selmodel_moderate |> 
+  display(digits = 3)
+```
+
+
+```{r eval=FALSE, comment="code"}
+acc_rmamv_mod <- metafor::rma.mv(
+  yi = g, 
+  V = vg, 
+  mods = ~ sample_screening + text_length, 
+  random = ~ 1 | study_id / es_id, 
+  data = acc_tib
+)
+
+acc_rmamv_mod |> 
+  broom::tidy(conf.int = TRUE) |> 
+  display(digits = 3)
+```
+
+
+```{r eval=FALSE, eval=TRUE, echo=FALSE}
+source("functions/yoink_code.R")
+yoink_code("02b_ma_advanced")
+```
+
+
+```{r eval=FALSE, child="code/02b_ma_advanced_code.qmd"}
+```
+
+
+```{r eval=FALSE, echo=FALSE, message=FALSE}
+# worksheet code here
+inacc_tib <- refute_tib |> 
+  dplyr::filter(outcome_types == "inacc_beliefs")
+
+count_check <- inacc_tib |> 
+  dplyr::count(study_id) |> 
+  dplyr::arrange(desc(n))
+
+
+
+inacc_rmamv <- metafor::rma.mv(yi = g, V = vg, random = ~ 1|study_id/es_id, 
+                               data = inacc_tib) |> 
+  metafor::robust(cluster = inacc_tib$study_id, clubSandwich = TRUE)
+
+
+inacc_tib <- inacc_tib |> 
+  dplyr::summarise(.by = study_id, g = mean(g), vg = mean(vg))
+
+inacc_rma <- metafor::rma(yi = g, vi = vg, data = inacc_tib) 
+
+selmodels <- rbind(
+  metafor::selmodel(
+    inacc_rma, 
+    type = "stepfun", 
+    steps = c(.05, 0.2), 
+    delta = c(1, 0.7, 0.5), 
+  ) |> broom::tidy(conf.int = TRUE),
+  
+  metafor::selmodel(
+    inacc_rma, 
+    type = "stepfun", 
+    steps = c(.05, 0.2), 
+    delta = c(1, 0.5, 0.1), 
+  ) |> broom::tidy(conf.int = TRUE)
+) |> 
+  dplyr::mutate(
+    type = c("moderate", "severe")
+  )
+
+```
+
+
+```{r eval=FALSE, message=FALSE, echo=FALSE}
+# webex code here
+
+webex_studies <- webexercises::fitb(sum(count_check$n > 1))
+
+webex_overall <- 
+  c(answer ="TRUE", 
+    "FALSE") |> 
+  webexercises::longmcq()
+
+webex_pb <- 
+  c(answer ="TRUE", 
+    "FALSE") |> 
+  webexercises::longmcq()
+
+```
+
+

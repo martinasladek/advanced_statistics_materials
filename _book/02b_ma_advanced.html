@@ -20,7 +20,61 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="site_libs/quarto-nav/quarto-nav.js"></script>
@@ -68,7 +122,46 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<link href="site_libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
+<script src="site_libs/datatables-binding-0.33/datatables.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
+<link href="site_libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
+<script src="site_libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 <link rel="stylesheet" href="assets/webex.css">
 <link rel="stylesheet" href="assets/custom.css">
@@ -230,8 +323,36 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="4">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#scenario" id="toc-scenario" class="nav-link active" data-scroll-target="#scenario"><span class="header-section-number">5.1</span> Scenario</a>
+  <ul>
+  <li><a href="#packages" id="toc-packages" class="nav-link" data-scroll-target="#packages">Packages:</a></li>
+  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The data:</a></li>
+  </ul></li>
+  <li><a href="#dependent-effect-sizes" id="toc-dependent-effect-sizes" class="nav-link" data-scroll-target="#dependent-effect-sizes"><span class="header-section-number">5.2</span> Dependent effect sizes</a></li>
+  <li><a href="#robust-standard-errors" id="toc-robust-standard-errors" class="nav-link" data-scroll-target="#robust-standard-errors"><span class="header-section-number">5.3</span> Robust standard errors</a></li>
+  <li><a href="#publication-bias" id="toc-publication-bias" class="nav-link" data-scroll-target="#publication-bias"><span class="header-section-number">5.4</span> Publication bias</a>
+  <ul>
+  <li><a href="#funnel-plot" id="toc-funnel-plot" class="nav-link" data-scroll-target="#funnel-plot">Funnel plot</a></li>
+  <li><a href="#trim-and-fill" id="toc-trim-and-fill" class="nav-link" data-scroll-target="#trim-and-fill">Trim and fill</a></li>
+  <li><a href="#pet-peese" id="toc-pet-peese" class="nav-link" data-scroll-target="#pet-peese">PET-PEESE</a></li>
+  <li><a href="#selection-models" id="toc-selection-models" class="nav-link" data-scroll-target="#selection-models">Selection models</a></li>
+  </ul></li>
+  <li><a href="#sensitivity-analysis" id="toc-sensitivity-analysis" class="nav-link" data-scroll-target="#sensitivity-analysis"><span class="header-section-number">5.5</span> Sensitivity analysis</a></li>
+  <li><a href="#moderation-analysis" id="toc-moderation-analysis" class="nav-link" data-scroll-target="#moderation-analysis"><span class="header-section-number">5.6</span> Moderation analysis</a></li>
+  <li><a href="#report" id="toc-report" class="nav-link" data-scroll-target="#report"><span class="header-section-number">5.7</span> Report</a></li>
+  <li><a href="#exercises" id="toc-exercises" class="nav-link" data-scroll-target="#exercises"><span class="header-section-number">5.8</span> Exercises</a>
+  <ul>
+  <li><a href="#what-does-this-code-do" id="toc-what-does-this-code-do" class="nav-link" data-scroll-target="#what-does-this-code-do">What does this code do?</a></li>
+  <li><a href="#worksheet" id="toc-worksheet" class="nav-link" data-scroll-target="#worksheet">Worksheet</a></li>
+  <li><a href="#check-worksheet-values" id="toc-check-worksheet-values" class="nav-link" data-scroll-target="#check-worksheet-values">Check worksheet values</a></li>
+  </ul></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -255,8 +376,1129 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<p>Last week, we learned what meta-analysis is, how to calculate effect sizes, fit a model, visualise it, and how to run a moderation analysis. There were a lot of new concepts we needed to grapple with - as a result, we took certain shortcuts that could lead us to misleading conclusions. Today we’re going to do things the right way and expand our arsenal of meta-analytic tools. In this tutorial, we’ll learn:</p>
+<ol type="1">
+<li>How to deal with dependent effect sizes.</li>
+<li>How to obtain robust standard errors for our model.</li>
+<li>How to address publication bias.</li>
+</ol>
+<p>Let’s dive in!</p>
+<section id="scenario" class="level2" data-number="5.1">
+<h2 data-number="5.1" class="anchored" data-anchor-id="scenario"><span class="header-section-number">5.1</span> Scenario</h2>
+<p>We’ll be working with the same meta-analysis by <span class="citation" data-cites="danielson2024">Danielson et al. (<a href="references.html#ref-danielson2024" role="doc-biblioref">2024</a>)</span> as before. You can <a href="02a_ma_intro.html#ma-scenario">revisit the scenario section</a> in the previous tutorial if you need a reminder. We’re looking at the effect of refutation texts on accuracy of beliefs about scientific contexts.</p>
+<section id="packages" class="level3">
+<h3 class="anchored" data-anchor-id="packages">Packages:</h3>
+<p>We’ll need the following packages:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(metafor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="the-data" class="level3">
+<h3 class="anchored" data-anchor-id="the-data">The data:</h3>
+<p>The data are stored in the <a href="data/danielson2024_es.csv">danielson2024_es.csv</a>. Note that this is a slightly different version of the data - it contains all the effect sizes ready to go so we don’t have the go through the harrowing process of calculating them again. Download the data and <a href="index.html#importing-datasets">import it to Posit Cloud</a>. Once you’ve done so, you can read the data into R by running:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>refute_tib <span class="ot">&lt;-</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/danielson2024_es.csv"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>There are two different outcomes recorded in the dataset - accuracy of beliefs and inaccuracy of beliefs. As previously, we only want to keep the rows that record accurate beliefs:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>acc_tib <span class="ot">&lt;-</span> refute_tib <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(outcome_types <span class="sc">==</span> <span class="st">"acc_beliefs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+</section>
+<section id="dependent-effect-sizes" class="level2" data-number="5.2">
+<h2 data-number="5.2" class="anchored" data-anchor-id="dependent-effect-sizes"><span class="header-section-number">5.2</span> Dependent effect sizes</h2>
+<p>In the <a href="02a_ma_intro.html#visualising-meta-analyses">Visualising Meta-analyses</a> section last week, we briefly noted that there seem to be some studies (papers) that contributed more than one effect size. We encountered an example of this first hand in the data coding exercise at the beginning of the session: <span class="citation" data-cites="frède2008">Frède (<a href="references.html#ref-frède2008" role="doc-biblioref">2008</a>)</span> collected information about the effect of refutation texts one day after the intervention, as well as thirty days later. These are both valid records that meet our inclusion criteria, so we were able to extract two effect sizes for the paper.</p>
+<p>We can confirm this by counting the number of records for each study:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>acc_tib <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(study_id) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-4-3" class="code-annotation-target"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="fu">desc</span>(n))</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="1">Use the <code>count()</code> function to count the number of occurrences of each “study_id”.</span>
+</dd>
+<dt data-target-cell="annotated-cell-4" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="3" data-code-annotation="2">Arrange the table by descending values of n</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div class="datatables html-widget html-fill-item" id="htmlwidget-037949d386a586def5bb" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-037949d386a586def5bb">{"x":{"filter":"none","vertical":false,"data":[["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20","21","22","23","24","25","26","27","28","29","30","31","32","33","34","35","36","37","38","39","40","41","42","43","44","45","46","47","48","49","50","51","52","53","54","55","56","57","58","59","60","61","62","63","64","65","66","67"],["Maria1990_1","Liu 2018_1","Weingartner 2019_1","Alvermann1989_1","Mikkila-Erdmann2002_1","Cordova2017_1","Dersch 2020_1","Hunsu2016_1","Lin 2011_1","McCuin2014_1","Sota2012_1","Chambers1997_1","Gill2020_1","Hynd1986a_1","Kutza 2000_1","Lally 2014_1","Mason 2017_1","Mason 2017_2","Mikkila-Erdmann2001_1","Poehnl 2013_1","Prinz 2020_1","Seyedmonir 2000_1","Watanabe 2020_1","Yuruk 2016_1","Diakidoy2011_1","Diakidoy2016_1","Geller2021_1","Rodrigues_1","Van Loon 2015_1","Adesope2017_1","Ariasi2014_1","Asterhan2020_1","Broughton 2010_1","Cameron 2013_1","Diakidoy2003_1","Donovan 2018_1","Donovan 2018_2","Frede 2008_1","Geller2021_2","Hynd  1986b_1","Lem2015_1","Lem2016_1","Leon2009_1","Lombardi 2016_1","Mason2019_1","Muis2020_1","Nasim 2018_1","Peltier 2020_1","Prinz 2017_1","Salisbury-Glennon2000_1","Sodervik 2014_1","Tasdelen2008_1","Wang 1991_1","Ariasi2017_1","Braasch2013_2","Butterfuss2020_1","Gill2004_1","Muis 2018_1","Palmer 2003_1","Ramsburg 2018_1","Sodervik 2015_1","Suma2018_1","Trevors 2016_1","Trevors2012_1","Vaughn 2018_1","Versteeg 2020_1","Vilppu2013_1"],[16,12,12,9,8,6,6,6,6,6,6,4,4,4,4,4,4,4,4,4,4,4,4,4,3,3,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1]],"container":"<table class=\"display\">\n  <thead>\n    <tr>\n      <th> <\/th>\n      <th>study_id<\/th>\n      <th>n<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"scrollX":true,"columnDefs":[{"className":"dt-right","targets":2},{"orderable":false,"targets":0},{"name":" ","targets":0},{"name":"study_id","targets":1},{"name":"n","targets":2}],"order":[],"autoWidth":false,"orderClasses":false},"selection":{"mode":"multiple","selected":null,"target":"row","selectable":null}},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p><br></p>
+<p>We can see that most of the studies we’re including contribute more than one effect size. For example, “Maria1990_1” contributes, “Liu 2018_1” contributes 12, and so on.</p>
+<p>This is a very common situation in a meta-analysis 📖 that creates a problem - if several effect sizes come from the same sample, those effect sizes are going to be dependent. Sometimes researchers will deal with it by averaging the effect sizes within each study <a href="02a_ma_intro.html#visualising-meta-analyses">as we did before</a> to create a forest plot:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>avg_tib <span class="ot">&lt;-</span> acc_tib <span class="sc">|&gt;</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>( </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">g =</span> <span class="fu">mean</span>(g, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">vg =</span> <span class="fu">mean</span>(vg, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), </span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.by =</span> study_id </span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>and then using these averaged effects to fit their meta-analytic model. This is by no means a satisfactory solution. We’re effectively sacrificing information for the sake of (minimal) convenience. The logic behind doing so is the following:</p>
+<p>Say that Study 1 contributes the following effect sizes:</p>
+<ul>
+<li><p>g<sub>1</sub> = 0.32</p></li>
+<li><p>g<sub>2</sub> = -0.11</p></li>
+</ul>
+<p>If these studies were to be included in a meta-analysis, they would both contribute, g<sub>1</sub> drawing the estimate toward positive values g<sub>2</sub> drawing it towards negative values, though less so because the effect itself is smaller than g<sub>1</sub>. We can take their average:</p>
+<p><span class="math display">\[
+(g_1 + g_2) / 2
+\]</span></p>
+<p><span class="math display">\[
+(0.32 - 0.11) / 2 =  0.105
+\]</span></p>
+<p>We get a smaller positive effect, which in theory balances the impact of both effect sizes on the overall pooled estimate.</p>
+<p>Of course, this is not equivalent as including all individual effect sizes in the model - The forest plot we produced in the <a href="02a_ma_intro.html#visualising-meta-analyses">Visualising Meta-Analyses</a> section in the previous tutorial reports a very different overall effect size than the one we found in the main analysis. This is because averaging effect sizes doesn’t account for things like study sample sizes and variances, which determine the weight of the effects, which in turn determines how strongly each effect contributes to the overall estimate.</p>
+<p>Conversely, ignoring the dependence among the effect sizes and just fitting a simple model using all of them like we did last week in the <a href="02a_ma_intro.html#ma-intro-fit-model">Fit the model</a> section is the equivalent running a independent <em>t</em>-test on repeated measures data - we cannot trust the standard errors or the confidence intervals derived from such a model.</p>
+<p>Instead, we can run the meta-analysis in form of a multilevel model with a random component 📖, in which the effect sizes are nested within studies. We replace <code>rma()</code> with the <code>rma.mv()</code> function:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-6"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-6-1" class="code-annotation-target"><a href="#annotated-cell-6-1" aria-hidden="true" tabindex="-1"></a>acc_rmamv <span class="ot">&lt;-</span> metafor<span class="sc">::</span><span class="fu">rma.mv</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-6-2" class="code-annotation-target"><a href="#annotated-cell-6-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">yi =</span> g,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-6-3" class="code-annotation-target"><a href="#annotated-cell-6-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">V =</span> vg,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-6-4" class="code-annotation-target"><a href="#annotated-cell-6-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> study_id <span class="sc">/</span> es_id,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-6" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-6-5" class="code-annotation-target"><a href="#annotated-cell-6-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> acc_tib</span>
+<span id="annotated-cell-6-6"><a href="#annotated-cell-6-6" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-6" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="1" data-code-annotation="1">Use the <code>rma.mv()</code> function from metafor.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="2" data-code-annotation="2">Specify the column with the effect sizes.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="3" data-code-annotation="3">Specify the column with the variances. Note the change - the argument is V nor vi.</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="4" data-code-annotation="4">Specify the random component. Here, we’re telling R that the effect sizes (<code>es_id</code>) are nested within studies (<code>study_id</code>)</span>
+</dd>
+<dt data-target-cell="annotated-cell-6" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-6" data-code-lines="5" data-code-annotation="5">Dataset containing the effect sizes.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Inspect the results:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>acc_rmamv</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Multivariate Meta-Analysis Model (k = 222; method: REML)
+
+Variance Components:
+
+            estim    sqrt  nlvls  fixed          factor 
+sigma^2.1  0.1416  0.3763     67     no        study_id 
+sigma^2.2  0.0616  0.2481    222     no  study_id/es_id 
+
+Test for Heterogeneity:
+Q(df = 221) = 794.0298, p-val &lt; .0001
+
+Model Results:
+
+estimate      se    zval    pval   ci.lb   ci.ub      
+  0.3766  0.0544  6.9276  &lt;.0001  0.2701  0.4832  *** 
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>We get two variance components this time, reflecting our nested structure.</p>
+<ul>
+<li><p><code>sigma^2.1</code> is the variability between the studies.</p></li>
+<li><p><code>sigma^2.2</code> is the variability of the effect sizes within the studies.</p></li>
+</ul>
+<p>As before, we get a significant test of heterogeneity among the effect sizes, <em>Q</em>(221) = 794.0298, <em>p</em> &lt; .0001 .</p>
+<p>Then we get our model results. The pooled effect is <em>g</em> = 0.3766 . This estimate will be different to the non-nested model. Because of the nesting structure, variances are treated differently, which affects the weights and how much each study contributes to the overall effect.</p>
+<p>We’re going to pause before looking at the confidence intervals. When we supply the variances to the V argument in <code>rma.mv()</code>, the function uses these variances to approximate the covariance structure which is necessary for the estimation of random effects. However, this is only a rough approximation. The authors of <code>metafor</code> also note that using this argument alone might not capture the dependencies among the true population effects in their entirety. As a result, the standard errors and confidence intervals in our model might not be accurate.</p>
+</section>
+<section id="robust-standard-errors" class="level2" data-number="5.3">
+<h2 data-number="5.3" class="anchored" data-anchor-id="robust-standard-errors"><span class="header-section-number">5.3</span> Robust standard errors</h2>
+<p>This is a familiar territory. We can account for the shortcomings of the covariance approximation in <code>rma.mv()</code> by requesting robust standard errors:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>metafor<span class="sc">::</span><span class="fu">robust</span>(acc_rmamv, <span class="at">cluster =</span> acc_tib<span class="sc">$</span>study_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>code 
+code Multivariate Meta-Analysis Model (k = 222; method: REML)
+code 
+code Variance Components:
+code 
+code             estim    sqrt  nlvls  fixed          factor 
+code sigma^2.1  0.1416  0.3763     67     no        study_id 
+code sigma^2.2  0.0616  0.2481    222     no  study_id/es_id 
+code 
+code Test for Heterogeneity:
+code Q(df = 221) = 794.0298, p-val &lt; .0001
+code 
+code Number of estimates:   222
+code Number of clusters:    67
+code Estimates per cluster: 1-16 (mean: 3.31, median: 2)
+code 
+code Model Results:
+code 
+code estimate      se¹    tval¹  df¹    pval¹   ci.lb¹   ci.ub¹      
+code   0.3766  0.0543   6.9295   66   &lt;.0001   0.2681   0.4851   *** 
+code 
+code ---
+code Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+code 
+code 1) results based on cluster-robust inference (var-cov estimator: CR1,
+code    approx t-test and confidence interval, df: residual method)</code></pre>
+</div>
+</div>
+<p>Here, we’re supplying the <code>acc_rmamv</code> model into the function. We’re also specifying the nesting variable by pulling the <code>study_id</code> from <code>acc_tib</code> using the dollar sign $.</p>
+<p>The results are only a little bit different than before. The effect size itself is not affected, but the standard error is slightly smaller (on the fourth decimal place) and the confidence intervals are a little narrower as a result. Although in this case the difference is minimal, it’s recommended to make the <code>robust()</code> function part of the regular workflow - we lose nothing if the results don’t differ but we gain a much better accuracy in situations where the covariance approximation from <code>rma.mv()</code> doesn’t do a good job.</p>
+<p>An alternative is to also add the <code>clubSandwich = TRUE</code> argument, which tweaks the standard error estimation to improve accuracy in samples with a small number of clusters. In our case, we have 67 clusters (listed in <code>nlvls</code> - number of levels - under Variance Components), so this option makes no (practical) difference, but it’s good to be aware of it.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>metafor<span class="sc">::</span><span class="fu">robust</span>(acc_rmamv, <span class="at">cluster =</span> acc_tib<span class="sc">$</span>study_id, <span class="at">clubSandwich =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>code 
+code Multivariate Meta-Analysis Model (k = 222; method: REML)
+code 
+code Variance Components:
+code 
+code             estim    sqrt  nlvls  fixed          factor 
+code sigma^2.1  0.1416  0.3763     67     no        study_id 
+code sigma^2.2  0.0616  0.2481    222     no  study_id/es_id 
+code 
+code Test for Heterogeneity:
+code Q(df = 221) = 794.0298, p-val &lt; .0001
+code 
+code Number of estimates:   222
+code Number of clusters:    67
+code Estimates per cluster: 1-16 (mean: 3.31, median: 2)
+code 
+code Model Results:
+code 
+code estimate      se¹    tval¹     df¹    pval¹   ci.lb¹   ci.ub¹      
+code   0.3766  0.0543   6.9343   63.69   &lt;.0001   0.2681   0.4851   *** 
+code 
+code ---
+code Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+code 
+code 1) results based on cluster-robust inference (var-cov estimator: CR2,
+code    approx t-test and confidence interval, df: Satterthwaite approx)</code></pre>
+</div>
+</div>
+</section>
+<section id="publication-bias" class="level2" data-number="5.4">
+<h2 data-number="5.4" class="anchored" data-anchor-id="publication-bias"><span class="header-section-number">5.4</span> Publication bias</h2>
+<p>Publication bias can pose a big problem for a meta-analysis 📖. Our goals are to estimate the overall effect size and resolve discrepancies among effects (if there are any), however this can difficult to accomplish if we’re only getting part of the picture.</p>
+<p>Studies reporting statistically significant hypothesis-confirming results are more likely to get published than studies with non-significant findings. Although there have been impressive efforts to combat this in the past few years (for example in the form of registered reports), the issue persists. Even if publishers grew conscience over night, there still remains the problem of studies that may have been conducted before any reform efforts had taken root and never got published. A non-significant result more often than not means that the effect size itself is too small to reach the significance threshold . So if we’re only sythesising results from published literature, the pooled effect size from our meta-analysis might end up being larger than the “true” effect size we’re trying to estimate.</p>
+<p>Ideally, we should try to locate as many unpublished studies as possible. We can do so by:</p>
+<ul>
+<li><p>Searching preprint servers</p></li>
+<li><p>Checking databases of dissertations and theses</p></li>
+<li><p>Checking funding records</p></li>
+<li><p>Emailing authors known to publish in the area</p></li>
+<li><p>Searching pre-registration records</p></li>
+</ul>
+<p>Realistically, it’s likely that we will miss some unpublished studies despite our best efforts. If so, there are some statistical techniques that can help remedy this, at least to an extent. When can think of them in two broad categories:</p>
+<ul>
+<li><p>Methods that check for publication bias and adjust the estimate if necessary (Funnel plot, trim-and-fill)</p></li>
+<li><p>Methods that assume that publication bias is present and adjust the estimate accordingly (PET-PEESE, selection models).</p></li>
+</ul>
+<section id="funnel-plot" class="level3">
+<h3 class="anchored" data-anchor-id="funnel-plot">Funnel plot</h3>
+<p>Funnel plot (<a href="#fig-funnel" class="quarto-xref">Figure&nbsp;<span>5.1</span></a>) is a scatterplot plot of effect sizes (x axis) against the standard errors (y axis). Standard errors are directly related to the calculation of <em>p</em>-values. If there is no publication bias, there should also be no systematic relationship between the standard errors and the effect sizes, and the scatter should be distributed symmetrically on either side of the pooled effect (the vertical line in the middle). <a href="#fig-funnel" class="quarto-xref">Figure&nbsp;<span>5.1</span></a> shows an example of what an extremely asymmetric funnel plot might look like (left) and what the same plot would look like if we were to include the missing studies (right).</p>
+<div class="cell" data-layout-align="center">
+<div class="cell-output-display">
+<div id="fig-funnel" class="quarto-float quarto-figure quarto-figure-center anchored" width="960" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-funnel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="02b_ma_advanced_files/figure-html/fig-funnel-1.png" id="fig-funnel" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" width="960">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-funnel-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5.1
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>We can use the <code>funnel()</code> function from metafor to create a quick funnel plot:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>metafor<span class="sc">::</span><span class="fu">funnel</span>(acc_rmamv, <span class="at">back =</span> <span class="st">"white"</span>, <span class="at">hlines =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="02b_ma_advanced_files/figure-html/unnamed-chunk-13-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Based on visual inspection alone, the distribution looks fairly symmetrical. It’s a little difficult to tell because there are a lot of points which may be overlapping, but at a glance this is not a cause for concern.</p>
+</section>
+<section id="trim-and-fill" class="level3">
+<h3 class="anchored" data-anchor-id="trim-and-fill">Trim and fill</h3>
+<p>Trim &amp; fill is a function that accounts for the asymmetry in the funnel plot by imputing any potentially missing studies in order to restore symmetry.</p>
+<p>Unfortunately, all the functions we’ll cover from here onwards have not been developed to be able to cope with the multilevel structures defined in the <code>rma.mv()</code> function. We have two suboptimal options:</p>
+<ol type="1">
+<li><p>Use a simple <code>rma</code> model with all the effect sizes, ignoring the multilevel structure.</p></li>
+<li><p>Use an <code>rma</code> model based on the averaged effect sizes.</p></li>
+</ol>
+<p>In research, decisions like this are all too common. The important thing is to make a call to the best of our ability, be transparent about it, and justify it. Here’s my decision: we’re going to fit an <code>rma</code> model based on averaged effect sizes. In my opinion, this is lesser of the two evils because (1) the effect size from this model (~0.41) is closer to the <code>rma.mv</code> effect size (~0.38) than the effect size from a simple <code>rma</code> model (~0.30) that ignores the nesting structure. This will make it easier to evaluate any effect size attenuation due to publication bias; (2) the confidence intervals from this model will be valid, whereas the confidence intervals from the naive <code>rma</code> model will not.</p>
+<p>If this was for a paper, I would probably run both versions to make sure the methods are giving us consistent results (I checked and they do…), and then report the alternative method in an appendix so that other researchers who are unhappy with our judgement can look into it.</p>
+<p>So we refit the model using the <code>avg_tib</code> we created earlier:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>avg_rma <span class="ot">&lt;-</span> metafor<span class="sc">::</span><span class="fu">rma</span>(</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">yi =</span> g,</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">vi =</span> vg,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> avg_tib </span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Now we can run trim and fill:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>avg_tf <span class="ot">&lt;-</span> metafor<span class="sc">::</span><span class="fu">trimfill</span>(avg_rma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Inspect the results:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>avg_tf</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Estimated number of missing studies on the left side: 0 (SE = 4.1027)
+
+Random-Effects Model (k = 67; tau^2 estimator: REML)
+
+tau^2 (estimated amount of total heterogeneity): 0.2178 (SE = 0.0493)
+tau (square root of estimated tau^2 value):      0.4667
+I^2 (total heterogeneity / total variability):   81.05%
+H^2 (total variability / sampling variability):  5.28
+
+Test for Heterogeneity:
+Q(df = 66) = 333.3778, p-val &lt; .0001
+
+Model Results:
+
+estimate      se    zval    pval   ci.lb   ci.ub      
+  0.4102  0.0655  6.2608  &lt;.0001  0.2818  0.5387  *** 
+
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<p>The most important bit is at the top:</p>
+<blockquote class="blockquote">
+<p>Estimated number of missing studies on the left side: 0 (SE = 4.1027)</p>
+</blockquote>
+<p>The test didn’t impute any studies (because it didn’t detect any asymmetry), so the overall effect size is the same. We can confirm this with a funnel plot:</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>metafor<span class="sc">::</span><span class="fu">funnel</span>(avg_tf, <span class="at">back =</span> <span class="st">"white"</span>, <span class="at">hlines =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="02b_ma_advanced_files/figure-html/unnamed-chunk-17-1.png" class="img-fluid quarto-figure quarto-figure-center figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Granted, there’s not much else to see, given that nothing has been imputed. Just for your reference, a funnel plot with imputed studies would look like this (this is just an example model unrelated to our dataset):</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02b_ma_advanced_files/figure-html/unnamed-chunk-18-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="pet-peese" class="level3">
+<h3 class="anchored" data-anchor-id="pet-peese">PET-PEESE</h3>
+<p>PET-PEESE stands for “Precision Effect Test - Precision Effect Estimate with Standard Error”. It’s a another test that assumes the relationship between the effect size and the standard error to be indicative of possible publication bias. In PET-PEESE, two models are fitted - PET and PEESE.</p>
+<ul>
+<li><p><strong>PET</strong>: a weighted linear model with standard error as the predictor. The intercept is taken as the meta-analytic estimate, while the the standard error is considered a “covariate” adjusting for publication bias.</p></li>
+<li><p><strong>PEESE</strong>: Same as PET, except we include the the squared standard error to adjust the overall effect.</p></li>
+</ul>
+<p>PET generally performs better when the true effect size is zero. PEESE performs better when it’s different from zero. Therefore if the <em>p</em>-value associated with the intercept in the PET model is non-significant (indicating the estimate is not different from zero), we interpret the PET intercept. If it <em>is</em> significant, we interpret the PEESE intercept instead. That’s the PET-PEESE procedure.</p>
+<p>First we need to calculate the standard error. We can do so by taking the square root of the variances associated with our effect sizes:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>avg_tib <span class="ot">&lt;-</span> avg_tib <span class="sc">|&gt;</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">seg =</span> <span class="fu">sqrt</span>(vg)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then we’re going to fit the two models using <code>lm(</code>):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-16"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-16-1"><a href="#annotated-cell-16-1" aria-hidden="true" tabindex="-1"></a>avg_pet <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-16-2" class="code-annotation-target"><a href="#annotated-cell-16-2" aria-hidden="true" tabindex="-1"></a>  g <span class="sc">~</span> seg,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-16-3" class="code-annotation-target"><a href="#annotated-cell-16-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> <span class="dv">1</span><span class="sc">/</span>vg,</span>
+<span id="annotated-cell-16-4"><a href="#annotated-cell-16-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> avg_tib</span>
+<span id="annotated-cell-16-5"><a href="#annotated-cell-16-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="annotated-cell-16-6"><a href="#annotated-cell-16-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-16-7"><a href="#annotated-cell-16-7" aria-hidden="true" tabindex="-1"></a>avg_peese <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-16-8" class="code-annotation-target"><a href="#annotated-cell-16-8" aria-hidden="true" tabindex="-1"></a>  g <span class="sc">~</span> <span class="fu">I</span>(seg<span class="sc">^</span><span class="dv">2</span>),</span>
+<span id="annotated-cell-16-9"><a href="#annotated-cell-16-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> <span class="dv">1</span><span class="sc">/</span>vg, </span>
+<span id="annotated-cell-16-10"><a href="#annotated-cell-16-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> avg_tib</span>
+<span id="annotated-cell-16-11"><a href="#annotated-cell-16-11" aria-hidden="true" tabindex="-1"></a>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-16" data-code-lines="2" data-code-annotation="1">Specify the formula, in which g is predicted from the standard error.</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-16" data-code-lines="3" data-code-annotation="2">Define weights as the inverse of the variance (1/vg), so that studies with small variance are assigned greater weight.</span>
+</dd>
+<dt data-target-cell="annotated-cell-16" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-16" data-code-lines="8" data-code-annotation="3">Tweak the formula for PEESE, so that g is predicted from the square of the standard error. The <code>I()</code> function is useful if we need to make calculations on the fly.</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>Let’s use <code>compare_models()</code> from easystats to check the results. We’re adding the argument <code>select = "minimal"</code> to also get <em>p</em>-values, which we need in order to make the decision between PET and PEESE:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_models</span>(avg_pet, avg_peese, <span class="at">select =</span> <span class="st">"minimal"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 13%">
+<col style="width: 28%">
+<col style="width: 12%">
+<col style="width: 30%">
+<col style="width: 14%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: right;">Coefficient (CI) (avg_pet)</th>
+<th style="text-align: right;">p (avg_pet)</th>
+<th style="text-align: right;">Coefficient (CI) (avg_peese)</th>
+<th style="text-align: right;">p (avg_peese)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: right;">0.12 (-0.28, 0.53)</td>
+<td style="text-align: right;">0.545</td>
+<td style="text-align: right;">0.31 ( 0.11, 0.50)</td>
+<td style="text-align: right;">0.002</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">seg</td>
+<td style="text-align: right;">1.16 (-0.65, 2.96)</td>
+<td style="text-align: right;">0.205</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">seg^2</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1.30 (-1.62, 4.21)</td>
+<td style="text-align: right;">0.378</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Observations</td>
+<td style="text-align: right;">1323</td>
+<td style="text-align: right;"></td>
+<td style="text-align: right;">1323</td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>We’re only interested in the first line associated with the intercept. The first set of columns tells us about PET, the second set tells us about PEESE. Remember, if PET is significant, our final estimate is PEESE. Otherwise we stick with PET. The p-value for PET is not significant, <em>p</em> = 0.545. Therefore our PET-PEESE estimate is 0.12 (-0.28, 0.53). Comparing this to the unadjusted meta-analytic estimate of 0.41, that’s quite a large difference!</p>
+</section>
+<section id="selection-models" class="level3">
+<h3 class="anchored" data-anchor-id="selection-models">Selection models</h3>
+<p>Selection models allow us to model different levels of publication bias and see how our estimate would change if effect sizes with certain <em>p</em>-values had lower probability of publication. For example, we know that 0.05 is the magical cut-off point that publishers like. We could model a reality where studies with <em>p</em>-values below 0.05 are absolutely certain to be published (probability of publication is 1), whereas studies with p-values above 0.05 have only 50/50 or 0.5 probability of publication:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="annotated-cell-18"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-18-1"><a href="#annotated-cell-18-1" aria-hidden="true" tabindex="-1"></a>metafor<span class="sc">::</span><span class="fu">selmodel</span>(</span>
+<span id="annotated-cell-18-2"><a href="#annotated-cell-18-2" aria-hidden="true" tabindex="-1"></a>  avg_rma, </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-18-3" class="code-annotation-target"><a href="#annotated-cell-18-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"stepfun"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-18-4" class="code-annotation-target"><a href="#annotated-cell-18-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="fu">c</span>(<span class="fl">0.05</span>),</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-18-5" class="code-annotation-target"><a href="#annotated-cell-18-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>),</span>
+<span id="annotated-cell-18-6"><a href="#annotated-cell-18-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-18" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-18-7" class="code-annotation-target"><a href="#annotated-cell-18-7" aria-hidden="true" tabindex="-1"></a>  broom<span class="sc">::</span><span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-18-8"><a href="#annotated-cell-18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-18" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-18" data-code-lines="3" data-code-annotation="1">The <code>type = "stepfun"</code> argument allows us to fit a model depending on the <em>p</em>-value “steps” that change the probability of publication.</span>
+</dd>
+<dt data-target-cell="annotated-cell-18" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-18" data-code-lines="4" data-code-annotation="2">Define the <em>p</em>-value steps. Here we’re just defining one step, 0.05.</span>
+</dd>
+<dt data-target-cell="annotated-cell-18" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-18" data-code-lines="5" data-code-annotation="3">Define the probability of publication. The first value determines the probability of studies with <em>p</em> &lt; 0.05, the second step determines the probability of studies with <em>p</em>-values between 0.05 and 1.</span>
+</dd>
+<dt data-target-cell="annotated-cell-18" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-18" data-code-lines="7" data-code-annotation="4">A little helper function that tidies up the otherwise messy output and includes confidence intervals for our estimate (<code>conf.int = TRUE</code>).</span>
+</dd>
+</dl>
+</div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 12%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: left;">p.value</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">overall</td>
+<td style="text-align: left;">summary</td>
+<td style="text-align: right;">0.268</td>
+<td style="text-align: right;">0.067</td>
+<td style="text-align: right;">4.025</td>
+<td style="text-align: left;">5.709e-05</td>
+<td style="text-align: right;">0.137</td>
+<td style="text-align: right;">0.398</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>In this version of the reality, our estimate drops down to 0.27 [0.14, 0.40]. However, let’s try to model something more nuanced instead:</p>
+<ul>
+<li><p>If <em>p</em> &lt; 0.05, delta (probability of publication) will be 1</p></li>
+<li><p>If <em>p</em> is between 0.05 and 0.1, delta will be 0.7</p></li>
+<li><p>If <em>p</em> is between 0.1 and 0.5, delta will be 0.6</p></li>
+<li><p>For any larger <em>p</em>-values, delta will be 0.5</p></li>
+</ul>
+<p>This would be a moderate level of publication bias where non-significant <em>p</em>-values still have probability of getting published above chance, but this probability is substantially lower compared to studies with significant results.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>selmodel_moderate <span class="ot">&lt;-</span> metafor<span class="sc">::</span><span class="fu">selmodel</span>(</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  avg_rma, </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"stepfun"</span>, </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="fu">c</span>(.<span class="dv">05</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>), </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.6</span>, <span class="fl">0.5</span>), </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> broom<span class="sc">::</span><span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>selmodel_moderate <span class="sc">|&gt;</span> </span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 12%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: left;">p.value</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">overall</td>
+<td style="text-align: left;">summary</td>
+<td style="text-align: right;">0.273</td>
+<td style="text-align: right;">0.070</td>
+<td style="text-align: right;">3.922</td>
+<td style="text-align: left;">8.783e-05</td>
+<td style="text-align: right;">0.136</td>
+<td style="text-align: right;">0.409</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>Now let’s model a severe case of publication bias. Here, the probability of publication drops dramatically for <em>p</em>s &gt; 0.05, down to 0.5, 0.4, and 0.1 for the steps outlined above:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>selmodel_severe <span class="ot">&lt;-</span> metafor<span class="sc">::</span><span class="fu">selmodel</span>(</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  avg_rma, </span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"stepfun"</span>, </span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="fu">c</span>(.<span class="dv">05</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>), </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.5</span>, <span class="fl">0.4</span>, <span class="fl">0.1</span>), </span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> broom<span class="sc">::</span><span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>selmodel_severe <span class="sc">|&gt;</span> </span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 11%">
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 11%">
+<col style="width: 12%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: right;">p.value</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">overall</td>
+<td style="text-align: left;">summary</td>
+<td style="text-align: right;">-0.071</td>
+<td style="text-align: right;">0.102</td>
+<td style="text-align: right;">-0.695</td>
+<td style="text-align: right;">0.487</td>
+<td style="text-align: right;">-0.270</td>
+<td style="text-align: right;">0.129</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>In this scenario, the estimate is massively different, at g = -0.07 [-0.27, 0.12].</p>
+<p>Here we are, with several wildly different estimates and conflicting results for publication bias adjustment methods. How do we reconcile this? Transparency is the best policy, and we can achieve this with a sensitivity analysis.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Other methods for dealing with publication bias
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Are there methods for addressing publication bias? Oh yes! Am I going to write about them? Absolutely not! Here are some other methods you might come across when reading papers:</p>
+<ul>
+<li><p>Rosenthal’s Fail Safe N</p></li>
+<li><p>Orwel’s Fails Safe N</p></li>
+<li><p>p-curve</p></li>
+<li><p>p-uniform</p></li>
+<li><p>WAAP-WLS</p></li>
+<li><p>RoBMA (Robust Bayesian Meta-Analysis)</p></li>
+</ul>
+<p>Some of these are extremely promising and interesting. Some of these are a plague upon the meta-analytic world that should never have existed. Should you come across any of these during your adventures, I encourage you to read-up on them and decide for yourself.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="sensitivity-analysis" class="level2" data-number="5.5">
+<h2 data-number="5.5" class="anchored" data-anchor-id="sensitivity-analysis"><span class="header-section-number">5.5</span> Sensitivity analysis</h2>
+<p>Sensitivity analysis is a general term for an analysis in which we present how sensitive our model is to various assumptions (such as those about publication bias). The important thing here is to only compare estimates that are sensible - if we fit enough models, we will eventually find discrepancies anywhere. In this situation, we’re going to discard the funnel plot and trim &amp; fill. Aside from publication bias, funnel plot asymmetry can be caused by heterogeneity and missing moderators. We know that our effects are heterogeneous, and we also know that none of the moderators are able to explain this heterogeneity <span class="citation" data-cites="danielson2024">Danielson et al. (<a href="references.html#ref-danielson2024" role="doc-biblioref">2024</a>)</span> . PET-PEESE can also show bias under heterogeneity, however this is more of concern in meta-analyses with a small number of primary effect sizes. Here, we have a sample of 67 studies, which is not small by meta-analytic standards. So we want to compare:</p>
+<ul>
+<li><p>The original estimate.</p></li>
+<li><p>PET-PEESE estimate.</p></li>
+<li><p>Estimate from a selection model assuming moderate publication bias.</p></li>
+<li><p>Estimate from a selection model assuming severe publication bias.</p></li>
+</ul>
+<p>If you’ve (understandably) had enough of coding, you can skip directly to the table below. In the next optional section, we’re going to do a bit of data wrangling to pull the values from the different models (the ones just listed) and arrange them into a neat table.</p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Optional: Collating effect sizes from different tables
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>We already have objects <code>selmodel_moderate</code> and <code>selmodel_severe</code> which are in a pretty good state. For PET-PEESE, the PET estimate was selected, so we can use <code>broom::tidy()</code> to tidy up the output:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>avg_pet_tidy <span class="ot">&lt;-</span> avg_pet <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  broom<span class="sc">::</span><span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(term <span class="sc">==</span> <span class="st">"(Intercept)"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can do the same for the <code>rma.mv</code> object:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>acc_rmamv_tidy <span class="ot">&lt;-</span> acc_rmamv <span class="sc">|&gt;</span> broom<span class="sc">::</span><span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>These are all “tidy” objects, so we can combine them into a single table:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>pb_mods_tib <span class="ot">&lt;-</span> dplyr<span class="sc">::</span><span class="fu">bind_rows</span>(</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  acc_rmamv_tidy, avg_pet_tidy, selmodel_moderate, selmodel_severe</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>pb_mods_tib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 4 × 8
+  term        type    estimate std.error statistic  p.value conf.low conf.high
+  &lt;chr&gt;       &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt;     &lt;dbl&gt;
+1 overall     summary   0.377     0.0544     6.93  4.28e-12    0.270     0.483
+2 (Intercept) &lt;NA&gt;      0.124     0.204      0.608 5.45e- 1   -0.283     0.530
+3 overall     summary   0.273     0.0695     3.92  8.78e- 5    0.136     0.409
+4 overall     summary  -0.0707    0.102     -0.695 4.87e- 1   -0.270     0.129</code></pre>
+</div>
+</div>
+<p>This is pretty good, but there are some unnecessary columns - we can make the table more concise. We’ll use the <code>transmute()</code> function which is vastly unappreciated in the tidyverse community. It allows us to simultaneously create new columns, rename old columns, and drop columns we don’t want to keep:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pb_mods_tib <span class="ot">&lt;-</span> pb_mods_tib <span class="sc">|&gt;</span> </span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">transmute</span>(</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">model =</span> <span class="fu">c</span>(<span class="st">"Original MA"</span>, <span class="st">"PET-PEESE"</span>, <span class="st">"Modetate PB"</span>, <span class="st">"Severe PB"</span>), </span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">estimate =</span> estimate, </span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">ci_lower =</span> conf.low, </span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">ci_upper =</span> conf.high, </span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">p =</span> p.value</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>pb_mods_tib <span class="sc">|&gt;</span> </span>
+<span id="cb25-11"><a href="#cb25-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">model</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">ci_lower</th>
+<th style="text-align: right;">ci_upper</th>
+<th style="text-align: left;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Original MA</td>
+<td style="text-align: right;">0.377</td>
+<td style="text-align: right;">0.270</td>
+<td style="text-align: right;">0.483</td>
+<td style="text-align: left;">4.279e-12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PET-PEESE</td>
+<td style="text-align: right;">0.124</td>
+<td style="text-align: right;">-0.283</td>
+<td style="text-align: right;">0.530</td>
+<td style="text-align: left;">0.545</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Modetate PB</td>
+<td style="text-align: right;">0.273</td>
+<td style="text-align: right;">0.136</td>
+<td style="text-align: right;">0.409</td>
+<td style="text-align: left;">8.783e-05</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Severe PB</td>
+<td style="text-align: right;">-0.071</td>
+<td style="text-align: right;">-0.270</td>
+<td style="text-align: right;">0.129</td>
+<td style="text-align: left;">0.487</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Look at that! Those who skipped this section have no idea what sort of primal joy they’ve just missed out on.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pb_mods_tib <span class="sc">|&gt;</span> </span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">model</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">ci_lower</th>
+<th style="text-align: right;">ci_upper</th>
+<th style="text-align: left;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Original MA</td>
+<td style="text-align: right;">0.377</td>
+<td style="text-align: right;">0.270</td>
+<td style="text-align: right;">0.483</td>
+<td style="text-align: left;">4.279e-12</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">PET-PEESE</td>
+<td style="text-align: right;">0.124</td>
+<td style="text-align: right;">-0.283</td>
+<td style="text-align: right;">0.530</td>
+<td style="text-align: left;">0.545</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Modetate PB</td>
+<td style="text-align: right;">0.273</td>
+<td style="text-align: right;">0.136</td>
+<td style="text-align: right;">0.409</td>
+<td style="text-align: left;">8.783e-05</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Severe PB</td>
+<td style="text-align: right;">-0.071</td>
+<td style="text-align: right;">-0.270</td>
+<td style="text-align: right;">0.129</td>
+<td style="text-align: left;">0.487</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>Now we have all the effect sizes in one table so we can compare them more easily. All the effect sizes apart from the Severe PB model suggest an effect in favour of refutation texts. Notably, PET-PEESE is the smallest positive estimate and has the widest confidence interval that includes zero associated with it. Under severe publication bias, the effect could be slightly negative based on both the point estimate and the lower confidence interval. All four upper bounds of confidence intervals indicate a positive effect. Clear as a mud, eh?</p>
+<p>The conclusion I’d draw from this is that the effect is likely to be in favour of refutation texts (a positive value of g), but it’s probably smaller than the original meta-analysis suggested. If publication bias is, in fact, severe, the effect could be zero or in the opposite direction. Our estimate is therefore sensitive to the assumptions we make about the data generating process. Either way, there is a lot of uncertainty around this estimate, which aligns with the high heterogeneity estimates and unsuccessful moderation analysis.</p>
+</section>
+<section id="moderation-analysis" class="level2" data-number="5.6">
+<h2 data-number="5.6" class="anchored" data-anchor-id="moderation-analysis"><span class="header-section-number">5.6</span> Moderation analysis</h2>
+<p>We’ve written off moderation partially because of what we found last week, but mostly because of the extensive tests reported in <span class="citation" data-cites="danielson2024">Danielson et al. (<a href="references.html#ref-danielson2024" role="doc-biblioref">2024</a>)</span> . Just to complete your toolkit, this is how we run a moderation analysis while accounting for the multi-level structure:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>acc_rmamv_mod <span class="ot">&lt;-</span> metafor<span class="sc">::</span><span class="fu">rma.mv</span>(</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">yi =</span> g, </span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">V =</span> vg, </span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mods =</span> <span class="sc">~</span> sample_screening <span class="sc">+</span> text_length, </span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> study_id <span class="sc">/</span> es_id, </span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> acc_tib</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>code Warning: 61 rows with NAs omitted from model fitting.</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>acc_rmamv_mod <span class="sc">|&gt;</span> </span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  broom<span class="sc">::</span><span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 8%">
+<col style="width: 11%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 10%">
+<col style="width: 11%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: left;">p.value</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">intercept</td>
+<td style="text-align: left;">summary</td>
+<td style="text-align: right;">0.359</td>
+<td style="text-align: right;">0.063</td>
+<td style="text-align: right;">5.675</td>
+<td style="text-align: left;">1.385e-08</td>
+<td style="text-align: right;">0.235</td>
+<td style="text-align: right;">0.483</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">sample_screeningscreened</td>
+<td style="text-align: left;">summary</td>
+<td style="text-align: right;">-0.014</td>
+<td style="text-align: right;">0.100</td>
+<td style="text-align: right;">-0.141</td>
+<td style="text-align: left;">0.888</td>
+<td style="text-align: right;">-0.211</td>
+<td style="text-align: right;">0.182</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">text_length</td>
+<td style="text-align: left;">summary</td>
+<td style="text-align: right;">-2.876e-04</td>
+<td style="text-align: right;">3.442e-04</td>
+<td style="text-align: right;">-0.836</td>
+<td style="text-align: left;">0.403</td>
+<td style="text-align: right;">-9.623e-04</td>
+<td style="text-align: right;">3.871e-04</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>We can interpret these in the same way we did <a href="02a_ma_intro.html#ma-moderation">last week</a>.</p>
+<p>Easy pet-peesy.</p>
+<p>Until next time!</p>
+</section>
+<section id="report" class="level2" data-number="5.7">
+<h2 data-number="5.7" class="anchored" data-anchor-id="report"><span class="header-section-number">5.7</span> Report</h2>
+<p>We have two excellent (and very different) examples of a write-up at our disposal:</p>
+<ul>
+<li><p><span class="citation" data-cites="danielson2024">Danielson et al. (<a href="references.html#ref-danielson2024" role="doc-biblioref">2024</a>)</span> report the meta-analysis explored in these tutorials. The paper is full of sensible and justifiable choices (some of them different to what we covered here). It’s an example of a write-up that explores a broad range of meta-analytic outcomes and moderators.</p></li>
+<li><p><span class="citation" data-cites="brewin2024">Brewin and Field (<a href="references.html#ref-brewin2024" role="doc-biblioref">2024</a>)</span> is the meta-analysis covered in the book chapter 📖, and another great example of a report. In contrast with <span class="citation" data-cites="danielson2024">Danielson et al. (<a href="references.html#ref-danielson2024" role="doc-biblioref">2024</a>)</span>, <span class="citation" data-cites="brewin2024">Brewin and Field (<a href="references.html#ref-brewin2024" role="doc-biblioref">2024</a>)</span>’s write-up is focused on a narrowly defined objective rather than broad exploration.</p></li>
+</ul>
+</section>
+<section id="exercises" class="level2" data-number="5.8">
+<h2 data-number="5.8" class="anchored" data-anchor-id="exercises"><span class="header-section-number">5.8</span> Exercises</h2>
+<section id="what-does-this-code-do" class="level3">
+<h3 class="anchored" data-anchor-id="what-does-this-code-do">What does this code do?</h3>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p>Here’s all the code we have written in this section. Can you remember what each line of each codechunk does? Are there any codechunks that you struggle to make sense of? Make sure to revisit the section in which it is used and take notes.</p>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>acc_tib <span class="sc">|&gt;</span> </span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(study_id) <span class="sc">|&gt;</span>  </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">arrange</span>(<span class="fu">desc</span>(n)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>acc_rmamv <span class="ot">&lt;-</span> metafor<span class="sc">::</span><span class="fu">rma.mv</span>( </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">yi =</span> g, </span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">V =</span> vg, </span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> study_id <span class="sc">/</span> es_id, </span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> acc_tib </span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>metafor<span class="sc">::</span><span class="fu">robust</span>(acc_rmamv, <span class="at">cluster =</span> acc_tib<span class="sc">$</span>study_id)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>metafor<span class="sc">::</span><span class="fu">robust</span>(acc_rmamv, <span class="at">cluster =</span> acc_tib<span class="sc">$</span>study_id, <span class="at">clubSandwich =</span> <span class="cn">TRUE</span>) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>metafor<span class="sc">::</span><span class="fu">funnel</span>(acc_rmamv, <span class="at">back =</span> <span class="st">"white"</span>, <span class="at">hlines =</span> <span class="st">"lightgrey"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>avg_tf <span class="ot">&lt;-</span> metafor<span class="sc">::</span><span class="fu">trimfill</span>(avg_rma)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>avg_tib <span class="ot">&lt;-</span> avg_tib <span class="sc">|&gt;</span> </span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">seg =</span> <span class="fu">sqrt</span>(vg)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>avg_pet <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>  g <span class="sc">~</span> seg, </span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> <span class="dv">1</span><span class="sc">/</span>vg, </span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> avg_tib</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>avg_peese <span class="ot">&lt;-</span> <span class="fu">lm</span>(</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  g <span class="sc">~</span> <span class="fu">I</span>(seg<span class="sc">^</span><span class="dv">2</span>), </span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>  <span class="at">weights =</span> <span class="dv">1</span><span class="sc">/</span>vg, </span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> avg_tib</span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">compare_models</span>(avg_pet, avg_peese, <span class="at">select =</span> <span class="st">"minimal"</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>selmodel_moderate <span class="ot">&lt;-</span> metafor<span class="sc">::</span><span class="fu">selmodel</span>(</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  avg_rma, </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">type =</span> <span class="st">"stepfun"</span>, </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">steps =</span> <span class="fu">c</span>(.<span class="dv">05</span>, <span class="fl">0.1</span>, <span class="fl">0.5</span>), </span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">delta =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="fl">0.7</span>, <span class="fl">0.6</span>, <span class="fl">0.5</span>), </span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>) <span class="sc">|&gt;</span> broom<span class="sc">::</span><span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>selmodel_moderate <span class="sc">|&gt;</span> </span>
+<span id="cb39-9"><a href="#cb39-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>acc_rmamv_mod <span class="ot">&lt;-</span> metafor<span class="sc">::</span><span class="fu">rma.mv</span>(</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">yi =</span> g, </span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">V =</span> vg, </span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">mods =</span> <span class="sc">~</span> sample_screening <span class="sc">+</span> text_length, </span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">random =</span> <span class="sc">~</span> <span class="dv">1</span> <span class="sc">|</span> study_id <span class="sc">/</span> es_id, </span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> acc_tib</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>acc_rmamv_mod <span class="sc">|&gt;</span> </span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>  broom<span class="sc">::</span><span class="fu">tidy</span>(<span class="at">conf.int =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>(<span class="at">digits =</span> <span class="dv">3</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="worksheet" class="level3">
+<h3 class="anchored" data-anchor-id="worksheet">Worksheet</h3>
+<p>As previously, the worksheet focuses on the analysis of <em>in</em>accuracy scores. If you’re using a separate quarto file from your tutorial notes, you’ll need to re-read the data stored in the file <a href="data/danielson2024_es.csv">danielson2024_es.csv</a> .</p>
+<div class="callout callout-style-simple callout-tip">
+<div class="callout-body d-flex">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-body-container">
+<p><strong>Use the tutorial to complete the following tasks:</strong></p>
+<ol type="1">
+<li>Filter the dataset so it only contains rows where the recorded outcome is belief inaccuracy. All effect sizes are already computed.</li>
+<li>Check how many studies provide multiple effect sizes.</li>
+<li>Fit a model accounting for dependence among the effect sizes and adjust the standard errors with a robust variance estimator.</li>
+<li>Run a sensitivity analysis with selection models assuming (moderate level of publication bias) (2) severe level of publication bias. For each model, only define steps at <em>p</em> = 0.05 and <em>p</em> = 0.1 (note: you will need to define three delta values for each model).</li>
+<li>Compare your results to the results reported in <span class="citation" data-cites="danielson2024">Danielson et al. (<a href="references.html#ref-danielson2024" role="doc-biblioref">2024</a>)</span> . Do your results align with what is reported in the paper?</li>
+</ol>
+</div>
+</div>
+</div>
+</section>
+<section id="check-worksheet-values" class="level3">
+<h3 class="anchored" data-anchor-id="check-worksheet-values">Check worksheet values</h3>
+<p>Once you’ve finished the worksheet, you can ask me to look through your work and give you feedback. Remember that you should also practice writing up the results in a brief report, not just running the code. If you’re stuck, you can use the quiz below to guide you.</p>
+<p>You can also use the quiz below - if you fitted the models the correctly, your answers should match the values below.</p>
+<div class="callout callout-style-simple callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Worksheet check
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>How many studies provide more than one effect size for inaccurate beliefs? <input class="webex-solveme nospaces" size="1" data-answer="[&quot;2&quot;]"></p>
+<ul>
+<li><p>Within study heterogeneity: 0.0665116</p></li>
+<li><p>Overall pooled estimate: -0.3806879</p></li>
+<li><p>Robust standard error: 0.0684144</p></li>
+</ul>
+<p>Publication bias - probability of publication (delta) was set at:</p>
+<ul>
+<li><p>1, 0.7, 0.5 for moderate bias</p></li>
+<li><p>1 0.5, 0.1 for severe bias</p></li>
+</ul>
+<p>Other values are justifiable, but if you use the ones above, you should get:</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 12%">
+<col style="width: 12%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 13%">
+<col style="width: 12%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">term</th>
+<th style="text-align: left;">type</th>
+<th style="text-align: right;">estimate</th>
+<th style="text-align: right;">std.error</th>
+<th style="text-align: right;">statistic</th>
+<th style="text-align: left;">p.value</th>
+<th style="text-align: right;">conf.low</th>
+<th style="text-align: right;">conf.high</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">overall</td>
+<td style="text-align: left;">moderate</td>
+<td style="text-align: right;">-0.380</td>
+<td style="text-align: right;">0.081</td>
+<td style="text-align: right;">-4.678</td>
+<td style="text-align: left;">2.890e-06</td>
+<td style="text-align: right;">-0.539</td>
+<td style="text-align: right;">-0.221</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">overall</td>
+<td style="text-align: left;">severe</td>
+<td style="text-align: right;">-0.399</td>
+<td style="text-align: right;">0.069</td>
+<td style="text-align: right;">-5.744</td>
+<td style="text-align: left;">9.234e-09</td>
+<td style="text-align: right;">-0.535</td>
+<td style="text-align: right;">-0.263</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The overall pooled estimate is in line with what is reported in <span class="citation" data-cites="danielson2024">Danielson et al. (<a href="references.html#ref-danielson2024" role="doc-biblioref">2024</a>)</span> :</p>
+<div id="radio_DZJTGFGVDJ" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_DZJTGFGVDJ" value="answer"> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_DZJTGFGVDJ" value=""> <span>FALSE</span></label>
+</div>
+<p>The results of the publication bias analysis align with the conclusion reported in <span class="citation" data-cites="danielson2024">Danielson et al. (<a href="references.html#ref-danielson2024" role="doc-biblioref">2024</a>)</span> :</p>
+<div id="radio_BYPSMSFJPM" class="webex-radiogroup">
+<label><input type="radio" autocomplete="off" name="radio_BYPSMSFJPM" value="answer"> <span>TRUE</span></label><label><input type="radio" autocomplete="off" name="radio_BYPSMSFJPM" value=""> <span>FALSE</span></label>
+</div>
+</div>
+</div>
+</div>
 
 
+<div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list" style="display: none">
+<div id="ref-brewin2024" class="csl-entry" role="listitem">
+Brewin, Chris R., and Andy P. Field. 2024. <span>“Meta-Analysis Shows Trauma Memories in Posttraumatic Stress Disorder Lack Coherence: A Response to Taylor Et Al. (2022).”</span> <em>Clinical Psychological Science</em> 12 (5): 1027–33. <a href="https://doi.org/10.1177/21677026241240456">https://doi.org/10.1177/21677026241240456</a>.
+</div>
+<div id="ref-danielson2024" class="csl-entry" role="listitem">
+Danielson, Robert W., Neil G. Jacobson, Erika A. Patall, Gale M. Sinatra, Olusola O. Adesope, Alana A. U. Kennedy, Bethany H. Bhat, et al. 2024. <span>“The Effectiveness of Refutation Text in Confronting Scientific Misconceptions: A Meta-Analysis.”</span> <em>Educational Psychologist</em> 60 (1): 23–47. <a href="https://doi.org/10.1080/00461520.2024.2365628">https://doi.org/10.1080/00461520.2024.2365628</a>.
+</div>
+<div id="ref-frède2008" class="csl-entry" role="listitem">
+Frède, Valérie. 2008. <span>“Teaching Astronomy for Pre-Service Elementary Teachers: A Comparison of Methods.”</span> <em>Advances in Space Research</em> 42 (11): 1819–30. <a href="https://doi.org/10.1016/j.asr.2007.12.001">https://doi.org/10.1016/j.asr.2007.12.001</a>.
+</div>
+</div>
+</section>
+</section>
 
 </main> <!-- /main -->
 <script>

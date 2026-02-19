@@ -1,9 +1,7 @@
 ## Summary {#sec-gzlms-summary .unnumbered}
 
-### Canonical link functions
-
 | Distribution | Useful for... | Canonical link function | Interpretation |
-|------------------|--------------------|------------------|---------------------|
+|----|----|----|----|
 | Gamma | Right skewed distributions | log | Percent change in outcome associated with unit change in predictor. |
 | Poisson | Count outcomes with low dispersion | log | Percent change in outcome associated with unit change in predictor. |
 | Negative-Binomial | Count outcomes with high dispersion | log | Percent change in outcome associated with unit change in predictor. |

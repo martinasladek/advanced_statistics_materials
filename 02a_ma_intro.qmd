@@ -12,7 +12,7 @@ A meta-analysis has several steps before we can finally sit down, grab a cup of 
 
 These steps are explained in detail in the [essential reading](#ma-reading) for this block. Whenever we reach a point where the book chapter provides more explanation, you'll see a little book emoji: 📖. Our starting point in this tutorial is the happy stage where we've collated the information from different studies into a single dataset which we're now going to analyse.
 
-### Scenario
+### Scenario {#ma-scenario}
 
 To guide this tutorial, we're going to use a study by @danielson2024 which investigated how effective refutation text is in confronting scientific misconceptions.
 
@@ -302,6 +302,15 @@ acc_tib <- acc_tib |>
   )
 ```
 
+```{r echo=FALSE}
+inacc_tib <- refute_tib |> 
+  dplyr::filter(outcome_types == "inacc_beliefs")
+
+refute_tib <- rbind(acc_tib, inacc_tib)
+
+write.csv(refute_tib, "data/danielson2024_es.csv", row.names = FALSE)
+```
+
 If we look through our dataset now, we'll see that all of the values for g and vg are populated. We're ready to fit the model!
 
 ::: callout-note
@@ -324,7 +333,7 @@ General rules are:
 Additional guidance is available in the book chapter accompanying this block 📖. Another useful resource for your bookmarks is @borenstein2021
 :::
 
-## Fit the model
+## Fit the model {#ma-intro-fit-model}
 
 Now we have our effect sizes, we need to figure out whether to fit a fixed effects model or a random effects model.
 
@@ -342,7 +351,7 @@ Here, `yi` argument requires the column with the effect sizes, `vi` requires the
 
 Nice and easy.
 
-## Evaluate model fit 
+## Evaluate model fit
 
 Inspect the results:
 
@@ -368,7 +377,7 @@ Usual warnings regarding significance tests apply. We're working with a large sa
 
 Before we do that, let's confirm this visually and inspect our effect sizes with a forest plot.
 
-## Visualising meta-analyses 
+## Visualising meta-analyses {#visualising-meta-analyses}
 
 We can visualise our meta-analysis using a forest plot. Creating forest plots can be as easy as breathing...
 
@@ -473,13 +482,15 @@ Standardised effect sizes are not the easiest to interpret (which is why other s
 
 -   Use group overlap percentage to put the difference into context. For example, this tool: <https://rpsychologist.com/cohend/> allows you to see how much potential distributions overlap under different values of Cohen's *d*. For *d* = 0.3, 88.1% of the group distributions overlap (under some assumptions about the group means and standard deviations). For the purposes of the module, interpreting in standard deviation units is enough. If you're working on your own meta-analysis, you can use this tool to set up some reasonable means and SDs for the control and the treatment group, and see what sort of difference your pooled estimate translates into.
 
-<iframe width="750px" height="600px" src="https://rpsychologist.com/cohend/?embed=1&CER=20&M0=100&M0lab=Control&M1=112&M1lab=Treatment&SD=15&c0=r-48_g-57_b-79_a-1&c1=r-0_g-0_b-0_a-1&c2=r-106_g-206_b-235_a-1&d=0.8&slider=1&xlab=Outcome" frameborder="0"></iframe>
+<iframe width="750px" height="600px" src="https://rpsychologist.com/cohend/?embed=1&amp;CER=20&amp;M0=100&amp;M0lab=Control&amp;M1=112&amp;M1lab=Treatment&amp;SD=15&amp;c0=r-48_g-57_b-79_a-1&amp;c1=r-0_g-0_b-0_a-1&amp;c2=r-106_g-206_b-235_a-1&amp;d=0.8&amp;slider=1&amp;xlab=Outcome" frameborder="0">
+
+</iframe>
 
 The confidence intervals are pretty narrow and indicate that this effect could be as small as 0.23 or as large as 0.36. We don't particularly care about the *p*-value. The goal of a meta-analysis is to estimate the size of an effect and the samples in our meta-analysis are not a random subset of many possible meta-analytic samples that exist somewhere out there in the ether. Conceptually, the *p*-value doesn't make sense here.
 
 What we do care about is whether there are any predictors that might change the magnitude or the direction of this effect and explain the heterogeneity among our effect sizes. We can explore this in a moderation analysis.
 
-## Moderation analysis 
+## Moderation analysis {#ma-moderation}
 
 We can think of two broad categories of moderators: theoretical and methodological
 
@@ -536,7 +547,7 @@ As a sense check we can subtract the effect for non-random assignment from the e
 
 That's it! We've just ran our first meta-analysis!
 
-## Report 
+## Report
 
 When reporting any model, it all boils down to being as clear, precise, and transparent about what we did, and interpreting the results (to whatever extent is possible given our data). Here, we could go for something like:
 
@@ -654,7 +665,7 @@ The moderators in the model were useful in explaining the heterogeneity identifi
 
 ## Appendix
 
-### Full forest plot  {#full-forest-plot}
+### Full forest plot {#full-forest-plot}
 
 Back to [visualising meta-analyses](#visualising-meta-analyses)
 
@@ -669,5 +680,3 @@ meta::forest(meta_ma,
              layout = "RevMan5"
              )
 ```
-
-###  

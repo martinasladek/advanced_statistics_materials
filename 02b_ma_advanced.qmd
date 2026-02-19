@@ -1,1 +1,682 @@
 # Advanced meta-analytic methods
+
+Last week, we learned what meta-analysis is, how to calculate effect sizes, fit a model, visualise it, and how to run a moderation analysis. There were a lot of new concepts we needed to grapple with - as a result, we took certain shortcuts that could lead us to misleading conclusions. Today we're going to do things the right way and expand our arsenal of meta-analytic tools. In this tutorial, we'll learn:
+
+1.  How to deal with dependent effect sizes.
+2.  How to obtain robust standard errors for our model.
+3.  How to address publication bias.
+
+Let's dive in!
+
+## Scenario
+
+We'll be working with the same meta-analysis by @danielson2024 as before. You can [revisit the scenario section](#ma-scenario) in the previous tutorial if you need a reminder. We're looking at the effect of refutation texts on accuracy of beliefs about scientific contexts.
+
+### Packages:
+
+We'll need the following packages:
+
+```{r echo=FALSE, message=FALSE}
+library(patchwork)
+```
+
+```{r message=FALSE}
+library(tidyverse)
+library(easystats)
+library(metafor)
+```
+
+### The data:
+
+The data are stored in the [danielson2024_es.csv](data/danielson2024_es.csv). Note that this is a slightly different version of the data - it contains all the effect sizes ready to go so we don't have the go through the harrowing process of calculating them again. Download the data and [import it to Posit Cloud](#importing-datasets). Once you've done so, you can read the data into R by running:
+
+```{r message=FALSE}
+refute_tib <- here::here("data/danielson2024_es.csv") |> 
+  readr::read_csv()
+```
+
+There are two different outcomes recorded in the dataset - accuracy of beliefs and inaccuracy of beliefs. As previously, we only want to keep the rows that record accurate beliefs:
+
+```{r}
+acc_tib <- refute_tib |> 
+  dplyr::filter(outcome_types == "acc_beliefs")
+```
+
+## Dependent effect sizes
+
+In the [Visualising Meta-analyses](#visualising-meta-analyses) section last week, we briefly noted that there seem to be some studies (papers) that contributed more than one effect size. We encountered an example of this first hand in the data coding exercise at the beginning of the session: @frède2008 collected information about the effect of refutation texts one day after the intervention, as well as thirty days later. These are both valid records that meet our inclusion criteria, so we were able to extract two effect sizes for the paper.
+
+We can confirm this by counting the number of records for each study:
+
+```{r eval=FALSE, comment="code"}
+acc_tib |> 
+  dplyr::count(study_id) |>  #<1>
+  dplyr::arrange(desc(n)) #<2>
+```
+
+1.  Use the `count()` function to count the number of occurrences of each "study_id".
+2.  Arrange the table by descending values of n
+
+```{r echo=FALSE}
+acc_tib |> 
+  dplyr::count(study_id) |> 
+  dplyr::arrange(desc(n)) |> 
+  DT::datatable(options = list(scrollX = TRUE))
+```
+
+<br>
+
+We can see that most of the studies we're including contribute more than one effect size. For example, "Maria1990_1" contributes, "Liu 2018_1" contributes 12, and so on.
+
+This is a very common situation in a meta-analysis 📖 that creates a problem - if several effect sizes come from the same sample, those effect sizes are going to be dependent. Sometimes researchers will deal with it by averaging the effect sizes within each study [as we did before](#visualising-meta-analyses) to create a forest plot:
+
+```{r}
+avg_tib <- acc_tib |> 
+  dplyr::summarise( 
+    g = mean(g, na.rm = TRUE), 
+    vg = mean(vg, na.rm = TRUE), 
+    .by = study_id 
+  )
+```
+
+and then using these averaged effects to fit their meta-analytic model. This is by no means a satisfactory solution. We're effectively sacrificing information for the sake of (minimal) convenience. The logic behind doing so is the following:  
+
+Say that Study 1 contributes the following effect sizes:
+
+-   g~1~ = 0.32
+
+-   g~2~ = -0.11
+
+If these studies were to be included in a meta-analysis, they would both contribute, g~1~ drawing the estimate toward positive values g~2~ drawing it towards negative values, though less so because the effect itself is smaller than g~1~. We can take their average:
+
+$$
+(g_1 + g_2) / 2
+$$
+
+$$
+(0.32 - 0.11) / 2 =  0.105
+$$
+
+We get a smaller positive effect, which in theory balances the impact of both effect sizes on the overall pooled estimate.
+
+Of course, this is not equivalent as including all individual effect sizes in the model - The forest plot we produced in the [Visualising Meta-Analyses](#visualising-meta-analyses) section in the previous tutorial reports a very different overall effect size than the one we found in the main analysis. This is because averaging effect sizes doesn't account for things like study sample sizes and variances, which determine the weight of the effects, which in turn determines how strongly each effect contributes to the overall estimate.
+
+Conversely, ignoring the dependence among the effect sizes and just fitting a simple model using all of them like we did last week in the [Fit the model](#ma-intro-fit-model) section is the equivalent running a independent *t*-test on repeated measures data - we cannot trust the standard errors or the confidence intervals derived from such a model.
+
+Instead, we can run the meta-analysis in form of a multilevel model with a random component 📖, in which the effect sizes are nested within studies. We replace `rma()` with the `rma.mv()` function:
+
+```{r comment="code"}
+acc_rmamv <- metafor::rma.mv( #<1>
+  yi = g, #<2>
+  V = vg, #<3>
+  random = ~ 1 | study_id / es_id, #<4>
+  data = acc_tib #<5>
+)
+```
+
+1.  Use the `rma.mv()` function from metafor.
+2.  Specify the column with the effect sizes.
+3.  Specify the column with the variances. Note the change - the argument is V nor vi.
+4.  Specify the random component. Here, we're telling R that the effect sizes (`es_id`) are nested within studies (`study_id`)
+5.  Dataset containing the effect sizes.
+
+Inspect the results:
+
+```{r}
+acc_rmamv
+```
+
+We get two variance components this time, reflecting our nested structure.
+
+-   `sigma^2.1` is the variability between the studies.
+
+-   `sigma^2.2` is the variability of the effect sizes within the studies.
+
+As before, we get a significant test of heterogeneity among the effect sizes, *Q*(221) = 794.0298, *p* \< .0001 .
+
+Then we get our model results. The pooled effect is *g* = 0.3766 . This estimate will be different to the non-nested model. Because of the nesting structure, variances are treated differently, which affects the weights and how much each study contributes to the overall effect.
+
+We're going to pause before looking at the confidence intervals. When we supply the variances to the V argument in `rma.mv()`, the function uses these variances to approximate the covariance structure which is necessary for the estimation of random effects. However, this is only a rough approximation. The authors of `metafor` also note that using this argument alone might not capture the dependencies among the true population effects in their entirety. As a result, the standard errors and confidence intervals in our model might not be accurate.
+
+## Robust standard errors
+
+This is a familiar territory. We can account for the shortcomings of the covariance approximation in `rma.mv()` by requesting robust standard errors:
+
+```{r comment="code"}
+metafor::robust(acc_rmamv, cluster = acc_tib$study_id)
+```
+
+Here, we're supplying the `acc_rmamv` model into the function. We're also specifying the nesting variable by pulling the `study_id` from `acc_tib` using the dollar sign \$.
+
+The results are only a little bit different than before. The effect size itself is not affected, but the standard error is slightly smaller (on the fourth decimal place) and the confidence intervals are a little narrower as a result. Although in this case the difference is minimal, it's recommended to make the `robust()` function part of the regular workflow - we lose nothing if the results don't differ but we gain a much better accuracy in situations where the covariance approximation from `rma.mv()` doesn't do a good job.
+
+An alternative is to also add the `clubSandwich = TRUE` argument, which tweaks the standard error estimation to improve accuracy in samples with a small number of clusters. In our case, we have 67 clusters (listed in `nlvls` - number of levels - under Variance Components), so this option makes no (practical) difference, but it's good to be aware of it.
+
+```{r comment="code"}
+metafor::robust(acc_rmamv, cluster = acc_tib$study_id, clubSandwich = TRUE) 
+```
+
+## Publication bias
+
+Publication bias can pose a big problem for a meta-analysis 📖. Our goals are to estimate the overall effect size and resolve discrepancies among effects (if there are any), however this can difficult to accomplish if we're only getting part of the picture.
+
+Studies reporting statistically significant hypothesis-confirming results are more likely to get published than studies with non-significant findings. Although there have been impressive efforts to combat this in the past few years (for example in the form of registered reports), the issue persists. Even if publishers grew conscience over night, there still remains the problem of studies that may have been conducted before any reform efforts had taken root and never got published. A non-significant result more often than not means that the effect size itself is too small to reach the significance threshold . So if we're only sythesising results from published literature, the pooled effect size from our meta-analysis might end up being larger than the "true" effect size we're trying to estimate.
+
+Ideally, we should try to locate as many unpublished studies as possible. We can do so by:
+
+-   Searching preprint servers
+
+-   Checking databases of dissertations and theses
+
+-   Checking funding records
+
+-   Emailing authors known to publish in the area
+
+-   Searching pre-registration records
+
+Realistically, it's likely that we will miss some unpublished studies despite our best efforts. If so, there are some statistical techniques that can help remedy this, at least to an extent. When can think of them in two broad categories:
+
+-   Methods that check for publication bias and adjust the estimate if necessary (Funnel plot, trim-and-fill)
+
+-   Methods that assume that publication bias is present and adjust the estimate accordingly (PET-PEESE, selection models).
+
+### Funnel plot
+
+Funnel plot (@fig-funnel) is a scatterplot plot of effect sizes (x axis) against the standard errors (y axis). Standard errors are directly related to the calculation of *p*-values. If there is no publication bias, there should also be no systematic relationship between the standard errors and the effect sizes, and the scatter should be distributed symmetrically on either side of the pooled effect (the vertical line in the middle). @fig-funnel shows an example of what an extremely asymmetric funnel plot might look like (left) and what the same plot would look like if we were to include the missing studies (right).
+
+```{r echo=FALSE}
+# Funnel plots for theoretical stuff: 
+
+asym_list <- read_rds("data/intro_asym_list.RDS")
+
+asym_data <- asym_list$asym_funnel |> 
+  filter(imputed == "FALSE")
+
+sym_data <- asym_list$asym_funnel 
+
+asym_mod <- metafor::rma(y = r, sei = se, data = sym_data) 
+tf_asym_mod <- metafor::trimfill(asym_mod)
+
+# Yes, I know this should be a function......
+
+se_seq_asym <- seq(0, max(asym_data$r), 0.001)
+p_asym <- ggplot2::ggplot() +
+  geom_point(data = asym_data, aes(x = r, y = se), size = 3, alpha = 0.75,
+             colour = "steelblue") + 
+  scale_y_reverse(limits = c(0.25, 0)) +
+  scale_x_continuous(breaks = seq(-0.4, 0.8, 0.2), limits = c(-0.4, 0.8)) + 
+  geom_line(aes(y = se_seq_asym, x = asym_mod$b-1.96*se_seq_asym), linetype = 
+              "dotted") + 
+  geom_line(aes(y = se_seq_asym, x = asym_mod$b+1.96*se_seq_asym), linetype = 
+              "dotted") + 
+  geom_segment(aes(x = asym_mod$b, y = 0, yend = 0.25), linetype = "dashed") + 
+  labs(x = "Effect size", y = "Standard error") + 
+  theme_minimal(base_size = 16) + 
+  theme(
+    panel.grid = element_line(linewidth = 0.2), 
+  )
+
+se_seq_sym <- seq(0, max(sym_data$r), 0.001)
+p_imputed <- 
+  ggplot2::ggplot() +
+  geom_point(data = sym_data, aes(x = r, y = se, colour = imputed), size = 3, alpha = 0.75) + 
+  scale_colour_manual(values = c("steelblue","yellowgreen")) + 
+  scale_y_reverse(limits = c(0.25, 0)) +
+  scale_x_continuous(breaks = seq(-0.4, 0.8, 0.2), limits = c(-0.4, 0.8)) + 
+  geom_line(aes(y = se_seq_sym, x = tf_asym_mod$b-1.96*se_seq_sym), linetype = 
+              "dotted") + 
+  geom_line(aes(y = se_seq_sym, x = tf_asym_mod$b+1.96*se_seq_sym), linetype = 
+              "dotted") + 
+  geom_segment(aes(x = tf_asym_mod$b, y = 0, yend = 0.25), linetype = "dashed") + 
+  labs(x = "Effect size", y = " ") + 
+  theme_minimal(base_size = 16) + 
+  theme(
+    panel.grid = element_line(linewidth = 0.2), 
+    legend.position = "none"
+  )
+```
+
+```{r warning=FALSE, fig.align='center', fig.width=10, fig.height=4, echo=FALSE}
+#| label: fig-funnel
+#| fig-cap: ""
+
+p_asym | p_imputed
+```
+
+We can use the `funnel()` function from metafor to create a quick funnel plot:
+
+```{r fig.align='center', comment="code"}
+metafor::funnel(acc_rmamv, back = "white", hlines = "lightgrey")
+```
+
+Based on visual inspection alone, the distribution looks fairly symmetrical. It's a little difficult to tell because there are a lot of points which may be overlapping, but at a glance this is not a cause for concern.
+
+### Trim and fill
+
+Trim & fill is a function that accounts for the asymmetry in the funnel plot by imputing any potentially missing studies in order to restore symmetry.
+
+Unfortunately, all the functions we'll cover from here onwards have not been developed to be able to cope with the multilevel structures defined in the `rma.mv()` function. We have two suboptimal options:
+
+1.  Use a simple `rma` model with all the effect sizes, ignoring the multilevel structure.
+
+2.  Use an `rma` model based on the averaged effect sizes.
+
+In research, decisions like this are all too common. The important thing is to make a call to the best of our ability, be transparent about it, and justify it. Here's my decision: we're going to fit an `rma` model based on averaged effect sizes. In my opinion, this is lesser of the two evils because (1) the effect size from this model (\~0.41) is closer to the `rma.mv` effect size (\~0.38) than the effect size from a simple `rma` model (\~0.30) that ignores the nesting structure. This will make it easier to evaluate any effect size attenuation due to publication bias; (2) the confidence intervals from this model will be valid, whereas the confidence intervals from the naive `rma` model will not.
+
+If this was for a paper, I would probably run both versions to make sure the methods are giving us consistent results (I checked and they do...), and then report the alternative method in an appendix so that other researchers who are unhappy with our judgement can look into it.
+
+So we refit the model using the `avg_tib` we created earlier:
+
+```{r}
+avg_rma <- metafor::rma(
+  yi = g,
+  vi = vg,
+  data = avg_tib 
+)
+```
+
+Now we can run trim and fill:
+
+```{r comment="code"}
+avg_tf <- metafor::trimfill(avg_rma)
+```
+
+Inspect the results:
+
+```{r}
+avg_tf
+```
+
+The most important bit is at the top:
+
+       
+> Estimated number of missing studies on the left side: 0 (SE = 4.1027)
+
+
+The test didn't impute any studies (because it didn't detect any asymmetry), so the overall effect size is the same. We can confirm this with a funnel plot:
+
+```{r fig.align='center'}
+metafor::funnel(avg_tf, back = "white", hlines = "lightgrey")
+```
+
+Granted, there's not much else to see, given that nothing has been imputed. Just for your reference, a funnel plot with imputed studies would look like this (this is just an example model unrelated to our dataset):
+
+```{r echo=FALSE}
+metafor::rma(yi = r, sei = se, data = asym_data) |> 
+  metafor::trimfill() |> 
+  metafor::funnel(back = "white", hlines = "lightgrey")
+
+```
+
+### PET-PEESE
+
+PET-PEESE stands for "Precision Effect Test - Precision Effect Estimate with Standard Error". It's a another test that assumes the relationship between the effect size and the standard error to be indicative of possible publication bias. In PET-PEESE, two models are fitted - PET and PEESE.
+
+-   **PET**: a weighted linear model with standard error as the predictor. The intercept is taken as the meta-analytic estimate, while the the standard error is considered a "covariate" adjusting for publication bias.
+
+-   **PEESE**: Same as PET, except we include the the squared standard error to adjust the overall effect.
+
+PET generally performs better when the true effect size is zero. PEESE performs better when it's different from zero. Therefore if the *p*-value associated with the intercept in the PET model is non-significant (indicating the estimate is not different from zero), we interpret the PET intercept. If it *is* significant, we interpret the PEESE intercept instead. That's the PET-PEESE procedure.
+
+First we need to calculate the standard error. We can do so by taking the square root of the variances associated with our effect sizes:
+
+```{r comment="code"}
+avg_tib <- avg_tib |> 
+  dplyr::mutate(
+    seg = sqrt(vg)
+  )
+```
+
+Then we're going to fit the two models using `lm(`):
+
+```{r comment="code"}
+avg_pet <- lm(
+  g ~ seg, #<1>
+  weights = 1/vg, #<2>
+  data = avg_tib
+)
+
+avg_peese <- lm(
+  g ~ I(seg^2), #<3>
+  weights = 1/vg, 
+  data = avg_tib
+)
+```
+
+1.  Specify the formula, in which g is predicted from the standard error.
+2.  Define weights as the inverse of the variance (1/vg), so that studies with small variance are assigned greater weight.
+3.  Tweak the formula for PEESE, so that g is predicted from the square of the standard error. The `I()` function is useful if we need to make calculations on the fly.
+
+Let's use `compare_models()` from easystats to check the results. We're adding the argument `select = "minimal"` to also get *p*-values, which we need in order to make the decision between PET and PEESE:
+
+```{r message=FALSE, comment="code"}
+compare_models(avg_pet, avg_peese, select = "minimal") |> 
+  display()
+```
+
+<br>
+
+We're only interested in the first line associated with the intercept. The first set of columns tells us about PET, the second set tells us about PEESE. Remember, if PET is significant, our final estimate is PEESE. Otherwise we stick with PET. The p-value for PET is not significant, *p* = 0.545. Therefore our PET-PEESE estimate is 0.12 (-0.28, 0.53). Comparing this to the unadjusted meta-analytic estimate of 0.41, that's quite a large difference!
+
+### Selection models
+
+Selection models allow us to model different levels of publication bias and see how our estimate would change if effect sizes with certain *p*-values had lower probability of publication. For example, we know that 0.05 is the magical cut-off point that publishers like. We could model a reality where studies with *p*-values below 0.05 are absolutely certain to be published (probability of publication is 1), whereas studies with p-values above 0.05 have only 50/50 or 0.5 probability of publication:
+
+```{r}
+metafor::selmodel(
+  avg_rma, 
+  type = "stepfun", #<1>
+  steps = c(0.05),  #<2>
+  delta = c(1, 0.5), #<3>
+) |> 
+  broom::tidy(conf.int = TRUE) |> #<4>
+  display(digits = 3)
+
+```
+
+1.  The `type = "stepfun"` argument allows us to fit a model depending on the *p*-value "steps" that change the probability of publication.
+2.  Define the *p*-value steps. Here we're just defining one step, 0.05.
+3.  Define the probability of publication. The first value determines the probability of studies with *p* \< 0.05, the second step determines the probability of studies with *p*-values between 0.05 and 1.
+4.  A little helper function that tidies up the otherwise messy output and includes confidence intervals for our estimate (`conf.int = TRUE`).
+
+<br>
+
+In this version of the reality, our estimate drops down to 0.27 \[0.14, 0.40\]. However, let's try to model something more nuanced instead:
+
+-   If *p* \< 0.05, delta (probability of publication) will be 1
+
+-   If *p* is between 0.05 and 0.1, delta will be 0.7
+
+-   If *p* is between 0.1 and 0.5, delta will be 0.6
+
+-   For any larger *p*-values, delta will be 0.5
+
+This would be a moderate level of publication bias where non-significant *p*-values still have probability of getting published above chance, but this probability is substantially lower compared to studies with significant results.
+
+```{r comment="code"}
+selmodel_moderate <- metafor::selmodel(
+  avg_rma, 
+  type = "stepfun", 
+  steps = c(.05, 0.1, 0.5), 
+  delta = c(1, 0.7, 0.6, 0.5), 
+) |> broom::tidy(conf.int = TRUE)
+
+selmodel_moderate |> 
+  display(digits = 3)
+```
+
+<br>
+
+Now let's model a severe case of publication bias. Here, the probability of publication drops dramatically for *p*s \> 0.05, down to 0.5, 0.4, and 0.1 for the steps outlined above:
+
+```{r}
+selmodel_severe <- metafor::selmodel(
+  avg_rma, 
+  type = "stepfun", 
+  steps = c(.05, 0.1, 0.5), 
+  delta = c(1, 0.5, 0.4, 0.1), 
+) |> broom::tidy(conf.int = TRUE)
+
+selmodel_severe |> 
+  display(digits = 3)
+```
+
+<br>
+
+In this scenario, the estimate is massively different, at g = -0.07 \[-0.27, 0.12\].
+
+Here we are, with several wildly different estimates and conflicting results for publication bias adjustment methods. How do we reconcile this? Transparency is the best policy, and we can achieve this with a sensitivity analysis.
+
+::: callout-note
+### Other methods for dealing with publication bias
+
+Are there methods for addressing publication bias? Oh yes! Am I going to write about them? Absolutely not! Here are some other methods you might come across when reading papers:
+
+-   Rosenthal's Fail Safe N
+
+-   Orwel's Fails Safe N
+
+-   p-curve
+
+-   p-uniform
+
+-   WAAP-WLS
+
+-   RoBMA (Robust Bayesian Meta-Analysis)
+
+Some of these are extremely promising and interesting. Some of these are a plague upon the meta-analytic world that should never have existed. Should you come across any of these during your adventures, I encourage you to read-up on them and decide for yourself.
+:::
+
+## Sensitivity analysis 
+
+Sensitivity analysis is a general term for an analysis in which we present how sensitive our model is to various assumptions (such as those about publication bias). The important thing here is to only compare estimates that are sensible - if we fit enough models, we will eventually find discrepancies anywhere. In this situation, we're going to discard the funnel plot and trim & fill. Aside from publication bias, funnel plot asymmetry can be caused by heterogeneity and missing moderators. We know that our effects are heterogeneous, and we also know that none of the moderators are able to explain this heterogeneity @danielson2024 . PET-PEESE can also show bias under heterogeneity, however this is more of concern in meta-analyses with a small number of primary effect sizes. Here, we have a sample of 67 studies, which is not small by meta-analytic standards. So we want to compare:
+
+-   The original estimate.
+
+-   PET-PEESE estimate.
+
+-   Estimate from a selection model assuming moderate publication bias.
+
+-   Estimate from a selection model assuming severe publication bias.
+
+If you've (understandably) had enough of coding, you can skip directly to the table below. In the next optional section, we're going to do a bit of data wrangling to pull the values from the different models (the ones just listed) and arrange them into a neat table.
+
+::: {.callout-tip collapse="true"}
+#### Optional: Collating effect sizes from different tables
+
+We already have objects `selmodel_moderate` and `selmodel_severe` which are in a pretty good state. For PET-PEESE, the PET estimate was selected, so we can use `broom::tidy()` to tidy up the output:
+
+```{r}
+avg_pet_tidy <- avg_pet |> 
+  broom::tidy(conf.int = TRUE) |> 
+  dplyr::filter(term == "(Intercept)")
+```
+
+We can do the same for the `rma.mv` object:
+
+```{r}
+acc_rmamv_tidy <- acc_rmamv |> broom::tidy(conf.int = TRUE)
+```
+
+These are all "tidy" objects, so we can combine them into a single table:
+
+```{r}
+pb_mods_tib <- dplyr::bind_rows(
+  acc_rmamv_tidy, avg_pet_tidy, selmodel_moderate, selmodel_severe
+)
+
+pb_mods_tib
+```
+
+This is pretty good, but there are some unnecessary columns - we can make the table more concise. We'll use the `transmute()` function which is vastly unappreciated in the tidyverse community. It allows us to simultaneously create new columns, rename old columns, and drop columns we don't want to keep:
+
+```{r}
+pb_mods_tib <- pb_mods_tib |> 
+  dplyr::transmute(
+    model = c("Original MA", "PET-PEESE", "Modetate PB", "Severe PB"), 
+    estimate = estimate, 
+    ci_lower = conf.low, 
+    ci_upper = conf.high, 
+    p = p.value
+  )
+
+pb_mods_tib |> 
+  display(digits = 3)
+```
+
+Look at that! Those who skipped this section have no idea what sort of primal joy they've just missed out on.
+:::
+
+```{r}
+pb_mods_tib |> 
+  display(digits = 3)
+```
+
+<br>
+
+Now we have all the effect sizes in one table so we can compare them more easily. All the effect sizes apart from the Severe PB model suggest an effect in favour of refutation texts. Notably, PET-PEESE is the smallest positive estimate and has the widest confidence interval that includes zero associated with it. Under severe publication bias, the effect could be slightly negative based on both the point estimate and the lower confidence interval. All four upper bounds of confidence intervals indicate a positive effect. Clear as a mud, eh?
+
+The conclusion I'd draw from this is that the effect is likely to be in favour of refutation texts (a positive value of g), but it's probably smaller than the original meta-analysis suggested. If publication bias is, in fact, severe, the effect could be zero or in the opposite direction. Our estimate is therefore sensitive to the assumptions we make about the data generating process. Either way, there is a lot of uncertainty around this estimate, which aligns with the high heterogeneity estimates and unsuccessful moderation analysis.
+
+## Moderation analysis 
+
+We've written off moderation partially because of what we found last week, but mostly because of the extensive tests reported in @danielson2024 . Just to complete your toolkit, this is how we run a moderation analysis while accounting for the multi-level structure:
+
+```{r comment="code"}
+acc_rmamv_mod <- metafor::rma.mv(
+  yi = g, 
+  V = vg, 
+  mods = ~ sample_screening + text_length, 
+  random = ~ 1 | study_id / es_id, 
+  data = acc_tib
+)
+
+acc_rmamv_mod |> 
+  broom::tidy(conf.int = TRUE) |> 
+  display(digits = 3)
+```
+
+<br>
+
+We can interpret these in the same way we did [last week](#ma-moderation).
+
+Easy pet-peesy.
+
+Until next time!
+
+## Report 
+
+We have two excellent (and very different) examples of a write-up at our disposal:
+
+-   @danielson2024 report the meta-analysis explored in these tutorials. The paper is full of sensible and justifiable choices (some of them different to what we covered here). It's an example of a write-up that explores a broad range of meta-analytic outcomes and moderators.
+
+-   @brewin2024 is the meta-analysis covered in the book chapter 📖, and another great example of a report. In contrast with @danielson2024, @brewin2024's write-up is focused on a narrowly defined objective rather than broad exploration.
+
+## Exercises
+
+### What does this code do?
+
+::: {.callout-tip appearance="simple"}
+Here's all the code we have written in this section. Can you remember what each line of each codechunk does? Are there any codechunks that you struggle to make sense of? Make sure to revisit the section in which it is used and take notes.
+:::
+
+```{r eval=TRUE, echo=FALSE}
+source("functions/yoink_code.R")
+yoink_code("02b_ma_advanced")
+```
+
+```{r child="code/02b_ma_advanced_code.qmd"}
+```
+
+### Worksheet
+
+As previously, the worksheet focuses on the analysis of *in*accuracy scores. If you're using a separate quarto file from your tutorial notes, you'll need to re-read the data stored in the file [danielson2024_es.csv](data/danielson2024_es.csv) .
+
+::: {.callout-tip appearance="simple"}
+**Use the tutorial to complete the following tasks:**
+
+1.  Filter the dataset so it only contains rows where the recorded outcome is belief inaccuracy. All effect sizes are already computed.
+2.  Check how many studies provide multiple effect sizes.
+3.  Fit a model accounting for dependence among the effect sizes and adjust the standard errors with a robust variance estimator.
+4.  Run a sensitivity analysis with selection models assuming (moderate level of publication bias) (2) severe level of publication bias. For each model, only define steps at *p* = 0.05 and *p* = 0.1 (note: you will need to define three delta values for each model).
+5.  Compare your results to the results reported in @danielson2024 . Do your results align with what is reported in the paper?
+:::
+
+```{r echo=FALSE, message=FALSE}
+# worksheet code here
+inacc_tib <- refute_tib |> 
+  dplyr::filter(outcome_types == "inacc_beliefs")
+
+count_check <- inacc_tib |> 
+  dplyr::count(study_id) |> 
+  dplyr::arrange(desc(n))
+
+
+
+inacc_rmamv <- metafor::rma.mv(yi = g, V = vg, random = ~ 1|study_id/es_id, 
+                               data = inacc_tib) |> 
+  metafor::robust(cluster = inacc_tib$study_id, clubSandwich = TRUE)
+
+
+inacc_tib <- inacc_tib |> 
+  dplyr::summarise(.by = study_id, g = mean(g), vg = mean(vg))
+
+inacc_rma <- metafor::rma(yi = g, vi = vg, data = inacc_tib) 
+
+selmodels <- rbind(
+  metafor::selmodel(
+    inacc_rma, 
+    type = "stepfun", 
+    steps = c(.05, 0.2), 
+    delta = c(1, 0.7, 0.5), 
+  ) |> broom::tidy(conf.int = TRUE),
+  
+  metafor::selmodel(
+    inacc_rma, 
+    type = "stepfun", 
+    steps = c(.05, 0.2), 
+    delta = c(1, 0.5, 0.1), 
+  ) |> broom::tidy(conf.int = TRUE)
+) |> 
+  dplyr::mutate(
+    type = c("moderate", "severe")
+  )
+
+```
+
+### Check worksheet values
+
+Once you've finished the worksheet, you can ask me to look through your work and give you feedback. Remember that you should also practice writing up the results in a brief report, not just running the code. If you're stuck, you can use the quiz below to guide you.
+
+You can also use the quiz below - if you fitted the models the correctly, your answers should match the values below.
+
+::: {.callout-tip collapse="true" appearance="simple"}
+### Worksheet check
+
+```{r message=FALSE, echo=FALSE}
+# webex code here
+
+webex_studies <- webexercises::fitb(sum(count_check$n > 1))
+
+webex_overall <- 
+  c(answer ="TRUE", 
+    "FALSE") |> 
+  webexercises::longmcq()
+
+webex_pb <- 
+  c(answer ="TRUE", 
+    "FALSE") |> 
+  webexercises::longmcq()
+
+```
+
+How many studies provide more than one effect size for inaccurate beliefs? `r webex_studies`
+
+-   Within study heterogeneity: `r inacc_rmamv$sigma2[2]`
+
+-   Overall pooled estimate: `r inacc_rmamv$b`
+
+-   Robust standard error: `r inacc_rmamv$se`
+
+Publication bias - probability of publication (delta) was set at:
+
+-   1, 0.7, 0.5 for moderate bias
+
+-   1 0.5, 0.1 for severe bias
+
+Other values are justifiable, but if you use the ones above, you should get:
+
+```{r echo=FALSE}
+selmodels |> 
+  display(digits = 3)
+```
+
+The overall pooled estimate is in line with what is reported in @danielson2024 :
+
+`r webex_overall`
+
+The results of the publication bias analysis align with the conclusion reported in @danielson2024 :
+
+`r webex_pb`
+:::
+
