@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Measurement – Advanced Statistics 25/26</title>
+<title>Scale Development – Advanced Statistics 25/26</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -83,7 +83,7 @@ ul.task-list li input[type="checkbox"] {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03_measurement.html">Measurement</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./03_measurement.html">Scale Development</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -181,7 +181,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./03_measurement.html" class="sidebar-item-text sidebar-link active">
- <span class="menu-text">Measurement</span></a>
+ <span class="menu-text">Scale Development</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -190,7 +190,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03a_measurement_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">EFA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exploratory Factor Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -230,15 +230,24 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="4">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#learning-objectives" id="toc-learning-objectives" class="nav-link active" data-scroll-target="#learning-objectives">Learning Objectives</a></li>
+  <li><a href="#structure" id="toc-structure" class="nav-link" data-scroll-target="#structure">Structure</a></li>
+  <li><a href="#course-materials" id="toc-course-materials" class="nav-link" data-scroll-target="#course-materials">Course Materials</a></li>
+  <li><a href="#readings" id="toc-readings" class="nav-link" data-scroll-target="#readings">Readings</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Measurement</h1>
+<h1 class="title">Scale Development</h1>
 </div>
 
 
@@ -255,8 +264,43 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="learning-objectives" class="level2">
+<h2 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h2>
+<p>By the end of the scale development block, students will be able to:</p>
+<ol type="1">
+<li><p><strong>Explain the conceptual foundations of latent variable modelling</strong>, including the differences between EFA, CFA, and measurement invariance.</p></li>
+<li><p><strong>Assess the suitability of data and research questions</strong> for factor analytic approaches.</p></li>
+<li><p><strong>Conduct and interpret EFA, CFA, and measurement invariance analyses</strong> using the statistical software, R.</p></li>
+<li><p><strong>Critically evaluate the adequacy of measurement models</strong> in relation to statistical evidence and theoretical expectations.</p></li>
+<li><p><strong>Report factor analytic results clearly and transparently</strong>, justifying analytic decisions and linking statistical findings to substantive conclusions.</p></li>
+</ol>
+</section>
+<section id="structure" class="level2">
+<h2 class="anchored" data-anchor-id="structure">Structure</h2>
+<p>The scale development block runs from Week 7 to Week 9 and will focus on how to understand and conduct some of the core analyses required for scale development:</p>
+<ul>
+<li><p>Week 7 — <strong>Exploratory Factor Analysis (EFA)</strong> — what scale structure does my data suggest?</p></li>
+<li><p>Week 8 — <strong>Confirmatory Factor Analysis (CFA)</strong> — does my hypothesised structure actually fit the data when tested?</p></li>
+<li><p>Week 9 — <strong>Measurement Invariance</strong> — can I meaningfully compare this scale across groups?</p></li>
+</ul>
+</section>
+<section id="course-materials" class="level2">
+<h2 class="anchored" data-anchor-id="course-materials">Course Materials</h2>
+<p>Similar to previous blocks, each week will follow the same general format: <strong>lecture → code walkthrough → worksheet</strong>.</p>
+<p>The tutorials have been designed to be comprehensive — more like a textbook reading.</p>
+<p>There is core content which we will cover in the workshop, plus optional supplementary materials in expandable “callouts” for those that want more.</p>
+<p>It is <strong>not necessary for you to read through these notes or complete any exercises in advance</strong> of the session.</p>
+<p>It is also <strong>not necessary for you to complete any readings</strong> at any point — they are supplementary.</p>
+</section>
+<section id="readings" class="level2">
+<h2 class="anchored" data-anchor-id="readings">Readings</h2>
+<ul>
+<li><p>You will find a couple of (further) reading suggestions on the Reading List each week</p></li>
+<li><p>If you’re interested, Eiko Fried and Jessica Flake (Measurement Schmeasurement authors) developed a comprehensive reading list for a range of measurement topics in 2019: <a href="#0">https://docs.google.com/document/d/11jyoXtO0m2lUywpC04KjLvI5QcBUY4YtwEvw6cg2cMs/edit?tab=t.0</a></p></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -857,8 +901,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./03a_measurement_1.html" class="pagination-link" aria-label="EFA">
-        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">EFA</span></span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./03a_measurement_1.html" class="pagination-link" aria-label="Exploratory Factor Analysis">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exploratory Factor Analysis</span></span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -1,0 +1,117 @@
+---
+title: "Reproducing and evaluating meta-analyses"
+format: 
+  html: 
+    embed-resources: true
+editor: visual    
+---
+
+## Pelled et al. (2025): Labor Leads to Love, Right? A Meta-Analysis of the IKEA Effect
+
+Access: <https://linktr.ee/AdvancedStatistics>
+
+1.  Make some reproducibility notes (individually or in small groups)
+2.  Attempt to reproduce the analysis (together)
+3.  Make some notes about the good/bad things about the paper (individually or in small groups)
+4.  Implement an improvement (together)
+
+## Reproducibility notes
+
+**What is/are the primary and secondary outcomes of the meta-analysis?**
+
+**What type of model and effect size did the authors fit to estimate the pooled effect(s)?**
+
+**What was the exact result of overall meta-analysis based on the primary outcome? Report it below.**
+
+**How much heterogeneity was there in the model for the primary outcome? Note down exact values.**
+
+**Which moderators did the authors explore?**
+
+**Choose one moderator and report the results below.**
+
+## Reproducibility attempt
+
+```{r message=FALSE}
+# packages: 
+library(tidyverse)
+library(metafor)
+library(emmeans)
+```
+
+```{r message = FALSE}
+# data: 
+ikea_tib <- here::here("data/ikea_data.csv") |> readr::read_csv()
+```
+
+```{r}
+# data wrangling: 
+val_tib <- ikea_tib |> 
+  dplyr::filter(Outcome == "Valuation")
+```
+
+```{r}
+# fit the model (note about alternative estimators)
+val_rma <- metafor::rma(yi = `Std diff in means`, sei = `Std Err...7`, data = val_tib)
+```
+
+```{r }
+# visualise
+metafor::forest(val_rma, slab = val_tib$`Study name`)
+```
+
+```{r}
+# moderation (3d-Printed)
+val_rma_mod <- metafor::rma(
+  yi = `Std diff in means`, sei = `Std Err...7`, 
+  mods = ~ `3d-Printed`,
+  data = val_tib)
+
+# emmeans: 
+val_emm <- val_rma_mod |> 
+  metafor::emmprep() |> 
+  emmeans::emmeans(specs = "1", by = "3d-Printed")
+```
+
+## Evaluation notes
+
+**What are some things the authors did well?**
+
+**What are some things that could be improved?**
+
+## Improving the analysis
+
+```{r}
+# Option 1: 
+val_rma_g <- metafor::rma(yi = `Hedges's g`, sei = `Std Err...9`, data = val_tib)
+
+
+# Option 2: 
+val_tib <- val_tib |> 
+  dplyr::mutate(vi = `Std Err...7`^2)
+
+val_rmamv <- metafor::rma.mv(
+  yi = `Std diff in means`,
+  V = vi, 
+  random = ~ 1|cluster/`Subgroup within study`, 
+  data = val_tib
+)
+
+val_rob <- metafor::robust(val_rmamv, cluster = val_tib$cluster)
+
+# Option 3: 
+moderate_pb <- metafor::selmodel(
+  val_rma, 
+  type = "stepfun",
+  steps = c(.05, 0.1, 0.5), 
+  delta = c(1, 0.7, 0.6, 0.5),
+) |> 
+  broom::tidy(conf.int = TRUE)
+
+severe_pb <- metafor::selmodel(
+  val_rma, 
+  type = "stepfun", 
+  steps = c(.05, 0.1, 0.5), 
+  delta = c(1, 0.5, 0.4, 0.1), 
+) |> 
+  broom::tidy(conf.int = TRUE) 
+```

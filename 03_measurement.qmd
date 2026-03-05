@@ -1,1 +1,44 @@
-# Measurement
+# Scale Development
+
+## Learning Objectives
+
+By the end of the scale development block, students will be able to:
+
+1.  **Explain the conceptual foundations of latent variable modelling**, including the differences between EFA, CFA, and measurement invariance.
+
+2.  **Assess the suitability of data and research questions** for factor analytic approaches.
+
+3.  **Conduct and interpret EFA, CFA, and measurement invariance analyses** using the statistical software, R.
+
+4.  **Critically evaluate the adequacy of measurement models** in relation to statistical evidence and theoretical expectations.
+
+5.  **Report factor analytic results clearly and transparently**, justifying analytic decisions and linking statistical findings to substantive conclusions.
+
+## Structure
+
+The scale development block runs from Week 7 to Week 9 and will focus on how to understand and conduct some of the core analyses required for scale development:
+
+-   Week 7 — **Exploratory Factor Analysis (EFA)** — what scale structure does my data suggest?
+
+-   Week 8 — **Confirmatory Factor Analysis (CFA)** — does my hypothesised structure actually fit the data when tested?
+
+-   Week 9 — **Measurement Invariance** — can I meaningfully compare this scale across groups?
+
+## Course Materials
+
+Similar to previous blocks, each week will follow the same general format: **lecture → code walkthrough → worksheet**.
+
+The tutorials have been designed to be comprehensive — more like a textbook reading.
+
+There is core content which we will cover in the workshop, plus optional supplementary materials in expandable "callouts" for those that want more.
+
+It is **not necessary for you to read through these notes or complete any exercises in advance** of the session.
+
+It is also **not necessary for you to complete any readings** at any point — they are supplementary.
+
+## Readings
+
+-   You will find a couple of (further) reading suggestions on the Reading List each week
+
+-   If you're interested, Eiko Fried and Jessica Flake (Measurement Schmeasurement authors) developed a comprehensive reading list for a range of measurement topics in 2019: [https://docs.google.com/document/d/11jyoXtO0m2lUywpC04KjLvI5QcBUY4YtwEvw6cg2cMs/edit?tab=t.0](#0)
+

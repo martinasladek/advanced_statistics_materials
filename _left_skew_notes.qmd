@@ -1,0 +1,297 @@
+---
+title: "Modelling right skewed outcomes"
+format: 
+  html: 
+    embed-resources: true
+    toc: true
+editor: visual
+---
+
+## Beta models 
+
+I'm using `betareg` here but it should be the same principle with `glmmTMB`, with the addition of the random effects componenents.
+
+```{r message=FALSE}
+library(tidyverse)
+library(betareg)
+library(easystats)
+```
+
+Generate some data - I'm just simulating a simple effect where the "outcome" is predicted from a continuous "predictor".
+
+```{r}
+squish <- function(x, new_min = min_bound, new_max = max_bound){   
+  (x - min(x))/(max(x)-min(x)) * (new_max - new_min) + new_min 
+}
+
+
+set.seed(1)
+
+n = 100
+x = rnorm(n)
+y = 0.2*x + rnorm(n)
+
+my_tib <- tibble::tibble(
+  predictor = x, 
+  outcome = squish(y, 0, 10) |> as.integer()
+)
+
+```
+
+This is where the useful code actually starts. Beta distribution ranges from 0 to 1 - we can use the `normalize()` function from easystats to transform the outcome. This is a linear transformation so it's a different than using log or sqrt transformation (which are non-linear). Original value of 8 will correspond to 0.8, value of 3 will correspond to 0.3 and the distance between them remains half the scale (0.5). The only other thing we need to do is add the argument `include_bounds = 0.001` . This is because beta distribution cannot deal with values that are exactly 1 or exactly 0, so we shift the values away from the bounds by 0.001, which makes no practical difference for model fitting or interpretation:
+
+```{r}
+my_tib <- my_tib |> 
+  dplyr::mutate(
+    outcome_transformed = normalize(outcome, include_bounds = 0.001)
+  )
+```
+
+Fit the model with a logit link:
+
+```{r}
+model_beta <- betareg::betareg(
+  outcome_transformed ~ predictor,
+  data = my_tib, 
+  link = "logit"
+)
+```
+
+You can request exponentiated parameters:
+
+```{r message=FALSE}
+model_beta |> 
+  model_parameters(exponentiate = TRUE) |> 
+  display()
+```
+
+Due to the logit link, the raw parameter estimates are interpreted as odds ratios. The interpretation of these is not the most intuitive, but it's along the lines of:
+
+> "With an increase of one unit in the predictor, the odds of selecting more items increase by a factor of 1.23".
+
+(From memory, I recall that the participants were asked to tick several options out of 10, but if I'm misremembering and this isn't making any sense, let me know and we can think about a more appropriate way to interpret this)
+
+Another alternative is to just interpret the estimates on the link scale to get a sense of direction of the relationship and whether it's statistically significant, and then break down the relationship with plots and emmeans.
+
+So you'd run:
+
+```{r message=FALSE}
+model_beta |> 
+  model_parameters() |> 
+  display()
+```
+
+Based on this, it's a positive relationship (0.21 is positive) so as the predictor increases, the outcome also increases.
+
+You can request a plot to visualise the relationship on the transformed scale:
+
+```{r warning=FALSE}
+estimate_plot <- modelbased::estimate_relation(model_beta) |> plot()
+estimate_plot
+```
+
+Note here that the outcome is in percentages - the function just took the probabilities and multiplied them by 100. If you wanted to, you could grab the data object from the plot which contains the probability scale. Better yet, you could multiply the values by 10 (Predicted, Ci_low and CI_high) to transform it back to the 0-10 scale.
+
+```{r eval=FALSE}
+estimate_plot$data
+```
+
+Alternatively, you could make more exact predictions at different values of the predictor. If you have a continuous predictor, a plot like the one above is probably more useful. If you have a categorical predictor, emmeans is useful. Here I'm just going to generated the estimated value of the outcome when the predictor is -2, 0, and 2 (roughly the end-points of the continuous predictor I generated).
+
+```{r}
+emmeans::emmeans(
+  model_beta, 
+  specs = "predictor", 
+  at = list(predictor = c(-2, 0, 2))
+)
+```
+
+When the predictor is -2, the model estimates that participants selected 2.89 items out of 20 on average (0.289). When it's 0, they tended to select 3.8. When it's 2, they selected 4.82 items on average. This aligns with the plot above. Again, more useful if you have a categorical predictor - the bottom line is that you can use emmeans to translate the predictions from the model into something interpretable directly on the original scale of your outcome.
+
+<!-- ```{r} -->
+
+<!-- odds_0 <- 0.450 / (1-0.450) # intercept -->
+
+<!-- odds_1 <- 0.496 / (1-0.496)  -->
+
+<!-- odds_1 / odds_0 # b1 -->
+
+<!-- odds_2 <-  0.542 / (1-0.542)  -->
+
+<!-- odds_2 / odds_1 # b1 -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- plot(modelbased::estimate_relation(model_beta)) -->
+
+<!-- modelbased::estimate_prediction(model_beta) -->
+
+<!-- modelbased::estimate_slopes(model_beta, by = "predictor") -->
+
+<!-- ``` -->
+
+## Score reflection with Gamma models 
+
+Score reflection is the process of inversing the scores by multiplying by -1 and then shifting them into positive values.
+
+We can create a helper function that does this for us - I've set the "shift" argument to be 10.001 because your scale has 10 points, so we want the smallest possible point to be *just* larger than 0 so Gamma can handle them.
+
+```{r}
+flip <- function(x, shift = 10.001){
+  x*(-1) + shift
+}
+```
+
+The code below just creates a left skewed distribution so we have something to work with:
+
+```{r message=FALSE}
+climbing_tib <- readr::read_csv("data/climbing_data.csv") |> 
+  dplyr::mutate(
+    reaction_time_left = squish(reaction_time, 0.001, 10) |> flip()
+    )
+
+```
+
+This is what the starting point is - i.e. the distribution of our measured variable:
+
+```{r}
+climbing_tib$reaction_time_left |> hist()
+```
+
+Now we apply the flip function to create `reaction_time_right`:
+
+```{r}
+climbing_tib <- climbing_tib |> 
+  dplyr::mutate(
+    reaction_time_right = flip(reaction_time_left), 
+  )
+```
+
+Check that the function worked:
+
+```{r}
+climbing_tib$reaction_time_right |> hist()
+```
+
+The new distribution has exactly the same shape, goes from 0 to 10 but is now right skewed. This is the distribution we'll use for modelling, and then reverse engineer to understand the implications for the originally measured outcome.
+
+We can check that the "math is mathing" by fitting linear models on the two outcomes (original and flipped):
+
+```{r}
+climbing_lm_left <- lm(reaction_time_left ~ climbing_exp, data = climbing_tib)
+climbing_lm_right <- lm(reaction_time_right ~ climbing_exp, data = climbing_tib)
+
+compare_models(climbing_lm_left, climbing_lm_right, select = "minimal") |> 
+  display()
+
+
+```
+
+The effect of the predictor is identical but in the opposite direction. If we reverse-flip the intercept in the left skewed model, it matches the predictor in the right skewed model:
+
+```{r}
+climbing_lm_left$coefficients[1] |> flip()
+```
+
+### Null gamma models 
+
+Gamma models are not as straightforward, but we can do an initial check by modelling the outcome just from the intercept (this is not crucial when you're fitting the actual model, it just shows how the flipping translates into modelling)
+
+```{r message=FALSE}
+gamma_null_right <- glm(reaction_time_right ~ 1, data = climbing_tib, family = Gamma(link="log"))
+
+gamma_null_right |> 
+  model_parameters(exponentiate = TRUE) |> 
+  display(digits = 4)
+```
+
+The intercept represents the predicted mean of the outcome, which in this case is 2.8988. This is the mean of the flipped outcome, not the original variable. We can reverse flip by applying the same function:
+
+```{r}
+2.8988 |> flip()
+```
+
+We can also confirm that it *actually* aligns with the mean of the original outcome:
+
+```{r}
+mean(climbing_tib$reaction_time_left)
+```
+
+### With a predictor 
+
+Now we add the predictor and fit a gamma model with the log link
+
+```{r}
+gamma_pred_right <- glm(
+  reaction_time_right ~ climbing_exp, 
+  data = climbing_tib, 
+  family = Gamma(link = "log")
+)
+```
+
+First we can look at the model parameters. We're not exponentiating them because there is no direct way of interpreting these with respect to the original variable we collected (I've spent some additional time on it this afternoon and I don't think there's a way to torture these values to map onto the recorded outcome. But the model can be used to estimate means and make predictions, just like any other model). The Log-prevalence below is negative, but this represents the relationship between the predictor and the flipped outcome. Therefore the relationship with the original outcome will be positive - as the predictor increases the outcome increases.
+
+```{r}
+gamma_pred_right |> model_parameters() |> 
+  display(digits = 5)
+
+```
+
+We can make some predictions to get a sense of what's going on. First we run emmeans while fixing predictor at 2, 5, and 8 (e.g. low, middle, and high - pick whatever values make sense). Then we flip the response back - this represents the predictions for the original outcome. You could do the same with confidence intervals, though note that upper CI becomes lower CI and vice versa.
+
+```{r}
+emmeans::emmeans(
+  gamma_pred_right, specs = "climbing_exp", type = "response", 
+  at = list(climbing_exp = c(2, 5, 8))
+) |> 
+  tibble::as_tibble() |> 
+  dplyr::mutate(
+    response_flipped = flip(response)
+  ) |> 
+  display()
+
+```
+
+Here, for a climbing experience of 2, the model predicts value 1.07 on the original outcome.
+
+### Visualise
+
+Visualisation is also a little tricky. The plot below shows how we would normally approach it. It represents quite literally our model, with the right skewed outcome on the Y axis.
+
+```{r}
+
+climbing_tib |> 
+  ggplot2::ggplot(data = _, aes(x = climbing_exp, y = reaction_time_right)) + 
+  geom_point() +
+  geom_smooth(method = "glm", method.args = list(family = "Gamma"))
+```
+
+The plot below is what we want to fit the line to - the measured predictor and the measured outcome. The curve will be concave (like a hill), but the curve for the gamma model is always convex (like a valley).
+
+```{r}
+climbing_tib |> 
+  ggplot2::ggplot(data = _, aes(x = climbing_exp, y = reaction_time_left)) + 
+  geom_point()# +
+ # geom_smooth(method = "glm", method.args = list(family = "Gamma"))
+```
+
+First thing we do is we add the predictions to our dataset - we store it under the `prediction` column. We then flip it so we can interpret with reference to the original outcome:
+
+```{r}
+climbing_tib <- climbing_tib |> 
+  dplyr::mutate(
+    prediction = predict(gamma_pred_right) |> exp(), 
+    reversed_prediction = flip(prediction)
+  )
+```
+
+Then we plot it. Initially we're putting the predictor on the x axis and the original outcome on the y axis. Then we add the line with `geom_line` . Here we define a secondary layer of aesthetics, telling ggplot to use `reversed_prediction` on the y axis, instead of what we specified on the first line:
+
+```{r}
+climbing_tib |> 
+  ggplot2::ggplot(data = _, aes(x = climbing_exp, y = reaction_time_left)) + 
+  geom_point() + 
+  geom_line(aes(y = reversed_prediction), colour = "steelblue", linewidth = 1) 
+```

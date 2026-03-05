@@ -20,6 +20,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -181,7 +215,7 @@ ul.task-list li input[type="checkbox"] {
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
             <a href="./03_measurement.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text">Measurement</span></a>
+ <span class="menu-text">Scale Development</span></a>
           <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
@@ -190,7 +224,7 @@ ul.task-list li input[type="checkbox"] {
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="./03a_measurement_1.html" class="sidebar-item-text sidebar-link">
- <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">EFA</span></span></a>
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Exploratory Factor Analysis</span></span></a>
   </div>
 </li>
           <li class="sidebar-item">
@@ -230,8 +264,24 @@ ul.task-list li input[type="checkbox"] {
 </nav>
 <div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="4">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#reproducibility-tips" id="toc-reproducibility-tips" class="nav-link active" data-scroll-target="#reproducibility-tips"><span class="header-section-number">6.1</span> Reproducibility tips</a>
+  <ul>
+  <li><a href="#model-structure" id="toc-model-structure" class="nav-link" data-scroll-target="#model-structure">Model structure</a>
+  <ul class="collapse">
+  <li><a href="#meta-regression-and-subgroup-analysis" id="toc-meta-regression-and-subgroup-analysis" class="nav-link" data-scroll-target="#meta-regression-and-subgroup-analysis"><strong>Meta-regression and subgroup analysis</strong></a></li>
+  <li><a href="#fixed-random-and-mixed-effects-models" id="toc-fixed-random-and-mixed-effects-models" class="nav-link" data-scroll-target="#fixed-random-and-mixed-effects-models"><strong>Fixed, random, and mixed-effects models</strong></a></li>
+  </ul></li>
+  <li><a href="#reproducibility-notes" id="toc-reproducibility-notes" class="nav-link" data-scroll-target="#reproducibility-notes">Reproducibility notes</a></li>
+  </ul></li>
+  <li><a href="#coding-tips" id="toc-coding-tips" class="nav-link" data-scroll-target="#coding-tips"><span class="header-section-number">6.2</span> Coding tips</a></li>
+  <li><a href="#critical-evaluation-tips" id="toc-critical-evaluation-tips" class="nav-link" data-scroll-target="#critical-evaluation-tips"><span class="header-section-number">6.3</span> Critical evaluation tips</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -255,8 +305,186 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
+<section id="reproducibility-tips" class="level2" data-number="6.1">
+<h2 data-number="6.1" class="anchored" data-anchor-id="reproducibility-tips"><span class="header-section-number">6.1</span> Reproducibility tips</h2>
+<section id="model-structure" class="level3">
+<h3 class="anchored" data-anchor-id="model-structure">Model structure</h3>
+<p>First thing to consider when working with a paper is identifying how the meta-analysis itself is structured. Some meta-analyses will only report the overall pooled effect. This is common in more niche fields with fewer studies (or in older meta-analyses), which makes it difficult to test for moderators. A paper may report one outcome or multiple - in the latter case, each outcome will constitute a separate meta-analysis. Most meta-analyses these days will include a moderation analysis of some description.</p>
+<section id="meta-regression-and-subgroup-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="meta-regression-and-subgroup-analysis"><strong>Meta-regression and subgroup analysis</strong></h4>
+<p>Beware confusing terminology - authors may report a “meta-regression” if they’re evaluating a continuous moderator, or a “sub-group analysis” if they have a categorical moderator <em>or</em> if they ran two or more separate meta-analyses for each category of their moderator. These all fall under moderation analysis.</p>
+<p>Moderator models may include all moderators at once, as you would when modelling a theoretically driven model. More often than not, authors will try moderators one by one, otherwise they would lose all the rows which don’t have information about all the moderators in the model.</p>
+</section>
+<section id="fixed-random-and-mixed-effects-models" class="level4">
+<h4 class="anchored" data-anchor-id="fixed-random-and-mixed-effects-models"><strong>Fixed, random, and mixed-effects models</strong></h4>
+<p>Sometimes authors will report “mixed effects models”. This means that the overall effect size gets estimated using fixed effects, and the moderators are estimated using random effects. This is the default when running <code>rma</code> with moderators. If a meta-analysis is fully based on random effects, the overall effect size would be reproduced by the output from <code>rma</code> without moderators, while a separate model would be then fitted to get the moderator effects (this is the approach we demonstrated in the sessions).</p>
+<p>Other times, researchers will fit the overall model using random effects, while the moderator models are fitted using fixed effects. The justification often is that because the moderators are meant to “explain away” heterogeneity, we no longer need to worry about between-study variability (beyond random sampling).</p>
+</section>
+</section>
+<section id="reproducibility-notes" class="level3">
+<h3 class="anchored" data-anchor-id="reproducibility-notes">Reproducibility notes</h3>
+<p>If we want to be able to improve an analysis in some way, we need to be able to reproduce it. This is because if we don’t confirm that we’re following the same steps as the original authors, we cannot be sure whether any differences in our results are due to the improvement that we implemented, or because we’re running a different analysis altogether.</p>
+<p>When familiarising yourself with a paper, make notes of the following:</p>
+<ol type="1">
+<li>Identify the outcome(s). Choose one which you will re-analyse. Check the dataset to see if there is a column clearly identifying it.</li>
+<li>Identify the model type (fixed effects, random effects, other?)</li>
+<li>Identify the effect size type - what kind of relationship does this effect size represent? Be specific about variables. Find the column containing the effect sizes in the dataset. Find the accompanying column containing the variance. Confirm whether you’re working with variance or standard error, or something else.</li>
+<li>What was the exact result of overall meta-analysis based on your chosen outcome? Highlight it in the document or note down the exact results.</li>
+<li>How much heterogeneity was there in the model for your chosen outcome? Note down exact values.</li>
+<li>Which moderators did the authors explore? Where can they be found in the paper?</li>
+<li>Choose one of the moderator and write down the results.</li>
+</ol>
+<p>Once you have a plan based on the notes above, carry out the usual analytic steps, comparing to the values reported in the paper at each step:</p>
+<ol type="1">
+<li>Visualise the data if possible</li>
+<li>Fit the overall model and the moderator model</li>
+<li>Evaluate the model fit with reference to heterogenity</li>
+<li>Report, interpret and write-up the results.</li>
+</ol>
+<p>When checking whether you’ve fitted the right model, always look at the effect size, heterogeneity statistics, and the degrees of freedom - if there is a strong alignment between these three values as they are reported in the paper and your model output, you’re (probably) reproducing the steps correctly.</p>
+</section>
+</section>
+<section id="coding-tips" class="level2" data-number="6.2">
+<h2 data-number="6.2" class="anchored" data-anchor-id="coding-tips"><span class="header-section-number">6.2</span> Coding tips</h2>
+<ul>
+<li>Make full use of the <code>help()</code> function to explore alternative arguments for the functions we’ve used. For example (assuming you have loaded <code>metafor</code>), you can run <code>help(rma)</code> to open up the documentation for the <code>rma</code> function. In particular, the <code>methods = ...</code> argument can specified if you want to use an estimator other than REML (the default). You can try different estimators if you’re struggling to reproduce the result. For example, the following code will fit the fixed effects model (“EE”, standing for “Equal effects”):</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rma</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">yi =</span> g, </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">vi =</span> vg, </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"EE"</span>, </span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> some_tib</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We also fit the “Hunter-Schmidt” estimator as:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rma</span>(</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">yi =</span> g, </span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">vi =</span> vg, </span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">method =</span> <span class="st">"HS"</span>, </span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> some_tib</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>All the options are listed in the help documentation.</p>
+<ul>
+<li><p>Use <code>emmeans</code> to <a href="02a_ma_intro.html#ma-moderation">extract estimated means</a> for different levels of the moderators.</p></li>
+<li><p>Format your results into nice tables with appropriate headings where relevant - the <code>display()</code> function can help with this.</p></li>
+<li><p>Don’t include any raw output in your report. If you’re reporting the result of a model, you can either arrange it into a table, or report it in text instead of printing the whole output from an <code>rma</code> object.</p></li>
+<li><p>Structure your code in a way that maximises the readibility of your report. This means hide unnecessary warnings and messages, and keep most of your code separate from the report. Revisit the materials on <em>Canvas</em> &gt; <em>An Adventure in Statistics &gt; Units &gt; Getting Started with R, RStudio and Quarto</em> if you need a refresher on how to do this. There’s an example on how to organise code vs write-up below.</p></li>
+</ul>
+<div class="callout callout-style-default callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Example organisation
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<section id="coding" class="level4">
+<h4 class="anchored" data-anchor-id="coding"><strong>Coding</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(easystats)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>cars_plot <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span><span class="fu">ggplot</span>(<span class="at">data =</span> cars, <span class="fu">aes</span>(<span class="at">x =</span> speed, <span class="at">y =</span> dist)) <span class="sc">+</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>) <span class="sc">+</span> </span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_light</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cars_lm <span class="ot">&lt;-</span> <span class="fu">lm</span>(dist <span class="sc">~</span> speed, <span class="at">data =</span> cars)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>model_check_plot <span class="ot">&lt;-</span> <span class="fu">check_model</span>(cars_lm)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>parameters_tib <span class="ot">&lt;-</span> <span class="fu">model_parameters</span>(cars_lm) <span class="sc">|&gt;</span> </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">display</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="report" class="level4">
+<h4 class="anchored" data-anchor-id="report"><strong>Report</strong></h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>cars_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02c_ma_assessment_support_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Figure 1 shows the relationship between stopping distance and speed of a car [small paragraph about the visualisation]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>model_check_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="02c_ma_assessment_support_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>Residual diagnostics are showed in the plot above. We can see that… [paragraph about diagnostics]</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>parameters_tib</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">Parameter</th>
+<th style="text-align: center;">Coefficient</th>
+<th style="text-align: center;">SE</th>
+<th style="text-align: center;">95% CI</th>
+<th style="text-align: center;">t(48)</th>
+<th style="text-align: center;">p</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">(Intercept)</td>
+<td style="text-align: center;">-17.58</td>
+<td style="text-align: center;">6.76</td>
+<td style="text-align: center;">(-31.17, -3.99)</td>
+<td style="text-align: center;">-2.60</td>
+<td style="text-align: center;">0.012</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">speed</td>
+<td style="text-align: center;">3.93</td>
+<td style="text-align: center;">0.42</td>
+<td style="text-align: center;">(3.10, 4.77)</td>
+<td style="text-align: center;">9.46</td>
+<td style="text-align: center;">&lt; .001</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>Parameter estimates are showed in Table 1. Speed was a statistically significant predictor of stopping distance [report and interpret model paramters].</p>
+</section>
+</div>
+</div>
+</div>
+</section>
+<section id="critical-evaluation-tips" class="level2" data-number="6.3">
+<h2 data-number="6.3" class="anchored" data-anchor-id="critical-evaluation-tips"><span class="header-section-number">6.3</span> Critical evaluation tips</h2>
+<ul>
+<li><p>Consider the issues we’ve discussed in Week 4 and especially in Week 5. How are the authors of the meta-analysis addressing these? Are they taking shortcuts where they shouldn’t? Are they showing awareness of the limitations of the methods they’re using, and if so, are they addressing these limitations? Are there any contradictions in the way they frame their report?</p></li>
+<li><p>Focus primarily on the statistical aspects of the meta-analysis. Things like hypotheses and literature search strategy are also often subject to critique, but the aim of the assignment is to assess your understanding of statistical methods. An exception might be if the authors’ search strategy considerably undermines the results of their statistical analysis.</p></li>
+<li><p>Evaluation can point out positives and negatives. If you notice something the authors did particularly well, make note of it.</p></li>
+<li><p>If you come across a method with which you’re not familiar, look it up. Find a paper that explains it and, ideally, provides some evaluation of the method. Beware the “initial optimism” when reading methodological literature - when a method is developed, the authors will often proudly demonstrate their superiority over other methods. Later papers will typically provide a more balanced evaluation.</p></li>
+<li><p>There’s more than one aspect of the meta-analysis that can be improved, and neither is the “best” one. The main thing to remember is to always justify what you’re doing, clearly articulate your reasoning so that an average researcher can understand you, and support your arguments with literature.</p></li>
+<li><p>Conversely, the authors of the meta-analysis also have the responsibility to justify their decisions and support them with up-to-date literature. Is there evidence of this in their write-up?</p></li>
+<li><p>When discussing the impact of your improvement, refer back to the original research question instead of just comparing the numbers. What do these new results imply practically? Do they challenge the authors’ conclusion in a meaningful way?</p></li>
+</ul>
 
 
+</section>
 
 </main> <!-- /main -->
 <script>
@@ -857,8 +1085,8 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="./03_measurement.html" class="pagination-link" aria-label="Measurement">
-        <span class="nav-page-text">Measurement</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="./03_measurement.html" class="pagination-link" aria-label="Scale Development">
+        <span class="nav-page-text">Scale Development</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>
