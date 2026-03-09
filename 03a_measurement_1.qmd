@@ -504,7 +504,7 @@ stars_heatmap <- psych::cor.plot( #<1>
   stars_corr, #<2>
   upper = FALSE, #<3> 
   diag = FALSE, #<4> 
-  cex = 0.3, #<5>## 
+  cex = 0.3, #<5> 
   cex.axis = 0.4, #<6>
   las = 2, #<7>
   main = "Polychoric Correlation Heat Map of STARS Items" #<8>
@@ -1341,7 +1341,7 @@ At this point, you would move on to testing models with different numbers of fac
 
 [^03a_measurement_1-10]: **Overfitting** occurs when your model captures the data too closely, so it captures not only the true underlying patterns in the data, but also the random noise in your specific dataset. This can make the model look very accurate on the current dataset but perform poorly on new or unseen data.
 
-![](images/scale_development_overfitting.png)
+![](images/scale_development_overfitting.png){fig-align="center" width="300"}
 
 ### Factor Rotation
 
@@ -2013,7 +2013,7 @@ The scale is designed to capture different aspects of people’s experiences wit
 The items are:
 
 | Variable Name | Item |
-|----------------------|--------------------------------------------------|
+|-----------------------|-------------------------------------------------|
 | dlbs_1 | I feel overwhelmed by the number of notifications I receive. |
 | dlbs_2 | I struggle to keep up with messages across different platforms. |
 | dlbs_3 | I often feel mentally drained after spending time online. |
