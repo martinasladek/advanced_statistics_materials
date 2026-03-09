@@ -1,4 +1,4 @@
-# Exploratory Factor Analysis 
+# Exploratory Factor Analysis
 
 ## EFA (Week 7) Overview
 
@@ -208,9 +208,9 @@ In that sense, a factor model is similar to a linear model, but instead of using
 
 Under the factor model, the total variability in each item is partitioned into:
 
--   Variance explained by the latent factors (aka: shared variance; common variance; communality)
+-   **Variance explained by the latent factors** (aka: shared variance; common variance; communality)
 
--   Variance unique to the item
+-   **Variance unique to the item**
 
 EFA aims to identify a small number of factors that explain as much of the shared variance as possible, while leaving item-specific variance unexplained.
 
@@ -270,12 +270,12 @@ We are now going to walk through how to complete each of these steps using a wor
 
 ### The Statistics Anxiety Rating Scale (STARS)
 
-We are going to analyse scores for the following 23 items designed to measure three facets (subscales) of statistics anxiety[^1] (no items are reverse-scored):
+We are going to analyse scores for the following 23 items designed to measure three facets (subscales) of statistics anxiety[^03a_measurement_1-1] (no items are reverse-scored):
 
-[^1]: These items actually belong to the **Statistics Anxiety Rating Scale (STARS)** [@cruise1985], but — for education purposes — we will pretend we're testing the scale for the first time.
+[^03a_measurement_1-1]: These items actually belong to the **Statistics Anxiety Rating Scale (STARS)** [@cruise1985], but — for education purposes — we will pretend we're testing the scale for the first time.
 
 |  |  |  |
-|------------------|------------------|------------------------------------|
+|-------------------|-------------------|----------------------------------|
 | **Variable** | **Subscale** | **Item** |
 | stars_test_1 | Test and Class Anxiety | Studying for an examination in a statistics course |
 | stars_test_2 | Test and Class Anxiety | Doing the coursework for a statistics course |
@@ -301,16 +301,11 @@ We are going to analyse scores for the following 23 items designed to measure th
 | stars_int_10 | Interpretation Anxiety | Watching a student search through a load of computer output from his/her research |
 | stars_int_11 | Interpretation Anxiety | Trying to understand the statistical analyses described in the abstract of a journal article |
 
-Participants responded to each item with a 1 (low) to 5 (high) rating of how anxious they feel in each situation (making this a **Likert scale**[^2]).
+Participants responded to each item with a 1 (low) to 5 (high) rating of how anxious they feel in each situation (making this a **Likert scale**[^03a_measurement_1-2]).
 
-[^2]: A **Likert scale** is a response format in which participants indicate their level of agreement or endorsement on an ordered, typically symmetric set of categories (e.g., from strongly disagree to strongly agree).
+[^03a_measurement_1-2]: A **Likert scale** is a response format in which participants indicate their level of agreement or endorsement on an ordered, typically symmetric set of categories (e.g., from strongly disagree to strongly agree).
 
 So, first, let's read in our data. Make a mental note of the sample size (look at the number of observations reported in the environment pane).
-
-1.  Define the path to your CSV data file using the `here` package
-    -   `here()` constructs file paths relative to your project root and avoids hardcoding absolute paths, making your code more portable across computers
-    -   The pipe `|>` passes the file path from `here()` directly into `read_csv()`, making the code cleaner
-2.  `readr::read_csv()` reads in the `.csv` file (it is faster and more consistent than base R’s `read.csv()`)
 
 ```{r}
 #| message: false
@@ -319,15 +314,18 @@ stars_data <- here::here("data/stars_data.csv")|> #<1>
   readr::read_csv() #<2>
 ```
 
+1.  Define the path to your CSV data file using the `here` package — `here()` constructs file paths relative to your project root and avoids hardcoding absolute paths, making your code more portable across computers; the pipe `|>` then passes the file path from `here()` directly into `read_csv()`, making the code cleaner
+2.  `readr::read_csv()` reads in the `.csv` file (it is faster and more consistent than base R’s `read.csv()`)
+
 ### Pre-Analysis Suitability Checks
 
-#### Data Requirements
+#### **Data Requirements**
 
 EFA is most appropriate when you have:
 
--   **Continuous or ordinal**[^3] (Likert-type) variables — the response scale should tell us this
+-   **Continuous or ordinal**[^03a_measurement_1-3] (Likert-type) variables — the response scale should tell us this
 
--   Roughly **linear relationships** among continuous variables / **monotonic relationships**[^4] among ordinal variables — we usually don't need to formally test this, stable, interpretable correlations are often enough[^5]
+-   Roughly **linear relationships** among continuous variables / **monotonic relationships**[^03a_measurement_1-4] among ordinal variables — we usually don't need to formally test this, stable, interpretable correlations are often enough[^03a_measurement_1-5]
 
 -   A **factorable correlation matrix** (i.e., items share sufficient common variance)
 
@@ -335,11 +333,11 @@ EFA is most appropriate when you have:
 
 -   Item response **scores are** **keyed in the same direction** (i.e., if you have reverse-scored items, they are recoded *before* analysis)
 
-[^3]: **Continuous variables** can take any value along a numeric scale (at least in principle), such as reaction time or test scores. **Ordinal variables** represent ordered categories, where the order matters but the spacing between categories is not assumed to be equal (e.g., Likert-type responses).
+[^03a_measurement_1-3]: **Continuous variables** can take any value along a numeric scale (at least in principle), such as reaction time or test scores. **Ordinal variables** represent ordered categories, where the order matters but the spacing between categories is not assumed to be equal (e.g., Likert-type responses).
 
-[^4]: **Monotonic relationships** are where higher responses on one item tend to be associated with higher (or lower) responses on another in a consistent direction.
+[^03a_measurement_1-4]: **Monotonic relationships** are where higher responses on one item tend to be associated with higher (or lower) responses on another in a consistent direction.
 
-[^5]: For example, if relationships are wildly non-linear (e.g., U-shaped), the correlation can be near zero even when a relationship exists, so look for unexpected near-zero correlations.
+[^03a_measurement_1-5]: For example, if relationships are wildly non-linear (e.g., U-shaped), the correlation can be near zero even when a relationship exists, so look for unexpected near-zero correlations.
 
 ::: {.callout-note collapse="true"}
 ##### What is an adequate sample size?
@@ -375,7 +373,7 @@ These **guidelines are heuristics, not laws**, and should be interpreted in the 
 ✔️ There are no reverse-scored items on the STARS
 :::
 
-#### Factorisability of the Correlation Matrix
+#### **Factorisability of the Correlation Matrix**
 
 Before running an EFA, **it is essential to examine the factorisability of the correlation matrix**.
 
@@ -395,7 +393,7 @@ We can evaluate factorability by examining:
 
 For that reason, **we'll focus on the correlation matrix and KMO in the workshop**, but this tutorial contains explanations of the determinant and Bartlett's too (it is worth knowing a little about them as they're widely reported).
 
-#### Correlation Matrix
+#### **Correlation Matrix**
 
 For EFA to be informative, the correlation matrix should strike a balance:
 
@@ -481,19 +479,17 @@ So, let's get our polychoric correlation matrix.
 
 Note that to do this cleanly, **your dataset should contain only your scale items** — no other variables at all. For simplicity, other variables have already been stripped from `stars_data`, but you can remove them using `dplyr::select()` should you ever need to.
 
-1.  Compute the polychoric correlation matrix for ordinal data
-    -   `psych::polychoric` computes the correlation matrix for ordinal data
-    -   `$rho` extracts just the correlation matrix from the full output of `polychoric()`, which otherwise includes thresholds and other info
-2.  Print the resulting correlation matrix to inspect it
-
 ```{r}
 stars_corr <- psych::polychoric(stars_data)$rho #<1>
 stars_corr #<2>
 ```
 
+1.  Compute the polychoric correlation matrix for ordinal data — `psych::polychoric` computes the correlation matrix for ordinal data; `$rho` extracts just the correlation matrix from the full output of `polychoric()`, which otherwise includes thresholds and other info
+2.  Print the resulting correlation matrix to inspect it
+
 Urgh! We have so many correlation pairs that we just get a wall of numbers. This is incredibly common in EFA so let's take a quick diversion into creating readable correlation matrix tables.
 
-##### Correlation Heatmaps
+#### **Correlation Heatmaps**
 
 Correlation heatmaps are especially useful in EFA because they can make patterns of shared variance visible at a glance.
 
@@ -502,15 +498,6 @@ Clusters of stronger correlations appear as darker red (negative correlations) o
 Weak or isolated correlations can quickly reveal items that may not belong in the same analysis.
 
 We can see that in action in the example below. Note that the variables \[items\] in this dataset have been grouped with other items from their expected subscales so that the clustering is easier to spot, but this won't always be the case.
-
-1.  Create a visual heatmap of correlations using the `cor.plot()` function from the `psych` package
-2.  Input correlation matrix to visualise (here, the polychoric correlations from `stars_data`)
-3.  Show only the lower triangle of the correlation matrix to reduce visual clutter
-4.  Do not display the diagonal (all 1s) since it’s usually uninformative
-5.  Adjust the size of the correlation values printed on the heatmap so they fit and are readable
-6.  Adjust the size of axis labels (the item names) to fit them all in without overlap
-7.  Rotate axis labels so text doesn't overlap (`2` = perpendicular to axis)
-8.  Add a main title to the heatmap for clarity
 
 ```{r}
 stars_heatmap <- psych::cor.plot( #<1>
@@ -523,6 +510,15 @@ stars_heatmap <- psych::cor.plot( #<1>
   main = "Polychoric Correlation Heat Map of STARS Items" #<8>
 )
 ```
+
+1.  Create a visual heatmap of correlations using the `cor.plot()` function from the `psych` package
+2.  Input correlation matrix to visualise (here, the polychoric correlations from `stars_data`)
+3.  Show only the lower triangle of the correlation matrix to reduce visual clutter
+4.  Do not display the diagonal (all 1s) since it’s usually uninformative
+5.  Adjust the size of the correlation values printed on the heatmap so they fit and are readable
+6.  Adjust the size of axis labels (the item names) to fit them all in without overlap
+7.  Rotate axis labels so text doesn't overlap (`2` = perpendicular to axis)
+8.  Add a main title to the heatmap for clarity
 
 🤔 **What can you infer from the heatmap?**
 
@@ -547,11 +543,6 @@ stars_heatmap <- psych::cor.plot( #<1>
 
 If we had continuous data, we'd simply calculate a matrix of Pearson correlations, like so:
 
-1.  Compute a Pearson correlation matrix for the STARS data, handling missing values pairwise (`use = "pairwise.complete.obs` means that each correlation is computed using all cases where both variables have non-missing values)
-2.  The Pearson correlation matrix is then passed into the `psych::cor.plot` function and the arguments set as for the polychoric version above (you could also pass the polychoric correlation matrix directly into `psych::cor.plot`)
-
-The remaining arguments are as for the polychoric matrix.
-
 ```{r}
 cor(stars_data, use = "pairwise.complete.obs") |> #<1>
   psych::cor.plot( #<2>
@@ -564,6 +555,11 @@ cor(stars_data, use = "pairwise.complete.obs") |> #<1>
 )
 ```
 
+1.  Compute a Pearson correlation matrix for the STARS data, handling missing values pairwise (`use = "pairwise.complete.obs` means that each correlation is computed using all cases where both variables have non-missing values)
+2.  The Pearson correlation matrix is then passed into the `psych::cor.plot` function and the arguments set as for the polychoric version above (you could also pass the polychoric correlation matrix directly into `psych::cor.plot`)
+
+The remaining arguments are as for the polychoric matrix.
+
 **Why are the correlation magnitudes different to the polychoric matrix?**
 
 Pearson correlations assume continuous, normally distributed variables and measure linear relationships, whereas polychoric correlations assume the observed ordinal items reflect underlying continuous latent variables and estimate the correlation between those latent traits.
@@ -573,44 +569,25 @@ As a result, polychoric correlations are usually larger for ordinal data, especi
 
 If you have a large number of items it can be difficult to count the number of correlations under or over a given value. We can use R to count them for us:
 
-1.  `upper.tri(stars_corr, diag = FALSE)`
-
-    -   `upper.tri()` creates a logical matrix the same size as `stars_corr`
-    -   It marks `TRUE` for cells in the upper triangle and `FALSE` elsewhere
-    -   `diag = FALSE` ensures the diagonal is excluded (so we don’t include the 1.00 self-correlations)
-
-    `stars_corr[...]`
-
-    -   When you subset a matrix with a logical matrix, R returns only the values corresponding to `TRUE`
-
-    -   The result is a **vector** of unique correlations (no duplicates, no diagonal)
-
-2.  `c()` stands for *combine* — it creates a named numeric vector containing the results we calculate inside it
-
-3.  `under_20 = mean(abs(cors) <= .20) * 100,`
-
-    -   `under_20 =` creates a vector called `under_20`
-
-    -   `abs(cors)` calculates the absolute value (i.e., ignores the signs) of each correlation in `cors`
-
-    -   `abs(cors) <= .20` creates a logical vector: TRUE if the absolute correlation is less than or equal 0.20, FALSE otherwise
-
-    -   `mean(abs(cors) <= .20)` converts the logical vector into a proportion: TRUE counts as 1, FALSE as 0; `mean` gives the proportion of correlations under 0.20 (counting how many TRUEs there are and dividing by the total)
-
-    -   `* 100` converts the proportion into a percentage, so 0.3 becomes 30%
-
-4.  `over_80 = mean(abs(cors) >= .80) * 100`
-
-    -   As above, except the vector is named `over_80` and `>= .80` gives the proportion of correlations over or equal to 0.80
-
 ```{r}
-cors <- stars_corr[upper.tri(stars_corr, diag = FALSE)] #<1>
+cors <- stars_corr[ #<1>
+  upper.tri(stars_corr, diag = FALSE)] #<2>
 
-c( #<2>
-  under_20 = mean(abs(cors) <= .20) * 100, #<3>
-  over_80  = mean(abs(cors) >= .80) * 100  #<4>
+c( #<3>
+  under_20 = mean(abs(cors) <= .20) * 100, #<4>
+  over_80  = mean(abs(cors) >= .80) * 100  #<5>
 ) #<5>
 ```
+
+1.  `stars_corr[...]` — when you subset a matrix with a logical matrix, R returns only the values corresponding to `TRUE`; The result is a **vector** of unique correlations (no duplicates, no diagonal)
+
+2.  `upper.tri(stars_corr, diag = FALSE)` — `upper.tri()` creates a logical matrix the same size as `stars_corr` and marks `TRUE` for cells in the upper triangle and `FALSE` elsewhere; `diag = FALSE` ensures the diagonal is excluded (so we don’t include the 1.00 self-correlations)
+
+3.  `c()` stands for *combine* — it creates a named numeric vector containing the results we calculate inside it
+
+4.  `under_20 = mean(abs(cors) <= .20) * 100` — `under_20 =` creates a vector called `under_20`; `abs(cors)` calculates the absolute value (i.e., ignores the signs) of each correlation in `cors`; `abs(cors) <= .20` creates a logical vector: TRUE if the absolute correlation is less than or equal 0.20, FALSE otherwise; `mean(abs(cors) <= .20)` converts the logical vector into a proportion: TRUE counts as 1, FALSE as 0; `mean` gives the proportion of correlations under 0.20 (counting how many TRUEs there are and dividing by the total); `* 100` converts the proportion into a percentage, so 0.3 becomes 30%
+
+5.  `over_80 = mean(abs(cors) >= .80) * 100` — as above, except the vector is named `over_80` and `>= .80` gives the proportion of correlations over or equal to 0.80
 
 🤔 **What can you infer from the correlation proportions?**
 
@@ -641,7 +618,7 @@ The determinant is a numerical summary of how linearly independent your variable
 
 -   If the matrix is exactly singular (determinant = 0), factor analysis cannot proceed because the matrix cannot be inverted
 
--   If the determinant is comfortably above zero, there is no serious **multicollinearity**[^6] problem
+-   If the determinant is comfortably above zero, there is no serious **multicollinearity**[^03a_measurement_1-6] problem
 
 -   In applied work, values **below .00001** are often flagged as potentially problematic
 
@@ -714,10 +691,10 @@ To obtain the determinant in R, there are two steps:
 1.  Calculate the appropriate (e.g., pearson vs. polychoric) correlation matrix
 2.  Obtain the determinant of that correlation matrix
 
-We have already calculated a polychoric correlation matrix for our data and stored it in `stars_corrs`, so we just need to enter that into Base R's `det` function to get the determinant (1):
+We have already calculated a polychoric correlation matrix for our data and stored it in `stars_corrs`, so we just need to enter that into Base R's `det` function to get the determinant:
 
 ```{r}
-det(stars_corr) #<1>
+det(stars_corr)
 ```
 
 🤔 **What can we infer from the determinant?**
@@ -725,7 +702,7 @@ det(stars_corr) #<1>
 ::: {.callout-tip collapse="true"}
 ##### Solution
 
-⚠️ Our determinant is super-tiny — just **0.00000002697537**[^7]!
+⚠️ Our determinant is super-tiny — just **0.00000002697537**[^03a_measurement_1-7]!
 
 In determinant terms, that’s getting into the “check for multicollinearity” territory (since it’s below .00001), but not automatically catastrophic — you’d want to inspect the correlation matrix for item pairs above \~.80 before panicking.
 
@@ -733,11 +710,11 @@ We already know we have some pairs above .80, so this tracks. It is something to
 :::
 ::::
 
-[^6]: **Multicollinearity** occurs when two or more variables are so highly correlated that they provide largely redundant information, making it difficult to estimate their unique contributions or distinguish them statistically.
+[^03a_measurement_1-6]: **Multicollinearity** occurs when two or more variables are so highly correlated that they provide largely redundant information, making it difficult to estimate their unique contributions or distinguish them statistically.
 
-[^7]: e-08 is scientific notation that means *move the decimal point 8 places to the left*.
+[^03a_measurement_1-7]: e-08 is scientific notation that means *move the decimal point 8 places to the left*.
 
-#### Kaiser–Meyer–Olkin (KMO) Measure
+#### **Kaiser–Meyer–Olkin (KMO) Measure**
 
 The Kaiser–Meyer–Olkin (KMO) measure assesses **whether the correlations among variables are likely to be explained by underlying latent factors rather than unique pairwise relationships**.
 
@@ -765,10 +742,10 @@ Below are the originally proposed formal guidelines — bounded from 0-1 — for
 
 -   .90s → marvellous (but this can signal a strong general factor, item redundancy, poor construct coverage)
 
-To get the KMO values for both overall and item-level KMOs, you just enter your data into the `KMO()` function from the `psych` package (1):
+To get the KMO values for both overall and item-level KMOs, you just enter your data into the `KMO()` function from the `psych` package:
 
 ```{r}
-psych::KMO(stars_data) #<1>
+psych::KMO(stars_data)
 ```
 
 🤔 **What can we infer from the KMO statistics?**
@@ -852,10 +829,10 @@ If the test is statistically significant, we reject that hypothesis and conclude
 
 However, Bartlett's test is very sensitive to sample size and the statistical signficance test is only really interpretable in samples \<100. Considering most EFAs will need samples larger than this, Bartlett's is often uninformative.
 
-In situations where you would want to calculate Bartlett's, you can do that using the `cortest.bartlett()` function, again from `psych` (`n = nrow(stars_data)` specifies the sample size by counting the number of rows in the data) (1).
+In situations where you would want to calculate Bartlett's, you can do that using the `cortest.bartlett()` function, again from `psych` (`n = nrow(stars_data)` specifies the sample size by counting the number of rows in the data).
 
 ```{r}
-psych::cortest.bartlett(stars_corr, n = nrow(stars_data)) #<1>
+psych::cortest.bartlett(stars_corr, n = nrow(stars_data))
 ```
 
 🤔 **What can we infer from the results of the Bartlett's test?**
@@ -901,7 +878,7 @@ Remember, however, that the statistics do not have substantive knowledge of what
 
 We don't have scope to review all of these in this tutorial, so we're going to focus on a few of the more popular, reliable, and relevant methods. Namely, the scree plot and parallel analysis.
 
-#### Scree Plot
+#### **Scree Plot**
 
 A scree plot is a relatively simple visual tool that shows the **eigenvalues** of your correlation matrix in descending order.
 
@@ -973,28 +950,6 @@ In a scree plot, we plot $\lambda_1 \ge \lambda_2 \ge \dots \ge \lambda_p$. That
 
 We can obtain a scree plot from the same R function as we obtain the parallel analysis, but I usually prefer to create my own using `ggplot2` because they are more readily customisable (to get them publication-ready) and usually clearer.
 
-1.  Calculate the eigenvalues of the correlation matrix by entering your correlation matrix into Base R's `eigen()` function, extract the `values` specifically, and store them in `eigenvalues`
-
-2.  Create a tibble (using `tibble::tibble`) called `scree_tib`
-
-3.  Generate a sequence of eigenvalues and store it in `Factor`
-
-4.  Store the eigenvalues in a column called `Eigenvalues`
-
-5.  Load the `ggplot2` package so we don't need to repeatedly specify the package name in the namespaces of the `ggplot2` functions
-
-6.  Initialise a ggplot with the `scree_tib`, and mapping `Factor` to the x-axis and `Eigenvalue` to the y-axis with the `aes()` function
-
-7.  Add points for each factor with `geom_point()`, setting the size of the points to `3`
-
-8.  Connect points with a line using `geom_line()`
-
-9.  Add the Kaiser criterion reference with a horizontal dashed (`linetype = "dashed"`) red (`color = "red"`) line at y = 1 (`yintercept = 1`) using the `geom_hline()` function
-
-10. Add plot title (`title =`) and axis labels (`x =`; `y =`) using the `labs()` function
-
-11. Apply a minimal theme (`theme_minimal()`) to the plot for a clean appearance
-
 ```{r}
 ## calculate eigenvalues from the correlation matrix
 eigenvalues <- eigen(stars_corr)$values #<1>
@@ -1020,6 +975,28 @@ ggplot(scree_tib, aes(x = Factor, y = Eigenvalue)) + #<6>
   theme_minimal() #<11>
 ```
 
+1.  Calculate the eigenvalues of the correlation matrix by entering your correlation matrix into Base R's `eigen()` function, extract the `values` specifically, and store them in `eigenvalues`
+
+2.  Create a tibble (using `tibble::tibble`) called `scree_tib`
+
+3.  Generate a sequence of eigenvalues and store it in `Factor`
+
+4.  Store the eigenvalues in a column called `Eigenvalues`
+
+5.  Load the `ggplot2` package so we don't need to repeatedly specify the package name in the namespaces of the `ggplot2` functions
+
+6.  Initialise a ggplot with the `scree_tib`, and mapping `Factor` to the x-axis and `Eigenvalue` to the y-axis with the `aes()` function
+
+7.  Add points for each factor with `geom_point()`, setting the size of the points to `3`
+
+8.  Connect points with a line using `geom_line()`
+
+9.  Add the Kaiser criterion reference with a horizontal dashed (`linetype = "dashed"`) red (`color = "red"`) line at y = 1 (`yintercept = 1`) using the `geom_hline()` function
+
+10. Add plot title (`title =`) and axis labels (`x =`; `y =`) using the `labs()` function
+
+11. Apply a minimal theme (`theme_minimal()`) to the plot for a clean appearance
+
 🤔 **What can we infer from the scree plot?**
 
 ::: {.callout-tip collapse="true"}
@@ -1044,7 +1021,7 @@ Interpretation:
 
 Scree plots are mostly visual heuristics though. Combine them with **parallel analysis** for a more objective factor count.
 
-#### Parallel Analysis
+#### **Parallel Analysis**
 
 Parallel analysis (PA) builds on what scree plots show, but adds a more objective benchmark. It **compares the eigenvalues from your actual data to those generated from random data** of the same size and number of variables.
 
@@ -1058,20 +1035,6 @@ In short: it’s like asking, *“Is this factor doing more than random noise wo
 
 To run a PA in R, we use the `fa.parallel` function from the `psych` package:
 
-1.  Before we run the PA, we need to set the seed so that our results can be reproduced. This is because PA uses random sampling in the background, meaning the values will be slightly different each time you run it. Setting the seed fixes the starting point of the random number generator so that any "random" results can be reproduced exactly in future.
-
-    We do that using Base R's `set.seed()` function. You just need to give it a numerical value. I usually use the date of the day I'm writing the code on, but you can choose which ever number you like.
-
-2.  `stars_data` is the data (remember to ensure this only the items for the EFA)
-
-3.  `cor = "poly"` specifies polychoric correlations
-
-4.  `fm = "minres"` is a common factor extraction method for ordinal data (see the callout below for more on factoring methods)
-
-5.  `fa = "fa"` tells `psych` to do factor analysis (rather than Principle Components Analysis[^8])
-
-[^8]: **Principal Components Analysis (PCA)** s a *data reduction* method, not a latent variable model. Components are weighted composites of observed variables, not latent constructs explaining shared variance, so PCA is about summarising variables, whilst EFA is about modelling shared variance. If your goal is uncovering latent psychological structure, PCA is solving a different problem, so avoid it for scale construction work.
-
 The output will give you another scree plot (sometimes slightly different to the `ggplot` version as it compares to randomly generated samples) and a line of text telling you the estimated number of factors.
 
 ```{r}
@@ -1082,6 +1045,18 @@ psych::fa.parallel(stars_data, #<2>
                    fm = "minres", #<4>
                    fa = "fa") #<5>
 ```
+
+1.  Before we run the PA, we need to set the seed so that our results can be reproduced. This is because PA uses random sampling in the background, meaning the values will be slightly different each time you run it. Setting the seed fixes the starting point of the random number generator so that any "random" results can be reproduced exactly in future. We do that using Base R's `set.seed()` function. You just need to give it a numerical value. I usually use the date of the day I'm writing the code on, but you can choose which ever number you like.
+
+2.  `stars_data` is the data (remember to ensure this only the items for the EFA)
+
+3.  `cor = "poly"` specifies polychoric correlations
+
+4.  `fm = "minres"` is a common factor extraction method for ordinal data (see the callout below for more on factoring methods)
+
+5.  `fa = "fa"` tells `psych` to do factor analysis (rather than Principle Components Analysis[^03a_measurement_1-8])
+
+[^03a_measurement_1-8]: **Principal Components Analysis (PCA)** s a *data reduction* method, not a latent variable model. Components are weighted composites of observed variables, not latent constructs explaining shared variance, so PCA is about summarising variables, whilst EFA is about modelling shared variance. If your goal is uncovering latent psychological structure, PCA is solving a different problem, so avoid it for scale construction work.
 
 <div>
 
@@ -1111,7 +1086,7 @@ Common options:
 
 -   **`pa` (principal axis factoring)**
 
-    -   Iteratively estimates communalities[^9] and extracts factors from the reduced correlation matrix
+    -   Iteratively estimates communalities[^03a_measurement_1-9] and extracts factors from the reduced correlation matrix
     -   Historically very common in psychology
     -   Conceptually aligned with common factor modelling (shared variance only)
     -   In practice: usually produces very similar solutions to `minres`
@@ -1119,16 +1094,10 @@ Common options:
 
 </div>
 
-[^9]: \[What is a Communality?\]
+[^03a_measurement_1-9]: [What is a communality?]
 
 ::: {.callout-note collapse="true"}
 ##### What if my data were continuous?
-
-1.  For continuous variables, you can also use the `fa.parallel()` function in `psych`
-
-2.  You should use maximum likelihood estimation (`fm = "ml"` ) instead of minres
-
-3.  `fa` should still be `fa` (factor analysis)
 
 Note that you don't need to specify the type of correlation as Pearson is the default.
 
@@ -1140,6 +1109,12 @@ psych::fa.parallel(stars_data, #<1>
                    fm = "ml", #<2>
                    fa = "fa") #<3>
 ```
+
+1.  For continuous variables, you can also use the `fa.parallel()` function in `psych`
+
+2.  You should use maximum likelihood estimation (`fm = "ml"` ) instead of minres
+
+3.  `fa` should still be `fa` (factor analysis)
 :::
 
 🤔 **What can we infer from the parallel analysis?**
@@ -1168,11 +1143,6 @@ If the indicators disagree, we should:
 
 We can get some additional indicators using `psych`'s `VSS()` function, like so:
 
-1.  Enter your data (here, `stars_data`) into the `psych::vss()` function
-2.  Set the factor method to the same as your parallel analysis (here, `fm = minres`)
-3.  Set the correlation type to the same as your parallel analysis (here, `core = poly`)
-4.  Set the maximum number of factors (`n =`) to test to `20` (the default is to stop at 8 and that is sometimes too low, especially in larger samples)
-
 ```{r}
 stars_vss <- psych::vss(stars_data, #<1>
                         fm = "minres", #<2>
@@ -1180,6 +1150,11 @@ stars_vss <- psych::vss(stars_data, #<1>
                         n = 20) #<4>
 stars_vss
 ```
+
+1.  Enter your data (here, `stars_data`) into the `psych::vss()` function
+2.  Set the factor method to the same as your parallel analysis (here, `fm = minres`)
+3.  Set the correlation type to the same as your parallel analysis (here, `core = poly`)
+4.  Set the maximum number of factors (`n =`) to test to `20` (the default is to stop at 8 and that is sometimes too low, especially in larger samples)
 
 **VSS Complexity**
 
@@ -1224,7 +1199,7 @@ So each line shows how well the model fits under that assumption of “item cros
 
 -   Minimum of 0.01 with **3 factors**
 
--   MAP looks at **residual correlations after extracting factors** — the minimum indicates the number of factors that best accounts for shared variance without overfitting[^10]
+-   MAP looks at **residual correlations after extracting factors** — the minimum indicates the number of factors that best accounts for shared variance without overfitting[^03a_measurement_1-10]
 
 MAP suggests **3 factors**. This is often considered a reliable criterion, especially for ordinal data with polychoric correlations.
 
@@ -1364,9 +1339,9 @@ The key decision is therefore conceptual rather than purely statistical — how 
 At this point, you would move on to testing models with different numbers of factors and exclude models that overfactor.
 :::::
 
-[^10]: **Overfitting** occurs when your model captures the data too closely, so it captures not only the true underlying patterns in the data, but also the random noise in your specific dataset. This can make the model look very accurate on the current dataset but perform poorly on new or unseen data.
+[^03a_measurement_1-10]: **Overfitting** occurs when your model captures the data too closely, so it captures not only the true underlying patterns in the data, but also the random noise in your specific dataset. This can make the model look very accurate on the current dataset but perform poorly on new or unseen data.
 
-    ![](images/clipboard-2497495386.png)
+![](images/scale_development_overfitting.png)
 
 ### Factor Rotation
 
@@ -1414,16 +1389,6 @@ In practice, oblique rotations are generally preferred because they reflect the 
 
 To rotate factors, we can use the `fa()` function in `psych`.
 
-1.  `stars_rotated <- psych::fa(stars_data,` calls the `fa()` function from the `psych` package to perform EFA on the dataset `stars_data`; stores it in `stars_rotated`
-
-2.  `nfactors = 3` specifies the number of factors to extract (3, in this case)
-
-3.  `rotate = "oblimin"` specifies oblimin rotation
-
-4.  `cor = "poly"` specifies polychoric correlations
-
-5.  `fm = "minres"` a factor extraction method for ordinal data
-
 ```{r}
 #| message: false
 #| warning: false
@@ -1435,23 +1400,33 @@ stars_rotated <- psych::fa(stars_data, #<1>
 stars_rotated #<6>
 ```
 
+1.  `stars_rotated <- psych::fa(stars_data,` calls the `fa()` function from the `psych` package to perform EFA on the dataset `stars_data`; stores it in `stars_rotated`
+
+2.  `nfactors = 3` specifies the number of factors to extract (3, in this case)
+
+3.  `rotate = "oblimin"` specifies oblimin rotation
+
+4.  `cor = "poly"` specifies polychoric correlations
+
+5.  `fm = "minres"` a factor extraction method for ordinal data
+
 There is a lot in that output. We will explore the key parts in the workshop, but see the callout below for full interpretations.
 
 Before we do that, let's get a clearer factor loadings table. By default, the `psych::fa()` output sorts loadings by item. We want them grouped by their primary factor (the one they load onto most strongly), ordered by size, and sorted within each factor by loading magnitude.
 
 Thankfully, `psych::fa.sort()` will do that for us. Like so:
 
-1.  `stars_loadings <- psych::fa.sort(stars_rotated)` passes the `stars_rotated` object into the `fa.sort()` function
-2.  `stars_loadings` prints the sorted loadings
-
 ```{r}
 stars_loadings <- psych::fa.sort(stars_rotated) #<1>
 stars_loadings #<2>
 ```
 
-#### Interpreting the Output
+1.  `stars_loadings <- psych::fa.sort(stars_rotated)` passes the `stars_rotated` object into the `fa.sort()` function
+2.  `stars_loadings` prints the sorted loadings
 
-##### Statistical Interpretations
+#### **Interpreting the Output**
+
+##### **Statistical Interpretations**
 
 1.  **Factor Loadings** (Pattern Matrix)
     -   Shows how strongly each item loads onto each factor
@@ -1581,9 +1556,9 @@ That would suggest:
 ##### Solution
 
 1.  **Factor Loadings** (Pattern Matrix)
-    -   **MR1** cleanly captures Interpretation Anxiety items with strong loadings (0.55–0.87)
-    -   **MR2** captures Test and Class Anxiety items, but with only four strong loadings (0.65–0.91), and four more moderate loadings (0.33–0.40)
-    -   Some of the Test and Class Anxiety items cross load onto **MR1**, as well as **MR2**, suggesting they may relate to more than one factor and need to be reviewed in light of theory
+    -   **MR1** predominantly captures Interpretation Anxiety items with strong loadings (0.55–0.87), but also several Test and Class Anxiety items with moderate loadings (0.34–0.43)
+    -   The Test and Class Anxiety items on **MR1** cross-load with similar magnitudes onto **MR2**, suggesting they may relate to more than one factor and need to be reviewed in light of theory
+    -   **MR2** captures Test and Class Anxiety items, with four strong loadings (0.65–0.91) and one more moderate loading (0.40)
     -   **MR3** captures Fear of Asking for Help items with strong loadings (0.71–0.95)
 2.  **SS Loadings / Proportion of Variance**
     -   SS loadings: MR1 = 6.93, MR2 = 4.00, MR3 = 3.36
@@ -1625,7 +1600,7 @@ That would suggest:
 :::
 ::::
 
-##### Theoretical & Substantive Interpretation
+##### **Theoretical & Substantive Interpretation**
 
 EFA provides a statistical solution, but numbers alone cannot tell you whether a factor makes sense.
 
@@ -1676,15 +1651,13 @@ Specific considerations include:
 
 **1. Examine the item content**
 
--   **MR1** — all the items designed to reflect Interpretation Anxiety loaded strongly onto MR1
-
-    -   Do you agree that Interpretation Anxiety is, indeed, what those items reflect? We'll come back to that question in light of the other factors...
+-   **MR1** — all the items designed to reflect Interpretation Anxiety loaded strongly onto MR1, but with some moderately loading Test and Class Anxiety items as well
 
 -   **MR2** — all the items designed to reflect Test and Class Anxiety loaded onto MR2, but
 
-    -   The strongest loading items on this scale all related to exams (stars_test_3, stars_test_4, and stars_test_6), suggesting Test Anxiety is driving this factor
+    -   The strongest loading items on this scale all related to exams (stars_test_3, stars_test_4, and stars_test_6), suggesting *Test* Anxiety is driving this factor
 
-    -   The other, more moderately loading items also loaded (some more strongly) onto MR1, suggesting they also capture whatever MR1 is capturing
+    -   Other, more moderately loading items also loaded (some more strongly) onto MR1, suggesting they also capture whatever MR1 is capturing
 
     -   If we consider those items alongside the other MR1 items, we may wonder whether MR1 is perhaps capturing something broader than Interpretation Anxiety
 
@@ -1694,7 +1667,7 @@ Specific considerations include:
 
     -   Theoretically, we may wonder whether that Fear of Asking for Help is specific to statistics or whether it is capturing a more general anxiety (e.g., Fear of Negative Evaluation)
 
--   My hypothesis is that MR1 is capturing a general Statistics Anxiety factor, MR2 is predominantly capturing Test Anxiety that is not necessarily specific to statistics, and MR3 is predominantly capturing something more akin to Fear of Negative Evaluation, also not necessarily specific to statistics — follow up research should explore these possibilities.
+-   My hypothesis is that MR1 is capturing a general (maybe Statistics Anxiety) factor, MR2 is predominantly capturing Test Anxiety that is not necessarily specific to statistics, and MR3 is predominantly capturing something more akin to Fear of Negative Evaluation, also not necessarily specific to statistics — follow up research should explore these possibilities.
 
 **2. Check for consistency with prior theory**
 
@@ -1721,7 +1694,7 @@ Specific considerations include:
 
 ### Reporting EFA Results
 
-#### What to Report In-Text
+#### **What to Report In-Text**
 
 As we've seen, there is a lot that goes into a (good!) EFA, meaning there is a lot to report.
 
@@ -1750,14 +1723,18 @@ The most important things to include in-text are:
 ::: {.callout-tip collapse="true"}
 ##### Solution
 
-An exploratory factor analysis was conducted using minimum residual (MINRES) extraction with oblimin oblique rotation, allowing factors to correlate. Factor retention was guided by multiple criteria: the scree plot suggested a three-factor solution, whereas parallel analysis indicated seven factors. As parallel analysis can over-factor in large samples, and the fourth factor onwards explained very little additional variance, a three-factor solution was retained.
+An exploratory factor analysis was conducted using **minimum residual (MINRES) extraction** with **oblimin oblique rotation**, allowing factors to correlate. Factor retention was guided by multiple criteria: the **scree plot suggested a three-factor solution**, whereas **parallel analysis indicated seven factors**. As parallel analysis can over-factor in large samples, and the fourth factor onwards explained very little additional variance, **a three-factor solution was retained**.
 
-All items designed to reflect *Interpretation Anxiety* loaded strongly onto the first factor (MR1), consistent with the intended construct representation. Items designed to reflect *Test and Class Anxiety* loaded primarily onto the second factor (MR2), with the strongest loadings on exam-related items; some items cross-loaded moderately onto MR1. Items designed to reflect *Fear of Asking for Help* loaded strongly onto the third factor (MR3), supporting the distinctiveness of this factor. The factor loadings are summarised in Table X.
+**All items designed to reflect *Interpretation Anxiety* loaded strongly onto the first factor (MR1)**, but with **some moderately loaded *Test and Class Anxiety* items which crossloaded onto the second factor (MR2)**.
 
-The three factors accounted for 62% of the total variance (30%, 17%, and 15%, respectively) and factor correlations indicate moderate relationships between factors: MR1–MR2 = 0.60, MR1–MR3 = 0.59, and MR2–MR3 = 0.55.
+**Items designed to reflect *Test and Class Anxiety* loaded primarily onto the second factor (MR2)**, with the strongest loadings on exam-related items.
+
+**Items designed to reflect *Fear of Asking for Help* loaded strongly onto the third factor (MR3),** supporting the distinctiveness of this factor. The factor loadings are summarised in Table X.
+
+The three **factors accounted for 62% of the total variance** (30%, 17%, and 15%, respectively) and **factor correlations indicate moderate relationships between factors**: MR1–MR2 = 0.60, MR1–MR3 = 0.59, and MR2–MR3 = 0.55.
 :::
 
-#### Creating a Factor Loading Table
+#### **Creating a Factor Loading Table**
 
 For publication-quality tables, consider:
 
@@ -1776,55 +1753,6 @@ Practically, you have two choices: paste the `psych::fa.sort()` output into a Wo
 As you'll see in the code example below, a lot goes into creating a customised table (and there are still many features we could improve), but once you've sussed it out once, it can save you hours of Word formatting woes in the long run.
 
 We won't go through all of this in the workshop and you certainly won't be expected to remember it, but it would be useful to note which elements you would need to change for it to work on different data.
-
-1.  `psych::fa.sort()` reorders the factor solution so items are grouped by their strongest loading; `$loadings` extracts just the factor loading matrix
-2.  `unclass()` (from base R) removes the special `"loadings"` class so it behaves like a regular matrix
-3.  `as.data.frame()` (base R) Converts the matrix into a data frame for easier manipulation with `dplyr`
-4.  `dplyr::rename()` renames columns to have more meaningful names using:
-    -   `` `New Variable Name` = `Old Variable Name` `` (surround the name with backticks if it has spaces)
-5.  `dplyr::mutate()` adds a new column containing the communalities from the factor model
-6.  `tibble::rownames_to_column("Item")` moves row names (item names) into an explicit column called `"Item"`
-7.  `dplyr::mutate()` creates or modifies columns in a data frame — here, we’re modifying existing columns rather than adding new ones
-8.  `dplyr::across()` applies the same function to multiple columns at once (think of it as “loop over selected columns inside `mutate()`")
-9.  `dplyr::where(is.numeric)` selects only columns that satisfy a condition — here, it selects all columns where `is.numeric()` returns `TRUE` (i.e., the factor loadings and communalities)
-10. `~ sprintf("%.2f", .x)` (baseR) this is an anonymous (lambda) function
-    -   `~` defines the function
-    -   `.x` refers to the current column being processed
-    -   `sprintf("%.2f", ...)` formats each number to two decimal places; importantly `sprintf()` returns character strings, not numbers, so all formerly numeric columns become character columns formatted for display and doesn't cut of trailing zeros (which is why we don't use `round()`)
-        -   `%` → format specifier
-        -   `.2` → one digit after the decimal point
-        -   `f` → fixed-point decimal format
-11. `variance_row <- tibble::tibble()` creates a one-row tibble to hold percentage variance values
-12. `Item = "% Variance"` places the name of the row (`% Variance`) in the Item column
-13. `` `Interpretation Anxiety` = sprintf("%.1f", stars_rotated$Vaccounted["Proportion Var", "MR1"]*100) `` extract the proportion of variance explained by MR1, convert it to a percentage, round it to one decimal place, and format it as a display-ready string
-    -   `Vaccounted` is a matrix inside the `psych::fa()` object that stores variance information about the factor solution
-    -   `["Proportion Var", "MR1"]` this is matrix indexing (which you don't come across when you use `dplyr`): `[row, column]` — here, `"Proportion Var"` selects the row containing the proportion of total variance explained and `"MR1"` selects the column for Factor 1
-    -   `* 100` factor analysis reports proportions (0-1), but we usually report percentage values, so we multiply the proportion by 100
-    -   `sprintf("%.1f", ...)` we've met before, but we're specifying 1dp instead of 2dp this time, consistent with APA formatting guidelines for percentages
-14. `Communality = ""` leaves the communality cell blank for this summary row
-15. `dplyr::bind_rows(stars_table, variance_row)` stacks the variance row underneath the existing table
-16. `flextable::flextable(stars_table)` converts the dataframe into formatted table object for reporting
-17. `setdiff(names(stars_table)[-1], "Communality")`
-    -   `names(stars_table)` returns a character vector of all column names in the dataframe
-    -   `[-1]` means “drop the first element”; we don't want to bold the first column with the item names
-    -   `setdiff(x, "Communality")` a base R function that computes the *set difference* — in other words, "return the elements in `x` that are not in `"Communality"`"
-18. `nrow(stars_table)` gets the number of the final row (the variance rows) by counting the number of rows
-19. For each loading column, this loop bolds the cells (excluding the final variance row) where the numeric value in that column exceeds .30:
-    -   `for(col in num_cols_to_bold) {` loops over each column
-    -   `stars_flextable <- flextable::bold(` applies bold formatting to selected cells
-    -   `j = col` `j` specifies which column to format
-    -   `i = base::seq_len(last_row - 1)[base::as.numeric(stars_table[1:(last_row - 1), col]) > 0.30]` computes which row numbers should be bolded for a given column
-    -   `1:(last_row - 1)` creates a sequence of row positions excluding the variance row
-    -   `stars_table[1:(last_row - 1), col]` extracts rows 1 to last_row from the column named `col`, so this gives you the vector of loadings for that specific factor column, excluding the variance row
-    -   `as.numeric(...)` (base R) converts those character strings back to numeric values
-    -   `> 0.30` creates a logical vector that marks which rows exceed the threshold
-    -   `seq_len(last_row - 1)` (base R) generates a sequence of numbers the length of the number of rows excluding the variance row
-    -   `[...]` is logical subsetting which we use to combine the pieces:
-        -   `seq_len(last_row - 1)[ logical_vector ]` keeps only the row numbers where the condition is TRUE
-20. `border()` modifies cell borders for specific rows
-21. `i = last_row`, targets the variance row only
-22. `officer::fp_border(color = "black", width = 1),` defines black horizontal lines above (`border.top`)and below (`border.bottom`) the variance row
-23. `part = "body"` applies formatting to main body of the table, not the headers
 
 ```{r}
 ## prepare base table
@@ -1848,9 +1776,12 @@ stars_table <- psych::fa.sort(stars_rotated)$loadings |> #<1>
 ## create variance row
 variance_row <- tibble::tibble( #<11>
   Item = "% Variance", #<12>
-  `Interpretation Anxiety` = sprintf("%.1f", stars_rotated$Vaccounted["Proportion Var", "MR1"]*100), #<13>
-  `Test and Class Anxiety` = sprintf("%.1f", stars_rotated$Vaccounted["Proportion Var", "MR3"]*100),
-  `Fear of Asking for Help` = sprintf("%.1f", stars_rotated$Vaccounted["Proportion Var", "MR2"]*100),
+  `Interpretation Anxiety` = sprintf("%.1f", 
+                                     stars_rotated$Vaccounted["Proportion Var", "MR1"]*100), #<13>
+  `Test and Class Anxiety` = sprintf("%.1f", 
+                                     stars_rotated$Vaccounted["Proportion Var", "MR3"]*100),
+  `Fear of Asking for Help` = sprintf("%.1f", 
+                                      stars_rotated$Vaccounted["Proportion Var", "MR2"]*100),
   Communality = "" #<14>
 )
 
@@ -1885,9 +1816,51 @@ stars_flextable <- flextable::border( #<20>
 stars_flextable
 ```
 
+1.  `psych::fa.sort()` reorders the factor solution so items are grouped by their strongest loading; `$loadings` extracts just the factor loading matrix
+2.  `unclass()` (from base R) removes the special `"loadings"` class so it behaves like a regular matrix
+3.  `as.data.frame()` (base R) Converts the matrix into a data frame for easier manipulation with `dplyr`
+4.  `dplyr::rename()` renames columns to have more meaningful names using `` `New Variable Name` = `Old Variable Name` `` (surround the name with backticks if it has spaces)
+5.  `dplyr::mutate()` adds a new column containing the communalities from the factor model
+6.  `tibble::rownames_to_column("Item")` moves row names (item names) into an explicit column called `"Item"`
+7.  `dplyr::mutate()` creates or modifies columns in a data frame — here, we’re modifying existing columns rather than adding new ones
+8.  `dplyr::across()` applies the same function to multiple columns at once (think of it as “loop over selected columns inside `mutate()`")
+9.  `dplyr::where(is.numeric)` selects only columns that satisfy a condition — here, it selects all columns where `is.numeric()` returns `TRUE` (i.e., the factor loadings and communalities)
+10. `~ sprintf("%.2f", .x)` (baseR) this is an anonymous (lambda) function — `~` defines the function; `.x` refers to the current column being processed; `sprintf("%.2f", ...)` formats each number to two decimal places; importantly `sprintf()` returns character strings, not numbers, so all formerly numeric columns become character columns formatted for display and doesn't cut of trailing zeros (which is why we don't use `round()`); `%` → format specifier; `.2` → one digit after the decimal point; `f` → fixed-point decimal format
+11. `variance_row <- tibble::tibble()` creates a one-row tibble to hold percentage variance values
+12. `Item = "% Variance"` places the name of the row (`% Variance`) in the Item column
+13. `` `Interpretation Anxiety` = sprintf("%.1f", stars_rotated$Vaccounted["Proportion Var", "MR1"]*100) `` extract the proportion of variance explained by MR1, convert it to a percentage, round it to one decimal place, and format it as a display-ready string, where `Vaccounted` is a matrix inside the `psych::fa()` object that stores variance information about the factor solution; `["Proportion Var", "MR1"]` this is matrix indexing (which you don't come across when you use `dplyr`): `[row, column]` — here, `"Proportion Var"` selects the row containing the proportion of total variance explained and `"MR1"` selects the column for Factor 1; `* 100` factor analysis reports proportions (0-1), but we usually report percentage values, so we multiply the proportion by 100; `sprintf("%.1f", ...)` we've met before, but we're specifying 1dp instead of 2dp this time, consistent with APA formatting guidelines for percentages
+14. `Communality = ""` leaves the communality cell blank for this summary row
+15. `dplyr::bind_rows(stars_table, variance_row)` stacks the variance row underneath the existing table
+16. `flextable::flextable(stars_table)` converts the dataframe into formatted table object for reporting
+17. `setdiff(names(stars_table)[-1], "Communality")` where `names(stars_table)` returns a character vector of all column names in the dataframe; `[-1]` means “drop the first element”; we don't want to bold the first column with the item names; `setdiff(x, "Communality")` a base R function that computes the *set difference* — in other words, "return the elements in `x` that are not in `"Communality"`"
+18. `nrow(stars_table)` gets the number of the final row (the variance rows) by counting the number of rows
+19. For each loading column, this loop bolds the cells (excluding the final variance row) where the numeric value in that column exceeds .30 (see the callout below for more details)
+20. `border()` modifies cell borders for specific rows
+21. `i = last_row`, targets the variance row only
+22. `officer::fp_border(color = "black", width = 1),` defines black horizontal lines above (`border.top`)and below (`border.bottom`) the variance row
+23. `part = "body"` applies formatting to main body of the table, not the headersundefined
+
+::: {.callout-note collapse="true"}
+#### What does all that loop code mean?
+
+For each loading column, this loop bolds the cells (excluding the final variance row) where the numeric value in that column exceeds .30 (see the callout below for more details)
+
+-   `for(col in num_cols_to_bold) {` loops over each column
+-   `stars_flextable <- flextable::bold(` applies bold formatting to selected cells
+-   `j = col` `j` specifies which column to format
+-   `i = base::seq_len(last_row - 1)[base::as.numeric(stars_table[1:(last_row - 1), col]) > 0.30]` computes which row numbers should be bolded for a given column
+-   `1:(last_row - 1)` creates a sequence of row positions excluding the variance row
+-   `stars_table[1:(last_row - 1), col]` extracts rows 1 to last_row from the column named `col`, so this gives you the vector of loadings for that specific factor column, excluding the variance row
+-   `as.numeric(...)` (base R) converts those character strings back to numeric values
+-   `> 0.30` creates a logical vector that marks which rows exceed the threshold
+-   `seq_len(last_row - 1)` (base R) generates a sequence of numbers the length of the number of rows excluding the variance row
+-   `[...]` is logical subsetting which we use to combine the pieces:
+    -   `seq_len(last_row - 1)[ logical_vector ]` keeps only the row numbers where the condition is TRUE
+:::
+
 ## Part 3: Exercises & Worksheet
 
-#### What does this code do?
+### What does this code do?
 
 Here's all the code from this tutorial. Can you remember what each line of each code chunk does? Are there any code chunks that you struggle to make sense of (you would be forgiven for skipping over some of the detail in the formatted loadings table!)? Make sure to revisit the section in which it is used and take notes.
 
@@ -2029,7 +2002,7 @@ stars_flextable
 
 Now, over to you! Described below is a simulated dataset for an imaginary scale. Have a read through, complete the coding tasks in Posit Cloud and then see if you can correctly answer the questions in the Worksheet.
 
-#### Introduction to the Digital Life Balance Scale (DLBS) Data
+#### **Introduction to the Digital Life Balance Scale (DLBS) Data**
 
 The \`dlbs.csv\` dataset contains (simulated) responses from **400 participants** to a **20-item Digital Life Balance Scale (DLBS)**.
 
@@ -2040,7 +2013,7 @@ The scale is designed to capture different aspects of people’s experiences wit
 The items are:
 
 | Variable Name | Item |
-|---------------------|---------------------------------------------------|
+|----------------------|--------------------------------------------------|
 | dlbs_1 | I feel overwhelmed by the number of notifications I receive. |
 | dlbs_2 | I struggle to keep up with messages across different platforms. |
 | dlbs_3 | I often feel mentally drained after spending time online. |
@@ -2062,7 +2035,7 @@ The items are:
 | dlbs_19 | I learn useful things through digital platforms. |
 | dlbs_20 | I prefer drinking tea while browsing online. |
 
-#### Coding Tasks
+#### **Coding Tasks**
 
 ```{r}
 #| include: false
@@ -2217,7 +2190,7 @@ dlbs_flextable
 9.  Create a loadings table
 10. Interpret and report your EFA results
 
-#### Worksheet Questions
+#### **Worksheet Questions**
 
 ```{r}
 #| echo: FALSE        ## hide the R code in the HTML
@@ -2505,91 +2478,89 @@ webex_item20 <- c(
 
 **Pre-Analysis Checks**
 
-What is the sample size of the DLBS dataset? `r webex_sample_size`
+1.  What is the sample size of the DLBS dataset? `r webex_sample_size`
 
-Is the sample size suitable for EFA? `r webex_sample_suitability`
+2.  Is the sample size suitable for EFA? `r webex_sample_suitability`
 
-What type of data are the variables in the DLBS dataset? `r webex_data_type`
+3.  What type of data are the variables in the DLBS dataset? `r webex_data_type`
 
-What is the percentage of correlations under or equal to .20? `r webex_under_20`
+4.  What is the percentage of correlations under or equal to .20? `r webex_under_20`
 
-What is the percentage of correlations over or equal to .80? `r webex_over_80`
+5.  What is the percentage of correlations over or equal to .80? `r webex_over_80`
 
-What can we infer from the correlation percentages? `r webex_prop_corrs_infer`
+6.  What can we infer from the correlation percentages? `r webex_prop_corrs_infer`
 
-Which of the following do you infer about item clustering from the correlation heatmap? `r webex_clusters`
+7.  Which of the following do you infer about item clustering from the correlation heatmap? `r webex_clusters`
 
-Do any items stand out as weak or isolated (select all that apply)? `r webex_problem_items`
+8.  Do any items stand out as weak or isolated (select all that apply)? `r webex_problem_items`
 
-Are the correlations consistent with monotonic relationships between variables? `r webex_monotonic`
+9.  Are the correlations consistent with monotonic relationships between variables? `r webex_monotonic`
 
-What is the overall KMO statistic (round to 2 decimal places)? `r webex_kmo`
+10. What is the overall KMO statistic (round to 2 decimal places)? `r webex_kmo`
 
-What can we infer from the overall KMO statistic? `r webex_kmo_infer`
+11. What can we infer from the overall KMO statistic? `r webex_kmo_infer`
 
-On balance, do you think the data is suitable for EFA? `r webex_data_suitability`
+12. On balance, do you think the data is suitable for EFA? `r webex_data_suitability`
 
 **Estimating the Number of Factors to Extract**
 
-Which is the most suitable factoring method to apply? `r webex_nfactor_method`
+13. Which is the most suitable factoring method to apply? `r webex_nfactor_method`
 
-How many factors does the scree plot suggest should be extracted? `r webex_n_scree`
+14. How many factors does the scree plot suggest should be extracted? `r webex_n_scree`
 
-Is there any evidence of a large underlying general factor? `r webex_gen_fac`
+15. Is there any evidence of a large underlying general factor? `r webex_gen_fac`
 
-How many factors does parallel analysis suggest should be extracted? `r webex_n_pa`
+16. How many factors does parallel analysis suggest should be extracted? `r webex_n_pa`
 
 **Factor Extraction & Rotation**
 
-How many factors did you extract? `r webex_n_extracted`
+17. How many factors did you extract? `r webex_n_extracted`
 
-Which is the most suitable factor rotation method to apply? `r webex_rotation_method`
+18. Which is the most suitable factor rotation method to apply? `r webex_rotation_method`
 
-Which items belong to the first factor? `r webex_factor1_items`
+19. Which items belong to the first factor? `r webex_factor1_items`
 
-Which items belong to the second factor? `r webex_factor2_items`
+20. Which items belong to the second factor? `r webex_factor2_items`
 
-Which items belong to the third factor? `r webex_factor3_items`
+21. Which items belong to the third factor? `r webex_factor3_items`
 
-Which items belong to the fourth factor? `r webex_factor4_items`
+22. Which items belong to the fourth factor? `r webex_factor4_items`
 
-Are there any items that don't belong to any factors? `r webex_stray_item`
+23. Are there any items that don't belong to any factors? `r webex_stray_item`
 
-How much variance do the factors account for overall?\
-`r webex_total_variance` %
+24. How much variance do the factors account for overall?\
+    `r webex_total_variance` %
 
-What is the lowest factor correlation?\
-`r webex_low_factor_cor`
+25. What is the lowest factor correlation?\
+    `r webex_low_factor_cor`
 
-What is the highest factor correlation?\
-`r webex_high_factor_cor`
+26. What is the highest factor correlation?\
+    `r webex_high_factor_cor`
 
-What can we infer from the factor correlations?\
-`r webex_factor_cor_infer`
+27. What can we infer from the factor correlations?\
+    `r webex_factor_cor_infer`
 
 **Theoretical & Substantive Interpretation**
 
-Which construct do you think may be underlying the first factor?\
-`r webex_factor1_construct`
+1.  Which construct do you think may be underlying the first factor?\
+    `r webex_factor1_construct`
 
-Which construct do you think may be underlying the second factor?\
-`r webex_factor2_construct`
+2.  Which construct do you think may be underlying the second factor?\
+    `r webex_factor2_construct`
 
-Which construct do you think may be underlying the third factor?\
-`r webex_factor3_construct`
+3.  Which construct do you think may be underlying the third factor?\
+    `r webex_factor3_construct`
 
-Which construct do you think may be underlying the fourth factor?\
-`r webex_factor4_construct`
+4.  Which construct do you think may be underlying the fourth factor?\
+    `r webex_factor4_construct`
 
-What do you infer about cross-loadings?\
-`r webex_cross_loadings`
+5.  What do you infer about cross-loadings?\
+    `r webex_cross_loadings`
 
-What do you infer about weak items?\
-`r webex_weak_items_infer`
+6.  What do you infer about weak items?\
+    `r webex_weak_items_infer`
 
-Why do you infer theoretically about weak items?
-
-`r webex_item20`
+7.  Why do you infer theoretically about weak items? `r webex_item20`
 
 **Reporting**
 
@@ -2600,11 +2571,13 @@ How would you report the results from this EFA in-text?
 
 (There's some optional extra reporting here, just so you have the example for reference.)
 
-An exploratory factor analysis was conducted using minimum residual (MINRES) extraction with oblimin oblique rotation, allowing factors to correlate. Factor retention was guided by the scree plot and parallel analysis, both of which supported a four-factor solution.
+An exploratory factor analysis was conducted using **minimum residual (MINRES) extraction** with **oblimin oblique rotation**, allowing factors to correlate. Factor retention was guided by the **scree plot** and **parallel analysis**, both of which supported a **four-factor solution**.
 
-The retained factors accounted for 55% of the total variance. The first factor explained 16% of the variance (30% of the common variance), the second 15% (27%), the third 14% (26%), and the fourth 10% (17%), indicating a balanced structure without a single dominant dimension.
+The retained **factors accounted for 55% of the total variance**. The first factor explained 16% of the variance (30% of the common variance), the second 15% (27%), the third 14% (26%), and the fourth 10% (17%), indicating a balanced structure without a single dominant dimension.
 
-The pattern matrix showed a clear and interpretable simple structure. Primary loadings were substantial, cross-loadings were minimal, and the mean item complexity was low (M = 1.1), suggesting that most items loaded strongly onto a single factor. Factor score adequacy indices were also strong: correlations between regression-based factor scores and the latent factors ranged from 0.88 to 0.92, and the multiple R² values ranged from 0.77 to 0.85, indicating that the estimated scores represent the underlying constructs well.
+The pattern matrix showed a **clear and interpretable simple structure**. Primary **loadings were substantial**, **cross-loadings** **were minimal**, and the **mean item complexity was low** (M = 1.1), suggesting that most items loaded strongly onto a single factor.
 
-Items clustered meaningfully onto their intended dimensions. The first factor (Online Social Pressure) reflected difficulties disengaging from digital devices and preoccupation with online activity. The second factor (Digital Overload) captured emotional consequences of digital use, such as guilt and stress related to screen time. The third factor (Digital Self-Control) reflected behavioural overuse and loss of control, including compulsive checking. The fourth factor (Online Engagement and Enjoyment) was characterised by items reflecting perceived interference with offline life, such as impacts on sleep or productivity. Overall, the solution demonstrated a clean and coherent structure. One item (dlbs_20) showed comparatively weak loadings and may warrant removal or revision in future iterations. The factor loadings are summarised in Table X.
+Factor score adequacy indices were also strong: **correlations between regression-based factor scores and the latent factors ranged from 0.88 to 0.92**, and the **multiple R² values ranged from 0.77 to 0.85**, indicating that the estimated scores represent the underlying constructs well.
+
+**Items clustered meaningfully onto their intended dimensions.** The first factor (*Online Social Pressure*) reflected difficulties disengaging from digital devices and preoccupation with online activity. The second factor (*Digital Overload*) captured emotional consequences of digital use, such as guilt and stress related to screen time. The third factor (*Digital Self-Control*) reflected behavioural overuse and loss of control, including compulsive checking. The fourth factor (*Online Engagement and Enjoyment*) was characterised by items reflecting perceived interference with offline life, such as impacts on sleep or productivity. Overall, the solution demonstrated a clean and coherent structure. **One item (dlbs_20) showed comparatively weak loadings and may warrant removal or revision in future iterations.** The factor loadings are summarised in Table X.
 :::
