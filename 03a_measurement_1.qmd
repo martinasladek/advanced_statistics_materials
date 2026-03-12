@@ -275,7 +275,7 @@ We are going to analyse scores for the following 23 items designed to measure th
 [^03a_measurement_1-1]: These items actually belong to the **Statistics Anxiety Rating Scale (STARS)** [@cruise1985], but — for education purposes — we will pretend we're testing the scale for the first time.
 
 |  |  |  |
-|-------------------|-------------------|----------------------------------|
+|----|----|----|
 | **Variable** | **Subscale** | **Item** |
 | stars_test_1 | Test and Class Anxiety | Studying for an examination in a statistics course |
 | stars_test_2 | Test and Class Anxiety | Doing the coursework for a statistics course |
@@ -2013,7 +2013,7 @@ The scale is designed to capture different aspects of people’s experiences wit
 The items are:
 
 | Variable Name | Item |
-|-----------------------|-------------------------------------------------|
+|----|----|
 | dlbs_1 | I feel overwhelmed by the number of notifications I receive. |
 | dlbs_2 | I struggle to keep up with messages across different platforms. |
 | dlbs_3 | I often feel mentally drained after spending time online. |
