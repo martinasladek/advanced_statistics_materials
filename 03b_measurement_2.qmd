@@ -1475,7 +1475,7 @@ ggplot(resid_long, aes(x = `Item 1`, y = `Item 2`, fill = Residual)) + #<7>
 **Standardised Residuals Table**
 
 | Item 1 | Item 2 | Std Resid | Subscales | Suggested Problem |
-|--------------|--------------|--------------|--------------|-----------------|
+|---------------|---------------|---------------|---------------|---------------|
 | stars_help_1 | stars_help_2 | 19.537 | Fear of Asking for Help | Items are almost identical in wording (“Going to ask my teacher individually” vs “Asking one of my teachers for help”), likely causing extreme shared variance |
 | stars_help_4 | stars_help_2 | -16.352 | Fear of Asking for Help | Different social context (peer vs teacher); model overpredicts correlation |
 | stars_help_4 | stars_help_1 | -15.746 | Fear of Asking for Help | Peer vs teacher help; overprediction indicates the model does not capture context differences |
@@ -1882,7 +1882,7 @@ stars_mi #<2>
 **What each column means:**
 
 | Column | Meaning |
-|-------------------|-----------------------------------------------------|
+|--------------------|----------------------------------------------------|
 | `lhs` | Left-hand side of the parameter — usually a latent factor or observed variable. |
 | `op` | Type of parameter: `=~` means factor loading, `~~` means covariance. |
 | `rhs` | Right-hand side of the parameter — the item or variable paired with `lhs`. |
@@ -2221,7 +2221,7 @@ The scale is designed to capture different aspects of people’s experiences wit
 
 Last week, our EFA revealed the following structure:
 
-![](images/clipboard-379022559.png){fig-align="center"}
+![](images/dlbs_loadings_table.png){fig-align="center"}
 
 You are going to be testing the factor structure identified in the EFA using.
 
