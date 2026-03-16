@@ -1,4 +1,9 @@
-# Confirmatory Factor Analysis
+---
+title: "Confirmatory Factor Analysis"
+format: html
+editor: visual
+bibliography: references.bib
+---
 
 ## CFA (Week 8) Overview
 
@@ -414,11 +419,11 @@ These are also **important to check before running CFA**, but are not formal *st
 
 -   **Missing data**
 
-    -   Inspect patterns of missingness before analysis.
-
-    -   Decide on handling strategy: e.g., FIML for continuous ML, pairwise approaches for WLSMV.
+    -   CFA is unusually sensitive to missing data and gives you unusually powerful ways to handle it.
 
     -   Ignoring systematic missingness can bias estimates and fit indices.
+
+    -   Inspect patterns of missingness before analysis then decide on handling strategy: e.g., FIML for continuous ML, pairwise approaches for WLSMV.
 
 -   **Identification**
 
@@ -445,7 +450,7 @@ $$ df = \text{Number of unique observed variances and covariances} - \text{Numbe
 ::: {.callout-note collapse="true"}
 ##### What is a threshold?
 
-In the context of CFA (and more broadly, ordinal or categorical data modeling), a **threshold** is essentially the boundary between categories on an observed ordinal variable. Let me break it down carefully:
+In the context of CFA (and more broadly, ordinal or categorical data modelling), a **threshold** is essentially the boundary between categories on an observed ordinal variable. Let me break it down carefully:
 
 **Conceptual Explanation**
 
@@ -538,7 +543,7 @@ To run a CFA, you will usually complete the following steps:
 
 -   Missing data inspection
 
--   Identification check (although a prerequisite, we check this after we've run the model)
+-   Identification check
 
 **Prepare the model:**
 
@@ -611,7 +616,7 @@ We are now going to test this structure with CFA. However, we are only going to 
 Our new hypothesised model looks like this:
 
 |  |  |  |
-|-------------------|-------------------|----------------------------------|
+|------------------------|------------------------|------------------------|
 | **Variable** | **Subscale** | **Item** |
 | stars_int_3 | Interpretation Anxiety | Reading a journal article that includes some statistical analyses |
 | stars_int_11 | Interpretation Anxiety | Trying to understand the statistical analyses described in the abstract of a journal article |
@@ -656,7 +661,7 @@ stars_data <- readr::read_csv(here::here("data/stars_cfa_data.csv")) |>
 
 ### Pre-Analysis Checks
 
-Let's start with out pre-analysis checks.
+Let's start with our pre-analysis checks.
 
 To recap, these are:
 
@@ -938,7 +943,21 @@ Our model has:
 **Total free parameters:** 12 (loadings) + 6 (factor var/cov) + 15 (residuals) + 60 (thresholds) = **93**
 :::
 
-***Step B: Count Unique Pieces of Information (Covariances)***
+***Step B: Count Unique Pieces of Information***
+
+-   For **ordinal** observed variables, the number of unique elements in the sample covariance matrix is:
+
+$$ \frac{p(p-1)}{2} + \sum_{i=1}^{p}(k_i - 1) $$
+
+Where $p$ = no. of items
+
+-   Your **total free parameters must not exceed this**.
+-   If you have more parameters than unique pieces of info, the model is **under-identified**.
+
+Ordinal models often have **more available information than continuous ones** because every item contributes multiple **threshold parameters**.
+
+:::: {.callout-note collapse="true"}
+##### What if my data were continuous?
 
 -   For continuous observed variables, the number of unique elements in the sample covariance matrix is:
 
@@ -958,7 +977,7 @@ $$
 For 15 observed continuous variables, the **sample covariance matrix** contains:
 
 $$
-\text{Number of unique covariances} = \frac{p(p+1)}{2} 
+\text{Information} = \frac{p(p+1)}{2} 
 = \frac{15(15+1)}{2} 
 = 120
 $$
@@ -967,8 +986,28 @@ $$
 
 -   **Covariances:** 105
 
-Since 48 \< 120, we have **more than enough information** to estimate the model.
+Since 93 \< 120, we have **more than enough information** to estimate the model.
 
+The model is theoretically **over-identified**, which is what we want.
+:::
+::::
+
+🤔 **How many unique pieces of information are there in our model?**
+
+🤔 **Is the model over/under/just identified?**
+
+::: {.callout-tip collapse="true"}
+##### Solution
+
+For 15 observed ordinal variables with 5 response categories, the available information comes from polychoric correlations and thresholds:\
+\
+$$ \begin{aligned} \text{Information} &= \frac{p(p-1)}{2} + \sum_{i=1}^{p}(k_i - 1) \\                    &= \frac{15(15-1)}{2} + 15(5-1) \\                    &= 105 + 60 \\                    &= 165 \end{aligned} $$\
+Correlations: 105\
+\
+Thresholds: 60 (4 per item × 15 items)\
+\
+Since 93 \< 165, we have more than enough information to estimate the model.\
+\
 The model is theoretically **over-identified**, which is what we want.
 :::
 
@@ -1298,7 +1337,7 @@ Typical steps:
 🤔**Do we have any warnings, convergence issues, or Heywood cases?**
 
 ::: {.callout-tip collapse="true"}
-##### **Solution** {collapse="true"}
+##### Solution {collapse="true"}
 
 Nope!
 :::
@@ -1316,7 +1355,7 @@ lavaan::residuals(stars_fit, type = "standardized") #<1>
 🤔**Do we have any problematic standardised residuals?**
 
 ::: {.callout-tip collapse="true"}
-##### **Solution** {collapse="true"}
+##### Solution {collapse="true"}
 
 Oh, hell yes — there are some **very large standardised residuals** that we should explore before moving on (and digging into this is actually a great way to learn more about what is going on under the hood of a CFA!).
 :::
@@ -1525,7 +1564,9 @@ Many of the suggested actions are things we cannot feasibly address for teaching
 
 **Largest Positive Standardised Residual**
 
-`stars_help_1` and `stars_help_2` had a huge standardised residual of 19.5, meaning the correlation is massively overestimated. Looking at the wording of the items (and their correlation), it is clear there is some considerable overlap and, therefore, redundancy — they are almost identical.
+`stars_help_1` and `stars_help_2` had a huge standardised residual of 19.5, meaning the correlation is massively underestimated.
+
+Looking at the wording of the items (and their correlation), it is clear there is some considerable overlap and, therefore, redundancy — they are almost identical.
 
 In this case, you'd want to either merge (create a composite) or drop one of the items. In scale development, it makes more sense to drop one of the items because that is how you'd use the scale going forward (you wouldn't publish a scale and tell researchers they need to create a composite of two items).
 
@@ -1581,7 +1622,7 @@ The largest negative standardised residual is now between `stars_int_6` (*Interp
 
 The negative residual indicates that the model predicts these items should be more strongly related than they actually are.
 
-Although both items measure interpretation anxiety, they involve different kinds of cognitive tasks — reading and interpreting a specific type of statistical value, which may explain why students respond to them differently.
+Although both items measure interpretation anxiety, they involve **different contexts**: interpreting a specific statistical value versus reading statistical analyses in research articles. These may place different cognitive demands on students, which could explain why responses to the items are less strongly related than the model predicts.
 
 Addressing this properly would require revising the scale or collecting new data, so for teaching purposes we will simply note this misfit and proceed with the model.
 
@@ -1819,10 +1860,10 @@ stars_summary
 ```
 
 ::: {.callout-tip collapse="true"}
-##### **Solution** {collapse="true"}
+##### Solution {collapse="true"}
 
 | Fit index | Value | Interpretation |
-|------------------|-----------------------|-------------------------------|
+|------------------------|------------------------|------------------------|
 | χ²(74) | **1780.87, *p* \< 0.001** | Significant χ² suggests the model does not perfectly reproduce the data—but with large N, χ² is almost always significant, so interpret cautiously (frankly, I'd ignore it altogether) |
 | CFI | **0.956** (robust) | Comparative fit index above 0.95 → generally indicates good fit relative to a null model |
 | TLI | **0.946** (robust) | Tucker-Lewis index near 0.95 → good fit again |
@@ -1850,7 +1891,7 @@ They can:
 
 -   Sometimes used to **guide minor, theoretically justifiable refinements**, such as adding a correlated error between two very similar items
 
-However, they must be used cautiously — avoid:
+However, they must be used cautiously:
 
 -   **Don’t blindly free parameters** just because the MI is large; this is data-driven and can lead to **overfitting**
 
@@ -1882,7 +1923,7 @@ stars_mi #<2>
 **What each column means:**
 
 | Column | Meaning |
-|--------------------|----------------------------------------------------|
+|-------------------------|----------------------------------------------|
 | `lhs` | Left-hand side of the parameter — usually a latent factor or observed variable. |
 | `op` | Type of parameter: `=~` means factor loading, `~~` means covariance. |
 | `rhs` | Right-hand side of the parameter — the item or variable paired with `lhs`. |
@@ -2013,7 +2054,7 @@ Let's have a go though...
 Here are just some of the arguments that are useful in customising your semPlots:
 
 | Argument | Purpose / Tip |
-|------------------------------------|------------------------------------|
+|-------------------------|-----------------------------------------------|
 | `whatLabels` | `"std"` shows standardised loadings (recommended for CFA teaching/interpretation) |
 | `layout` | `"tree2"` gives a clear top-down CFA layout; alternatives: `"circle"`, `"spring"` |
 | `edge.label.cex` | Font size of loadings on arrows |
@@ -2045,6 +2086,7 @@ stars_plot <- semPlot::semPaths( #<1>
   mar = c(5,5,5,5),               #<14>
   rotation = 2                    #<15>
 )
+stars_plot
 ```
 
 1.  Call `semPaths()` from the `semPlot` package to visualise a CFA model.
@@ -2164,8 +2206,8 @@ resid_std <- lavaan::residuals(stars_fit, type = "standardized")$cov
 stars_data2 <- stars_data |>
   dplyr::select(-stars_help_1)
 
-stars_meas_mod2 <- ' #<1> 
-interpret =~ stars_int_3 + stars_int_11 + stars_int_1 + stars_int_6 + stars_int_5 + stars_int_2 #<2>  
+stars_meas_mod2 <- ' 
+interpret =~ stars_int_3 + stars_int_11 + stars_int_1 + stars_int_6 + stars_int_5 + stars_int_2   
 test =~ stars_test_3 + stars_test_6 + stars_test_4 + stars_test_1 + stars_test_8  
 help =~ stars_help_2 + stars_help_3 + stars_help_4 
 '
@@ -2256,10 +2298,11 @@ The retained items and their corresponding factors are below for reference (note
 3.  Check missing data per item
 4.  Specify the measurement model
 5.  Fit the model
-6.  Check standardised residuals
-7.  Print the model output summary
-8.  Obtain modification indices
-9.  Produce a semPlot of the model
+6.  Check for Heywood cases
+7.  Check standardised residuals
+8.  Print the model output summary
+9.  Obtain modification indices
+10. Produce a semPlot of the model
 
 ```{r}
 #| include: false
@@ -2284,10 +2327,23 @@ dlbs_heatmap <- psych::cor.plot(
   main = "Polychoric Correlation Heat Map of DLBS Items"
 )
 
-## 3. Check missing data per item
+## 3. Check missing data per item & participant
 
-dlbs_data |>
-  dplyr::summarise(dplyr::across(dplyr::everything(), ~ sum(is.na(.)))) 
+# summary of missingness per item
+item_missing <- dlbs_data |>
+  dplyr::summarise( 
+    dplyr::across( 
+      dplyr::everything(), 
+      ~ mean(is.na(.)) * 100 
+    )
+  )
+
+# summary of missingness per participant
+participant_missing <- dlbs_data |> 
+  dplyr::mutate(
+    missing_pct = rowMeans(is.na(dlbs_data)) * 100 
+  ) |> 
+  dplyr::count(missing_pct) 
 
 ## 4. Specify the measurement model
 
@@ -2348,7 +2404,7 @@ dlbs_plot <- semPlot::semPaths(
 
 There are no interactive questions this week - they're nice, but a bit glitchy, and open questions are better suited to this kind of analysis.
 
-Instead, write your answers in the Quarto document and heck your answers in the accompanying tutorial solutions file in Posit Cloud.
+Instead, write your answers in the Quarto document and check your answers in the accompanying tutorial solutions file in Posit Cloud.
 
 **Pre-Analysis Checks**
 
@@ -2376,7 +2432,7 @@ Instead, write your answers in the Quarto document and heck your answers in the 
 **Parameter Estimation (Local Fit)**
 
 10. What do you infer from the factor loadings?
-11. What do you infer from the R\^2?
+11. What do you infer from the $R^2$?
 12. What do you infer from factor correlations?
 
 **Model Fit (Global Fit)**

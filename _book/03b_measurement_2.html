@@ -801,9 +801,9 @@ The Model-Implied Covariance Equation
 </ul></li>
 <li><p><strong>Missing data</strong></p>
 <ul>
-<li><p>Inspect patterns of missingness before analysis.</p></li>
-<li><p>Decide on handling strategy: e.g., FIML for continuous ML, pairwise approaches for WLSMV.</p></li>
+<li><p>CFA is unusually sensitive to missing data and gives you unusually powerful ways to handle it.</p></li>
 <li><p>Ignoring systematic missingness can bias estimates and fit indices.</p></li>
+<li><p>Inspect patterns of missingness before analysis then decide on handling strategy: e.g., FIML for continuous ML, pairwise approaches for WLSMV.</p></li>
 </ul></li>
 <li><p><strong>Identification</strong></p>
 <ul>
@@ -833,7 +833,7 @@ What is a threshold?
 </div>
 <div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
-<p>In the context of CFA (and more broadly, ordinal or categorical data modeling), a <strong>threshold</strong> is essentially the boundary between categories on an observed ordinal variable. Let me break it down carefully:</p>
+<p>In the context of CFA (and more broadly, ordinal or categorical data modelling), a <strong>threshold</strong> is essentially the boundary between categories on an observed ordinal variable. Let me break it down carefully:</p>
 <p><strong>Conceptual Explanation</strong></p>
 <ul>
 <li><p>Suppose you have an item with responses like: 1 = Strongly Disagree, 2 = Disagree, 3 = Neutral, 4 = Agree, 5 = Strongly Agree.</p></li>
@@ -931,7 +931,7 @@ P(Y \le k) = \Phi(\tau_k - \lambda \eta)
 <li><p>Scale type</p></li>
 <li><p>Sample size</p></li>
 <li><p>Missing data inspection</p></li>
-<li><p>Identification check (although a prerequisite, we check this after we’ve run the model)</p></li>
+<li><p>Identification check</p></li>
 </ul>
 <p><strong>Prepare the model:</strong></p>
 <ul>
@@ -988,9 +988,9 @@ P(Y \le k) = \Phi(\tau_k - \lambda \eta)
 <p>Our new hypothesised model looks like this:</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 26%">
-<col style="width: 26%">
-<col style="width: 47%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <tbody>
 <tr class="odd">
@@ -1098,7 +1098,7 @@ P(Y \le k) = \Phi(\tau_k - \lambda \eta)
 </section>
 <section id="pre-analysis-checks" class="level3">
 <h3 class="anchored" data-anchor-id="pre-analysis-checks">Pre-Analysis Checks</h3>
-<p>Let’s start with out pre-analysis checks.</p>
+<p>Let’s start with our pre-analysis checks.</p>
 <p>To recap, these are:</p>
 <ul>
 <li><p>Theoretical model specification</p></li>
@@ -1425,7 +1425,29 @@ Solution
 </div>
 </div>
 </div>
-<p><strong><em>Step B: Count Unique Pieces of Information (Covariances)</em></strong></p>
+<p><strong><em>Step B: Count Unique Pieces of Information</em></strong></p>
+<ul>
+<li>For <strong>ordinal</strong> observed variables, the number of unique elements in the sample covariance matrix is:</li>
+</ul>
+<p><span class="math display">\[ \frac{p(p-1)}{2} + \sum_{i=1}^{p}(k_i - 1) \]</span></p>
+<p>Where <span class="math inline">\(p\)</span> = no. of items</p>
+<ul>
+<li>Your <strong>total free parameters must not exceed this</strong>.</li>
+<li>If you have more parameters than unique pieces of info, the model is <strong>under-identified</strong>.</li>
+</ul>
+<p>Ordinal models often have <strong>more available information than continuous ones</strong> because every item contributes multiple <strong>threshold parameters</strong>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+What if my data were continuous?
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
 <ul>
 <li>For continuous observed variables, the number of unique elements in the sample covariance matrix is:</li>
 </ul>
@@ -1451,7 +1473,7 @@ Solution
 <div class="callout-body-container callout-body">
 <p>For 15 observed continuous variables, the <strong>sample covariance matrix</strong> contains:</p>
 <p><span class="math display">\[
-\text{Number of unique covariances} = \frac{p(p+1)}{2}
+\text{Information} = \frac{p(p+1)}{2}
 = \frac{15(15+1)}{2}
 = 120
 \]</span></p>
@@ -1459,8 +1481,38 @@ Solution
 <li><p><strong>Variances:</strong> 15 (one for each item)</p></li>
 <li><p><strong>Covariances:</strong> 105</p></li>
 </ul>
-<p>Since 48 &lt; 120, we have <strong>more than enough information</strong> to estimate the model.</p>
+<p>Since 93 &lt; 120, we have <strong>more than enough information</strong> to estimate the model.</p>
 <p>The model is theoretically <strong>over-identified</strong>, which is what we want.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<p>🤔 <strong>How many unique pieces of information are there in our model?</strong></p>
+<p>🤔 <strong>Is the model over/under/just identified?</strong></p>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Solution
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>For 15 observed ordinal variables with 5 response categories, the available information comes from polychoric correlations and thresholds:<br>
+<br>
+<span class="math display">\[ \begin{aligned} \text{Information} &amp;= \frac{p(p-1)}{2} + \sum_{i=1}^{p}(k_i - 1) \\                    &amp;= \frac{15(15-1)}{2} + 15(5-1) \\                    &amp;= 105 + 60 \\                    &amp;= 165 \end{aligned} \]</span><br>
+Correlations: 105<br>
+<br>
+Thresholds: 60 (4 per item × 15 items)<br>
+<br>
+Since 93 &lt; 165, we have more than enough information to estimate the model.<br>
+<br>
+The model is theoretically <strong>over-identified</strong>, which is what we want.</p>
 </div>
 </div>
 </div>
@@ -1471,7 +1523,7 @@ Solution
 </ul>
 <p>🤔 <strong>Does our model meet the rules of thumb?</strong></p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-12-contents" aria-controls="callout-12" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1480,7 +1532,7 @@ Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-12" class="callout-12-contents callout-collapse collapse">
+<div id="callout-14" class="callout-14-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Yes - we have at least 3 indicators and we will fix the scale in the next section.</p>
 </div>
@@ -1555,7 +1607,7 @@ Solution
 </ul>
 <p>🤔 <strong>Which factor scaling method is most appropriate for our purposes?</strong></p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-13-contents" aria-controls="callout-13" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1564,7 +1616,7 @@ Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-13" class="callout-13-contents callout-collapse collapse">
+<div id="callout-15" class="callout-15-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>For <strong>scale development based on an EFA</strong>, you almost always want the <strong>marker (reference indicator) method</strong>.</p>
 <p>Here’s why:</p>
@@ -1598,7 +1650,7 @@ Solution
 </ul>
 <p>🤔 <strong>Which estimator is most appropriate for our data?</strong></p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-14-contents" aria-controls="callout-14" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1607,7 +1659,7 @@ Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-14" class="callout-14-contents callout-collapse collapse">
+<div id="callout-16" class="callout-16-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>WLSMV</strong> - we have ordinal data and a large sample</p>
 </div>
@@ -1763,7 +1815,7 @@ stars_help_1 stars_help_3 stars_help_4
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-15-contents" aria-controls="callout-15" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -1772,7 +1824,7 @@ More on Heywood Cases
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-15" class="callout-15-contents callout-collapse collapse">
+<div id="callout-17" class="callout-17-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>A <strong>Heywood case</strong> is one of those moments in <strong>confirmatory factor analysis (CFA)</strong> where the model produces a <strong>statistically impossible parameter estimate</strong>. In practice, it usually means <strong>a negative variance estimate</strong> for an error term (or sometimes a factor variance). Variances can’t be negative in reality, so the result signals that <strong>something is wrong with the model or the data</strong>.</p>
 <p><strong>What a Heywood case looks like:</strong></p>
@@ -1868,16 +1920,16 @@ More on Heywood Cases
 </div>
 <p>🤔<strong>Do we have any warnings, convergence issues, or Heywood cases?</strong></p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-16-contents" aria-controls="callout-16" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<strong>Solution</strong>
+Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-16" class="callout-16-contents callout-collapse collapse">
+<div id="callout-18" class="callout-18-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Nope!</p>
 </div>
@@ -2004,16 +2056,16 @@ stars_help_3|t4 stars_help_4|t1 stars_help_4|t2 stars_help_4|t3 stars_help_4|t4
 </div>
 <p>🤔<strong>Do we have any problematic standardised residuals?</strong></p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-17-contents" aria-controls="callout-17" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<strong>Solution</strong>
+Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-17" class="callout-17-contents callout-collapse collapse">
+<div id="callout-19" class="callout-19-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>Oh, hell yes — there are some <strong>very large standardised residuals</strong> that we should explore before moving on (and digging into this is actually a great way to learn more about what is going on under the hood of a CFA!).</p>
 </div>
@@ -2092,7 +2144,7 @@ Standardised\ Residual = \frac{Residual}{Standard\ Error\ of\ predicted\ covaria
 </div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-18-contents" aria-controls="callout-18" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -2101,67 +2153,67 @@ Standardised Residuals Heatmap Code
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-18" class="callout-18-contents callout-collapse collapse">
+<div id="callout-20" class="callout-20-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-16"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-16-1"><a href="#annotated-cell-16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract standardized residuals</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-16-2" class="code-annotation-target"><a href="#annotated-cell-16-2" aria-hidden="true" tabindex="-1"></a>resid_std <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">residuals</span>(stars_fit, <span class="at">type =</span> <span class="st">"standardized"</span>)<span class="sc">$</span>cov</span>
-<span id="annotated-cell-16-3"><a href="#annotated-cell-16-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-16-4"><a href="#annotated-cell-16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># keep only the lower triangle</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-16-5" class="code-annotation-target"><a href="#annotated-cell-16-5" aria-hidden="true" tabindex="-1"></a>resid_lower <span class="ot">&lt;-</span> resid_std</span>
-<span id="annotated-cell-16-6"><a href="#annotated-cell-16-6" aria-hidden="true" tabindex="-1"></a>resid_lower[<span class="fu">upper.tri</span>(resid_lower)] <span class="ot">&lt;-</span> <span class="cn">NA</span> <span class="co">#&lt;3&gt; set upper triangle to NA</span></span>
-<span id="annotated-cell-16-7"><a href="#annotated-cell-16-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-16-8"><a href="#annotated-cell-16-8" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to long format for plotting</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-16-9" class="code-annotation-target"><a href="#annotated-cell-16-9" aria-hidden="true" tabindex="-1"></a>resid_long <span class="ot">&lt;-</span> reshape2<span class="sc">::</span><span class="fu">melt</span>(resid_lower, <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">"Item 1"</span>, <span class="st">"Item 2"</span>), <span class="at">value.name =</span> <span class="st">"Residual"</span>)</span>
-<span id="annotated-cell-16-10"><a href="#annotated-cell-16-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-16-11"><a href="#annotated-cell-16-11" aria-hidden="true" tabindex="-1"></a><span class="co"># remove NA rows (upper triangle)</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-16-12" class="code-annotation-target"><a href="#annotated-cell-16-12" aria-hidden="true" tabindex="-1"></a>resid_long <span class="ot">&lt;-</span> resid_long[<span class="sc">!</span><span class="fu">is.na</span>(resid_long<span class="sc">$</span>Residual), ]</span>
-<span id="annotated-cell-16-13"><a href="#annotated-cell-16-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-16-14"><a href="#annotated-cell-16-14" aria-hidden="true" tabindex="-1"></a><span class="co"># load ggplot2 for plotting</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-16-15" class="code-annotation-target"><a href="#annotated-cell-16-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="annotated-cell-16-16"><a href="#annotated-cell-16-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-16-17"><a href="#annotated-cell-16-17" aria-hidden="true" tabindex="-1"></a><span class="co"># create heatmap</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-16-18" class="code-annotation-target"><a href="#annotated-cell-16-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(resid_long, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Item 1</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Item 2</span><span class="st">`</span>, <span class="at">fill =</span> Residual)) <span class="sc">+</span></span>
-<span id="annotated-cell-16-19"><a href="#annotated-cell-16-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span> <span class="co">#&lt;8&gt; draw tiles for each item pair</span></span>
-<span id="annotated-cell-16-20"><a href="#annotated-cell-16-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(Residual, <span class="dv">1</span>)), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> <span class="co">#&lt;9&gt; annotate tiles with residuals</span></span>
-<span id="annotated-cell-16-21"><a href="#annotated-cell-16-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"blue"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"red"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>) <span class="sc">+</span> <span class="co">#&lt;10&gt; color scale</span></span>
-<span id="annotated-cell-16-22"><a href="#annotated-cell-16-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="co">#&lt;11&gt; clean minimal theme</span></span>
-<span id="annotated-cell-16-23"><a href="#annotated-cell-16-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="co">#&lt;12&gt; rotate x-axis labels</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="13" onclick="event.preventDefault();">13</a><span id="annotated-cell-16-24" class="code-annotation-target"><a href="#annotated-cell-16-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Standardised Residuals Heatmap (Lower Triangle Only)"</span>,</span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-16" data-target-annotation="14" onclick="event.preventDefault();">14</a><span id="annotated-cell-16-25" class="code-annotation-target"><a href="#annotated-cell-16-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Std Residual"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="annotated-cell-17"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-17-1"><a href="#annotated-cell-17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># extract standardized residuals</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-17-2" class="code-annotation-target"><a href="#annotated-cell-17-2" aria-hidden="true" tabindex="-1"></a>resid_std <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">residuals</span>(stars_fit, <span class="at">type =</span> <span class="st">"standardized"</span>)<span class="sc">$</span>cov</span>
+<span id="annotated-cell-17-3"><a href="#annotated-cell-17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-17-4"><a href="#annotated-cell-17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># keep only the lower triangle</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-17-5" class="code-annotation-target"><a href="#annotated-cell-17-5" aria-hidden="true" tabindex="-1"></a>resid_lower <span class="ot">&lt;-</span> resid_std</span>
+<span id="annotated-cell-17-6"><a href="#annotated-cell-17-6" aria-hidden="true" tabindex="-1"></a>resid_lower[<span class="fu">upper.tri</span>(resid_lower)] <span class="ot">&lt;-</span> <span class="cn">NA</span> <span class="co">#&lt;3&gt; set upper triangle to NA</span></span>
+<span id="annotated-cell-17-7"><a href="#annotated-cell-17-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-17-8"><a href="#annotated-cell-17-8" aria-hidden="true" tabindex="-1"></a><span class="co"># convert to long format for plotting</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-17-9" class="code-annotation-target"><a href="#annotated-cell-17-9" aria-hidden="true" tabindex="-1"></a>resid_long <span class="ot">&lt;-</span> reshape2<span class="sc">::</span><span class="fu">melt</span>(resid_lower, <span class="at">varnames =</span> <span class="fu">c</span>(<span class="st">"Item 1"</span>, <span class="st">"Item 2"</span>), <span class="at">value.name =</span> <span class="st">"Residual"</span>)</span>
+<span id="annotated-cell-17-10"><a href="#annotated-cell-17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-17-11"><a href="#annotated-cell-17-11" aria-hidden="true" tabindex="-1"></a><span class="co"># remove NA rows (upper triangle)</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-17-12" class="code-annotation-target"><a href="#annotated-cell-17-12" aria-hidden="true" tabindex="-1"></a>resid_long <span class="ot">&lt;-</span> resid_long[<span class="sc">!</span><span class="fu">is.na</span>(resid_long<span class="sc">$</span>Residual), ]</span>
+<span id="annotated-cell-17-13"><a href="#annotated-cell-17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-17-14"><a href="#annotated-cell-17-14" aria-hidden="true" tabindex="-1"></a><span class="co"># load ggplot2 for plotting</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-17-15" class="code-annotation-target"><a href="#annotated-cell-17-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="annotated-cell-17-16"><a href="#annotated-cell-17-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="annotated-cell-17-17"><a href="#annotated-cell-17-17" aria-hidden="true" tabindex="-1"></a><span class="co"># create heatmap</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-17-18" class="code-annotation-target"><a href="#annotated-cell-17-18" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(resid_long, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">`</span><span class="at">Item 1</span><span class="st">`</span>, <span class="at">y =</span> <span class="st">`</span><span class="at">Item 2</span><span class="st">`</span>, <span class="at">fill =</span> Residual)) <span class="sc">+</span></span>
+<span id="annotated-cell-17-19"><a href="#annotated-cell-17-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="at">color =</span> <span class="st">"white"</span>) <span class="sc">+</span> <span class="co">#&lt;8&gt; draw tiles for each item pair</span></span>
+<span id="annotated-cell-17-20"><a href="#annotated-cell-17-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="fu">aes</span>(<span class="at">label =</span> <span class="fu">round</span>(Residual, <span class="dv">1</span>)), <span class="at">size =</span> <span class="dv">3</span>) <span class="sc">+</span> <span class="co">#&lt;9&gt; annotate tiles with residuals</span></span>
+<span id="annotated-cell-17-21"><a href="#annotated-cell-17-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low =</span> <span class="st">"blue"</span>, <span class="at">mid =</span> <span class="st">"white"</span>, <span class="at">high =</span> <span class="st">"red"</span>, <span class="at">midpoint =</span> <span class="dv">0</span>) <span class="sc">+</span> <span class="co">#&lt;10&gt; color scale</span></span>
+<span id="annotated-cell-17-22"><a href="#annotated-cell-17-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span> <span class="co">#&lt;11&gt; clean minimal theme</span></span>
+<span id="annotated-cell-17-23"><a href="#annotated-cell-17-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>)) <span class="sc">+</span> <span class="co">#&lt;12&gt; rotate x-axis labels</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="13" onclick="event.preventDefault();">13</a><span id="annotated-cell-17-24" class="code-annotation-target"><a href="#annotated-cell-17-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Standardised Residuals Heatmap (Lower Triangle Only)"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-17" data-target-annotation="14" onclick="event.preventDefault();">14</a><span id="annotated-cell-17-25" class="code-annotation-target"><a href="#annotated-cell-17-25" aria-hidden="true" tabindex="-1"></a>       <span class="at">fill =</span> <span class="st">"Std Residual"</span>)</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-16" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="2" data-code-annotation="1">Extract the covariance matrix of standardized residuals from the fitted CFA model.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="2" data-code-annotation="1">Extract the covariance matrix of standardized residuals from the fitted CFA model.</span>
 </dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="5" data-code-annotation="2">Copy the residuals matrix to prepare for masking the upper triangle.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="5" data-code-annotation="2">Copy the residuals matrix to prepare for masking the upper triangle.</span>
 </dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="4">4</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="4">4</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="9" data-code-annotation="4">Convert the matrix to long format using <code>reshape2::melt()</code> for ggplot compatibility, naming the columns for clarity.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="9" data-code-annotation="4">Convert the matrix to long format using <code>reshape2::melt()</code> for ggplot compatibility, naming the columns for clarity.</span>
 </dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="5">5</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="5">5</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="12" data-code-annotation="5">Remove rows corresponding to <code>NA</code> values (upper triangle) to keep only the lower triangle.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="12" data-code-annotation="5">Remove rows corresponding to <code>NA</code> values (upper triangle) to keep only the lower triangle.</span>
 </dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="6">6</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="6">6</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="15" data-code-annotation="6">Load <code>ggplot2</code> for creating the heatmap.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="15" data-code-annotation="6">Load <code>ggplot2</code> for creating the heatmap.</span>
 </dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="7">7</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="7">7</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="18" data-code-annotation="7">Initialise the ggplot object, mapping item pairs to x/y and residual value to fill colour.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="18" data-code-annotation="7">Initialise the ggplot object, mapping item pairs to x/y and residual value to fill colour.</span>
 </dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="13">13</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="13">13</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="24" data-code-annotation="13">Add a descriptive title for the heatmap.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="24" data-code-annotation="13">Add a descriptive title for the heatmap.</span>
 </dd>
-<dt data-target-cell="annotated-cell-16" data-target-annotation="14">14</dt>
+<dt data-target-cell="annotated-cell-17" data-target-annotation="14">14</dt>
 <dd>
-<span data-code-cell="annotated-cell-16" data-code-lines="25" data-code-annotation="14">Label the fill legend to indicate these are standardised residuals.</span>
+<span data-code-cell="annotated-cell-17" data-code-lines="25" data-code-annotation="14">Label the fill legend to indicate these are standardised residuals.</span>
 </dd>
 </dl>
 </div>
@@ -2355,7 +2407,8 @@ Standardised Residuals Heatmap Code
 <p>Crucially, whatever changes you make, you need to re-run the model and re-evalutate the standardised residuals <strong>after each one</strong>.</p>
 <p>Many of the suggested actions are things we cannot feasibly address for teaching purposes (e.g., we cannot revise the items and collect new data), and we don’t have time to cover all issues, but let’s look at the largest positive and largest negative residual for illustrative purposes.</p>
 <p><strong>Largest Positive Standardised Residual</strong></p>
-<p><code>stars_help_1</code> and <code>stars_help_2</code> had a huge standardised residual of 19.5, meaning the correlation is massively overestimated. Looking at the wording of the items (and their correlation), it is clear there is some considerable overlap and, therefore, redundancy — they are almost identical.</p>
+<p><code>stars_help_1</code> and <code>stars_help_2</code> had a huge standardised residual of 19.5, meaning the correlation is massively underestimated.</p>
+<p>Looking at the wording of the items (and their correlation), it is clear there is some considerable overlap and, therefore, redundancy — they are almost identical.</p>
 <p>In this case, you’d want to either merge (create a composite) or drop one of the items. In scale development, it makes more sense to drop one of the items because that is how you’d use the scale going forward (you wouldn’t publish a scale and tell researchers they need to create a composite of two items).</p>
 <p>Let’s drop <code>stars_help_1</code> as it loaded lowest of the two onto the factor in our EFA. Then we’ll re-run the model and re-inspect our standardised residuals.</p>
 <div class="cell">
@@ -2410,7 +2463,7 @@ Standardised Residuals Heatmap Code
 <p><strong>Largest Negative Standardised Residual</strong></p>
 <p>The largest negative standardised residual is now between <code>stars_int_6</code> (<em>Interpreting the meaning of a probability value once I have found it</em>) and <code>stars_int_3</code> (<em>Reading a journal article that includes some statistical analyses</em>), with a whopping -11.1.</p>
 <p>The negative residual indicates that the model predicts these items should be more strongly related than they actually are.</p>
-<p>Although both items measure interpretation anxiety, they involve different kinds of cognitive tasks — reading and interpreting a specific type of statistical value, which may explain why students respond to them differently.</p>
+<p>Although both items measure interpretation anxiety, they involve <strong>different contexts</strong>: interpreting a specific statistical value versus reading statistical analyses in research articles. These may place different cognitive demands on students, which could explain why responses to the items are less strongly related than the model predicts.</p>
 <p>Addressing this properly would require revising the scale or collecting new data, so for teaching purposes we will simply note this misfit and proceed with the model.</p>
 </section>
 </section>
@@ -2679,7 +2732,7 @@ R-Square:
 </div>
 <p>🤔 <strong>What do the parameter estimates tell us about our scale?</strong></p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-19-contents" aria-controls="callout-19" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -2688,7 +2741,7 @@ Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-19" class="callout-19-contents callout-collapse collapse">
+<div id="callout-21" class="callout-21-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Factor Loadings:</strong></p>
 <p>All loadings are <strong>large and statistically significant</strong>.</p>
@@ -3005,22 +3058,22 @@ R-Square:
 </div>
 </div>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-20-contents" aria-controls="callout-20" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-<strong>Solution</strong>
+Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-20" class="callout-20-contents callout-collapse collapse">
+<div id="callout-22" class="callout-22-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <table class="caption-top table">
 <colgroup>
-<col style="width: 25%">
-<col style="width: 31%">
-<col style="width: 43%">
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3074,7 +3127,7 @@ R-Square:
 <li><p>Identify <strong>specific item pairs with residual correlations</strong> that are unexpectedly high</p></li>
 <li><p>Sometimes used to <strong>guide minor, theoretically justifiable refinements</strong>, such as adding a correlated error between two very similar items</p></li>
 </ul>
-<p>However, they must be used cautiously — avoid:</p>
+<p>However, they must be used cautiously:</p>
 <ul>
 <li><p><strong>Don’t blindly free parameters</strong> just because the MI is large; this is data-driven and can lead to <strong>overfitting</strong></p></li>
 <li><p>Avoid using MIs to <strong>retrofit your model to your current data</strong>, especially in scale development: modifications may not replicate in new samples</p></li>
@@ -3229,8 +3282,8 @@ R-Square:
 <p><strong>What each column means:</strong></p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 27%">
-<col style="width: 72%">
+<col style="width: 35%">
+<col style="width: 64%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3275,7 +3328,7 @@ R-Square:
 </table>
 <p>🤔<strong>Do the MIs suggest freeing any parameters and what should we do about them?</strong></p>
 <div class="callout callout-style-default callout-tip callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-21-contents" aria-controls="callout-21" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-23-contents" aria-controls="callout-23" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -3284,7 +3337,7 @@ Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-21" class="callout-21-contents callout-collapse collapse">
+<div id="callout-23" class="callout-23-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Practical interpretation for this model:</strong></p>
 <ul>
@@ -3336,7 +3389,7 @@ Solution
 <p>We did some table work last week, so let’s spare ourselves and focus on the in-text write-up and path diagrams.</p>
 <p>🤔 <strong>How would you write up the results of this CFA in-text?</strong></p>
 <div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-22-contents" aria-controls="callout-22" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-24-contents" aria-controls="callout-24" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
@@ -3345,7 +3398,7 @@ Solution
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-22" class="callout-22-contents callout-collapse collapse">
+<div id="callout-24" class="callout-24-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p>We hypothesised a three-factor structure representing <strong>Interpretation Anxiety</strong> (<code>interpret</code>), <strong>Test Anxiety</strong> (<code>test</code>), and <strong>Help-Seeking</strong> (<code>help</code>). Each factor was measured by multiple items: six items for <code>interpret</code>, five items for <code>test</code>, and three items for <code>help</code>. Factors were allowed to correlate, reflecting expected relationships between these constructs.</p>
 <p>The CFA was estimated using the <strong>DWLS estimator</strong> (Diagonally Weighted Least Squares) with robust standard errors and a mean- and variance-adjusted test statistic (WLSMV), appropriate for the ordinal nature of the items.</p>
@@ -3380,8 +3433,8 @@ Solution
 <p>Here are just some of the arguments that are useful in customising your semPlots:</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 50%">
-<col style="width: 50%">
+<col style="width: 34%">
+<col style="width: 65%">
 </colgroup>
 <thead>
 <tr class="header">
@@ -3532,6 +3585,24 @@ Solution
 </figure>
 </div>
 </div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>stars_plot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>From        To  Weight
+15   --&gt;     1   1 
+15   --&gt;     2   1 
+15   --&gt;     3   1 
+15   --&gt;     4   1 
+15   --&gt;     5   1 
+15   --&gt;     6   1 
+16   --&gt;     7   1 
+16   --&gt;     8   1 
+16   --&gt;     9   1 
+16   --&gt;     10      1 
+16   --&gt;     11      1 
+17   --&gt;     12      1 
+17   --&gt;     13      1 
+17   --&gt;     14      1 </code></pre>
+</div>
 </div>
 <p>So, what do you think of our path diagram? It isn’t the worst I’ve seen, but the observed variable labels are unreadable. You can make them bigger with <code>cex.label =</code>, but that also enlarges the latent variable labels and in this case, they end up too big. <code>semPlot</code> doesn’t have an argument that just adjusts the observed variable nodes, so we’re back to elaborate work-arounds, like the EFA table. Sigh.<br>
 <br>
@@ -3545,116 +3616,116 @@ In my version, there are also some weird lines in the observed variable nodes, b
 <h3 class="anchored" data-anchor-id="code-recognition-tasks">Code Recognition Tasks</h3>
 <p>Here’s all the code from this tutorial. Can you remember what each line of each code chunk does? Are there any code chunks that you struggle to make sense of (you would be forgiven for skipping over some of the detail in the formatted loadings table!)? Make sure to revisit the section in which it is used and take notes.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="annotated-cell-12"><pre class="sourceCode r code-annotation-code code-with-copy"><code class="sourceCode r"><span id="annotated-cell-12-1"><a href="#annotated-cell-12-1" aria-hidden="true" tabindex="-1"></a>stars_data <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/stars_cfa_data.csv"</span>)) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-12-2"><a href="#annotated-cell-12-2" aria-hidden="true" tabindex="-1"></a>            dplyr<span class="sc">::</span><span class="fu">select</span>(stars_int_3,</span>
-<span id="annotated-cell-12-3"><a href="#annotated-cell-12-3" aria-hidden="true" tabindex="-1"></a>                          stars_int_11,</span>
-<span id="annotated-cell-12-4"><a href="#annotated-cell-12-4" aria-hidden="true" tabindex="-1"></a>                          stars_int_1,</span>
-<span id="annotated-cell-12-5"><a href="#annotated-cell-12-5" aria-hidden="true" tabindex="-1"></a>                          stars_int_6,</span>
-<span id="annotated-cell-12-6"><a href="#annotated-cell-12-6" aria-hidden="true" tabindex="-1"></a>                          stars_int_5,</span>
-<span id="annotated-cell-12-7"><a href="#annotated-cell-12-7" aria-hidden="true" tabindex="-1"></a>                          stars_int_2,</span>
-<span id="annotated-cell-12-8"><a href="#annotated-cell-12-8" aria-hidden="true" tabindex="-1"></a>                          stars_test_3,</span>
-<span id="annotated-cell-12-9"><a href="#annotated-cell-12-9" aria-hidden="true" tabindex="-1"></a>                          stars_test_6,</span>
-<span id="annotated-cell-12-10"><a href="#annotated-cell-12-10" aria-hidden="true" tabindex="-1"></a>                          stars_test_4,</span>
-<span id="annotated-cell-12-11"><a href="#annotated-cell-12-11" aria-hidden="true" tabindex="-1"></a>                          stars_test_1,</span>
-<span id="annotated-cell-12-12"><a href="#annotated-cell-12-12" aria-hidden="true" tabindex="-1"></a>                          stars_test_8, </span>
-<span id="annotated-cell-12-13"><a href="#annotated-cell-12-13" aria-hidden="true" tabindex="-1"></a>                          stars_help_2,</span>
-<span id="annotated-cell-12-14"><a href="#annotated-cell-12-14" aria-hidden="true" tabindex="-1"></a>                          stars_help_1,</span>
-<span id="annotated-cell-12-15"><a href="#annotated-cell-12-15" aria-hidden="true" tabindex="-1"></a>                          stars_help_3,</span>
-<span id="annotated-cell-12-16"><a href="#annotated-cell-12-16" aria-hidden="true" tabindex="-1"></a>                          stars_help_4)</span>
-<span id="annotated-cell-12-17"><a href="#annotated-cell-12-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-18"><a href="#annotated-cell-12-18" aria-hidden="true" tabindex="-1"></a>stars_corr <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">polychoric</span>(stars_data)<span class="sc">$</span>rho </span>
-<span id="annotated-cell-12-19"><a href="#annotated-cell-12-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-20"><a href="#annotated-cell-12-20" aria-hidden="true" tabindex="-1"></a>stars_heatmap <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">cor.plot</span>( </span>
-<span id="annotated-cell-12-21"><a href="#annotated-cell-12-21" aria-hidden="true" tabindex="-1"></a>  stars_corr, </span>
-<span id="annotated-cell-12-22"><a href="#annotated-cell-12-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> <span class="cn">FALSE</span>, </span>
-<span id="annotated-cell-12-23"><a href="#annotated-cell-12-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">diag =</span> <span class="cn">FALSE</span>,  </span>
-<span id="annotated-cell-12-24"><a href="#annotated-cell-12-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.3</span>, </span>
-<span id="annotated-cell-12-25"><a href="#annotated-cell-12-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex.axis =</span> <span class="fl">0.4</span>, </span>
-<span id="annotated-cell-12-26"><a href="#annotated-cell-12-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">las =</span> <span class="dv">2</span>, </span>
-<span id="annotated-cell-12-27"><a href="#annotated-cell-12-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Polychoric Correlation Heat Map of STARS Items"</span></span>
-<span id="annotated-cell-12-28"><a href="#annotated-cell-12-28" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="annotated-cell-12-29"><a href="#annotated-cell-12-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-30"><a href="#annotated-cell-12-30" aria-hidden="true" tabindex="-1"></a>stars_data <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-12-31"><a href="#annotated-cell-12-31" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
-<span id="annotated-cell-12-32"><a href="#annotated-cell-12-32" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
-<span id="annotated-cell-12-33"><a href="#annotated-cell-12-33" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">everything</span>(),</span>
-<span id="annotated-cell-12-34"><a href="#annotated-cell-12-34" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">mean</span>(<span class="fu">is.na</span>(.)) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="annotated-cell-12-35"><a href="#annotated-cell-12-35" aria-hidden="true" tabindex="-1"></a>    )</span>
-<span id="annotated-cell-12-36"><a href="#annotated-cell-12-36" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="annotated-cell-12-37"><a href="#annotated-cell-12-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-38"><a href="#annotated-cell-12-38" aria-hidden="true" tabindex="-1"></a>stars_data <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-12-39"><a href="#annotated-cell-12-39" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="annotated-cell-12-40"><a href="#annotated-cell-12-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_pct =</span> <span class="fu">rowMeans</span>(<span class="fu">is.na</span>(stars_data)) <span class="sc">*</span> <span class="dv">100</span></span>
-<span id="annotated-cell-12-41"><a href="#annotated-cell-12-41" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-12-42"><a href="#annotated-cell-12-42" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(missing_pct)</span>
-<span id="annotated-cell-12-43"><a href="#annotated-cell-12-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-44"><a href="#annotated-cell-12-44" aria-hidden="true" tabindex="-1"></a>stars_meas_mod <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="annotated-cell-12-45"><a href="#annotated-cell-12-45" aria-hidden="true" tabindex="-1"></a><span class="st">interpret =~ stars_int_3 + stars_int_11 + stars_int_1 + stars_int_6 + stars_int_5 + stars_int_2  </span></span>
-<span id="annotated-cell-12-46"><a href="#annotated-cell-12-46" aria-hidden="true" tabindex="-1"></a><span class="st">test =~ stars_test_3 + stars_test_6 + stars_test_4 + stars_test_1 + stars_test_8  </span></span>
-<span id="annotated-cell-12-47"><a href="#annotated-cell-12-47" aria-hidden="true" tabindex="-1"></a><span class="st">help =~ stars_help_2 + stars_help_1 + stars_help_3 + stars_help_4 </span></span>
-<span id="annotated-cell-12-48"><a href="#annotated-cell-12-48" aria-hidden="true" tabindex="-1"></a><span class="st">'</span> </span>
-<span id="annotated-cell-12-49"><a href="#annotated-cell-12-49" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-50"><a href="#annotated-cell-12-50" aria-hidden="true" tabindex="-1"></a>stars_fit <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>( </span>
-<span id="annotated-cell-12-51"><a href="#annotated-cell-12-51" aria-hidden="true" tabindex="-1"></a>  stars_meas_mod, </span>
-<span id="annotated-cell-12-52"><a href="#annotated-cell-12-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> stars_data,</span>
-<span id="annotated-cell-12-53"><a href="#annotated-cell-12-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"WLSMV"</span>,</span>
-<span id="annotated-cell-12-54"><a href="#annotated-cell-12-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered =</span> <span class="fu">names</span>(stars_data),</span>
-<span id="annotated-cell-12-55"><a href="#annotated-cell-12-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">std.lv =</span> <span class="cn">TRUE</span>) </span>
-<span id="annotated-cell-12-56"><a href="#annotated-cell-12-56" aria-hidden="true" tabindex="-1"></a>stars_fit</span>
-<span id="annotated-cell-12-57"><a href="#annotated-cell-12-57" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-58"><a href="#annotated-cell-12-58" aria-hidden="true" tabindex="-1"></a>resid_var <span class="ot">&lt;-</span> <span class="fu">diag</span>(lavaan<span class="sc">::</span><span class="fu">inspect</span>(stars_fit, <span class="st">"theta"</span>))</span>
-<span id="annotated-cell-12-59"><a href="#annotated-cell-12-59" aria-hidden="true" tabindex="-1"></a>resid_var </span>
-<span id="annotated-cell-12-60"><a href="#annotated-cell-12-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-61"><a href="#annotated-cell-12-61" aria-hidden="true" tabindex="-1"></a>std_load <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">standardizedSolution</span>(stars_fit)</span>
-<span id="annotated-cell-12-62"><a href="#annotated-cell-12-62" aria-hidden="true" tabindex="-1"></a>std_load <span class="ot">&lt;-</span> std_load[std_load<span class="sc">$</span>op <span class="sc">==</span> <span class="st">"=~"</span>, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"rhs"</span>,<span class="st">"est.std"</span>)]</span>
-<span id="annotated-cell-12-63"><a href="#annotated-cell-12-63" aria-hidden="true" tabindex="-1"></a>std_load  </span>
-<span id="annotated-cell-12-64"><a href="#annotated-cell-12-64" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-65"><a href="#annotated-cell-12-65" aria-hidden="true" tabindex="-1"></a>resid_std <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">residuals</span>(stars_fit, <span class="at">type =</span> <span class="st">"standardized"</span>)<span class="sc">$</span>cov</span>
-<span id="annotated-cell-12-66"><a href="#annotated-cell-12-66" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-67"><a href="#annotated-cell-12-67" aria-hidden="true" tabindex="-1"></a>stars_data2 <span class="ot">&lt;-</span> stars_data <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-12-68"><a href="#annotated-cell-12-68" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>stars_help_1)</span>
-<span id="annotated-cell-12-69"><a href="#annotated-cell-12-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-70"><a href="#annotated-cell-12-70" aria-hidden="true" tabindex="-1"></a>stars_meas_mod2 <span class="ot">&lt;-</span> <span class="st">'</span></span>
-<span id="annotated-cell-12-71"><a href="#annotated-cell-12-71" aria-hidden="true" tabindex="-1"></a><span class="st">interpret =~ stars_int_3 + stars_int_11 + stars_int_1 + stars_int_6 + stars_int_5 + stars_int_2</span></span>
-<span id="annotated-cell-12-72"><a href="#annotated-cell-12-72" aria-hidden="true" tabindex="-1"></a><span class="st">test =~ stars_test_3 + stars_test_6 + stars_test_4 + stars_test_1 + stars_test_8  </span></span>
-<span id="annotated-cell-12-73"><a href="#annotated-cell-12-73" aria-hidden="true" tabindex="-1"></a><span class="st">help =~ stars_help_2 + stars_help_3 + stars_help_4 </span></span>
-<span id="annotated-cell-12-74"><a href="#annotated-cell-12-74" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
-<span id="annotated-cell-12-75"><a href="#annotated-cell-12-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-76"><a href="#annotated-cell-12-76" aria-hidden="true" tabindex="-1"></a>stars_fit2 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>( </span>
-<span id="annotated-cell-12-77"><a href="#annotated-cell-12-77" aria-hidden="true" tabindex="-1"></a>  stars_meas_mod2,</span>
-<span id="annotated-cell-12-78"><a href="#annotated-cell-12-78" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> stars_data2, </span>
-<span id="annotated-cell-12-79"><a href="#annotated-cell-12-79" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"WLSMV"</span>,</span>
-<span id="annotated-cell-12-80"><a href="#annotated-cell-12-80" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered =</span> <span class="fu">names</span>(stars_data2),</span>
-<span id="annotated-cell-12-81"><a href="#annotated-cell-12-81" aria-hidden="true" tabindex="-1"></a>  <span class="at">std.lv =</span> <span class="cn">TRUE</span>)</span>
-<span id="annotated-cell-12-82"><a href="#annotated-cell-12-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-83"><a href="#annotated-cell-12-83" aria-hidden="true" tabindex="-1"></a>std_resid2 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">residuals</span>(stars_fit2, <span class="at">type =</span> <span class="st">"standardized"</span>)<span class="sc">$</span>cov</span>
-<span id="annotated-cell-12-84"><a href="#annotated-cell-12-84" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-85"><a href="#annotated-cell-12-85" aria-hidden="true" tabindex="-1"></a>stars_summary <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">summary</span>( </span>
-<span id="annotated-cell-12-86"><a href="#annotated-cell-12-86" aria-hidden="true" tabindex="-1"></a>  stars_fit2,    </span>
-<span id="annotated-cell-12-87"><a href="#annotated-cell-12-87" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
-<span id="annotated-cell-12-88"><a href="#annotated-cell-12-88" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit.measures =</span> <span class="cn">TRUE</span>,   </span>
-<span id="annotated-cell-12-89"><a href="#annotated-cell-12-89" aria-hidden="true" tabindex="-1"></a>  <span class="at">rsq =</span> <span class="cn">TRUE</span>)   </span>
-<span id="annotated-cell-12-90"><a href="#annotated-cell-12-90" aria-hidden="true" tabindex="-1"></a>stars_summary </span>
-<span id="annotated-cell-12-91"><a href="#annotated-cell-12-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-92"><a href="#annotated-cell-12-92" aria-hidden="true" tabindex="-1"></a>stars_mi <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">modindices</span>(stars_fit2, <span class="at">sort. =</span> <span class="cn">TRUE</span>)</span>
-<span id="annotated-cell-12-93"><a href="#annotated-cell-12-93" aria-hidden="true" tabindex="-1"></a>stars_mi</span>
-<span id="annotated-cell-12-94"><a href="#annotated-cell-12-94" aria-hidden="true" tabindex="-1"></a></span>
-<span id="annotated-cell-12-95"><a href="#annotated-cell-12-95" aria-hidden="true" tabindex="-1"></a>stars_plot <span class="ot">&lt;-</span> semPlot<span class="sc">::</span><span class="fu">semPaths</span>(</span>
-<span id="annotated-cell-12-96"><a href="#annotated-cell-12-96" aria-hidden="true" tabindex="-1"></a>  stars_fit2,</span>
-<span id="annotated-cell-12-97"><a href="#annotated-cell-12-97" aria-hidden="true" tabindex="-1"></a>  <span class="at">whatLabels =</span> <span class="st">"std"</span>,         </span>
-<span id="annotated-cell-12-98"><a href="#annotated-cell-12-98" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout =</span> <span class="st">"tree2"</span>,           </span>
-<span id="annotated-cell-12-99"><a href="#annotated-cell-12-99" aria-hidden="true" tabindex="-1"></a>  <span class="at">edge.label.cex =</span> <span class="fl">0.8</span>,       </span>
-<span id="annotated-cell-12-100"><a href="#annotated-cell-12-100" aria-hidden="true" tabindex="-1"></a>  <span class="at">sizeMan =</span> <span class="dv">4</span>,                </span>
-<span id="annotated-cell-12-101"><a href="#annotated-cell-12-101" aria-hidden="true" tabindex="-1"></a>  <span class="at">sizeLat =</span> <span class="dv">8</span>,               </span>
-<span id="annotated-cell-12-102"><a href="#annotated-cell-12-102" aria-hidden="true" tabindex="-1"></a>  <span class="at">residuals =</span> <span class="cn">FALSE</span>,          </span>
-<span id="annotated-cell-12-103"><a href="#annotated-cell-12-103" aria-hidden="true" tabindex="-1"></a>  <span class="at">exoCov =</span> <span class="cn">FALSE</span>,             </span>
-<span id="annotated-cell-12-104"><a href="#annotated-cell-12-104" aria-hidden="true" tabindex="-1"></a>  <span class="at">intercepts =</span> <span class="cn">FALSE</span>,        </span>
-<span id="annotated-cell-12-105"><a href="#annotated-cell-12-105" aria-hidden="true" tabindex="-1"></a>  <span class="at">curvePivot =</span> <span class="cn">TRUE</span>,          </span>
-<span id="annotated-cell-12-106"><a href="#annotated-cell-12-106" aria-hidden="true" tabindex="-1"></a>  <span class="at">style =</span> <span class="st">"lisrel"</span>,          </span>
-<span id="annotated-cell-12-107"><a href="#annotated-cell-12-107" aria-hidden="true" tabindex="-1"></a>  <span class="at">nCharNodes =</span> <span class="dv">0</span>,           </span>
-<span id="annotated-cell-12-108"><a href="#annotated-cell-12-108" aria-hidden="true" tabindex="-1"></a>  <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>),        </span>
-<span id="annotated-cell-12-109"><a href="#annotated-cell-12-109" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotation =</span> <span class="dv">2</span>,          </span>
-<span id="annotated-cell-12-110"><a href="#annotated-cell-12-110" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>stars_data <span class="ot">&lt;-</span> readr<span class="sc">::</span><span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data/stars_cfa_data.csv"</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>            dplyr<span class="sc">::</span><span class="fu">select</span>(stars_int_3,</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                          stars_int_11,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                          stars_int_1,</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>                          stars_int_6,</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                          stars_int_5,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                          stars_int_2,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                          stars_test_3,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>                          stars_test_6,</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>                          stars_test_4,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                          stars_test_1,</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                          stars_test_8, </span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>                          stars_help_2,</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>                          stars_help_1,</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>                          stars_help_3,</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>                          stars_help_4)</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>stars_corr <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">polychoric</span>(stars_data)<span class="sc">$</span>rho </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>stars_heatmap <span class="ot">&lt;-</span> psych<span class="sc">::</span><span class="fu">cor.plot</span>( </span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  stars_corr, </span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>  <span class="at">upper =</span> <span class="cn">FALSE</span>, </span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>  <span class="at">diag =</span> <span class="cn">FALSE</span>,  </span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex =</span> <span class="fl">0.3</span>, </span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>  <span class="at">cex.axis =</span> <span class="fl">0.4</span>, </span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="at">las =</span> <span class="dv">2</span>, </span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="at">main =</span> <span class="st">"Polychoric Correlation Heat Map of STARS Items"</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a>stars_data <span class="sc">|&gt;</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarise</span>(</span>
+<span id="cb11-32"><a href="#cb11-32" aria-hidden="true" tabindex="-1"></a>    dplyr<span class="sc">::</span><span class="fu">across</span>(</span>
+<span id="cb11-33"><a href="#cb11-33" aria-hidden="true" tabindex="-1"></a>      dplyr<span class="sc">::</span><span class="fu">everything</span>(),</span>
+<span id="cb11-34"><a href="#cb11-34" aria-hidden="true" tabindex="-1"></a>      <span class="sc">~</span> <span class="fu">mean</span>(<span class="fu">is.na</span>(.)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb11-35"><a href="#cb11-35" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb11-36"><a href="#cb11-36" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb11-37"><a href="#cb11-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-38"><a href="#cb11-38" aria-hidden="true" tabindex="-1"></a>stars_data <span class="sc">|&gt;</span></span>
+<span id="cb11-39"><a href="#cb11-39" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
+<span id="cb11-40"><a href="#cb11-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">missing_pct =</span> <span class="fu">rowMeans</span>(<span class="fu">is.na</span>(stars_data)) <span class="sc">*</span> <span class="dv">100</span></span>
+<span id="cb11-41"><a href="#cb11-41" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb11-42"><a href="#cb11-42" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">count</span>(missing_pct)</span>
+<span id="cb11-43"><a href="#cb11-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-44"><a href="#cb11-44" aria-hidden="true" tabindex="-1"></a>stars_meas_mod <span class="ot">&lt;-</span> <span class="st">'</span></span>
+<span id="cb11-45"><a href="#cb11-45" aria-hidden="true" tabindex="-1"></a><span class="st">interpret =~ stars_int_3 + stars_int_11 + stars_int_1 + stars_int_6 + stars_int_5 + stars_int_2  </span></span>
+<span id="cb11-46"><a href="#cb11-46" aria-hidden="true" tabindex="-1"></a><span class="st">test =~ stars_test_3 + stars_test_6 + stars_test_4 + stars_test_1 + stars_test_8  </span></span>
+<span id="cb11-47"><a href="#cb11-47" aria-hidden="true" tabindex="-1"></a><span class="st">help =~ stars_help_2 + stars_help_1 + stars_help_3 + stars_help_4 </span></span>
+<span id="cb11-48"><a href="#cb11-48" aria-hidden="true" tabindex="-1"></a><span class="st">'</span> </span>
+<span id="cb11-49"><a href="#cb11-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-50"><a href="#cb11-50" aria-hidden="true" tabindex="-1"></a>stars_fit <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>( </span>
+<span id="cb11-51"><a href="#cb11-51" aria-hidden="true" tabindex="-1"></a>  stars_meas_mod, </span>
+<span id="cb11-52"><a href="#cb11-52" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> stars_data,</span>
+<span id="cb11-53"><a href="#cb11-53" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"WLSMV"</span>,</span>
+<span id="cb11-54"><a href="#cb11-54" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered =</span> <span class="fu">names</span>(stars_data),</span>
+<span id="cb11-55"><a href="#cb11-55" aria-hidden="true" tabindex="-1"></a>  <span class="at">std.lv =</span> <span class="cn">TRUE</span>) </span>
+<span id="cb11-56"><a href="#cb11-56" aria-hidden="true" tabindex="-1"></a>stars_fit</span>
+<span id="cb11-57"><a href="#cb11-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-58"><a href="#cb11-58" aria-hidden="true" tabindex="-1"></a>resid_var <span class="ot">&lt;-</span> <span class="fu">diag</span>(lavaan<span class="sc">::</span><span class="fu">inspect</span>(stars_fit, <span class="st">"theta"</span>))</span>
+<span id="cb11-59"><a href="#cb11-59" aria-hidden="true" tabindex="-1"></a>resid_var </span>
+<span id="cb11-60"><a href="#cb11-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-61"><a href="#cb11-61" aria-hidden="true" tabindex="-1"></a>std_load <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">standardizedSolution</span>(stars_fit)</span>
+<span id="cb11-62"><a href="#cb11-62" aria-hidden="true" tabindex="-1"></a>std_load <span class="ot">&lt;-</span> std_load[std_load<span class="sc">$</span>op <span class="sc">==</span> <span class="st">"=~"</span>, <span class="fu">c</span>(<span class="st">"lhs"</span>,<span class="st">"rhs"</span>,<span class="st">"est.std"</span>)]</span>
+<span id="cb11-63"><a href="#cb11-63" aria-hidden="true" tabindex="-1"></a>std_load  </span>
+<span id="cb11-64"><a href="#cb11-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-65"><a href="#cb11-65" aria-hidden="true" tabindex="-1"></a>resid_std <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">residuals</span>(stars_fit, <span class="at">type =</span> <span class="st">"standardized"</span>)<span class="sc">$</span>cov</span>
+<span id="cb11-66"><a href="#cb11-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-67"><a href="#cb11-67" aria-hidden="true" tabindex="-1"></a>stars_data2 <span class="ot">&lt;-</span> stars_data <span class="sc">|&gt;</span></span>
+<span id="cb11-68"><a href="#cb11-68" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(<span class="sc">-</span>stars_help_1)</span>
+<span id="cb11-69"><a href="#cb11-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-70"><a href="#cb11-70" aria-hidden="true" tabindex="-1"></a>stars_meas_mod2 <span class="ot">&lt;-</span> <span class="st">' </span></span>
+<span id="cb11-71"><a href="#cb11-71" aria-hidden="true" tabindex="-1"></a><span class="st">interpret =~ stars_int_3 + stars_int_11 + stars_int_1 + stars_int_6 + stars_int_5 + stars_int_2   </span></span>
+<span id="cb11-72"><a href="#cb11-72" aria-hidden="true" tabindex="-1"></a><span class="st">test =~ stars_test_3 + stars_test_6 + stars_test_4 + stars_test_1 + stars_test_8  </span></span>
+<span id="cb11-73"><a href="#cb11-73" aria-hidden="true" tabindex="-1"></a><span class="st">help =~ stars_help_2 + stars_help_3 + stars_help_4 </span></span>
+<span id="cb11-74"><a href="#cb11-74" aria-hidden="true" tabindex="-1"></a><span class="st">'</span></span>
+<span id="cb11-75"><a href="#cb11-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-76"><a href="#cb11-76" aria-hidden="true" tabindex="-1"></a>stars_fit2 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">cfa</span>( </span>
+<span id="cb11-77"><a href="#cb11-77" aria-hidden="true" tabindex="-1"></a>  stars_meas_mod2,</span>
+<span id="cb11-78"><a href="#cb11-78" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> stars_data2, </span>
+<span id="cb11-79"><a href="#cb11-79" aria-hidden="true" tabindex="-1"></a>  <span class="at">estimator =</span> <span class="st">"WLSMV"</span>,</span>
+<span id="cb11-80"><a href="#cb11-80" aria-hidden="true" tabindex="-1"></a>  <span class="at">ordered =</span> <span class="fu">names</span>(stars_data2),</span>
+<span id="cb11-81"><a href="#cb11-81" aria-hidden="true" tabindex="-1"></a>  <span class="at">std.lv =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-82"><a href="#cb11-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-83"><a href="#cb11-83" aria-hidden="true" tabindex="-1"></a>std_resid2 <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">residuals</span>(stars_fit2, <span class="at">type =</span> <span class="st">"standardized"</span>)<span class="sc">$</span>cov</span>
+<span id="cb11-84"><a href="#cb11-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-85"><a href="#cb11-85" aria-hidden="true" tabindex="-1"></a>stars_summary <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">summary</span>( </span>
+<span id="cb11-86"><a href="#cb11-86" aria-hidden="true" tabindex="-1"></a>  stars_fit2,    </span>
+<span id="cb11-87"><a href="#cb11-87" aria-hidden="true" tabindex="-1"></a>  <span class="at">standardized =</span> <span class="cn">TRUE</span>, </span>
+<span id="cb11-88"><a href="#cb11-88" aria-hidden="true" tabindex="-1"></a>  <span class="at">fit.measures =</span> <span class="cn">TRUE</span>,   </span>
+<span id="cb11-89"><a href="#cb11-89" aria-hidden="true" tabindex="-1"></a>  <span class="at">rsq =</span> <span class="cn">TRUE</span>)   </span>
+<span id="cb11-90"><a href="#cb11-90" aria-hidden="true" tabindex="-1"></a>stars_summary </span>
+<span id="cb11-91"><a href="#cb11-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-92"><a href="#cb11-92" aria-hidden="true" tabindex="-1"></a>stars_mi <span class="ot">&lt;-</span> lavaan<span class="sc">::</span><span class="fu">modindices</span>(stars_fit2, <span class="at">sort. =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb11-93"><a href="#cb11-93" aria-hidden="true" tabindex="-1"></a>stars_mi</span>
+<span id="cb11-94"><a href="#cb11-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-95"><a href="#cb11-95" aria-hidden="true" tabindex="-1"></a>stars_plot <span class="ot">&lt;-</span> semPlot<span class="sc">::</span><span class="fu">semPaths</span>(</span>
+<span id="cb11-96"><a href="#cb11-96" aria-hidden="true" tabindex="-1"></a>  stars_fit2,</span>
+<span id="cb11-97"><a href="#cb11-97" aria-hidden="true" tabindex="-1"></a>  <span class="at">whatLabels =</span> <span class="st">"std"</span>,         </span>
+<span id="cb11-98"><a href="#cb11-98" aria-hidden="true" tabindex="-1"></a>  <span class="at">layout =</span> <span class="st">"tree2"</span>,           </span>
+<span id="cb11-99"><a href="#cb11-99" aria-hidden="true" tabindex="-1"></a>  <span class="at">edge.label.cex =</span> <span class="fl">0.8</span>,       </span>
+<span id="cb11-100"><a href="#cb11-100" aria-hidden="true" tabindex="-1"></a>  <span class="at">sizeMan =</span> <span class="dv">4</span>,                </span>
+<span id="cb11-101"><a href="#cb11-101" aria-hidden="true" tabindex="-1"></a>  <span class="at">sizeLat =</span> <span class="dv">8</span>,               </span>
+<span id="cb11-102"><a href="#cb11-102" aria-hidden="true" tabindex="-1"></a>  <span class="at">residuals =</span> <span class="cn">FALSE</span>,          </span>
+<span id="cb11-103"><a href="#cb11-103" aria-hidden="true" tabindex="-1"></a>  <span class="at">exoCov =</span> <span class="cn">FALSE</span>,             </span>
+<span id="cb11-104"><a href="#cb11-104" aria-hidden="true" tabindex="-1"></a>  <span class="at">intercepts =</span> <span class="cn">FALSE</span>,        </span>
+<span id="cb11-105"><a href="#cb11-105" aria-hidden="true" tabindex="-1"></a>  <span class="at">curvePivot =</span> <span class="cn">TRUE</span>,          </span>
+<span id="cb11-106"><a href="#cb11-106" aria-hidden="true" tabindex="-1"></a>  <span class="at">style =</span> <span class="st">"lisrel"</span>,          </span>
+<span id="cb11-107"><a href="#cb11-107" aria-hidden="true" tabindex="-1"></a>  <span class="at">nCharNodes =</span> <span class="dv">0</span>,           </span>
+<span id="cb11-108"><a href="#cb11-108" aria-hidden="true" tabindex="-1"></a>  <span class="at">mar =</span> <span class="fu">c</span>(<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>,<span class="dv">5</span>),        </span>
+<span id="cb11-109"><a href="#cb11-109" aria-hidden="true" tabindex="-1"></a>  <span class="at">rotation =</span> <span class="dv">2</span>,          </span>
+<span id="cb11-110"><a href="#cb11-110" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="worksheet" class="level3">
@@ -3793,6 +3864,7 @@ In my version, there are also some weird lines in the observed variable nodes, b
 <li>Check missing data per item</li>
 <li>Specify the measurement model</li>
 <li>Fit the model</li>
+<li>Check for Heywood cases</li>
 <li>Check standardised residuals</li>
 <li>Print the model output summary</li>
 <li>Obtain modification indices</li>
@@ -3802,7 +3874,7 @@ In my version, there are also some weird lines in the observed variable nodes, b
 <section id="worksheet-questions" class="level4">
 <h4 class="anchored" data-anchor-id="worksheet-questions">Worksheet Questions</h4>
 <p>There are no interactive questions this week - they’re nice, but a bit glitchy, and open questions are better suited to this kind of analysis.</p>
-<p>Instead, write your answers in the Quarto document and heck your answers in the accompanying tutorial solutions file in Posit Cloud.</p>
+<p>Instead, write your answers in the Quarto document and check your answers in the accompanying tutorial solutions file in Posit Cloud.</p>
 <p><strong>Pre-Analysis Checks</strong></p>
 <ol type="1">
 <li>What is the theoretical model you’re fitting?</li>
@@ -3833,7 +3905,7 @@ In my version, there are also some weird lines in the observed variable nodes, b
 <p><strong>Parameter Estimation (Local Fit)</strong></p>
 <ol start="10" type="1">
 <li>What do you infer from the factor loadings?</li>
-<li>What do you infer from the R^2?</li>
+<li>What do you infer from the <span class="math inline">\(R^2\)</span>?</li>
 <li>What do you infer from factor correlations?</li>
 </ol>
 <p><strong>Model Fit (Global Fit)</strong></p>
