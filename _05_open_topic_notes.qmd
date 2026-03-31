@@ -1,0 +1,131 @@
+# **Machine Learning,** AI, and Science 
+
+**Theory vs Prediction**
+
+-   The way we talked about prediction so far is a way of contexualising our effects
+
+-   Models should always arise from theory
+
+-   ML prediction doesn't care about theory, underlying mechanisms and the "whys". Just the outcome.
+
+-   The point is to be able to apply a model in a new context and get accurate prediction
+
+-   "ML methods are particularly helpful when one is dealing with datasets in which the number of input variables exceeds the number of subjects, as opposed to datasets where the number of subjects is greater than that of the input variables." (Kovac et al., 2024)
+
+**Things that are "machine learning":**
+
+-   "Algorithms that perform regression, classification or clustering are examples of common machine learning tasks."
+
+-    *predictive statistical models*.
+
+-   Training supervision
+
+    -   Supervised - labelled data (including outcomes)
+
+    -   Semi-supervised
+
+    -   Unsupervised - no labelled data
+
+Some examples:
+
+-   Linear (or non-linear) Regression
+
+-   Classification (logistic regression, random forest)
+
+-   Clustering methods (EFA, PCA) "the organization of unlabeled data in to similar groups through unsupervised machine learning. "
+
+-   Natural Language Processing
+
+    -   Deep learning, a machine learning method of more than two layers of neural networks. Deep learning are neural networks consisting of two or more layers that use nonlinear processing. Deep learning is state-of-the-art for pattern-recognition used for image and speech recognition. This technique is optimal when there are large data sets available for training.
+
+    -   Generalised Pre-trained transformers
+
+(and many in-between)
+
+## Terminology 
+
+-   Cost function = mean squared error
+
+-   Learning/training = model fitting / correcting prediction
+
+-   Feature engineering
+
+-   Prompt engineering
+
+-   
+
+> In machine learning, typically non-linear regression techniques are used. Examples of nonlinear regression algorithms include gradient descent, Gauss-Newton, and the Levenberg-Marquardt methods.
+
+## What do you need to know when choosing an ML model 
+
+**Objectives**:
+
+-   What sort of data are you working with, especially your outcome variables. Continuous, categorical, text?
+
+-   What sort of output are you expecting?
+
+-   Think about goals - clustering, continuous prediction ("forecasting"), categorical classification ?
+
+**Dimension requirements**
+
+-   What are the requirements for numbers of rows and columns?
+
+-   When does the model tend to break?
+
+**Data pre-processing**
+
+-   Missing values
+
+-   Feature encoding
+
+-   Feature scaling - e.g. data standardisation scaling - this depends on the type of model - different models have different requirements.
+
+-   Outlier detection
+
+-   Split into training and testing set 80-20
+
+**Evaluation**
+
+-   What sort of diagnostics do you need to run
+
+    -   Mean squared error, mean absolute error, mean absolute percentage, coefficient of determination
+
+-   How to decide whether the model is useful?
+
+    -   SHAP values?
+
+-   For classification - importance of evaluating beyond accuracy
+
+-   How to test the model?
+
+## Logistic regression 
+
+Testing and training sample
+
+confusion matrix
+
+Testing
+
+## Large Language Models 
+
+-   Not a model of cognition or language
+
+-   1:1 scale map (with super accurate prediction) but useless and tell us nothing
+
+## Weird claims 
+
+**Kovac et al (2024)**
+
+<https://www.sciencedirect.com/science/article/pii/S2590260124000225>
+
+-   "While rooted in statistical theory, ML differentiates itself through its ability to learn from data, adapt to new information, and make predictions or decisions with minimal human intervention. " - literally any statistical model "learns"
+
+-   "This ability is especially important to identify nuanced yet impactful details that might escape human observation." - like a ruler next to a picture containing a tumor
+
+-   "ML algorithms can handle the complexities and nuances of psychological data, facilitating a deeper understanding of mental health conditions, cognitive processes, and social interactions."
+
+-   "Classical inference struggles to capture the more complex relationships associated with larger numbers of input variables. Consequently, statistical inferences become less precise (Bzdok et al., 2018)." - 1-1 map is not a good map
+
+-   "Ioannidis et al. (2011) state that measures for inference in classical statistics typically including p-values and effect sizes may lack reproducibility." - it has nothing to do with the models per se but with the way they are used. This motherfucker.
+
+-   "Statistics requires us to choose a model that incorporates our knowledge of the system, and ML to determine a predictive algorithm by relying on its empirical capabilities."
