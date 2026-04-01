@@ -332,7 +332,6 @@ window.Quarto = {
   </ul></li>
   <li><a href="#the-key-question" id="toc-the-key-question" class="nav-link" data-scroll-target="#the-key-question"><span class="header-section-number">9.4</span> The Key Question</a>
   <ul>
-  <li><a href="#the-key-idea" id="toc-the-key-idea" class="nav-link" data-scroll-target="#the-key-idea">The Key Idea</a></li>
   <li><a href="#the-logic-of-testing" id="toc-the-logic-of-testing" class="nav-link" data-scroll-target="#the-logic-of-testing">The Logic of Testing</a></li>
   <li><a href="#how-do-we-decide" id="toc-how-do-we-decide" class="nav-link" data-scroll-target="#how-do-we-decide">How Do We Decide?</a></li>
   <li><a href="#what-changes-with-ordinal-data" id="toc-what-changes-with-ordinal-data" class="nav-link" data-scroll-target="#what-changes-with-ordinal-data">What Changes with Ordinal Data?</a></li>
@@ -360,7 +359,7 @@ window.Quarto = {
   </ul></li>
   <li><a href="#step-1-configural-model" id="toc-step-1-configural-model" class="nav-link" data-scroll-target="#step-1-configural-model">Step 1: Configural Model</a>
   <ul class="collapse">
-  <li><a href="#does-the-model-fit-reasonably-well-in-both-groups" id="toc-does-the-model-fit-reasonably-well-in-both-groups" class="nav-link" data-scroll-target="#does-the-model-fit-reasonably-well-in-both-groups">🤔 Does the model fit reasonably well in both groups?</a></li>
+  <li><a href="#can-the-same-measurement-model-can-be-meaningfully-applied-across-groups" id="toc-can-the-same-measurement-model-can-be-meaningfully-applied-across-groups" class="nav-link" data-scroll-target="#can-the-same-measurement-model-can-be-meaningfully-applied-across-groups">🤔 Can the same measurement model can be meaningfully applied across groups?</a></li>
   </ul></li>
   <li><a href="#step-2-metric-invariance" id="toc-step-2-metric-invariance" class="nav-link" data-scroll-target="#step-2-metric-invariance">Step 2: Metric Invariance</a>
   <ul class="collapse">
@@ -370,7 +369,7 @@ window.Quarto = {
   <ul class="collapse">
   <li><a href="#do-group-differences-in-observed-scores-reflect-true-differences-in-the-underlying-constructs" id="toc-do-group-differences-in-observed-scores-reflect-true-differences-in-the-underlying-constructs" class="nav-link" data-scroll-target="#do-group-differences-in-observed-scores-reflect-true-differences-in-the-underlying-constructs">🤔 Do group differences in observed scores reflect true differences in the underlying constructs?</a></li>
   </ul></li>
-  <li><a href="#compare-models" id="toc-compare-models" class="nav-link" data-scroll-target="#compare-models">Compare Models</a></li>
+  <li><a href="#step-4-compare-models-1" id="toc-step-4-compare-models-1" class="nav-link" data-scroll-target="#step-4-compare-models-1">Step 4: Compare Models</a></li>
   <li><a href="#report" id="toc-report" class="nav-link" data-scroll-target="#report">Report</a></li>
   </ul></li>
   <li><a href="#part-3-worksheet" id="toc-part-3-worksheet" class="nav-link" data-scroll-target="#part-3-worksheet"><span class="header-section-number">9.6</span> Part 3: Worksheet</a>
@@ -413,7 +412,7 @@ window.Quarto = {
 <section id="learning-objectives" class="level3">
 <h3 class="anchored" data-anchor-id="learning-objectives">Learning Objectives</h3>
 <p>By the end of this tutorial &amp; workshop, students will be able to:</p>
-<ul>
+<ol type="1">
 <li><strong>Explain the purpose of measurement invariance (MI)</strong> and why it is essential for group comparisons</li>
 <li><strong>Understand the statistical foundations of MI</strong> within the CFA/SEM framework</li>
 <li><strong>Differentiate between levels of invariance</strong> — configural, metric, scalar, and strict</li>
@@ -421,7 +420,7 @@ window.Quarto = {
 <li><strong>Evaluate invariance</strong> using changes in fit and parameter estimates</li>
 <li><strong>Identify and address violations</strong> using partial invariance approaches</li>
 <li><strong>Report MI analyses</strong> clearly and transparently</li>
-</ul>
+</ol>
 </section>
 <section id="structure" class="level3">
 <h3 class="anchored" data-anchor-id="structure">Structure</h3>
@@ -513,7 +512,7 @@ window.Quarto = {
 <li><p><strong>Group A:</strong> Neurotypical students</p></li>
 <li><p><strong>Group B:</strong> Neurodivergent students</p></li>
 </ul>
-<p>You run your analysis and find neurodivergent students score higher on <em>Interpretation Anxiety.</em></p>
+<p>You run your analysis and find neurodivergent students score higher.</p>
 <p>Most researchers would simply conclude that “neurodivergent students experience more statistics anxiety”. Nice. Clean. Publishable.</p>
 <p>But… let’s slow that down for a second.</p>
 <p>What if:</p>
@@ -886,8 +885,8 @@ Measurement Invariance Testing Equations
 </div>
 </div>
 </div>
-<section id="the-key-idea" class="level3">
-<h3 class="anchored" data-anchor-id="the-key-idea">The Key Idea</h3>
+<section id="the-logic-of-testing" class="level3">
+<h3 class="anchored" data-anchor-id="the-logic-of-testing">The Logic of Testing</h3>
 <p>Measurement invariance is tested by comparing:</p>
 <ul>
 <li><p>A model where parameters are <strong>free across groups</strong></p></li>
@@ -897,9 +896,6 @@ Measurement Invariance Testing Equations
 <blockquote class="blockquote">
 <p>The constrained parameters are invariant across groups.</p>
 </blockquote>
-</section>
-<section id="the-logic-of-testing" class="level3">
-<h3 class="anchored" data-anchor-id="the-logic-of-testing">The Logic of Testing</h3>
 <p>We fit models sequentially:</p>
 <ol type="1">
 <li><p>Configural</p></li>
@@ -995,10 +991,7 @@ Measurement Invariance Testing Equations
 <ul>
 <li><p>Fit index changes</p></li>
 <li><p>Parameter changes</p></li>
-</ul>
-<!-- -->
-<ul>
-<li>Substantive interpretation</li>
+<li><p>Substantive interpretation</p></li>
 </ul>
 </section>
 <section id="step-5-report" class="level4">
@@ -1011,10 +1004,12 @@ Measurement Invariance Testing Equations
 </section>
 <section id="the-statistics-anxiety-rating-scale-stars" class="level3">
 <h3 class="anchored" data-anchor-id="the-statistics-anxiety-rating-scale-stars">The Statistics Anxiety Rating Scale (STARS)</h3>
-<p>Let’s go through each of these steps using the same STARS data and CFA model from CFA week (refer back to that if you want a reminder of the measurement model).</p>
+<p>Let’s go through each of these steps using the same STARS data and CFA model from CFA week.</p>
+<p>Here’s a reminder of the measurement model (minus stars_help_1):</p>
+<p><img src="images/clipboard-1212617410.png" class="img-fluid"></p>
 <p>This time our research question is:</p>
 <blockquote class="blockquote">
-<p>Does the STARS measures the same construct in the same way in the original English vs.&nbsp;the non-English versions?</p>
+<p><strong>Does the STARS measures the same construct in the same way in the original English vs.&nbsp;the non-English versions?</strong></p>
 </blockquote>
 <p>(IRL, we’d usually want to look at this language-by-language, but we’re collapsing languages for educational reasons.)</p>
 </section>
@@ -1539,10 +1534,29 @@ Solution
 </section>
 <section id="step-1-configural-model" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-configural-model">Step 1: Configural Model</h3>
-<p>The key question at this stage is <strong>whether the model fits reasonably well in both groups</strong>.</p>
-<p>Configural invariance assesses whether the same factor structure can be estimated across groups, but it does not guarantee that the model fits adequately within each group. For this reason, it is important to first fit the model separately in each group, as we did above. This ensures that you are comparing meaningful, well-fitting models rather than masking problems in one group with acceptable overall fit.</p>
-<p>To evaluate this, we run separate CFA models for each group using the same model specification, with all parameters freely estimated. We then examine model fit indices, the pattern and strength of factor loadings, R² values, and any estimation warnings or anomalies.</p>
-<p>If the results show broadly similar patterns across groups, this supports the assumption that the model is appropriate for both. However, if the groups display substantially different patterns or clear signs of misfit in one group, this suggests a deeper problem with the measurement model. In such cases, invariance testing should not proceed until the model has been revised.</p>
+<p>The key question at this stage is <strong>whether the same measurement model can be meaningfully applied across groups</strong>.</p>
+<p>Although we have already fitted the model separately in each group, this does <strong>not</strong> test measurement invariance. Separate CFAs simply tell us that the model fits reasonably well within each group in isolation. They do not tell us whether the model is operating in a comparable way across groups.</p>
+<p>Configural invariance is the first step that brings the groups together into a <strong>single multi-group model</strong>. Here, we specify the same factor structure in each group, but allow all parameters (loadings, intercepts/thresholds, residuals) to be freely estimated. In other words, the <em>form</em> of the model is held constant, but the <em>values</em> are allowed to differ.</p>
+<p>This allows us to test a more meaningful question:</p>
+<blockquote class="blockquote">
+<p><strong>Can the same conceptual model explain the data across groups when estimated simultaneously?</strong></p>
+</blockquote>
+<p>This step is necessary because good fit in separate groups can be misleading. A model might fit each group individually, but still reflect different underlying patterns of relationships. By estimating the model jointly, the configural model evaluates whether a common structure is plausible across groups.</p>
+<p>In practical terms, we assess:</p>
+<ul>
+<li><p>Overall model fit in the multi-group model (global fit)</p></li>
+<li><p>Whether the same pattern of factor–item relationships is supported across groups (local fit)</p></li>
+</ul>
+<p>If the configural model fits well, this suggests that participants across groups conceptualise the construct in a broadly similar way, providing a foundation for more restrictive tests of invariance.</p>
+<p>If it does not fit well, this indicates that the basic structure is not comparable across groups, and invariance testing should not proceed.</p>
+<p>We can test this by:</p>
+<ol type="1">
+<li><p>Converting our grouping variable to a factor (to ensure <code>lavaan</code> handles it correctly)</p></li>
+<li><p>Specifying our measurement model (we already done that in the last step)</p></li>
+<li><p>Specifying a vector of our ordinal item variables (we already done that in the last step too)</p></li>
+<li><p>Fitting the configural model</p></li>
+<li><p>Calling a summary of the output</p></li>
+</ol>
 <p><strong>Convert our grouping variable to a factor:</strong></p>
 <p>This ensures <code>lavaan</code> treats it as a grouping variable rather than numeric or character (required for multi-group CFA):</p>
 <div class="cell">
@@ -1853,8 +1867,8 @@ Variances:
     help              0.720    0.011   63.576    0.000    1.000    1.000</code></pre>
 </div>
 </div>
-<section id="does-the-model-fit-reasonably-well-in-both-groups" class="level4">
-<h4 class="anchored" data-anchor-id="does-the-model-fit-reasonably-well-in-both-groups">🤔 Does the model fit reasonably well in both groups?</h4>
+<section id="can-the-same-measurement-model-can-be-meaningfully-applied-across-groups" class="level4">
+<h4 class="anchored" data-anchor-id="can-the-same-measurement-model-can-be-meaningfully-applied-across-groups">🤔 Can the same measurement model can be meaningfully applied across groups?</h4>
 <div class="callout callout-style-default callout-tip callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-10-contents" aria-controls="callout-10" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
@@ -2601,13 +2615,10 @@ Solution
 </div>
 </div>
 </div>
-<ol type="1">
-<li>This argument constrains the loadings, thresholds, and residuals to be equal. Otherwise our code is as per the scalar model.</li>
-</ol>
 </section>
 </section>
-<section id="compare-models" class="level3">
-<h3 class="anchored" data-anchor-id="compare-models">Compare Models</h3>
+<section id="step-4-compare-models-1" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-compare-models-1">Step 4: Compare Models</h3>
 <p>The key question at this stage is <strong>whether adding equality constraints leads to a meaningful deterioration in model fit</strong>.</p>
 <p>Measurement invariance is evaluated by comparing increasingly constrained models (configural, metric, scalar, and strict) to determine whether the added constraints are tenable. Rather than focusing on absolute fit, the emphasis is on <strong>changes in model fit</strong> between successive models.</p>
 <p>To evaluate this, we compare models using changes in fit indices such as CFI and RMSEA. Small changes in these indices suggest that the constraints do not substantially worsen model fit, supporting invariance at that level. As a general guideline, a decrease in CFI of less than .01 and an increase in RMSEA of less than .015 are often taken as evidence that invariance holds.</p>
@@ -2667,7 +2678,7 @@ Solution
 <p>The scaled chi-square difference test comparing the <strong>configural and metric models</strong> is statistically significant (Δχ² ≈ 47.22, df = 11, <em>p</em> &lt; .001), which would traditionally suggest that constraining loadings worsens model fit.</p>
 <p>However, this needs to be interpreted with caution:</p>
 <ul>
-<li><p>Chi-square tests are highly sensitive to large sample sizes (and yours is <em>very</em> large)</p></li>
+<li><p>Chi-square tests are highly sensitive to large sample sizes (and ours is <em>very</em> large)</p></li>
 <li><p>Even trivial differences can become statistically significant</p></li>
 </ul>
 <p>So we turn to practical fit indices instead.</p>
@@ -3436,7 +3447,7 @@ Scales y*:
 </ul></li>
 <li><p><strong>Table:</strong> If you free/remove multiple parameters, you could include a table.</p></li>
 </ul>
-<p><strong>9. Final InterpretationI</strong></p>
+<p><strong>9. Final Interpretation</strong></p>
 <ul>
 <li><p><strong>In-text:</strong> State clearly:</p>
 <ul>
@@ -3669,9 +3680,9 @@ Solution
 <p>The retained items and their corresponding factors are below for reference (note that <code>dlbs_20</code> has been removed):</p>
 <table class="caption-top table">
 <colgroup>
-<col style="width: 12%">
-<col style="width: 37%">
-<col style="width: 50%">
+<col style="width: 21%">
+<col style="width: 32%">
+<col style="width: 45%">
 </colgroup>
 <thead>
 <tr class="header">

@@ -1,4 +1,21 @@
-# **Machine Learning,** AI, and Science 
+# **Machine Learning,** AI, and Science
+
+**Outline**:
+
+1.  Demo: Logistic regression - test/train split; chuck all the predictors in, fit the model, make a prediction. Cross-validation.
+2.  Problems with over-fitting. Hyper-parameters.
+3.  Supervised vs unsupervised
+4.  Common problems to solve:
+    -   Classification - logistic regression, random forest, naive bayes, support vector machines, neural networks.
+    -   Variable selection - stepwise regression, lasso, ridge, elastic net
+    -   Dimension reduction - factor analysis, principal component analysis
+5.  Natural language processing - can apply same methods as above but to text
+    -   Classification - e.g. sentiment analysis, ham vs spam, toxic vs non-toxic tweets - show an example of applying naive bayes or similar to a research problem
+    -   Information extraction - e.g. named entity recognition
+    -   Text sequence prediction -
+        -   recurrent neural network
+        -   BERT, generative pretrained transformers
+6.  
 
 **Theory vs Prediction**
 
@@ -16,7 +33,7 @@
 
 -   "Algorithms that perform regression, classification or clustering are examples of common machine learning tasks."
 
--    *predictive statistical models*.
+-   *predictive statistical models*.
 
 -   Training supervision
 
@@ -32,6 +49,8 @@ Some examples:
 
 -   Classification (logistic regression, random forest)
 
+-   Variable selection
+
 -   Clustering methods (EFA, PCA) "the organization of unlabeled data in to similar groups through unsupervised machine learning. "
 
 -   Natural Language Processing
@@ -42,7 +61,7 @@ Some examples:
 
 (and many in-between)
 
-## Terminology 
+## Terminology
 
 -   Cost function = mean squared error
 
@@ -56,7 +75,7 @@ Some examples:
 
 > In machine learning, typically non-linear regression techniques are used. Examples of nonlinear regression algorithms include gradient descent, Gauss-Newton, and the Levenberg-Marquardt methods.
 
-## What do you need to know when choosing an ML model 
+## What do you need to know when choosing an ML model
 
 **Objectives**:
 
@@ -98,7 +117,7 @@ Some examples:
 
 -   How to test the model?
 
-## Logistic regression 
+## Logistic regression
 
 Testing and training sample
 
@@ -106,13 +125,13 @@ confusion matrix
 
 Testing
 
-## Large Language Models 
+## Large Language Models
 
 -   Not a model of cognition or language
 
 -   1:1 scale map (with super accurate prediction) but useless and tell us nothing
 
-## Weird claims 
+## Weird claims
 
 **Kovac et al (2024)**
 
@@ -129,3 +148,39 @@ Testing
 -   "Ioannidis et al. (2011) state that measures for inference in classical statistics typically including p-values and effect sizes may lack reproducibility." - it has nothing to do with the models per se but with the way they are used. This motherfucker.
 
 -   "Statistics requires us to choose a model that incorporates our knowledge of the system, and ML to determine a predictive algorithm by relying on its empirical capabilities."
+
+## **Some notes about going from A to Z:**
+
+**LinkedIn bull:**
+
+1\. Statistics → Machine Learning
+Why need next?
+Because statistics could not handle large data and complex patterns.
+Machine Learning could learn automatically.
+
+2. Machine Learning → Deep Learning
+Why need next?
+ML failed on images, audio, and raw text.
+Deep Learning could extract features automatically and handle unstructured data.
+
+3. Traditional NLP → Encoder–Decoder
+Why need next?
+Traditional NLP had no context understanding.
+Encoder–Decoder models handled sequences (translation, summarization).
+
+4. Encoder–Decoder → Transformers
+Why need next?
+Encoder–Decoder (RNNs) were slow and could not handle long sentences.
+Transformers used self-attention → faster, parallel, long context.
+
+5. Transformers → Generative AI
+Why need next?
+Transformers understood language but could not create.
+Scaling Transformers → LLMs → the ability to generate text, code, images.
+
+Each step came because the earlier method had limitations.
+Statistics couldn’t handle big data → ML was needed.
+ML failed on images and text → Deep Learning came.
+Traditional NLP lacked context → Encoder–Decoder arrived.
+Encoder–Decoder was slow → Transformers solved it with self-attention.
+Transformers scaled → Generative AI was born, enabling text and image generation

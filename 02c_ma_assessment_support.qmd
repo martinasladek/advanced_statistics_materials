@@ -71,6 +71,20 @@ All the options are listed in the help documentation.
 
 -   Format your results into nice tables with appropriate headings where relevant - the `display()` function can help with this.
 
+-   If variable names contain special characters, like parentheses or spaces, you might need wrap them into "backticks" often located on the left of the Z key on the keyboard. For example:
+
+```{r eval=FALSE}
+# this would throw an error:
+rma(yi = g, vi = vg, 
+    mods = ~ terrible (variable name), 
+    data = some_tib)
+
+# this would work:
+rma(yi = g, vi = vg, 
+    mods = ~ `terrible (variable name)`, 
+    data = some_tib)
+```
+
 -   Don't include any raw output in your report. If you're reporting the result of a model, you can either arrange it into a table, or report it in text instead of printing the whole output from an `rma` object.
 
 -   Structure your code in a way that maximises the readibility of your report. This means hide unnecessary warnings and messages, and keep most of your code separate from the report. Revisit the materials on *Canvas* \> *An Adventure in Statistics \> Units \> Getting Started with R, RStudio and Quarto* if you need a refresher on how to do this. There's an example on how to organise code vs write-up below.

@@ -11,13 +11,13 @@ bibliography: references.bib
 
 By the end of this tutorial & workshop, students will be able to:
 
--   **Explain the purpose of measurement invariance (MI)** and why it is essential for group comparisons
--   **Understand the statistical foundations of MI** within the CFA/SEM framework
--   **Differentiate between levels of invariance** — configural, metric, scalar, and strict
--   **Fit and compare multi-group CFA models** in `lavaan`
--   **Evaluate invariance** using changes in fit and parameter estimates
--   **Identify and address violations** using partial invariance approaches
--   **Report MI analyses** clearly and transparently
+1.  **Explain the purpose of measurement invariance (MI)** and why it is essential for group comparisons
+2.  **Understand the statistical foundations of MI** within the CFA/SEM framework
+3.  **Differentiate between levels of invariance** — configural, metric, scalar, and strict
+4.  **Fit and compare multi-group CFA models** in `lavaan`
+5.  **Evaluate invariance** using changes in fit and parameter estimates
+6.  **Identify and address violations** using partial invariance approaches
+7.  **Report MI analyses** clearly and transparently
 
 ### Structure
 
@@ -127,7 +127,7 @@ Imagine you want to compare statistics anxiety in two groups:
 
 -   **Group B:** Neurodivergent students
 
-You run your analysis and find neurodivergent students score higher on *Interpretation Anxiety.*
+You run your analysis and find neurodivergent students score higher.
 
 Most researchers would simply conclude that "neurodivergent students experience more statistics anxiety". Nice. Clean. Publishable.
 
@@ -542,7 +542,7 @@ At each step:
 > **We are testing whether the same parameter values can explain the covariance structure in all groups.**
 :::
 
-### The Key Idea
+### The Logic of Testing
 
 Measurement invariance is tested by comparing:
 
@@ -553,8 +553,6 @@ Measurement invariance is tested by comparing:
 If model fit does not meaningfully worsen:
 
 > The constrained parameters are invariant across groups.
-
-### The Logic of Testing
 
 We fit models sequentially:
 
@@ -658,8 +656,6 @@ Everything from CFA still applies, **plus:**
 
 -   Parameter changes
 
-<!-- -->
-
 -   Substantive interpretation
 
 #### Step 5: Report
@@ -670,11 +666,15 @@ Everything from CFA still applies, **plus:**
 
 ### The Statistics Anxiety Rating Scale (STARS)
 
-Let's go through each of these steps using the same STARS data and CFA model from CFA week (refer back to that if you want a reminder of the measurement model).
+Let's go through each of these steps using the same STARS data and CFA model from CFA week.
+
+Here's a reminder of the measurement model (minus stars_help_1):
+
+![](images/clipboard-1212617410.png)
 
 This time our research question is:
 
-> Does the STARS measures the same construct in the same way in the original English vs. the non-English versions?
+> **Does the STARS measures the same construct in the same way in the original English vs. the non-English versions?**
 
 (IRL, we'd usually want to look at this language-by-language, but we're collapsing languages for educational reasons.)
 
@@ -1070,13 +1070,39 @@ issues
 
 ### Step 1: Configural Model
 
-The key question at this stage is **whether the model fits reasonably well in both groups**.
+The key question at this stage is **whether the same measurement model can be meaningfully applied across groups**.
 
-Configural invariance assesses whether the same factor structure can be estimated across groups, but it does not guarantee that the model fits adequately within each group. For this reason, it is important to first fit the model separately in each group, as we did above. This ensures that you are comparing meaningful, well-fitting models rather than masking problems in one group with acceptable overall fit.
+Although we have already fitted the model separately in each group, this does **not** test measurement invariance. Separate CFAs simply tell us that the model fits reasonably well within each group in isolation. They do not tell us whether the model is operating in a comparable way across groups.
 
-To evaluate this, we run separate CFA models for each group using the same model specification, with all parameters freely estimated. We then examine model fit indices, the pattern and strength of factor loadings, R² values, and any estimation warnings or anomalies.
+Configural invariance is the first step that brings the groups together into a **single multi-group model**. Here, we specify the same factor structure in each group, but allow all parameters (loadings, intercepts/thresholds, residuals) to be freely estimated. In other words, the *form* of the model is held constant, but the *values* are allowed to differ.
 
-If the results show broadly similar patterns across groups, this supports the assumption that the model is appropriate for both. However, if the groups display substantially different patterns or clear signs of misfit in one group, this suggests a deeper problem with the measurement model. In such cases, invariance testing should not proceed until the model has been revised.
+This allows us to test a more meaningful question:
+
+>  **Can the same conceptual model explain the data across groups when estimated simultaneously?**
+
+This step is necessary because good fit in separate groups can be misleading. A model might fit each group individually, but still reflect different underlying patterns of relationships. By estimating the model jointly, the configural model evaluates whether a common structure is plausible across groups.
+
+In practical terms, we assess:
+
+-   Overall model fit in the multi-group model (global fit)
+
+-   Whether the same pattern of factor–item relationships is supported across groups (local fit)
+
+If the configural model fits well, this suggests that participants across groups conceptualise the construct in a broadly similar way, providing a foundation for more restrictive tests of invariance.
+
+If it does not fit well, this indicates that the basic structure is not comparable across groups, and invariance testing should not proceed.
+
+We can test this by:
+
+1.  Converting our grouping variable to a factor (to ensure `lavaan` handles it correctly)
+
+2.  Specifying our measurement model (we already done that in the last step)
+
+3.  Specifying a vector of our ordinal item variables (we already done that in the last step too)
+
+4.  Fitting the configural model
+
+5.  Calling a summary of the output
 
 **Convert our grouping variable to a factor:**
 
@@ -1105,7 +1131,7 @@ lavaan::summary(fit_configural, fit.measures = TRUE, standardized = TRUE)
 
 1.  Tells `lavaan` to fit a **multi-group model** based on the `language` variable (all the other code is the same as our previous CFAs)
 
-#### 🤔 Does the model fit reasonably well in both groups?
+#### 🤔 Can the same measurement model can be meaningfully applied across groups?
 
 ::: {.callout-tip collapse="true"}
 ##### Solution
@@ -1247,9 +1273,7 @@ Imposing equality constraints on both loadings and thresholds does not meaningfu
 At stage, **differences in observed scores can be interpreted as reflecting true differences in the underlying constructs**, allowing for meaningful comparisons of latent means across groups.
 :::
 
-1.  This argument constrains the loadings, thresholds, and residuals to be equal. Otherwise our code is as per the scalar model.
-
-### Compare Models
+### Step 4: Compare Models
 
 The key question at this stage is **whether adding equality constraints leads to a meaningful deterioration in model fit**.
 
@@ -1286,7 +1310,7 @@ The scaled chi-square difference test comparing the **configural and metric mode
 
 However, this needs to be interpreted with caution:
 
--   Chi-square tests are highly sensitive to large sample sizes (and yours is *very* large)
+-   Chi-square tests are highly sensitive to large sample sizes (and ours is *very* large)
 
 -   Even trivial differences can become statistically significant
 
@@ -1432,9 +1456,9 @@ Instead of focusing only on *p*-values, prioritise:
 
         -   **\>10 → potentially meaningful**
 
--    **Consistency across parameters** — i.e., issues cluster within a factor or the same item appearing repeatedly
+-   **Consistency across parameters** — i.e., issues cluster within a factor or the same item appearing repeatedly
 
--    **Substantive plausibility** — does it make theoretical sense that this item behaves differently?
+-   **Substantive plausibility** — does it make theoretical sense that this item behaves differently?
 
 **Step 2: Which Parameters Should You Free?**
 
@@ -1514,13 +1538,13 @@ Crucially, earlier model comparisons showed:
 
 This means:
 
->  Constraining these parameters does not meaningfully worsen model fit
+> Constraining these parameters does not meaningfully worsen model fit
 
 **What if there *was* an issue with a particular item?**
 
 In practice, it is common for a small number of parameters to show evidence of non-invariance. The key question is:
 
->  Are these differences large enough to matter?
+> Are these differences large enough to matter?
 
 If only a small number of parameters are problematic, we can allow for partial invariance by freeing those specific constraints.
 
@@ -1616,7 +1640,7 @@ Combined with excellent overall model fit, this suggests:
 
 Therefore:
 
->  Scalar invariance can be retained for practical purposes, without introducing partial invariance.
+> Scalar invariance can be retained for practical purposes, without introducing partial invariance.
 
 **Key Takeaway**
 
@@ -1688,7 +1712,7 @@ You should report the following:
 
 -   **Table:** If you free/remove multiple parameters, you could include a table.
 
-**9. Final InterpretationI**
+**9. Final Interpretation**
 
 -   **In-text:** State clearly:
 
@@ -1893,7 +1917,7 @@ Our EFA revealed the following structure:
 The retained items and their corresponding factors are below for reference (note that `dlbs_20` has been removed):
 
 | Item | Factor | Wording |
-|----------|-----------------------------|---------------------------------------|
+|----------------|------------------------|---------------------------------|
 | dlbs_9 | Digital Overload | I feel left out when I see others posting about events. |
 | dlbs_10 | Digital Overload | I feel judged based on my online presence. |
 | dlbs_6 | Digital Overload | I feel pressure to present myself positively online. |
